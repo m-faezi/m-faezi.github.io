@@ -13,19 +13,22 @@
     {% include head-custom.html %}
   </head>
   <body>
-    <div class="wrapper">
-      <header class="modern-header">
-        <div class="header-content">
-          <h1 class="site-title"><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+    <div class="layout-wrapper">
+      <!-- Fixed Sidebar -->
+      <aside class="fixed-sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-header">
+            <h1 class="site-title"><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
 
-          {% if site.logo %}
-            <img src="{{ site.logo | relative_url }}" alt="Logo" class="logo" />
-          {% endif %}
+            {% if site.logo %}
+              <img src="{{ site.logo | relative_url }}" alt="Logo" class="logo" />
+            {% endif %}
 
-          <p class="site-description">{{ site.description | default: site.github.project_tagline }}</p>
+            <p class="site-description">{{ site.description | default: site.github.project_tagline }}</p>
+          </div>
 
-          <!-- Modern Navigation Menu -->
-          <nav class="modern-navigation">
+          <!-- Navigation Menu -->
+          <nav class="sidebar-navigation">
             <ul>
               <li><a href="{{ site.baseurl }}/" class="nav-link">Home</a></li>
               <li><a href="{{ site.baseurl }}/projects" class="nav-link">Projects</a></li>
@@ -58,16 +61,21 @@
             </a>
             {% endif %}
           </div>
+
+          <!-- Footer in sidebar -->
+          <footer class="sidebar-footer">
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}</p>
+            <p>Hosted on GitHub Pages</p>
+          </footer>
         </div>
-      </header>
+      </aside>
 
-      <main class="modern-main">
-        {{ content }}
+      <!-- Scrollable Main Content -->
+      <main class="scrollable-content">
+        <div class="content-wrapper">
+          {{ content }}
+        </div>
       </main>
-
-      <footer class="modern-footer">
-        <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}. Hosted on GitHub Pages.</p>
-      </footer>
     </div>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
   </body>
