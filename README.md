@@ -23,10 +23,10 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
 
 ## 🛠️ Tech Stack
 
-**Programming:** `Python` | `C++` | `C` | `Go`
-**ML & Data Science:** `PyTorch` | `TensorFlow` | `OpenCV` | `Scikit-learn`
-**Deployment & Cloud:** `Docker` | `Kubernetes` | `AWS/GCP` | `CI/CD` | `MLOps`
-**Databases & Systems:** `SQL` | `NoSQL` | `REST APIs` | `Microservices`
+**Languages:** `Python` | `C++` | `C` | `Go`  
+**ML & Data Science:** `PyTorch` | `TensorFlow` | `OpenCV` | `Scikit-learn`  
+**Cloud & DevOps:** `Docker` | `Kubernetes` | `AWS/GCP` | `CI/CD` | `MLOps`  
+**Systems & Databases:** `SQL` | `NoSQL` | `REST APIs` | `Microservices`  
 
 ---
 
