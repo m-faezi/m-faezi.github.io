@@ -30,28 +30,6 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
 
 ---
 
-## 🔭 Featured Projects
-
-| Project                                                                       | Description                                                                                                              | Tech                                                  |
-|:------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------|
-| **[MMTO](https://github.com/m-faezi/MMTO)**                                   | Multi-spectral faint emission detection and color extraction tool.                                                       | `Python` `PyTorch` `OpenCV` `Mathematical Morphology` |
-| **[MTO2](https://github.com/m-faezi/MTO2)**                                   | AI-powered max-tree based source detection and parameter extraction software for astronomical image data processing.     | `Python` `PyTorch` `OpenCV` `Mathematical Morphology` |
-| **[DEGAN](https://github.com/m-faezi/DEGAN)**                                 | Decentralized generative adversarial network architecture, exploring distributed AI training.                            | `TensorFlow` `Decentralized Systems` `GANs`           |
-| **[Multi-spectral simulator](https://github.com/m-faezi/multi-spectral-sim)** | Multi-spectral astronomical image simulator for source segmentation algorithms validations.                              | `Python` `Statistical Modelling`                      |
-
-*For a complete list, check out my [repositories](https://github.com/m-faezi?tab=repositories).*
-
----
-
-## 📄 Publications
-
-*   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2025). **Robust Background Estimation on Astronomical Image Data Using Max-Trees.** (Ready to submit)
-*   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2025). **Hierarchical Source Deblending on Astronomical Images using Max-tree Spatial Attributes.** (Ready to submit)
-*   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2024). **Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees.** *IEEE Access*, 12, 72288–72302. [[Link]](https://ieeexplore.ieee.org/document/10535192)
-*   **Faezi, M. H.**, Bijani, S., & Dolati, A. (2021). **DEGAN: Decentralized Generative Adversarial Networks.** *Neurocomputing*, 419, 335–343. [[Link]](https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522)
-
----
-
 ## 📈 GitHub Stats
 
 <p align="center">
