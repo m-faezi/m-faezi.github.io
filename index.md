@@ -2,8 +2,6 @@
 
 **AI Researcher & Software Engineer** | Bridging advanced machine learning with scalable, real-world systems.
 
-[![Email](https://img.shields.io/badge/-Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:faezi.h.m@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/mohammad-faezi)
 [![Google Scholar](https://img.shields.io/badge/Google%20Scholar-4285F4?logo=google-scholar&logoColor=white)](https://scholar.google.com/citations?user=YOUR_PROFILE_ID)
 <!-- Add your actual Google Scholar profile ID to the link above -->
 
@@ -43,7 +41,6 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
 
 <div class="thesis-section">
   <div class="thesis-cover">
-    <img src="assets/thesis_cover_faezi.jpg" alt="PhD Thesis: Faint Object Detection in Multidimensional Astronomical Data.">
     <div class="thesis-info">
       <h3>Faint Object Detection in Multidimensional Astronomical Data</h3>
       <p><strong>University of Groningen</strong> | 2026</p>
@@ -54,6 +51,9 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
         </a>
         <a href="#" class="thesis-link" target="_blank">
           🎥 Defense Presentation
+        </a>
+        <a href="https://drive.google.com/file/d/1w9I05OYZcFZQnRUbryQRe8Fgg_rOC_kP/view?usp=sharing" class="thesis-link" target="_blank">
+            📘Thesis cover
         </a>
       </div>
     </div>
