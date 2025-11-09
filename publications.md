@@ -5,7 +5,52 @@ title: Publications
 
 # Publications
 
-*   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2025). **Robust Background Estimation on Astronomical Image Data Using Max-Trees.** (Ready to submit)
-*   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2025). **Hierarchical Source Deblending on Astronomical Images using Max-tree Spatial Attributes.** (Ready to submit)
-*   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2024). **Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees.** *IEEE Access*, 12, 72288–72302. [[Link]](https://ieeexplore.ieee.org/document/10535192)
-*   **Faezi, M. H.**, Bijani, S., & Dolati, A. (2021). **DEGAN: Decentralized Generative Adversarial Networks.** *Neurocomputing*, 419, 335–343. [[Link]](https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522)
+## 📄 Journal Articles
+
+<div class="publication-item">
+    <div class="publication-content">
+        <strong>Faezi, M. H.</strong>, Peletier, R., & Wilkinson, M. H. F. (2024). <strong>Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees.</strong> <em>IEEE Access</em>, 12, 72288–72302.
+        <div class="publication-links">
+            <a href="https://ieeexplore.ieee.org/document/10535192" class="publication-link">📖 Read Paper</a>
+            <a href="https://github.com/m-faezi/MMTO" class="publication-link">📊 Code</a>
+        </div>
+    </div>
+</div>
+
+<div class="publication-item">
+    <div class="publication-content">
+        <strong>Faezi, M. H.</strong>, Bijani, S., & Dolati, A. (2021). <strong>DEGAN: Decentralized Generative Adversarial Networks.</strong> <em>Neurocomputing</em>, 419, 335–343.
+        <div class="publication-links">
+            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522" class="publication-link">📖 Read Paper</a>
+            <a href="https://github.com/m-faezi/DEGAN" class="publication-link">📊 Code</a>
+        </div>
+    </div>
+</div>
+
+## Preprints & In Preparation
+
+<div class="publication-item upcoming">
+    <div class="publication-content">
+        <strong>Faezi, M. H.</strong>, Peletier, R., & Wilkinson, M. H. F. (2025). <strong>Robust Background Estimation on Astronomical Image Data Using Max-Trees.</strong> 
+        <div class="publication-status">Ready to submit</div>
+    </div>
+</div>
+
+<div class="publication-item upcoming">
+    <div class="publication-content">
+        <strong>Faezi, M. H.</strong>, Peletier, R., & Wilkinson, M. H. F. (2025). <strong>Hierarchical Source Deblending on Astronomical Images using Max-tree Spatial Attributes.</strong>
+        <div class="publication-status">Ready to submit</div>
+    </div>
+</div>
+
+## 🎯 Research Focus
+
+My research focuses on:
+- **Mathematical Morphology** and **Max-Tree** algorithms
+- **Astronomical Image Processing** and source detection
+- **Decentralized AI Systems** and distributed learning
+- **Computer Vision** and **Machine Learning** applications
+
+---
+
+*For the most up-to-date list of publications, please visit my [Google Scholar](https://scholar.google.com/citations?user=YOUR_PROFILE_ID) profile.*
