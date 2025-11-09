@@ -579,13 +579,17 @@ body {
   display: block;
   flex-shrink: 0;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s ease;
+  border: 3px solid var(--primary-color); /* Green border */
+  padding: 8px; /* Creates smaller appearance */
+  background: var(--surface-light);
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light); /* Lighter green on hover */
 
     .thesis-overlay {
       opacity: 1;
@@ -598,32 +602,34 @@ body {
 }
 
 .thesis-cover-image {
-  width: 140px;  /* 30% smaller than 200px */
+  width: 120px;  /* Even smaller image */
   height: auto;
   display: block;
   transition: all 0.3s ease;
-  border-radius: 8px;
+  border-radius: 6px; /* Smaller border radius to match smaller size */
 }
 
 .thesis-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 8px;    /* Account for padding */
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
   background: rgba(16, 185, 129, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .thesis-view-text {
   color: white;
   font-weight: 600;
-  font-size: 1rem; /* Slightly smaller text to match image size */
+  font-size: 0.9rem; /* Smaller text */
+  text-align: center;
+  padding: 0 8px;
 }
 
 .thesis-info {
@@ -649,10 +655,22 @@ body {
     flex-direction: column;
     text-align: center;
     align-items: center;
+    gap: 1.5rem;
+  }
+
+  .thesis-cover-link {
+    padding: 6px;
   }
 
   .thesis-cover-image {
-    width: 120px; /* Also reduced for mobile */
+    width: 100px; /* Even smaller on mobile */
+  }
+
+  .thesis-overlay {
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
   }
 }
 
