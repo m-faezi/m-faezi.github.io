@@ -3,26 +3,26 @@
 
 @import "{{ site.theme }}";
 
-// Awesome dark color theme - Professional & Unique
+// Black & Orange Color Theme
 :root {
-  --primary-color: #8b5cf6;      // Vibrant purple
-  --primary-dark: #7c3aed;       // Deep purple
-  --primary-light: #a78bfa;      // Light purple
-  --secondary-color: #06d6a0;    // Emerald green
-  --accent-color: #f59e0b;       // Amber gold
-  --accent-secondary: #ef4444;   // Coral red for highlights
+  --primary-color: #f97316;      // Vibrant orange
+  --primary-dark: #ea580c;       // Dark orange
+  --primary-light: #fb923c;      // Light orange
+  --secondary-color: #ffffff;    // Pure white
+  --accent-color: #f59e0b;       // Amber
+  --accent-secondary: #dc2626;   // Red for highlights
 
-  // Dark theme colors
-  --background-color: #0f0f23;   // Deep space blue-black
-  --surface-color: #1a1b2e;      // Elevated surfaces
-  --surface-light: #252642;      // Lighter surfaces
-  --text-primary: #f8fafc;       // Pure white
-  --text-secondary: #cbd5e1;     // Light gray
-  --text-tertiary: #94a3b8;      // Medium gray
-  --border-color: #2d3748;       // Border gray
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --glow: 0 0 20px rgba(139, 92, 246, 0.3);
+  // Black theme colors
+  --background-color: #000000;   // Pure black
+  --surface-color: #0a0a0a;      // Near black
+  --surface-light: #1a1a1a;      // Dark gray
+  --text-primary: #ffffff;       // Pure white
+  --text-secondary: #d4d4d4;     // Light gray
+  --text-tertiary: #a3a3a3;      // Medium gray
+  --border-color: #262626;       // Border gray
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+  --glow: 0 0 20px rgba(249, 115, 22, 0.3);
 }
 
 // Base styles
@@ -41,10 +41,10 @@ body {
   min-height: 100vh;
 }
 
-// Fixed Sidebar with gradient
+// Fixed Sidebar with orange accent
 .fixed-sidebar {
   width: 320px;
-  background: linear-gradient(135deg, var(--background-color) 0%, var(--surface-color) 50%, #1e1b2e 100%);
+  background: linear-gradient(135deg, var(--surface-color) 0%, #111111 100%);
   color: white;
   position: fixed;
   left: 0;
@@ -70,24 +70,14 @@ body {
       margin: 0 0 1rem 0;
       font-size: 1.8rem;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--primary-color);
 
       a {
-        color: transparent;
+        color: var(--primary-color);
         text-decoration: none;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
 
         &:hover {
-          background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: var(--primary-light);
         }
       }
     }
@@ -103,7 +93,7 @@ body {
   }
 }
 
-// Avatar styling with glow effect
+// Avatar styling with orange border
 .avatar-container {
   margin: 1rem 0 1.5rem 0;
   display: flex;
@@ -121,12 +111,12 @@ body {
 
   &:hover {
     transform: scale(1.05);
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 30px rgba(6, 214, 160, 0.4);
+    border-color: var(--primary-light);
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
   }
 }
 
-// Social links with modern styling
+// Social links with orange hover
 .sidebar-header .social-links {
   display: flex;
   justify-content: center;
@@ -156,7 +146,7 @@ body {
   }
 }
 
-// Sidebar Navigation with modern cards
+// Sidebar Navigation with orange accents
 .sidebar-navigation {
   flex: 1;
   margin: 2rem 0;
@@ -180,7 +170,6 @@ body {
       border: 1px solid var(--border-color);
       transition: all 0.3s ease;
       font-weight: 500;
-      backdrop-filter: blur(10px);
       text-align: center;
 
       &:hover {
@@ -192,15 +181,15 @@ body {
       }
 
       &.resume-download {
-        background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-        border-color: transparent;
+        background: var(--primary-color);
+        border-color: var(--primary-color);
         font-weight: 600;
         color: white;
 
         &:hover {
-          background: linear-gradient(135deg, #eab308, #dc2626);
+          background: var(--primary-dark);
           transform: translateX(8px);
-          box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+          box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
         }
       }
     }
@@ -247,22 +236,19 @@ body {
     border-bottom: 3px solid var(--primary-color);
     padding-bottom: 0.5rem;
     margin-top: 0;
-    background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary-color);
   }
 
   h2 {
     font-size: 2rem;
     font-weight: 600;
-    color: var(--secondary-color);
+    color: var(--primary-light);
   }
 
   h3 {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary-light);
+    color: var(--text-primary);
   }
 
   p {
@@ -283,7 +269,7 @@ body {
     font-weight: 500;
 
     &:hover {
-      color: var(--secondary-color);
+      color: var(--primary-color);
       text-decoration: underline;
     }
   }
@@ -295,7 +281,7 @@ body {
     border-radius: 6px;
     padding: 0.2rem 0.4rem;
     font-size: 0.9em;
-    color: var(--secondary-color);
+    color: var(--primary-color);
     font-weight: 500;
   }
 
@@ -310,58 +296,6 @@ body {
     font-size: 0.8rem;
     color: var(--text-secondary);
     font-weight: 500;
-  }
-
-  // Table styling
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-    box-shadow: var(--shadow);
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--surface-color);
-
-    th, td {
-      padding: 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    th {
-      background: var(--primary-color);
-      color: white;
-      font-weight: 600;
-    }
-
-    td {
-      color: var(--text-secondary);
-      background: var(--surface-color);
-    }
-
-    tr:hover {
-      background: var(--surface-light);
-
-      td {
-        color: var(--text-primary);
-      }
-    }
-  }
-
-  // List styling
-  ul, ol {
-    margin: 1rem 0;
-    padding-left: 2rem;
-
-    li {
-      margin-bottom: 0.5rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-
-      strong {
-        color: var(--text-primary);
-      }
-    }
   }
 
   // GitHub stats styling
@@ -414,33 +348,23 @@ body {
     padding: 1rem 1rem 1rem 1.5rem;
     border-radius: 0 12px 12px 0;
   }
-
-  // Markdown link styling
-  [href] {
-    color: var(--primary-light);
-
-    &:hover {
-      color: var(--secondary-color);
-    }
-  }
 }
 
-// Awards Styles with glassmorphism
+// Awards Styles with orange accents
 .award-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 1.5rem;
   margin: 2rem 0;
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
   border-left: 4px solid var(--primary-color);
-  backdrop-filter: blur(10px);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg), var(--glow);
-    border-left-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-left-color: var(--primary-light);
   }
 }
 
@@ -454,7 +378,7 @@ body {
 }
 
 .award-date {
-  color: var(--secondary-color);
+  color: var(--primary-color);
   font-weight: 600;
   font-size: 1.1rem;
 }
@@ -462,7 +386,7 @@ body {
 .award-badge {
   display: inline-block;
   padding: 0.3rem 0.8rem;
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+  background: var(--primary-color);
   color: white;
   border-radius: 20px;
   font-size: 0.8rem;
@@ -501,7 +425,7 @@ body {
   background: var(--surface-light);
   color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 500;
   border: 1px solid var(--border-color);
@@ -511,25 +435,23 @@ body {
     background: var(--primary-color);
     color: white;
     text-decoration: none;
-    transform: translateY(-2px);
-    box-shadow: var(--glow);
+    transform: translateY(-1px);
   }
 }
 
-// Project Styles with modern cards
+// Project Styles
 .project-card {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 1.5rem;
   margin: 2rem 0;
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg), var(--glow);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
     border-color: var(--primary-color);
   }
 }
@@ -548,19 +470,12 @@ body {
   font-size: 1.3rem;
 
   a {
-    color: var(--text-primary);
+    color: var(--primary-color);
     text-decoration: none;
-    background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 
     &:hover {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none;
+      color: var(--primary-light);
+      text-decoration: underline;
     }
   }
 }
@@ -579,7 +494,7 @@ body {
   background: var(--surface-light);
   color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 500;
   border: 1px solid var(--border-color);
@@ -589,7 +504,6 @@ body {
     background: var(--primary-color);
     color: white;
     text-decoration: none;
-    transform: translateY(-1px);
   }
 }
 
@@ -608,38 +522,31 @@ body {
 .tech-tag {
   display: inline-block;
   padding: 0.3rem 0.7rem;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  background: var(--primary-color);
   color: white;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-    transform: translateY(-1px);
-  }
 }
 
 // Publication Styles
 .publication-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 1.5rem;
   margin: 2rem 0;
   box-shadow: var(--shadow);
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg), var(--glow);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
   }
 
   &.upcoming {
     border-left: 4px solid var(--accent-color);
-    background: linear-gradient(135deg, var(--surface-color), #2a1e06);
+    background: #1a1200;
   }
 }
 
@@ -667,7 +574,7 @@ body {
   background: var(--surface-light);
   color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 500;
   border: 1px solid var(--border-color);
@@ -677,15 +584,14 @@ body {
     background: var(--primary-color);
     color: white;
     text-decoration: none;
-    transform: translateY(-1px);
   }
 }
 
 .publication-status {
   display: inline-block;
   padding: 0.3rem 0.8rem;
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-  color: white;
+  background: var(--accent-color);
+  color: #1f2937;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -854,6 +760,6 @@ body {
 }
 
 .fixed-sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-color);
+  background: var(--primary-light);
 }
 
