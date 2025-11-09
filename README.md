@@ -55,12 +55,10 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
 ## 📈 GitHub Stats
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=vision-friendly-dark&hide_border=true" />
+  <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=vision-friendly-dark&hide_border=true" />
   <img height="180em" src="https://github-readme-stats.vercel.app/api?username=m-faezi&show_icons=true&theme=vision-friendly-dark&hide_border=true&count_private=true" />
   <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=m-faezi&theme=vision-friendly-dark&hide_border=true&layout=compact&langs_count=6&exclude_repo=some-repo-name" />
 </p>
-
-
 
 ## 📫 Let's Connect
 
