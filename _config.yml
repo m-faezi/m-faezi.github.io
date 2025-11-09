@@ -1,11 +1,11 @@
-# Minimal modern GitHub Pages theme
+# Modern GitHub Pages theme
 title: "Mohammad Faezi"
 description: "AI Researcher & Software Engineer"
 url: "https://m-faezi.github.io"
 baseurl: "" # leave empty for username.github.io
 
-# Use one of GitHub's built-in modern themes:
-theme: jekyll-theme-cayman
+# Use minimalist theme as base
+theme: jekyll-theme-minimal
 
 # Enable GitHub Pages plugins
 plugins:
@@ -41,5 +41,4 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor
-
 

@@ -3,53 +3,324 @@
 
 @import "{{ site.theme }}";
 
-// Navigation styles
-.navigation {
-  margin: 20px 0;
+// Modern color scheme
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary-color: #64748b;
+  --accent-color: #f59e0b;
+  --background-color: #ffffff;
+  --surface-color: #f8fafc;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+// Base styles
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--background-color);
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Modern header
+.modern-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+  border-radius: 0 0 20px 20px;
+  box-shadow: var(--shadow-lg);
+
+  .header-content {
+    text-align: center;
+  }
+
+  .site-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+
+    a {
+      color: white;
+      text-decoration: none;
+
+      &:hover {
+        color: #e2e8f0;
+      }
+    }
+  }
+
+  .site-description {
+    margin: 0 0 2rem 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 300;
+  }
+}
+
+// Modern navigation
+.modern-navigation {
+  margin: 2rem 0;
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 1rem;
 
     li {
       margin: 0;
+    }
 
-      a {
-        display: block;
-        padding: 8px 16px;
-        background: #159957;
-        color: white;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: all 0.3s ease;
+    .nav-link {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
 
-        &:hover {
-          background: #106c47;
-          transform: translateY(-1px);
-        }
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       }
 
-      // Resume download button special styling
-      .resume-download {
-        background: #e74c3c;
-        font-weight: bold;
+      &.resume-download {
+        background: var(--accent-color);
+        border-color: var(--accent-color);
+        font-weight: 600;
 
         &:hover {
-          background: #c0392b;
-          box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+          background: #eab308;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
         }
       }
     }
   }
 }
 
-// Responsive design
-@media (max-width: 768px) {
-  .navigation ul {
-    flex-direction: column;
+// Social links
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
   }
 }
+
+// Modern main content
+.modern-main {
+  min-height: 60vh;
+  padding: 2rem 0;
+
+  // Content styling
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+  }
+
+  // Code and badge styling
+  code {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.9em;
+  }
+
+  // Table styling
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    box-shadow: var(--shadow);
+    border-radius: 8px;
+    overflow: hidden;
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: var(--primary-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: var(--surface-color);
+    }
+  }
+
+  // List styling
+  ul, ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+  }
+
+  // GitHub stats styling
+  .github-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+
+    img {
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+      }
+    }
+  }
+}
+
+// Modern footer
+.modern-footer {
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 4rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .modern-header {
+    padding: 2rem 0;
+
+    .site-title {
+      font-size: 2rem;
+    }
+
+    .site-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  .modern-navigation ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    .nav-link {
+      width: 200px;
+      text-align: center;
+    }
+  }
+
+  .modern-main {
+    padding: 1rem 0;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .github-stats {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #0f172a;
+    --surface-color: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --border-color: #334155;
+  }
+
+  code {
+    background: #1e293b;
+    border-color: #334155;
+  }
+}
+
