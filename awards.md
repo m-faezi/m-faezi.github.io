@@ -61,7 +61,7 @@ title: Honors & Awards
         <p>Selected presenter at Falling Walls Lab Groningen with the innovative talk "Breaking the Walls of Hierarchical Structures".</p>
         <div class="award-links">
             <a href="https://falling-walls.com/lab" class="award-link">🌐 Falling Walls Lab</a>
-            <a href="#" class="award-link">🎥 Presentation</a>
+            <a href="https://docs.google.com/presentation/d/1wesgQ8elGQYHvrx_664NjS8mIUsqbV1K/edit?usp=sharing&ouid=104366398788819725023&rtpof=true&sd=true" class="award-link">🎥 Presentation</a>
         </div>
     </div>
 </div>
