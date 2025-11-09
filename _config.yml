@@ -1,5 +1,39 @@
-# _config.yml
-theme: jekyll-theme-minimal
-title: "Mohammad Faezi - AI Researcher & Software Engineer"
-description: "Ph.D. candidate in Computer Science specializing in Intelligent Systems, Machine Learning, and Scalable Software"
+# Minimal modern GitHub Pages theme
+title: "Mohammad Faezi"
+description: "AI Researcher & Software Engineer"
+url: "https://m-faezi.github.io"
+baseurl: "" # leave empty for username.github.io
 
+# Use one of GitHub’s built-in modern themes:
+# Options: minima, cayman, slate, time-machine, modernist, leap-day, merlot, tactile
+theme: jekyll-theme-cayman
+
+# Enable GitHub Pages plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Markdown and syntax highlighting
+markdown: GFM
+highlighter: rouge
+
+# Metadata for SEO/social
+author: "Mohammad Faezi"
+twitter_username: "farshad_faezi"
+github_username: "m-faezi"
+linkedin_username: "mohammad-faezi"
+
+# Optional: customize colors and footer text
+show_downloads: false
+google_analytics: false
+
+# Exclude build clutter
+exclude:
+  - node_modules
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+# Optional: favicon or logo
+# Add a /assets/images/logo.png file and uncomment below
+# logo: "/assets/images/logo.png"
