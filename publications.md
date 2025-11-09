@@ -43,6 +43,17 @@ title: Publications
     </div>
 </div>
 
+## Conference Posters & Presentations
+
+<div class="publication-item">
+    <div class="publication-content">
+        Faezi, M. H., Peletier, R., & Wilkinson, M. H. F. (2024). <strong>Multidimensional Astronomical Image Segmentation.</strong> <em>Presented at the [Conference Name, e.g., DGMM Workshop on Mathematical Morphology].</em>
+        <div class="publication-links">
+            <a href="https://drive.google.com/file/d/1qrVH52bTNlF6EuY7GADjyHwZSrJkc9ZQ/view?usp=sharing" class="publication-link">📄 View Poster (PDF)</a>
+        </div>
+    </div>
+</div>
+
 ## 🎯 Research Focus
 
 My research focuses on:
