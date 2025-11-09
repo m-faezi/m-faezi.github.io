@@ -72,24 +72,6 @@ title: Projects
     </div>
 </div>
 
-## 🛠️ Tools & Libraries
-
-<div class="project-card">
-    <div class="project-header">
-        <h3><a href="https://github.com/m-faezi?tab=repositories" class="project-title">Open Source Contributions</a></h3>
-        <div class="project-links">
-            <a href="https://github.com/m-faezi?tab=repositories" class="project-link">📂 All Repos</a>
-        </div>
-    </div>
-    <p class="project-description">Various open-source tools, libraries, and contributions to the scientific computing community. Includes utility libraries, research code, and experimental implementations.</p>
-    <div class="project-tech">
-        <span class="tech-tag">Python</span>
-        <span class="tech-tag">C++</span>
-        <span class="tech-tag">Research</span>
-        <span class="tech-tag">Open Source</span>
-    </div>
-</div>
-
 ---
 
 ## 💡 Skills & Technologies
