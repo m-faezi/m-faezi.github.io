@@ -49,6 +49,7 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
 *   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2025). **Hierarchical Source Deblending on Astronomical Images using Max-tree Spatial Attributes.** (Ready to submit)
 *   **Faezi, M. H.**, Peletier, R., & Wilkinson, M. H. F. (2024). **Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees.** *IEEE Access*, 12, 72288–72302. [[Link]](https://ieeexplore.ieee.org/document/10535192)
 *   **Faezi, M. H.**, Bijani, S., & Dolati, A. (2021). **DEGAN: Decentralized Generative Adversarial Networks.** *Neurocomputing*, 419, 335–343. [[Link]](https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522)
+
 ---
 
 ## 📈 GitHub Stats
@@ -58,8 +59,6 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
   <img height="180em" src="https://github-readme-stats.vercel.app/api?username=m-faezi&show_icons=true&theme=vision-friendly-dark&hide_border=true&count_private=true" />
   <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=m-faezi&theme=vision-friendly-dark&hide_border=true&layout=compact&langs_count=6&exclude_repo=some-repo-name" />
 </p>
-
-
 
 
 
