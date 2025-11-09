@@ -2,7 +2,6 @@
 
 **AI Researcher & Software Engineer** | Bridging advanced machine learning with scalable, real-world systems.
 
-[![Google Scholar](https://img.shields.io/badge/Google%20Scholar-4285F4?logo=google-scholar&logoColor=white)](https://scholar.google.com/citations?user=YOUR_PROFILE_ID)
 <!-- Add your actual Google Scholar profile ID to the link above -->
 
 I am a Ph.D. candidate in Computer Science at the University of Groningen, specializing in Intelligent Systems. My passion lies in developing novel machine learning algorithms and deploying them as high-performance, scalable software solutions. I thrive on solving complex problems at the intersection of AI, large-scale data processing, and decentralized systems.
