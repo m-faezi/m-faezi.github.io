@@ -24,12 +24,17 @@ body {
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--background-color);
+  margin: 0;
+  padding: 0;
 }
 
 .wrapper {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 // Modern header
@@ -40,6 +45,8 @@ body {
   margin-bottom: 2rem;
   border-radius: 0 0 20px 20px;
   box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 10;
 
   .header-content {
     text-align: center;
@@ -147,8 +154,10 @@ body {
 
 // Modern main content
 .modern-main {
-  min-height: 60vh;
+  flex: 1;
   padding: 2rem 0;
+  position: relative;
+  z-index: 1;
 
   // Content styling
   h1, h2, h3, h4, h5, h6 {
@@ -162,6 +171,7 @@ body {
     font-weight: 700;
     border-bottom: 3px solid var(--primary-color);
     padding-bottom: 0.5rem;
+    margin-top: 0;
   }
 
   h2 {
@@ -193,6 +203,18 @@ body {
     border-radius: 4px;
     padding: 0.2rem 0.4rem;
     font-size: 0.9em;
+  }
+
+  // Badge styling
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
   }
 
   // Table styling
@@ -233,21 +255,50 @@ body {
   }
 
   // GitHub stats styling
-  .github-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+  p.align-center {
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  // Center aligned content for GitHub stats
+  .align-center {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
     margin: 2rem 0;
 
     img {
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease;
-
-      &:hover {
-        transform: translateY(-4px);
-      }
+      margin: 0;
     }
+  }
+
+  // Section spacing
+  hr {
+    margin: 3rem 0;
+    border: none;
+    border-top: 2px solid var(--border-color);
+  }
+
+  // Blockquote styling
+  blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+    font-style: italic;
   }
 }
 
@@ -259,12 +310,19 @@ body {
   border-top: 1px solid var(--border-color);
   color: var(--text-secondary);
   font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
 }
 
 // Responsive design
 @media (max-width: 768px) {
+  .wrapper {
+    padding: 0 15px;
+  }
+
   .modern-header {
     padding: 2rem 0;
+    margin-bottom: 1rem;
 
     .site-title {
       font-size: 2rem;
@@ -291,20 +349,59 @@ body {
 
     h1 {
       font-size: 2rem;
+      margin-top: 0;
     }
 
     h2 {
       font-size: 1.5rem;
     }
 
-    .github-stats {
-      grid-template-columns: 1fr;
+    .align-center {
+      flex-direction: column;
+      align-items: center;
     }
   }
 
   table {
     display: block;
     overflow-x: auto;
+    font-size: 0.9rem;
+  }
+
+  // Adjust GitHub stats for mobile
+  img[height="180em"] {
+    height: 150px !important;
+    width: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .modern-header {
+    padding: 1.5rem 0;
+
+    .site-title {
+      font-size: 1.75rem;
+    }
+
+    .site-description {
+      font-size: 1rem;
+    }
+  }
+
+  .modern-main {
+    padding: 0.5rem 0;
+
+    h1 {
+      font-size: 1.75rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+    }
+  }
+
+  img[height="180em"] {
+    height: 120px !important;
   }
 }
 
@@ -321,6 +418,31 @@ body {
   code {
     background: #1e293b;
     border-color: #334155;
+  }
+
+  .badge {
+    background: #334155;
+    border-color: #475569;
+    color: #cbd5e1;
+  }
+}
+
+// Print styles
+@media print {
+  .modern-header {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+
+  .modern-navigation,
+  .social-links,
+  .modern-footer {
+    display: none;
+  }
+
+  .modern-main {
+    padding: 0 !important;
   }
 }
 
