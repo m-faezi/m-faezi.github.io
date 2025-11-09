@@ -3,26 +3,24 @@
 
 @import "{{ site.theme }}";
 
-// Black & Orange Color Theme
+// Clean Black & Green Color Theme
 :root {
-  --primary-color: #f97316;      // Vibrant orange
-  --primary-dark: #ea580c;       // Dark orange
-  --primary-light: #fb923c;      // Light orange
-  --secondary-color: #ffffff;    // Pure white
-  --accent-color: #f59e0b;       // Amber
-  --accent-secondary: #dc2626;   // Red for highlights
+  --primary-color: #10b981;      // Emerald green
+  --primary-dark: #059669;       // Dark green
+  --primary-light: #34d399;      // Light green
+  --secondary-color: #ffffff;    // White
+  --accent-color: #f59e0b;       // Amber for highlights
 
   // Black theme colors
   --background-color: #000000;   // Pure black
-  --surface-color: #0a0a0a;      // Near black
+  --surface-color: #0f0f0f;      // Near black
   --surface-light: #1a1a1a;      // Dark gray
-  --text-primary: #ffffff;       // Pure white
-  --text-secondary: #d4d4d4;     // Light gray
-  --text-tertiary: #a3a3a3;      // Medium gray
-  --border-color: #262626;       // Border gray
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
-  --glow: 0 0 20px rgba(249, 115, 22, 0.3);
+  --text-primary: #ffffff;       // White
+  --text-secondary: #d1d5db;     // Light gray
+  --text-tertiary: #9ca3af;      // Medium gray
+  --border-color: #374151;       // Border gray
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
 }
 
 // Base styles
@@ -33,7 +31,6 @@ body {
   background: var(--background-color);
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
 }
 
 .layout-wrapper {
@@ -41,10 +38,10 @@ body {
   min-height: 100vh;
 }
 
-// Fixed Sidebar with orange accent
+// Fixed Sidebar - Clean and minimal
 .fixed-sidebar {
-  width: 320px;
-  background: linear-gradient(135deg, var(--surface-color) 0%, #111111 100%);
+  width: 300px;
+  background: var(--surface-color);
   color: white;
   position: fixed;
   left: 0;
@@ -52,7 +49,6 @@ body {
   height: 100vh;
   overflow-y: auto;
   z-index: 1000;
-  box-shadow: var(--shadow-lg);
   border-right: 1px solid var(--border-color);
 
   .sidebar-content {
@@ -68,32 +64,30 @@ body {
 
     .site-title {
       margin: 0 0 1rem 0;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary-color);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
 
       a {
-        color: var(--primary-color);
+        color: var(--text-primary);
         text-decoration: none;
 
         &:hover {
-          color: var(--primary-light);
+          color: var(--primary-color);
         }
       }
     }
 
     .site-description {
       margin: 0;
-      font-size: 1rem;
-      opacity: 0.9;
-      font-weight: 300;
-      line-height: 1.5;
+      font-size: 0.9rem;
       color: var(--text-secondary);
+      line-height: 1.5;
     }
   }
 }
 
-// Avatar styling with orange border
+// Avatar styling - Simple and clean
 .avatar-container {
   margin: 1rem 0 1.5rem 0;
   display: flex;
@@ -101,52 +95,47 @@ body {
 }
 
 .avatar {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  border: 3px solid var(--primary-color);
-  box-shadow: var(--glow);
+  border: 2px solid var(--border-color);
   transition: all 0.3s ease;
   object-fit: cover;
 
   &:hover {
-    transform: scale(1.05);
-    border-color: var(--primary-light);
-    box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
+    border-color: var(--primary-color);
   }
 }
 
-// Social links with orange hover
+// Social links - Minimal
 .sidebar-header .social-links {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin: 1.5rem 0 0 0;
 
   .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     background: var(--surface-light);
-    border-radius: 12px;
+    border-radius: 8px;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     border: 1px solid var(--border-color);
 
     &:hover {
       background: var(--primary-color);
       color: white;
-      transform: translateY(-2px);
-      box-shadow: var(--glow);
       border-color: var(--primary-color);
     }
   }
 }
 
-// Sidebar Navigation with orange accents
+// Sidebar Navigation - Clean
 .sidebar-navigation {
   flex: 1;
   margin: 2rem 0;
@@ -162,34 +151,29 @@ body {
 
     .nav-link {
       display: block;
-      padding: 1rem 1.5rem;
+      padding: 0.75rem 1rem;
       background: var(--surface-light);
       color: var(--text-secondary);
       text-decoration: none;
-      border-radius: 12px;
+      border-radius: 8px;
       border: 1px solid var(--border-color);
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       font-weight: 500;
       text-align: center;
 
       &:hover {
         background: var(--primary-color);
         color: white;
-        transform: translateX(8px);
-        box-shadow: var(--glow);
         border-color: var(--primary-color);
       }
 
       &.resume-download {
         background: var(--primary-color);
         border-color: var(--primary-color);
-        font-weight: 600;
         color: white;
 
         &:hover {
           background: var(--primary-dark);
-          transform: translateX(8px);
-          box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
         }
       }
     }
@@ -210,10 +194,10 @@ body {
   }
 }
 
-// Scrollable Main Content
+// Main Content
 .scrollable-content {
   flex: 1;
-  margin-left: 320px;
+  margin-left: 300px;
   min-height: 100vh;
   background: var(--background-color);
 }
@@ -221,7 +205,7 @@ body {
 .content-wrapper {
   max-width: 800px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 2rem;
 
   // Content styling
   h1, h2, h3, h4, h5, h6 {
@@ -231,93 +215,53 @@ body {
   }
 
   h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    border-bottom: 3px solid var(--primary-color);
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-color);
     padding-bottom: 0.5rem;
     margin-top: 0;
-    color: var(--primary-color);
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary-light);
+    color: var(--primary-color);
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
   }
 
   p {
     margin-bottom: 1rem;
     color: var(--text-secondary);
-    line-height: 1.7;
+    line-height: 1.6;
   }
 
   strong {
     color: var(--text-primary);
-    font-weight: 600;
   }
 
   a {
-    color: var(--primary-light);
+    color: var(--primary-color);
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: 500;
 
     &:hover {
-      color: var(--primary-color);
       text-decoration: underline;
     }
   }
 
-  // Code and badge styling
   code {
     background: var(--surface-color);
     border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    padding: 0.1rem 0.3rem;
     font-size: 0.9em;
     color: var(--primary-color);
-    font-weight: 500;
   }
 
-  // Badge styling
-  .badge {
-    display: inline-block;
-    padding: 0.25rem 0.5rem;
-    margin: 0.25rem;
-    background: var(--surface-color);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-  }
-
-  // GitHub stats styling
-  p.align-center {
-    text-align: center;
-    margin: 2rem 0;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-  }
-
-  // Center aligned content for GitHub stats
+  // GitHub stats
   .align-center {
     display: flex;
     justify-content: center;
@@ -327,131 +271,27 @@ body {
 
     img {
       margin: 0;
+      border-radius: 8px;
     }
   }
 
-  // Section spacing
   hr {
-    margin: 3rem 0;
+    margin: 2rem 0;
     border: none;
-    border-top: 2px solid var(--border-color);
-  }
-
-  // Blockquote styling
-  blockquote {
-    border-left: 4px solid var(--primary-color);
-    padding-left: 1rem;
-    margin: 1.5rem 0;
-    color: var(--text-secondary);
-    font-style: italic;
-    background: var(--surface-color);
-    padding: 1rem 1rem 1rem 1.5rem;
-    border-radius: 0 12px 12px 0;
+    border-top: 1px solid var(--border-color);
   }
 }
 
-// Awards Styles with orange accents
-.award-item {
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 2rem 0;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
-  border-left: 4px solid var(--primary-color);
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    border-left-color: var(--primary-light);
-  }
-}
-
-.award-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.award-date {
-  color: var(--primary-color);
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.award-badge {
-  display: inline-block;
-  padding: 0.3rem 0.8rem;
-  background: var(--primary-color);
-  color: white;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.award-content {
-  strong {
-    color: var(--text-primary);
-    font-size: 1.2rem;
-    font-weight: 700;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-}
-
-.award-links {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.award-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: var(--surface-light);
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: var(--primary-color);
-    color: white;
-    text-decoration: none;
-    transform: translateY(-1px);
-  }
-}
-
-// Project Styles
+// Project Cards - Clean and professional
 .project-card {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.5rem;
-  margin: 2rem 0;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  margin: 1.5rem 0;
+  transition: all 0.2s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
     border-color: var(--primary-color);
   }
 }
@@ -467,15 +307,15 @@ body {
 
 .project-title {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 
   a {
-    color: var(--primary-color);
+    color: var(--text-primary);
     text-decoration: none;
 
     &:hover {
-      color: var(--primary-light);
-      text-decoration: underline;
+      color: var(--primary-color);
+      text-decoration: none;
     }
   }
 }
@@ -495,10 +335,9 @@ body {
   color: var(--text-secondary);
   text-decoration: none;
   border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.8rem;
   border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 
   &:hover {
     background: var(--primary-color);
@@ -521,39 +360,109 @@ body {
 
 .tech-tag {
   display: inline-block;
-  padding: 0.3rem 0.7rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+}
+
+// Awards Styles
+.award-item {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--primary-color);
+  }
+}
+
+.award-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.award-date {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.award-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
   background: var(--primary-color);
   color: white;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
   font-weight: 500;
+}
+
+.award-content {
+  strong {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+.award-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.award-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+  }
 }
 
 // Publication Styles
 .publication-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.5rem;
-  margin: 2rem 0;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  margin: 1.5rem 0;
+  transition: all 0.2s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
   }
 
   &.upcoming {
-    border-left: 4px solid var(--accent-color);
-    background: #1a1200;
+    border-left: 3px solid var(--accent-color);
   }
 }
 
 .publication-content {
   strong {
-    color: var(--text-primary);
-    font-weight: 600;
     display: block;
     margin-bottom: 0.5rem;
   }
@@ -561,7 +470,7 @@ body {
 
 .publication-links {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 1rem;
   flex-wrap: wrap;
 }
@@ -569,16 +478,15 @@ body {
 .publication-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
   background: var(--surface-light);
   color: var(--text-secondary);
   text-decoration: none;
   border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.8rem;
   border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 
   &:hover {
     background: var(--primary-color);
@@ -589,26 +497,16 @@ body {
 
 .publication-status {
   display: inline-block;
-  padding: 0.3rem 0.8rem;
+  padding: 0.25rem 0.6rem;
   background: var(--accent-color);
   color: #1f2937;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
   margin-top: 0.5rem;
 }
 
 // Responsive design
-@media (max-width: 1024px) {
-  .fixed-sidebar {
-    width: 280px;
-  }
-
-  .scrollable-content {
-    margin-left: 280px;
-  }
-}
-
 @media (max-width: 768px) {
   .layout-wrapper {
     flex-direction: column;
@@ -618,14 +516,9 @@ body {
     position: relative;
     width: 100%;
     height: auto;
-    min-height: auto;
 
     .sidebar-content {
       padding: 1.5rem;
-    }
-
-    .sidebar-header .site-title {
-      font-size: 1.5rem;
     }
   }
 
@@ -634,48 +527,18 @@ body {
   }
 
   .content-wrapper {
-    padding: 2rem 1.5rem;
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-    }
-
-    .align-center {
-      flex-direction: column;
-      align-items: center;
-    }
+    padding: 1.5rem;
   }
 
   .sidebar-navigation ul {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    justify-content: center;
 
     li {
-      margin-bottom: 0;
       flex: 1;
       min-width: 120px;
     }
-
-    .nav-link {
-      padding: 0.75rem 1rem;
-      font-size: 0.9rem;
-
-      &:hover {
-        transform: translateY(-2px) !important;
-      }
-    }
-  }
-
-  // Responsive avatar sizing
-  .avatar {
-    width: 120px;
-    height: 120px;
   }
 
   .project-header,
@@ -683,83 +546,19 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  .project-links,
-  .award-links,
-  .publication-links {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .project-link,
-  .award-link,
-  .publication-link {
-    width: 100%;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 480px) {
-  .fixed-sidebar {
-    .sidebar-content {
-      padding: 1rem;
-    }
-
-    .sidebar-header .site-title {
-      font-size: 1.25rem;
-    }
-
-    .site-description {
-      font-size: 0.9rem;
-    }
+  .fixed-sidebar .sidebar-content {
+    padding: 1rem;
   }
 
   .content-wrapper {
-    padding: 1.5rem 1rem;
-
-    h1 {
-      font-size: 1.75rem;
-    }
-
-    h2 {
-      font-size: 1.25rem;
-    }
+    padding: 1rem;
   }
 
   .sidebar-navigation ul {
     flex-direction: column;
-
-    li {
-      min-width: auto;
-    }
   }
-
-  img[height="180em"] {
-    height: 120px !important;
-  }
-
-  // Responsive avatar sizing
-  .avatar {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-// Custom scrollbar for sidebar
-.fixed-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.fixed-sidebar::-webkit-scrollbar-track {
-  background: var(--surface-color);
-}
-
-.fixed-sidebar::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 3px;
-}
-
-.fixed-sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-light);
 }
 
