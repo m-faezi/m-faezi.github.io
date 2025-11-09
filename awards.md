@@ -5,7 +5,7 @@ title: Honors & Awards
 
 # Honors & Awards
 
-## 🏆 Recent Honors
+## 📌 Recent Honors
 
 <div class="award-item">
     <div class="award-header">
