@@ -20,9 +20,16 @@
           <div class="sidebar-header">
             <h1 class="site-title"><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
 
-            {% if site.logo %}
-              <img src="{{ site.logo | relative_url }}" alt="Logo" class="logo" />
+          <div class="avatar-container">
+            {% if site.avatar %}
+              <img src="{{ site.avatar | relative_url }}" alt="{{ site.title }}" class="avatar" />
+            {% else %}
+              <!-- Fallback to logo if avatar not specified -->
+              {% if site.logo %}
+                <img src="{{ site.logo | relative_url }}" alt="{{ site.title }}" class="avatar" />
+              {% endif %}
             {% endif %}
+          </div>
 
             <p class="site-description">{{ site.description | default: site.github.project_tagline }}</p>
           </div>

@@ -29,6 +29,8 @@ header_pages:
   - publications.md
   - awards.md
 
+avatar: "assets/images/avatar.jpg"  # Adjust path to your avatar image
+
 # Resume download link
 resume_download_url: "https://drive.google.com/file/d/1jOSrCVVE8vcs3jlMj5HOViVA8-HftfVI/view?usp=drive_link"
 
