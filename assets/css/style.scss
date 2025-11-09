@@ -576,3 +576,128 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
+// Awards Styles
+.award-item {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--primary-color);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.award-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.award-date {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.award-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: var(--accent-color);
+  color: #1f2937;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.award-content {
+  strong {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+}
+
+.award-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.award-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface-color);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+}
+
+// Dark mode support for awards
+@media (prefers-color-scheme: dark) {
+  .award-item {
+    background: #1e293b;
+    border-color: #374151;
+  }
+
+  .award-link {
+    background: #374151;
+    color: #e5e7eb;
+    border-color: #4b5563;
+
+    &:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+  }
+}
+
+// Responsive design for awards
+@media (max-width: 768px) {
+  .award-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .award-links {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .award-link {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

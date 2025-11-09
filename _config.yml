@@ -27,6 +27,7 @@ header_pages:
   - index.md
   - projects.md
   - publications.md
+  - awards.md
 
 # Resume download link
 resume_download_url: "https://drive.google.com/file/d/1jOSrCVVE8vcs3jlMj5HOViVA8-HftfVI/view?usp=drive_link"
