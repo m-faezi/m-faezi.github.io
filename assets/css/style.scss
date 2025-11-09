@@ -579,57 +579,53 @@ body {
   display: block;
   flex-shrink: 0;
   text-decoration: none;
-  border-radius: 12px;
-  overflow: hidden;
+  border-radius: 8px;
+  overflow: visible; /* Changed from hidden to visible */
   transition: all 0.3s ease;
-  border: 3px solid var(--primary-color); /* Green border */
-  padding: 8px; /* Creates smaller appearance */
+  border: 4px solid var(--primary-color) !important; /* Thicker border with !important */
   background: var(--surface-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--primary-light); /* Lighter green on hover */
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    border-color: var(--primary-light) !important;
 
     .thesis-overlay {
       opacity: 1;
-    }
-
-    .thesis-cover-image {
-      filter: brightness(0.9);
     }
   }
 }
 
 .thesis-cover-image {
-  width: 120px;  /* Even smaller image */
+  width: 120px;
   height: auto;
   display: block;
   transition: all 0.3s ease;
-  border-radius: 6px; /* Smaller border radius to match smaller size */
+  border-radius: 4px; /* Smaller radius than container */
+  margin: 0; /* Remove any default margins */
 }
 
 .thesis-overlay {
   position: absolute;
-  top: 8px;    /* Account for padding */
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(16, 185, 129, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 6px;
+  border-radius: 4px; /* Match image radius */
 }
 
 .thesis-view-text {
   color: white;
   font-weight: 600;
-  font-size: 0.9rem; /* Smaller text */
+  font-size: 0.9rem;
   text-align: center;
-  padding: 0 8px;
 }
 
 .thesis-info {
@@ -658,19 +654,9 @@ body {
     gap: 1.5rem;
   }
 
-  .thesis-cover-link {
-    padding: 6px;
-  }
-
   .thesis-cover-image {
-    width: 100px; /* Even smaller on mobile */
-  }
-
-  .thesis-overlay {
-    top: 6px;
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
+    width: 100px;
   }
 }
+
 
