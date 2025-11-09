@@ -1,51 +1,45 @@
----
-layout: default
-title: Home
----
+# Minimal modern GitHub Pages theme
+title: "Mohammad Faezi"
+description: "AI Researcher & Software Engineer"
+url: "https://m-faezi.github.io"
+baseurl: "" # leave empty for username.github.io
 
-# Hi, I'm Mohammad Faezi 👋🏽
+# Use one of GitHub's built-in modern themes:
+theme: jekyll-theme-cayman
 
-**AI Researcher & Software Engineer** | Bridging advanced machine learning with scalable, real-world systems.
+# Enable GitHub Pages plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
 
-[![Email](https://img.shields.io/badge/-Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:faezi.h.m@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/mohammad-faezi)
-[![Google Scholar](https://img.shields.io/badge/Google%20Scholar-4285F4?logo=google-scholar&logoColor=white)](https://scholar.google.com/citations?user=YOUR_PROFILE_ID)
+# Markdown and syntax highlighting
+markdown: GFM
+highlighter: rouge
 
-I am a Ph.D. candidate in Computer Science at the University of Groningen, specializing in Intelligent Systems. My passion lies in developing novel machine learning algorithms and deploying them as high-performance, scalable software solutions. I thrive on solving complex problems at the intersection of AI, large-scale data processing, and decentralized systems.
+# Metadata for SEO/social
+author: "Mohammad Faezi"
+twitter_username: "farshad_faezi"
+github_username: "m-faezi"
+linkedin_username: "mohammad-faezi"
 
----
+# Navigation
+header_pages:
+  - index.md
+  - projects.md
+  - publications.md
 
-## 🚀 Highlights & Expertise
+# Resume download link
+resume_download_url: "https://drive.google.com/file/d/1jOSrCVVE8vcs3jlMj5HOViVA8-HftfVI/view?usp=drive_link"
 
-*   **🤖 Machine Learning:** Advanced algorithm design, mathematical morphology, computer vision, and deep neural networks.
-*   **⚙️ Software Engineering:** Scalable backend services, microservices, API design, and event-driven architectures.
-*   **🔄 MLOps & DevOps:** End-to-end CI/CD automation, Docker, Kubernetes, and cloud deployment (AWS/GCP).
-*   **💻 High-Performance Computing:** Parallel processing and optimization in Python and C++.
-*   **📊 Large-Scale Data:** Building robust, automated pipelines for processing and analyzing massive datasets.
+# Optional: customize colors and footer text
+show_downloads: false
+google_analytics: false
 
----
+# Exclude build clutter
+exclude:
+  - node_modules
+  - Gemfile
+  - Gemfile.lock
+  - vendor
 
-## 🛠️ Tech Stack
 
-**Languages:** `Python` | `C++` | `C` | `Go`  
-**ML & Data Science:** `PyTorch` | `TensorFlow` | `OpenCV` | `Scikit-learn`  
-**Cloud & DevOps:** `Docker` | `Kubernetes` | `AWS/GCP` | `CI/CD` | `MLOps`  
-**Systems & Databases:** `SQL` | `NoSQL` | `REST APIs` | `Microservices`  
-
----
-
-## 📈 GitHub Stats
-
-<p align="center">
-  <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=vision-friendly-dark&hide_border=true" />
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=m-faezi&show_icons=true&theme=vision-friendly-dark&hide_border=true&count_private=true" />
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=m-faezi&theme=vision-friendly-dark&hide_border=true&layout=compact&langs_count=6&exclude_repo=some-repo-name" />
-</p>
-
-## 📫 Let's Connect
-
-I'm always open to discussing research, collaboration, or new opportunities.
-
-*   **Email:** [faezi.h.m@gmail.com](mailto:faezi.h.m@gmail.com)
-*   **LinkedIn:** [mohammad-faezi](https://linkedin.com/in/mohammad-faezi)
-*   **Location:** Groningen, The Netherlands
