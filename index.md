@@ -43,16 +43,16 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
 
 <div class="thesis-section">
   <div class="thesis-cover">
-    <img src="assets/thesis_cover_faezi.pdf" alt="PhD Thesis: Faint Object Detection in Multidimensional Astronomical Data.">
+    <img src="assets/thesis_cover_faezi.jpg" alt="PhD Thesis: Faint Object Detection in Multidimensional Astronomical Data.">
     <div class="thesis-info">
-      <h3>Advanced Algorithms in Astronomical Image Processing using Mathematical Morphology</h3>
+      <h3>Faint Object Detection in Multidimensional Astronomical Data</h3>
       <p><strong>University of Groningen</strong> | 2026</p>
-      <p>Doctoral dissertation exploring novel max-tree algorithms for multi-spectral source detection and segmentation in astronomical images.</p>
+      <p>Doctoral dissertation exploring advanced algorithms for multi-spectral source detection and segmentation in astronomical images.</p>
       <div class="thesis-links">
-        <a href="assets/thesis.pdf" class="thesis-link" target="_blank">
+        <a href="#" class="thesis-link" target="_blank">
           📖 Read Full Thesis (PDF)
         </a>
-        <a href="assets/thesis-slides.pdf" class="thesis-link" target="_blank">
+        <a href="#" class="thesis-link" target="_blank">
           🎥 Defense Presentation
         </a>
       </div>

@@ -562,3 +562,97 @@ body {
   }
 }
 
+// Thesis Cover Styles
+.thesis-cover-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.thesis-cover-link {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  text-decoration: none;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+
+    .thesis-overlay {
+      opacity: 1;
+    }
+
+    .thesis-cover-image {
+      filter: brightness(0.9);
+    }
+  }
+}
+
+.thesis-cover-image {
+  width: 140px;  /* 30% smaller than 200px */
+  height: auto;
+  display: block;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.thesis-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(16, 185, 129, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+}
+
+.thesis-view-text {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem; /* Slightly smaller text to match image size */
+}
+
+.thesis-info {
+  flex: 1;
+
+  h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .thesis-cover-container {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .thesis-cover-image {
+    width: 120px; /* Also reduced for mobile */
+  }
+}
+
