@@ -580,16 +580,18 @@ body {
   flex-shrink: 0;
   text-decoration: none;
   border-radius: 8px;
-  overflow: visible; /* Changed from hidden to visible */
+  overflow: visible;
   transition: all 0.3s ease;
-  border: 4px solid var(--primary-color) !important; /* Thicker border with !important */
+  border: 4px solid var(--primary-color);
   background: var(--surface-light);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(0.7); /* This makes everything smaller */
+  transform-origin: left top; /* Keep it aligned to the left */
 
   &:hover {
-    transform: translateY(-4px);
+    transform: scale(0.7) translateY(-4px); /* Maintain scale on hover */
     box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
-    border-color: var(--primary-light) !important;
+    border-color: var(--primary-light);
 
     .thesis-overlay {
       opacity: 1;
@@ -598,12 +600,11 @@ body {
 }
 
 .thesis-cover-image {
-  width: 120px;
-  height: auto;
+  width: auto; /* Keep original width */
+  height: auto; /* Keep original height */
   display: block;
-  transition: all 0.3s ease;
-  border-radius: 4px; /* Smaller radius than container */
-  margin: 0; /* Remove any default margins */
+  border-radius: 4px;
+  margin: 0;
 }
 
 .thesis-overlay {
@@ -618,7 +619,7 @@ body {
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 4px; /* Match image radius */
+  border-radius: 4px;
 }
 
 .thesis-view-text {
@@ -654,8 +655,9 @@ body {
     gap: 1.5rem;
   }
 
-  .thesis-cover-image {
-    width: 100px;
+  .thesis-cover-link {
+    transform: scale(0.6); /* Even smaller on mobile */
+    transform-origin: center; /* Center on mobile */
   }
 }
 
