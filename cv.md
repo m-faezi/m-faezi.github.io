@@ -26,7 +26,7 @@ Technical and Vocational College, Tehran, Iran
 
 **AI Researcher - Data Scientist** | *Sep 2020 - Present*
 Bernoulli Institute, University of Groningen, The Netherlands
-- Lead development of core software for advanced large-scale data processing.
+- Developed a core software for advanced large-scale data processing.
 - Developed novel algorithms that accelerated data processing execution by **31x** while maintaining **98% accuracy**.
 - Designed and implemented advanced ML algorithms for high-precision pipelines.
 - Supervised graduate students in applied computer science research.
