@@ -125,8 +125,9 @@ class ExpertiseTree {
         this.data = data;
         this.margin = {top: 20, right: 90, bottom: 30, left: 90};
         this.width = 928 - this.margin.left - this.margin.right;
-        this.height = 600 - this.margin.top - this.margin.bottom;
+        this.height = 800 - this.margin.top - this.margin.bottom; // Increased height for full tree
         this.i = 0;
+        this.duration = 750;
 
         if (this.container) {
             this.init();
@@ -150,13 +151,13 @@ class ExpertiseTree {
         // Create tree layout
         this.tree = d3.tree().size([this.height, this.width]);
 
-        // Initialize with root
+        // Initialize with root - KEEP ALL NODES EXPANDED INITIALLY
         this.root = d3.hierarchy(this.data, d => d.children);
         this.root.x0 = this.height / 2;
         this.root.y0 = 0;
 
-        // Collapse all nodes initially except root - FIXED: Use arrow function to preserve 'this'
-        this.root.children.forEach(d => this.collapse(d));
+        // DON'T collapse any nodes initially - show full tree
+        // this.root.children.forEach(d => this.collapse(d));
 
         this.update(this.root);
         console.log('Expertise tree initialized successfully');
@@ -165,14 +166,12 @@ class ExpertiseTree {
     collapse(d) {
         if (d.children) {
             d._children = d.children;
-            d._children.forEach(child => this.collapse(child)); // FIXED: Use arrow function
+            d._children.forEach(child => this.collapse(child));
             d.children = null;
         }
     }
 
     update(source) {
-        const duration = 750;
-
         // Compute the new tree layout.
         const treeData = this.tree(this.root);
 
@@ -183,22 +182,31 @@ class ExpertiseTree {
         // Normalize for fixed-depth.
         nodes.forEach(d => { d.y = d.depth * 180; });
 
+        // ************************
+        // NODE ANIMATION SECTION
+        // ************************
+
         // Update nodes
         const node = this.svg.selectAll("g.node")
             .data(nodes, d => d.id || (d.id = ++this.i));
 
-        // Enter any new nodes
+        // Enter any new nodes with animation
         const nodeEnter = node.enter().append("g")
             .attr("class", "node")
             .attr("transform", d => `translate(${source.y0},${source.x0})`)
+            .style("opacity", 0) // Start invisible
             .on("click", (event, d) => this.click(event, d));
 
         // Add circles for nodes
         nodeEnter.append("circle")
-            .attr("r", 1e-6)
-            .style("fill", d => d._children ? "#10b981" : "#fff");
+            .attr("r", 0) // Start with radius 0
+            .style("fill", d => d._children ? "#10b981" : "#fff")
+            .transition()
+            .duration(this.duration)
+            .attr("r", 6)
+            .style("opacity", 1);
 
-        // Add labels
+        // Add labels with fade-in animation
         nodeEnter.append("text")
             .attr("dy", ".35em")
             .attr("x", d => d.children || d._children ? -13 : 13)
@@ -207,12 +215,23 @@ class ExpertiseTree {
             .style("fill", "#ffffff")
             .style("font-size", "12px")
             .style("font-family", "Inter, sans-serif")
-            .style("font-weight", "600");
+            .style("font-weight", "600")
+            .style("opacity", 0)
+            .transition()
+            .delay(this.duration / 2)
+            .duration(this.duration / 2)
+            .style("opacity", 1);
 
-        // Update nodes transition
+        // Fade in the node group
+        nodeEnter.transition()
+            .duration(this.duration)
+            .style("opacity", 1);
+
+        // Update nodes transition to new position
         const nodeUpdate = node.merge(nodeEnter).transition()
-            .duration(duration)
-            .attr("transform", d => `translate(${d.y},${d.x})`);
+            .duration(this.duration)
+            .attr("transform", d => `translate(${d.y},${d.x})`)
+            .style("opacity", 1);
 
         nodeUpdate.select("circle")
             .attr("r", 6)
@@ -220,20 +239,27 @@ class ExpertiseTree {
             .style("stroke", "#10b981")
             .style("stroke-width", "2px");
 
-        // Remove exiting nodes
+        // Remove exiting nodes with animation
         const nodeExit = node.exit().transition()
-            .duration(duration)
+            .duration(this.duration)
             .attr("transform", d => `translate(${source.y},${source.x})`)
+            .style("opacity", 0)
             .remove();
 
-        nodeExit.select("circle").attr("r", 1e-6);
-        nodeExit.select("text").style("fill-opacity", 1e-6);
+        nodeExit.select("circle")
+            .attr("r", 0);
+        nodeExit.select("text")
+            .style("fill-opacity", 0);
+
+        // ************************
+        // LINK ANIMATION SECTION
+        // ************************
 
         // Update links
         const link = this.svg.selectAll("path.link")
             .data(links, d => d.id);
 
-        // Enter new links
+        // Enter new links with draw animation
         const linkEnter = link.enter().insert("path", "g")
             .attr("class", "link")
             .attr("d", d => {
@@ -242,20 +268,27 @@ class ExpertiseTree {
             })
             .style("fill", "none")
             .style("stroke", "#6b7280")
-            .style("stroke-width", "1.5px");
-
-        // Update links transition
-        link.merge(linkEnter).transition()
-            .duration(duration)
+            .style("stroke-width", "1.5px")
+            .style("opacity", 0)
+            .transition()
+            .duration(this.duration)
+            .style("opacity", 1)
             .attr("d", d => this.diagonal(d, d.parent));
 
-        // Remove exiting links
+        // Update links transition with smooth animation
+        link.merge(linkEnter).transition()
+            .duration(this.duration)
+            .attr("d", d => this.diagonal(d, d.parent))
+            .style("opacity", 1);
+
+        // Remove exiting links with fade out
         link.exit().transition()
-            .duration(duration)
+            .duration(this.duration)
             .attr("d", d => {
                 const o = {x: source.x, y: source.y};
                 return this.diagonal(o, o);
             })
+            .style("opacity", 0)
             .remove();
 
         // Store old positions for transition
@@ -266,13 +299,17 @@ class ExpertiseTree {
     }
 
     diagonal(s, d) {
-        return `M ${s.y} ${s.x}
+        const path = `M ${s.y} ${s.x}
                 C ${(s.y + d.y) / 2} ${s.x},
                   ${(s.y + d.y) / 2} ${d.x},
                   ${d.y} ${d.x}`;
+        return path;
     }
 
     click(event, d) {
+        event.stopPropagation();
+
+        // Toggle children
         if (d.children) {
             d._children = d.children;
             d.children = null;
@@ -280,6 +317,17 @@ class ExpertiseTree {
             d.children = d._children;
             d._children = null;
         }
+
+        // Add click animation to the node
+        d3.select(event.currentTarget)
+            .select("circle")
+            .transition()
+            .duration(200)
+            .attr("r", 8)
+            .transition()
+            .duration(200)
+            .attr("r", 6);
+
         this.update(d);
     }
 }
@@ -313,9 +361,17 @@ function initializeExpertiseTree() {
         // Clear container
         treeContainer.innerHTML = '';
 
-        // Initialize tree
-        new ExpertiseTree('expertiseTree', window.expertiseData);
-        console.log('Expertise tree initialized successfully!');
+        // Show loading state
+        treeContainer.innerHTML = '<div style="color: #d1d5db; text-align: center; padding: 2rem;">Loading expertise tree...</div>';
+
+        // Small delay to show loading state
+        setTimeout(() => {
+            treeContainer.innerHTML = '';
+            // Initialize tree
+            new ExpertiseTree('expertiseTree', window.expertiseData);
+            console.log('Expertise tree initialized successfully!');
+        }, 100);
+
     } catch (error) {
         console.error('Error initializing expertise tree:', error);
         treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
@@ -341,4 +397,5 @@ setTimeout(function() {
         initializeExpertiseTree();
     }
 }, 3000);
+
 

@@ -1,12 +1,12 @@
 /* Expertise Tree Styles */
 .expertise-tree-container {
-    background: var(--surface-color);
-    border: 1px solid var(--border-color);
+    background: #0f0f0f;
+    border: 1px solid #374151;
     border-radius: 12px;
     padding: 2rem;
     margin: 2rem 0;
     overflow: auto;
-    min-height: 600px;
+    min-height: 700px; /* Increased for full tree */
     position: relative;
     width: 100%;
 }
@@ -14,7 +14,7 @@
 /* Show loading state */
 .expertise-tree-container:empty::before {
     content: "Loading expertise tree...";
-    color: var(--text-secondary);
+    color: #d1d5db;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -26,14 +26,14 @@
 #expertiseTree {
     width: 100%;
     height: 100%;
-    min-height: 500px;
+    min-height: 600px;
 }
 
 #expertiseTree svg {
     width: 100%;
     height: 100%;
-    min-height: 500px;
-    background: var(--surface-color);
+    min-height: 600px;
+    background: #0f0f0f;
 }
 
 .node {
@@ -44,24 +44,22 @@
 .node circle {
     fill: #ffffff;
     stroke: #10b981;
-    stroke-width: 3px;
+    stroke-width: 2px;
     transition: all 0.3s ease;
 }
 
 .node:hover circle {
     fill: #10b981;
     stroke: #059669;
-    r: 8;
+    transform: scale(1.1);
 }
 
 .node text {
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     fill: #ffffff;
     font-weight: 600;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     transition: all 0.3s ease;
-    pointer-events: none;
 }
 
 .node:hover text {
@@ -73,14 +71,26 @@
 .link {
     fill: none;
     stroke: #6b7280;
-    stroke-width: 2px;
-    opacity: 0.8;
+    stroke-width: 1.5px;
     transition: all 0.3s ease;
 }
 
 .node:hover ~ .link {
     stroke: #10b981;
-    stroke-width: 3px;
+    stroke-width: 2px;
+}
+
+/* Animation for when links are updated */
+.link-updating {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 1.5s ease-in-out forwards;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 /* Responsive design */
@@ -88,16 +98,19 @@
     .expertise-tree-container {
         padding: 1rem;
         margin: 1.5rem 0;
-        min-height: 400px;
+        min-height: 500px;
     }
 
     .node text {
-        font-size: 12px;
+        font-size: 10px;
     }
+}
 
-    .node circle {
-        stroke-width: 2px;
-        r: 5;
-    }
+/* Smooth transitions for all tree elements */
+#expertiseTree g,
+#expertiseTree path,
+#expertiseTree circle,
+#expertiseTree text {
+    transition: all 0.5s ease;
 }
 
