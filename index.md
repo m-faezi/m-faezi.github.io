@@ -16,10 +16,6 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     <!-- Interactive tree will be rendered here -->
 </div>
 
-<script>
-// Debug information
-console.log('Page loaded - expertise tree container:', document.getElementById('expertiseTree'));
-</script>
 
 ## Featured Projects
 
