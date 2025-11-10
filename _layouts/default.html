@@ -21,7 +21,13 @@
       body {
         position: relative;
         overflow-x: hidden;
-        background: #000000 !important; /* Restore black background */
+        background: #000000 !important;
+        height: 100%;
+      }
+
+      html {
+        height: 100%;
+        overflow: hidden;
       }
 
       canvas {
@@ -39,22 +45,72 @@
         position: relative;
         z-index: 1;
         background: transparent !important;
+        height: 100vh;
+        overflow: hidden;
       }
 
       .fixed-sidebar {
         position: fixed;
         z-index: 1000;
-        background: #000000 !important; /* Keep sidebar black */
+        background: #000000 !important;
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .scrollable-content {
         position: relative;
         z-index: 1;
         background: transparent !important;
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .content-wrapper {
         background: transparent;
+        min-height: 100%;
+      }
+
+      /* Mobile fixes */
+      @media (max-width: 768px) {
+        html, body {
+          height: auto;
+          overflow: auto;
+        }
+
+        .layout-wrapper {
+          height: auto;
+          overflow: visible;
+          display: block;
+        }
+
+        .fixed-sidebar {
+          position: relative;
+          width: 100%;
+          height: auto;
+          overflow: visible;
+        }
+
+        .scrollable-content {
+          height: auto;
+          overflow: visible;
+          margin-left: 0 !important;
+        }
+
+        .content-wrapper {
+          overflow: visible;
+        }
+
+        canvas {
+          position: absolute !important;
+          height: 100% !important;
+        }
+      }
+
+      /* Prevent horizontal scroll */
+      * {
+        box-sizing: border-box;
       }
     </style>
   </head>
@@ -151,30 +207,53 @@
     <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
 
-    <!-- Debug script -->
+    <!-- Mobile scroll fix -->
     <script>
-    console.log('Scripts loaded - checking dependencies:');
-    console.log('D3.js:', typeof d3 !== 'undefined' ? 'Loaded' : 'Missing');
-    console.log('ExpertiseData:', window.expertiseData ? 'Loaded' : 'Missing');
-    console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
+      // Mobile scroll fix
+      function fixMobileScroll() {
+        if (window.innerWidth <= 768) {
+          // Enable body scroll on mobile
+          document.body.style.overflow = 'auto';
+          document.body.style.height = 'auto';
+          document.documentElement.style.overflow = 'auto';
+          document.documentElement.style.height = 'auto';
 
-    // Additional background debug
-    setTimeout(() => {
-      const canvas = document.querySelector('canvas');
-      if (canvas) {
-        console.log('🎯 Background Canvas Status:');
-        console.log('✅ Position: fixed');
-        console.log('✅ Size:', canvas.offsetWidth + 'x' + canvas.offsetHeight);
-        console.log('✅ Z-index: -1');
-        console.log('✅ Covering entire page');
-      } else {
-        console.log('❌ No canvas found for background');
+          // Disable any fixed positioning that might block scroll
+          const scrollableContent = document.querySelector('.scrollable-content');
+          if (scrollableContent) {
+            scrollableContent.style.overflow = 'visible';
+            scrollableContent.style.height = 'auto';
+          }
+        }
       }
-    }, 1000);
+
+      // Run on load and resize
+      document.addEventListener('DOMContentLoaded', fixMobileScroll);
+      window.addEventListener('resize', fixMobileScroll);
+      window.addEventListener('orientationchange', fixMobileScroll);
+
+      // Debug script
+      console.log('Scripts loaded - checking dependencies:');
+      console.log('D3.js:', typeof d3 !== 'undefined' ? 'Loaded' : 'Missing');
+      console.log('ExpertiseData:', window.expertiseData ? 'Loaded' : 'Missing');
+      console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
+
+      // Additional background debug
+      setTimeout(() => {
+        const canvas = document.querySelector('canvas');
+        if (canvas) {
+          console.log('🎯 Background Canvas Status:');
+          console.log('✅ Position: fixed');
+          console.log('✅ Size:', canvas.offsetWidth + 'x' + canvas.offsetHeight);
+          console.log('✅ Z-index: -1');
+          console.log('✅ Covering entire page');
+        } else {
+          console.log('❌ No canvas found for background');
+        }
+      }, 1000);
     </script>
 
 
   </body>
 </html>
-
 
