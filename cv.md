@@ -13,7 +13,7 @@ University of Groningen, The Netherlands
 - *Thesis: Faint Object Detection in Multidimensional Astronomical Data*
 
 **M.Sc. in Computer Science** | *Sep 2017 - Aug 2020*
-Shahei University, Tehran, Iran
+Shahed University, Tehran, Iran
 - Artificial Intelligence group
 - *Thesis: DEGAN: Decentralized Generative Adversarial Networks*
 
