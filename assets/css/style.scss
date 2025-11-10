@@ -35,13 +35,13 @@ body {
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--background-color);
-  overflow: hidden; // Prevent body scrolling
+  /* No overflow hidden on body to allow mobile scrolling */
 }
 
 .layout-wrapper {
   display: flex;
   height: 100vh; // Use full viewport height
-  overflow: hidden; // Prevent wrapper scrolling
+  overflow: hidden; // Prevent wrapper scrolling on desktop
 }
 
 // Fixed Sidebar - Clean and minimal with proper height
@@ -284,7 +284,7 @@ body {
     color: var(--primary-color);
   }
 
-  // GitHub Stats - Orange Theme with Beautiful Layout
+  // GitHub Stats - Minimal Orange Theme
   .github-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -294,7 +294,6 @@ body {
   }
 
   .github-stat-item {
-    position: relative;
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -313,49 +312,6 @@ body {
       display: block;
       margin: 0;
       border-radius: 0;
-    }
-  }
-
-  .github-stat-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-    padding: 1rem;
-    text-align: center;
-
-    .stat-label {
-      color: var(--primary-color);
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-value {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-    }
-  }
-
-  // Alternative GitHub Stats Layout
-  .github-stats-compact {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 2rem 0;
-
-    img {
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      transition: all 0.3s ease;
-
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
-        border-color: var(--primary-color);
-      }
     }
   }
 
@@ -652,8 +608,17 @@ body {
   }
 }
 
-// Responsive design
+// Responsive design - Fixed for mobile scrolling
 @media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
+
+  body {
+    overflow: auto;
+  }
+
   .layout-wrapper {
     flex-direction: column;
     height: auto;
@@ -665,6 +630,8 @@ body {
     width: 100%;
     height: auto;
     overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
 
     .sidebar-content {
       padding: 1.5rem;
@@ -676,15 +643,18 @@ body {
   .scrollable-content {
     margin-left: 0;
     height: auto;
+    min-height: 50vh;
     overflow: visible;
   }
 
   .content-wrapper {
     padding: 1.5rem;
+    overflow: visible;
   }
 
   .sidebar-navigation {
     overflow: visible;
+    margin: 1rem 0;
 
     ul {
       display: flex;
@@ -701,11 +671,6 @@ body {
   .github-stats {
     grid-template-columns: 1fr;
     gap: 1rem;
-  }
-
-  .github-stats-compact {
-    flex-direction: column;
-    align-items: center;
   }
 
   .project-header,
