@@ -72,6 +72,22 @@ title: Projects
     </div>
 </div>
 
+<div class="project-card">
+    <div class="project-header">
+        <h3><a href="https://github.com/m-faezi/fireball" class="project-title">Web application</a></h3>
+        <div class="project-links">
+            <a href="https://github.com/m-faezi/fireball" class="project-link">📁 Code</a>
+        </div>
+    </div>
+    <p class="project-description">A web application with PostgreSQL integration, providing RESTful API development capabilities and testing.</p>
+    <div class="project-tech">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">REST API</span>
+        <span class="tech-tag">Databases</span>
+        <span class="tech-tag">Backend</span>
+    </div>
+</div>
+
 ---
 
 ## 💡 Skills & Technologies
