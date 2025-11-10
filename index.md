@@ -59,5 +59,4 @@ I'm always open to discussing research, collaboration, or new opportunities.
 *   **LinkedIn:** [mohammad-faezi](https://linkedin.com/in/mohammad-faezi)
 *   **Location:** Groningen, The Netherlands
 
-<script src="{{ '/assets/js/carousel.js' | relative_url }}"></script>
 
