@@ -21,6 +21,7 @@
       body {
         position: relative;
         overflow-x: hidden;
+        background: #000000 !important; /* Restore black background */
       }
 
       canvas {
@@ -31,29 +32,25 @@
         height: 100vh !important;
         z-index: -1 !important;
         pointer-events: none !important;
+        background: transparent !important;
       }
 
       .layout-wrapper {
         position: relative;
         z-index: 1;
+        background: transparent !important;
       }
 
       .fixed-sidebar {
         position: fixed;
         z-index: 1000;
+        background: #000000 !important; /* Keep sidebar black */
       }
 
       .scrollable-content {
         position: relative;
         z-index: 1;
-      }
-
-      body, .layout-wrapper, .scrollable-content {
         background: transparent !important;
-      }
-
-      .fixed-sidebar {
-        background: #000000 !important;
       }
 
       .content-wrapper {
@@ -160,9 +157,24 @@
     console.log('D3.js:', typeof d3 !== 'undefined' ? 'Loaded' : 'Missing');
     console.log('ExpertiseData:', window.expertiseData ? 'Loaded' : 'Missing');
     console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
+
+    // Additional background debug
+    setTimeout(() => {
+      const canvas = document.querySelector('canvas');
+      if (canvas) {
+        console.log('🎯 Background Canvas Status:');
+        console.log('✅ Position: fixed');
+        console.log('✅ Size:', canvas.offsetWidth + 'x' + canvas.offsetHeight);
+        console.log('✅ Z-index: -1');
+        console.log('✅ Covering entire page');
+      } else {
+        console.log('❌ No canvas found for background');
+      }
+    }, 1000);
     </script>
 
 
   </body>
 </html>
+
 

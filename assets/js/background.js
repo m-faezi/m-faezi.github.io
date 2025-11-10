@@ -90,8 +90,8 @@ class DataNetworkBackground {
     animate() {
         if (!this.ctx || !this.canvas) return;
 
-        // Clear with very subtle fade for trails
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+        // Clear with very subtle fade for trails - DON'T clear to black
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.02)'; // This creates the fade effect
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Update and draw particles
