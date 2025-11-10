@@ -1,3 +1,67 @@
+// Projects Data
+window.projectsData = [
+    {
+        title: "MMTO",
+        description: "Multi-spectral Morphological Tool for astronomical image analysis with advanced source detection.",
+        tech: ["Python", "PyTorch", "OpenCV", "Mathematical Morphology"],
+        githubUrl: "https://github.com/m-faezi/MMTO",
+        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/MMTO",
+        language: "Python"
+    },
+    {
+        title: "MTO2",
+        description: "Max-Tree based source detection and parameter extraction for astronomical image processing.",
+        tech: ["Python", "PyTorch", "OpenCV", "Max-Tree"],
+        githubUrl: "https://github.com/m-faezi/MTO2",
+        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/MTO2",
+        language: "Python"
+    },
+    {
+        title: "DEGAN",
+        description: "Decentralized Generative Adversarial Networks for distributed AI training without central coordination.",
+        tech: ["TensorFlow", "Decentralized AI", "GANs", "Distributed Systems"],
+        githubUrl: "https://github.com/m-faezi/DEGAN",
+        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/DEGAN",
+        language: "Python"
+    },
+    {
+        title: "Multi-spectral Simulator",
+        description: "Astronomical image simulator for validating source segmentation algorithms with synthetic data.",
+        tech: ["Python", "Statistical Modelling", "Data Simulation", "Astronomy"],
+        githubUrl: "https://github.com/m-faezi/multi-spectral-sim",
+        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/multi-spectral-sim",
+        language: "Python"
+    }
+];
+
+// Publications Data
+window.publicationsData = [
+    {
+        title: "Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees",
+        authors: "Faezi, M. H., Peletier, R., & Wilkinson, M. H. F.",
+        journal: "IEEE Access, 12, 72288–72302",
+        year: "2024",
+        description: "Novel approach for multi-spectral astronomical image segmentation using semantically-informed max-tree algorithms for precise source detection and analysis.",
+        links: [
+            { url: "https://ieeexplore.ieee.org/document/10535192", text: "📖 Read Paper" },
+            { url: "https://github.com/m-faezi/MMTO", text: "📊 Code" }
+        ],
+        tags: ["Computer Vision", "Mathematical Morphology", "Astronomical Imaging"]
+    },
+    {
+        title: "DEGAN: Decentralized Generative Adversarial Networks",
+        authors: "Faezi, M. H., Bijani, S., & Dolati, A.",
+        journal: "Neurocomputing, 419, 335–343",
+        year: "2021",
+        description: "Innovative decentralized GAN architecture enabling distributed AI training without central coordination across multiple nodes.",
+        links: [
+            { url: "https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522", text: "📖 Read Paper" },
+            { url: "https://github.com/m-faezi/DEGAN", text: "📊 Code" }
+        ],
+        tags: ["Decentralized AI", "GANs", "Distributed Systems"]
+    }
+];
+
 class ProjectCarousel {
     constructor(containerId, config = {}) {
         this.container = document.getElementById(containerId);
@@ -299,15 +363,6 @@ class ProjectCarousel {
     }
 }
 
-// Data remains the same...
-window.projectsData = [
-    // ... your existing projects data
-];
-
-window.publicationsData = [
-    // ... your existing publications data
-];
-
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing carousels...');
@@ -321,6 +376,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 slideDirection: 'right',
                 carouselType: 'projects'
             });
+        } else {
+            console.error('Projects carousel container not found');
         }
 
         const publicationsCarousel = document.getElementById('publicationsCarousel');
@@ -331,8 +388,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 slideDirection: 'left',
                 carouselType: 'publications'
             });
+        } else {
+            console.error('Publications carousel container not found');
         }
     }, 200);
 });
-
 

@@ -119,12 +119,6 @@ window.expertiseData = {
     ]
 };
 
-
-
-
-
-
-
 class ExpertiseTree {
     constructor(containerId, data) {
         this.container = document.getElementById(containerId);
@@ -132,8 +126,11 @@ class ExpertiseTree {
         this.margin = {top: 20, right: 90, bottom: 30, left: 90};
         this.width = 928 - this.margin.left - this.margin.right;
         this.height = 600 - this.margin.top - this.margin.bottom;
+        this.i = 0;
 
-        this.init();
+        if (this.container) {
+            this.init();
+        }
     }
 
     init() {
@@ -156,7 +153,18 @@ class ExpertiseTree {
         this.root.x0 = this.height / 2;
         this.root.y0 = 0;
 
+        // Collapse all nodes initially except root
+        this.root.children.forEach(this.collapse);
+
         this.update(this.root);
+    }
+
+    collapse(d) {
+        if (d.children) {
+            d._children = d.children;
+            d._children.forEach(this.collapse);
+            d.children = null;
+        }
     }
 
     update(source) {
@@ -190,11 +198,12 @@ class ExpertiseTree {
         // Add labels
         nodeEnter.append("text")
             .attr("dy", ".35em")
-            .attr("x", d => d.children ? -13 : 13)
-            .attr("text-anchor", d => d.children ? "end" : "start")
+            .attr("x", d => d.children || d._children ? -13 : 13)
+            .attr("text-anchor", d => d.children || d._children ? "end" : "start")
             .text(d => d.data.name)
             .style("fill", "var(--text-primary)")
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .style("font-family", "Inter, sans-serif");
 
         // Update nodes transition
         const nodeUpdate = node.merge(nodeEnter).transition()
@@ -273,18 +282,16 @@ class ExpertiseTree {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing expertise tree...');
+
     setTimeout(() => {
         const treeContainer = document.getElementById('expertiseTree');
         if (treeContainer && window.expertiseData) {
+            console.log('Found expertise tree container, initializing...');
             new ExpertiseTree('expertiseTree', window.expertiseData);
+        } else {
+            console.log('Expertise tree container not found or data missing');
         }
-    }, 500);
+    }, 100);
 });
-
-
-
-
-
-
-
 

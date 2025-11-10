@@ -8,12 +8,13 @@
     {% seo %}
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/carousel.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/expertise-tree.css' | relative_url }}">
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
     {% include head-custom.html %}
-      <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="{{ '/assets/css/expertise-tree.css' | relative_url }}">
+    <!-- D3.js for interactive visualizations -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
     <div class="layout-wrapper">
@@ -94,7 +95,11 @@
         </div>
       </main>
     </div>
+
+    <!-- Load JavaScript files in correct order -->
+    <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
   </body>
 </html>
+
 
