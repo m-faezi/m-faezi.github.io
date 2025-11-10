@@ -1,26 +1,44 @@
 class ProjectCarousel {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
+        if (!this.container) {
+            console.error('Carousel container not found:', containerId);
+            return;
+        }
+
         this.track = this.container.querySelector('.carousel-track');
         this.dotsContainer = this.container.querySelector('.carousel-dots');
-        this.slides = this.container.querySelectorAll('.carousel-slide');
+        this.slides = [];
         this.currentIndex = 0;
-        this.slideCount = this.slides.length;
+        this.slideCount = 0;
         this.autoSlideInterval = null;
         this.touchStartX = 0;
         this.touchEndX = 0;
         this.isDragging = false;
         this.dragStartX = 0;
         this.dragCurrentX = 0;
+        this.minSwipeDistance = 50;
 
-        this.init();
+        // Wait for slides to be created
+        setTimeout(() => {
+            this.slides = this.container.querySelectorAll('.carousel-slide');
+            this.slideCount = this.slides.length;
+
+            if (this.slideCount > 0) {
+                this.init();
+            } else {
+                console.warn('No carousel slides found');
+            }
+        }, 100);
     }
 
     init() {
+        console.log('Initializing carousel with', this.slideCount, 'slides');
         this.createDots();
         this.startAutoSlide();
         this.addEventListeners();
         this.addTouchEventListeners();
+        this.updateCarousel();
     }
 
     createDots() {
@@ -29,6 +47,8 @@ class ProjectCarousel {
             this.dotsContainer.className = 'carousel-dots';
             this.container.appendChild(this.dotsContainer);
         }
+
+        this.dotsContainer.innerHTML = '';
 
         for (let i = 0; i < this.slideCount; i++) {
             const dot = document.createElement('div');
@@ -51,37 +71,33 @@ class ProjectCarousel {
 
     addTouchEventListeners() {
         // Touch events for mobile
-        this.track.addEventListener('touchstart', (e) => {
+        this.container.addEventListener('touchstart', (e) => {
             this.handleTouchStart(e);
         }, { passive: true });
 
-        this.track.addEventListener('touchmove', (e) => {
+        this.container.addEventListener('touchmove', (e) => {
             this.handleTouchMove(e);
         }, { passive: true });
 
-        this.track.addEventListener('touchend', (e) => {
+        this.container.addEventListener('touchend', (e) => {
             this.handleTouchEnd(e);
         });
 
         // Mouse drag events for desktop touch devices
-        this.track.addEventListener('mousedown', (e) => {
+        this.container.addEventListener('mousedown', (e) => {
             this.handleMouseDown(e);
         });
 
-        this.track.addEventListener('mousemove', (e) => {
+        document.addEventListener('mousemove', (e) => {
             this.handleMouseMove(e);
         });
 
-        this.track.addEventListener('mouseup', (e) => {
-            this.handleMouseUp(e);
-        });
-
-        this.track.addEventListener('mouseleave', (e) => {
+        document.addEventListener('mouseup', (e) => {
             this.handleMouseUp(e);
         });
 
         // Prevent image drag
-        this.track.addEventListener('dragstart', (e) => {
+        this.container.addEventListener('dragstart', (e) => {
             e.preventDefault();
         });
     }
@@ -91,6 +107,7 @@ class ProjectCarousel {
         this.touchStartX = e.touches[0].clientX;
         this.isDragging = true;
         this.track.style.transition = 'none';
+        e.preventDefault();
     }
 
     handleTouchMove(e) {
@@ -106,12 +123,11 @@ class ProjectCarousel {
         if (!this.isDragging) return;
 
         this.isDragging = false;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.3s ease-in-out';
 
         const diff = this.touchStartX - this.touchEndX;
-        const threshold = 50; // Minimum swipe distance
 
-        if (Math.abs(diff) > threshold) {
+        if (Math.abs(diff) > this.minSwipeDistance) {
             if (diff > 0) {
                 // Swipe left - next slide
                 this.nextSlide();
@@ -124,7 +140,9 @@ class ProjectCarousel {
             this.updateCarousel();
         }
 
-        this.startAutoSlide();
+        setTimeout(() => {
+            this.startAutoSlide();
+        }, 3000);
     }
 
     handleMouseDown(e) {
@@ -133,6 +151,7 @@ class ProjectCarousel {
         this.dragStartX = e.clientX;
         this.track.style.transition = 'none';
         this.track.style.cursor = 'grabbing';
+        e.preventDefault();
     }
 
     handleMouseMove(e) {
@@ -148,13 +167,12 @@ class ProjectCarousel {
         if (!this.isDragging) return;
 
         this.isDragging = false;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.3s ease-in-out';
         this.track.style.cursor = 'grab';
 
         const diff = this.dragStartX - this.dragCurrentX;
-        const threshold = 50; // Minimum drag distance
 
-        if (Math.abs(diff) > threshold) {
+        if (Math.abs(diff) > this.minSwipeDistance) {
             if (diff > 0) {
                 // Drag left - next slide
                 this.nextSlide();
@@ -167,15 +185,24 @@ class ProjectCarousel {
             this.updateCarousel();
         }
 
-        this.startAutoSlide();
+        setTimeout(() => {
+            this.startAutoSlide();
+        }, 3000);
     }
 
     getSlideWidth() {
-        if (this.slides.length === 0) return 320; // Default fallback
-        return this.slides[0].offsetWidth + 20; // Include gap
+        if (this.slides.length === 0) return 320;
+        const slide = this.slides[0];
+        const style = window.getComputedStyle(slide);
+        const width = slide.offsetWidth;
+        const margin = parseInt(style.marginLeft) + parseInt(style.marginRight);
+        return width + margin + 20; // Include gap
     }
 
     goToSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= this.slideCount) index = this.slideCount - 1;
+
         this.currentIndex = index;
         this.updateCarousel();
     }
@@ -191,18 +218,25 @@ class ProjectCarousel {
     }
 
     updateCarousel() {
+        if (this.slideCount === 0) return;
+
         const translateX = -this.currentIndex * this.getSlideWidth();
         this.track.style.transform = `translateX(${translateX}px)`;
 
-        this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentIndex);
-        });
+        if (this.dotsContainer) {
+            this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === this.currentIndex);
+            });
+        }
     }
 
     startAutoSlide() {
-        this.autoSlideInterval = setInterval(() => {
-            this.nextSlide();
-        }, 4000);
+        this.stopAutoSlide();
+        if (this.slideCount > 1) {
+            this.autoSlideInterval = setInterval(() => {
+                this.nextSlide();
+            }, 4000);
+        }
     }
 
     stopAutoSlide() {
@@ -251,7 +285,10 @@ const projectsData = [
 
 function createProjectSlides() {
     const track = document.querySelector('.carousel-track');
-    if (!track) return;
+    if (!track) {
+        console.error('Carousel track not found');
+        return;
+    }
 
     track.innerHTML = '';
 
@@ -261,7 +298,7 @@ function createProjectSlides() {
 
         slide.innerHTML = `
             <div class="project-thumbnail">
-                <img src="${project.imageUrl}" alt="${project.title}" class="github-preview" />
+                <img src="${project.imageUrl}" alt="${project.title}" class="github-preview" loading="lazy" />
                 <div class="project-language">${project.language}</div>
             </div>
             <div class="project-info">
@@ -271,7 +308,7 @@ function createProjectSlides() {
                     ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
                 </div>
                 <div class="project-links">
-                    <a href="${project.githubUrl}" class="project-link" target="_blank">
+                    <a href="${project.githubUrl}" class="project-link" target="_blank" rel="noopener">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
@@ -285,16 +322,22 @@ function createProjectSlides() {
     });
 }
 
+// Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing carousel...');
+
+    // Create slides first
     createProjectSlides();
 
-    const carouselContainer = document.getElementById('projectsCarousel');
-    if (carouselContainer) {
-        setTimeout(() => {
+    // Then initialize carousel with a slight delay to ensure DOM is updated
+    setTimeout(() => {
+        const carouselContainer = document.getElementById('projectsCarousel');
+        if (carouselContainer) {
+            console.log('Found carousel container, initializing...');
             new ProjectCarousel('projectsCarousel');
-        }, 100);
-    }
+        } else {
+            console.error('Carousel container not found');
+        }
+    }, 200);
 });
-
-
 
