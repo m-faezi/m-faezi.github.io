@@ -14,25 +14,32 @@ class DataNetworkBackground {
     init() {
         console.log('Initializing DataNetworkBackground...');
 
+        // Remove any existing canvas first
+        const existingCanvas = document.querySelector('canvas');
+        if (existingCanvas) {
+            existingCanvas.remove();
+            console.log('Removed existing canvas');
+        }
+
         // Create canvas
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
 
-        // Style the canvas to be visible
+        // Style the canvas to cover entire viewport
         this.canvas.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            opacity: 0.3;
-            pointer-events: none;
-            background: transparent;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: -1 !important;
+            opacity: 0.15;
+            pointer-events: none !important;
+            background: transparent !important;
         `;
 
-        // Add to body
-        document.body.appendChild(this.canvas);
+        // Add to body at the very beginning
+        document.body.insertBefore(this.canvas, document.body.firstChild);
         console.log('Canvas added to body');
 
         this.setupEventListeners();
@@ -52,13 +59,12 @@ class DataNetworkBackground {
     resize() {
         if (!this.canvas) return;
 
+        // Use full viewport dimensions
         const width = window.innerWidth;
         const height = window.innerHeight;
 
         this.canvas.width = width;
         this.canvas.height = height;
-        this.canvas.style.width = width + 'px';
-        this.canvas.style.height = height + 'px';
 
         console.log('Canvas resized:', width, 'x', height);
         this.createParticles();
@@ -66,16 +72,16 @@ class DataNetworkBackground {
 
     createParticles() {
         this.particles = [];
-        const count = 30;
+        const count = 40;
 
         for (let i = 0; i < count; i++) {
             this.particles.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
                 size: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5,
-                color: '#4A90E2'
+                speedX: (Math.random() - 0.5) * 0.3,
+                speedY: (Math.random() - 0.5) * 0.3,
+                color: '#10b981'
             });
         }
         console.log('Created', count, 'particles');
@@ -84,8 +90,8 @@ class DataNetworkBackground {
     animate() {
         if (!this.ctx || !this.canvas) return;
 
-        // Clear with fade effect for trails
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        // Clear with very subtle fade for trails
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Update and draw particles
@@ -94,9 +100,15 @@ class DataNetworkBackground {
             particle.x += particle.speedX;
             particle.y += particle.speedY;
 
-            // Bounce off walls
-            if (particle.x <= 0 || particle.x >= this.canvas.width) particle.speedX *= -1;
-            if (particle.y <= 0 || particle.y >= this.canvas.height) particle.speedY *= -1;
+            // Bounce off walls with boundary check
+            if (particle.x <= 0 || particle.x >= this.canvas.width) {
+                particle.speedX *= -1;
+                particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
+            }
+            if (particle.y <= 0 || particle.y >= this.canvas.height) {
+                particle.speedY *= -1;
+                particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+            }
 
             // Draw particle
             this.ctx.beginPath();
@@ -112,11 +124,11 @@ class DataNetworkBackground {
                 const dy = particle.y - other.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance < 100) {
+                if (distance < 120) {
                     this.ctx.beginPath();
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(other.x, other.y);
-                    this.ctx.strokeStyle = `rgba(74, 144, 226, ${0.2 - distance/500})`;
+                    this.ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 - distance/800})`;
                     this.ctx.lineWidth = 0.5;
                     this.ctx.stroke();
                 }
@@ -127,17 +139,27 @@ class DataNetworkBackground {
             const mouseDy = particle.y - this.mouse.y;
             const mouseDistance = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
 
-            if (mouseDistance < 150) {
+            if (mouseDistance < 200) {
                 this.ctx.beginPath();
                 this.ctx.moveTo(particle.x, particle.y);
                 this.ctx.lineTo(this.mouse.x, this.mouse.y);
-                this.ctx.strokeStyle = `rgba(255, 255, 255, ${0.3 - mouseDistance/200})`;
+                this.ctx.strokeStyle = `rgba(34, 211, 238, ${0.2 - mouseDistance/250})`;
                 this.ctx.lineWidth = 0.8;
                 this.ctx.stroke();
             }
         });
 
         this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    // Cleanup method
+    destroy() {
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
+        if (this.canvas && this.canvas.parentNode) {
+            this.canvas.parentNode.removeChild(this.canvas);
+        }
     }
 }
 
@@ -150,17 +172,6 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             window.dataNetwork = new DataNetworkBackground();
             console.log('✅ Background initialized successfully!');
-
-            // Test: Check if canvas is visible
-            const canvas = document.querySelector('canvas');
-            if (canvas) {
-                console.log('✅ Canvas found in DOM');
-                console.log('Canvas dimensions:', canvas.width, 'x', canvas.height);
-                console.log('Canvas opacity:', canvas.style.opacity);
-                console.log('Canvas z-index:', canvas.style.zIndex);
-            } else {
-                console.log('❌ Canvas not found in DOM');
-            }
         } catch (error) {
             console.error('❌ Failed to initialize background:', error);
         }
@@ -172,6 +183,7 @@ document.addEventListener('visibilitychange', function() {
     if (window.dataNetwork) {
         if (document.hidden) {
             cancelAnimationFrame(window.dataNetwork.animationId);
+            window.dataNetwork.animationId = null;
         } else {
             window.dataNetwork.animate();
         }

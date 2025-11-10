@@ -15,10 +15,55 @@
     {% include head-custom.html %}
     <!-- D3.js for interactive visualizations -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-      <script src="{{ "/assets/js/background.js" | relative_url }}"></script>
 
+    <!-- Background styles to ensure proper positioning -->
+    <style>
+      body {
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      canvas {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+      }
+
+      .layout-wrapper {
+        position: relative;
+        z-index: 1;
+      }
+
+      .fixed-sidebar {
+        position: fixed;
+        z-index: 1000;
+      }
+
+      .scrollable-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      body, .layout-wrapper, .scrollable-content {
+        background: transparent !important;
+      }
+
+      .fixed-sidebar {
+        background: #000000 !important;
+      }
+
+      .content-wrapper {
+        background: transparent;
+      }
+    </style>
   </head>
   <body>
+    <!-- Background canvas will be inserted here by background.js -->
+
     <div class="layout-wrapper">
       <!-- Fixed Sidebar -->
       <aside class="fixed-sidebar">
@@ -105,6 +150,7 @@
     </div>
 
     <!-- Load JavaScript files in correct order -->
+    <script src="{{ "/assets/js/background.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
 
@@ -116,8 +162,7 @@
     console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
     </script>
 
-  
+
   </body>
 </html>
-
 

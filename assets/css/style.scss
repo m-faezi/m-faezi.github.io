@@ -836,3 +836,52 @@ canvas {
     z-index: 2;
 }
 
+
+// Add this to your style.scss - Background positioning
+body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+// Ensure canvas covers entire viewport
+canvas {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+}
+
+// Ensure main content layers properly
+.layout-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.fixed-sidebar {
+    position: fixed;
+    z-index: 1000;
+}
+
+.scrollable-content {
+    position: relative;
+    z-index: 1;
+}
+
+// Remove any conflicting background colors
+body, .layout-wrapper, .scrollable-content {
+    background: transparent !important;
+}
+
+// Only set background on specific elements that need it
+.fixed-sidebar {
+    background: #000000 !important;
+}
+
+.content-wrapper {
+    background: transparent;
+}
+
+
