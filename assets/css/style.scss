@@ -3,13 +3,13 @@
 
 @import "{{ site.theme }}";
 
-// Clean Black & Orange Color Theme
+// Dark Green & Bright Modern Color Theme
 :root {
-  --primary-color: #f59e0b;      // Amber orange
-  --primary-dark: #d97706;       // Dark orange
-  --primary-light: #fbbf24;      // Light orange
+  --primary-color: #10b981;      // Emerald green
+  --primary-dark: #059669;       // Dark emerald
+  --primary-light: #34d399;      // Light emerald
   --secondary-color: #ffffff;    // White
-  --accent-color: #10b981;       // Emerald green for accents
+  --accent-color: #f59e0b;       // Amber orange for accents
 
   // Black theme colors
   --background-color: #000000;   // Pure black
@@ -184,7 +184,7 @@ body {
         background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         color: white;
         border-color: var(--primary-light);
-        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         transform: translateY(-1px);
       }
 
@@ -284,7 +284,7 @@ body {
     color: var(--primary-color);
   }
 
-  // GitHub Stats - Minimal Orange Theme
+  // GitHub Stats - Minimal Green Theme
   .github-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -302,7 +302,7 @@ body {
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
       border-color: var(--primary-color);
     }
 
@@ -333,7 +333,7 @@ body {
 
   &:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   }
 }
 
@@ -420,7 +420,7 @@ body {
 
   &:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   }
 }
 
@@ -496,7 +496,7 @@ body {
 
   &:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   }
 
   &.upcoming {
