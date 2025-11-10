@@ -179,6 +179,13 @@ body {
         border-color: var(--primary-color);
       }
 
+      // Active state styling
+      &.active {
+        background: var(--primary-dark);
+        color: white;
+        border-color: var(--primary-dark);
+      }
+
       &.resume-download {
         background: var(--primary-color);
         border-color: var(--primary-color);

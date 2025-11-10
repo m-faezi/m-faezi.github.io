@@ -66,15 +66,15 @@
             </div>
             </div>
 
-          <nav class="sidebar-navigation">
-            <ul>
-              <li><a href="{{ site.baseurl }}/" class="nav-link">Home</a></li>
-              <li><a href="{{ site.baseurl }}/projects" class="nav-link">Projects</a></li>
-              <li><a href="{{ site.baseurl }}/publications" class="nav-link">Publications</a></li>
-              <li><a href="{{ site.baseurl }}/awards" class="nav-link">Honors & Awards</a></li>
-              <li><a href="{{ site.resume_download_url }}" class="nav-link resume-download" download>Resume</a></li>
-            </ul>
-          </nav>
+            <nav class="sidebar-navigation">
+              <ul>
+                <li><a href="{{ site.baseurl }}/" class="nav-link {% if page.url == '/' %}active{% endif %}">Home</a></li>
+                <li><a href="{{ site.baseurl }}/projects" class="nav-link {% if page.url contains '/projects' %}active{% endif %}">Projects</a></li>
+                <li><a href="{{ site.baseurl }}/publications" class="nav-link {% if page.url contains '/publications' %}active{% endif %}">Publications</a></li>
+                <li><a href="{{ site.baseurl }}/awards" class="nav-link {% if page.url contains '/awards' %}active{% endif %}">Honors & Awards</a></li>
+                <li><a href="{{ site.resume_download_url }}" class="nav-link resume-download" download>Resume</a></li>
+              </ul>
+            </nav>
 
           <!-- Footer in sidebar -->
           <footer class="sidebar-footer">
