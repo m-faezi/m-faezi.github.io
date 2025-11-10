@@ -405,28 +405,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Interactive data points that connect on hover
-class DataNetworkBackground {
+
+
+
+
+
+// Simple floating particles background
+class FloatingParticles {
     constructor() {
         this.canvas = null;
         this.ctx = null;
-        this.nodes = [];
-        this.mouse = { x: 0, y: 0 };
-        this.animationId = null;
+        this.particles = [];
+        this.mouse = { x: 0, y: 0, radius: 100 };
         this.init();
     }
 
     init() {
-        // Wait for DOM to be ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.setupCanvas());
-        } else {
-            this.setupCanvas();
-        }
-    }
+        console.log('Initializing floating particles background...');
 
-    setupCanvas() {
-        // Create canvas element
+        // Create canvas
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.canvas.style.cssText = `
@@ -436,42 +433,27 @@ class DataNetworkBackground {
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.1;
+            opacity: 0.3;
             pointer-events: none;
         `;
 
-        // Insert at the beginning of body
-        document.body.insertBefore(this.canvas, document.body.firstChild);
+        // Add to body
+        document.body.appendChild(this.canvas);
 
         this.resize();
-        this.setupEventListeners();
-        this.createNodes();
+        this.createParticles();
         this.animate();
-    }
 
-    setupEventListeners() {
-        window.addEventListener('resize', () => this.resize());
-        window.addEventListener('mousemove', (e) => {
+        // Mouse move listener
+        document.addEventListener('mousemove', (e) => {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
         });
-    }
 
-    createNodes() {
-        // Clear existing nodes
-        this.nodes = [];
+        // Resize listener
+        window.addEventListener('resize', () => this.resize());
 
-        // Create data nodes - fewer nodes for better performance
-        for (let i = 0; i < 30; i++) {
-            this.nodes.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                radius: Math.random() * 2 + 1,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                connections: []
-            });
-        }
+        console.log('Floating particles background initialized');
     }
 
     resize() {
@@ -479,126 +461,96 @@ class DataNetworkBackground {
 
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
+        this.createParticles();
+    }
 
-        // Recreate nodes when resizing
-        this.createNodes();
+    createParticles() {
+        this.particles = [];
+        const count = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 10000));
+
+        for (let i = 0; i < count; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                size: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+                color: `rgba(74, 144, 226, ${Math.random() * 0.5 + 0.2})`
+            });
+        }
     }
 
     animate() {
         if (!this.ctx || !this.canvas) return;
 
-        // Clear with slight fade effect for trails
+        // Clear with fade effect
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Update and draw nodes
-        this.nodes.forEach(node => {
-            // Update position
-            node.x += node.vx;
-            node.y += node.vy;
+        // Update and draw particles
+        this.particles.forEach(particle => {
+            // Move particle
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
 
-            // Bounce off walls with some randomness
-            if (node.x <= 0 || node.x >= this.canvas.width) {
-                node.vx *= -1;
-                node.x = Math.max(0, Math.min(this.canvas.width, node.x));
-            }
-            if (node.y <= 0 || node.y >= this.canvas.height) {
-                node.vy *= -1;
-                node.y = Math.max(0, Math.min(this.canvas.height, node.y));
-            }
+            // Bounce off walls
+            if (particle.x <= 0 || particle.x >= this.canvas.width) particle.speedX *= -1;
+            if (particle.y <= 0 || particle.y >= this.canvas.height) particle.speedY *= -1;
 
-            // Draw node
+            // Draw particle
             this.ctx.beginPath();
-            this.ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = '#4A90E2';
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = particle.color;
             this.ctx.fill();
 
-            // Connect nodes near mouse
-            const distToMouse = Math.sqrt(
-                Math.pow(node.x - this.mouse.x, 2) +
-                Math.pow(node.y - this.mouse.y, 2)
-            );
+            // Draw connections to nearby particles
+            this.particles.forEach(other => {
+                if (particle === other) return;
 
-            if (distToMouse < 150) {
-                this.ctx.beginPath();
-                this.ctx.moveTo(node.x, node.y);
-                this.ctx.lineTo(this.mouse.x, this.mouse.y);
-                this.ctx.strokeStyle = `rgba(74, 144, 226, ${0.7 - distToMouse/200})`;
-                this.ctx.lineWidth = 0.8;
-                this.ctx.stroke();
-            }
+                const dx = particle.x - other.x;
+                const dy = particle.y - other.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
 
-            // Connect nearby nodes to each other
-            this.nodes.forEach(other => {
-                if (node === other) return;
-
-                const nodeDist = Math.sqrt(
-                    Math.pow(node.x - other.x, 2) +
-                    Math.pow(node.y - other.y, 2)
-                );
-
-                if (nodeDist < 80) {
+                if (distance < 100) {
                     this.ctx.beginPath();
-                    this.ctx.moveTo(node.x, node.y);
+                    this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(other.x, other.y);
-                    this.ctx.strokeStyle = `rgba(100, 100, 200, ${0.15 - nodeDist/500})`;
-                    this.ctx.lineWidth = 0.4;
+                    this.ctx.strokeStyle = `rgba(100, 150, 255, ${0.2 - distance/500})`;
+                    this.ctx.lineWidth = 0.5;
                     this.ctx.stroke();
                 }
             });
+
+            // Connect to mouse
+            const dx = particle.x - this.mouse.x;
+            const dy = particle.y - this.mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < this.mouse.radius) {
+                this.ctx.beginPath();
+                this.ctx.moveTo(particle.x, particle.y);
+                this.ctx.lineTo(this.mouse.x, this.mouse.y);
+                this.ctx.strokeStyle = `rgba(255, 255, 255, ${0.3 - distance/this.mouse.radius})`;
+                this.ctx.lineWidth = 0.8;
+                this.ctx.stroke();
+            }
         });
 
-        this.animationId = requestAnimationFrame(() => this.animate());
-    }
-
-    // Cleanup method to stop animation
-    destroy() {
-        if (this.animationId) {
-            cancelAnimationFrame(this.animationId);
-        }
-        if (this.canvas && this.canvas.parentNode) {
-            this.canvas.parentNode.removeChild(this.canvas);
-        }
+        requestAnimationFrame(() => this.animate());
     }
 }
 
-// Initialize the background with error handling
-function initializeBackground() {
-    try {
-        // Check if we're on a capable device (avoid mobile for performance)
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-        if (!isMobile) {
-            window.dataNetwork = new DataNetworkBackground();
-            console.log('Data network background initialized');
-        }
-    } catch (error) {
-        console.warn('Could not initialize background network:', error);
-    }
-}
-
-// Initialize when DOM is ready
+// Initialize background
 document.addEventListener('DOMContentLoaded', function() {
-    // Small delay to ensure everything else is loaded
-    setTimeout(initializeBackground, 1000);
-});
+    console.log('DOM loaded, initializing background...');
 
-// Handle page visibility changes for performance
-document.addEventListener('visibilitychange', function() {
-    if (window.dataNetwork) {
-        if (document.hidden) {
-            // Page is hidden, stop animation
-            if (window.dataNetwork.animationId) {
-                cancelAnimationFrame(window.dataNetwork.animationId);
-                window.dataNetwork.animationId = null;
-            }
-        } else {
-            // Page is visible, restart animation
-            if (!window.dataNetwork.animationId) {
-                window.dataNetwork.animate();
-            }
+    setTimeout(() => {
+        try {
+            window.floatingParticles = new FloatingParticles();
+            console.log('Background successfully initialized!');
+        } catch (error) {
+            console.error('Failed to initialize background:', error);
         }
-    }
+    }, 500);
 });
-
 
