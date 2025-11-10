@@ -1,37 +1,29 @@
-[file name]: style.scss
-[file content begin]
 ---
 ---
 
 @import "{{ site.theme }}";
 
-// Modern Glass & Neon Color Theme
+// Clean Black & Green Color Theme
 :root {
-  --primary-glow: #00ff88;       // Electric green glow
-  --primary-shiny: #00d9ff;      // Cyan shine
-  --accent-neon: #ff0080;        // Pink neon
-  --accent-gold: #ffd700;        // Gold highlights
-  
-  // Glass theme colors
-  --glass-background: #0a0a0f;   // Deep space blue-black
-  --glass-surface: rgba(20, 20, 30, 0.8);
-  --glass-light: rgba(30, 30, 45, 0.6);
-  --glass-border: rgba(0, 255, 136, 0.3);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  
-  // Text colors
-  --text-glowing: #ffffff;
-  --text-dim: #b0b0ff;
-  --text-faded: #8888cc;
-  
-  // Glass effects
-  --glass-blur: blur(10px);
-  --glass-gradient: linear-gradient(135deg, 
-    rgba(0, 255, 136, 0.1), 
-    rgba(0, 217, 255, 0.1));
+  --primary-color: #10b981;      // Emerald green
+  --primary-dark: #059669;       // Dark green
+  --primary-light: #34d399;      // Light green
+  --secondary-color: #ffffff;    // White
+  --accent-color: #f59e0b;       // Amber for highlights
+
+  // Black theme colors
+  --background-color: #000000;   // Pure black
+  --surface-color: #0f0f0f;      // Near black
+  --surface-light: #1a1a1a;      // Dark gray
+  --text-primary: #ffffff;       // White
+  --text-secondary: #d1d5db;     // Light gray
+  --text-tertiary: #9ca3af;      // Medium gray
+  --border-color: #374151;       // Border gray
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
 }
 
-// Base styles with modern gradient background
+// Base styles
 html, body {
   height: 100%;
   margin: 0;
@@ -41,68 +33,55 @@ html, body {
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
-  color: var(--text-glowing);
-  background: linear-gradient(135deg, var(--glass-background) 0%, #151530 100%);
-  overflow: hidden;
+  color: var(--text-primary);
+  background: var(--background-color);
+  overflow: hidden; // Prevent body scrolling
 }
 
 .layout-wrapper {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  height: 100vh; // Use full viewport height
+  overflow: hidden; // Prevent wrapper scrolling
 }
 
-// Glass Sidebar with modern effects
+// Fixed Sidebar - Clean and minimal with proper height
 .fixed-sidebar {
-  width: 320px;
-  background: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  width: 300px;
+  background: var(--surface-color);
   color: white;
   position: fixed;
   left: 0;
   top: 0;
-  height: 100vh;
-  overflow: hidden;
+  height: 100vh; // Exactly viewport height
+  overflow: hidden; // Prevent sidebar scrolling
   z-index: 1000;
-  border-right: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  border-right: 1px solid var(--border-color);
 
   .sidebar-content {
     padding: 2rem;
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    background: var(--glass-gradient);
+    overflow: hidden; // Prevent content overflow
   }
 
   .sidebar-header {
     text-align: center;
     margin-bottom: 2rem;
-    flex-shrink: 0;
+    flex-shrink: 0; // Prevent header from shrinking
 
     .site-title {
       margin: 0 0 1rem 0;
-      font-size: 1.6rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
 
       a {
+        color: var(--text-primary);
         text-decoration: none;
-        background: inherit;
-        -webkit-background-clip: inherit;
-        -webkit-text-fill-color: inherit;
-        background-clip: inherit;
 
         &:hover {
-          background: linear-gradient(45deg, var(--accent-neon), var(--accent-gold));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: var(--primary-color);
         }
       }
     }
@@ -110,78 +89,68 @@ body {
     .site-description {
       margin: 0;
       font-size: 0.9rem;
-      color: var(--text-dim);
+      color: var(--text-secondary);
       line-height: 1.5;
     }
   }
 }
 
-// Avatar with glow effect
+// Avatar styling - Simple and clean
 .avatar-container {
   margin: 1rem 0 1.5rem 0;
   display: flex;
   justify-content: center;
-  flex-shrink: 0;
+  flex-shrink: 0; // Prevent avatar from shrinking
 }
 
 .avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 2px solid transparent;
-  background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny)) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  border: 2px solid var(--border-color);
   transition: all 0.3s ease;
   object-fit: cover;
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
 
   &:hover {
-    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
-    transform: scale(1.05);
+    border-color: var(--primary-color);
   }
 }
 
-// Social links with glass effect
+// Social links - Minimal
 .sidebar-header .social-links {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
   margin: 1.5rem 0 0 0;
-  flex-shrink: 0;
+  flex-shrink: 0; // Prevent social links from shrinking
 
   .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: var(--glass-light);
-    backdrop-filter: var(--glass-blur);
-    border-radius: 12px;
-    color: var(--text-dim);
+    width: 40px;
+    height: 40px;
+    background: var(--surface-light);
+    border-radius: 8px;
+    color: var(--text-secondary);
     text-decoration: none;
-    transition: all 0.3s ease;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-color);
 
     &:hover {
-      background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
+      background: var(--primary-color);
       color: white;
-      border-color: transparent;
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-      transform: translateY(-2px);
+      border-color: var(--primary-color);
     }
   }
 }
 
-// Glass Navigation with shiny active states
+// Sidebar Navigation - Clean with proper scrolling
 .sidebar-navigation {
-  flex: 1;
+  flex: 1; // Take available space
   margin: 2rem 0;
-  overflow-y: auto;
-  min-height: 0;
+  overflow-y: auto; // Allow navigation to scroll if needed
+  min-height: 0; // Important for flex child scrolling
 
   ul {
     list-style: none;
@@ -189,74 +158,41 @@ body {
     margin: 0;
 
     li {
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
     .nav-link {
       display: block;
-      padding: 1rem 1.5rem;
-      background: var(--glass-light);
-      backdrop-filter: var(--glass-blur);
-      color: var(--text-dim);
+      padding: 0.75rem 1rem;
+      background: var(--surface-light);
+      color: var(--text-secondary);
       text-decoration: none;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      transition: all 0.3s ease;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
       font-weight: 500;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 
       &:hover {
-        background: rgba(0, 255, 136, 0.1);
-        color: var(--text-glowing);
-        border-color: var(--primary-glow);
-        box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
       }
 
-      // SHINY GLASS ACTIVE STATE
+      // Active state styling
       &.active {
-        background: linear-gradient(135deg, 
-          rgba(0, 255, 136, 0.2), 
-          rgba(0, 217, 255, 0.2));
-        backdrop-filter: var(--glass-blur);
-        color: var(--text-glowing);
-        border: 1px solid rgba(0, 255, 136, 0.5);
-        box-shadow: 
-          0 0 30px rgba(0, 255, 136, 0.3),
-          inset 0 1px 1px rgba(255, 255, 255, 0.2);
-        position: relative;
-        overflow: hidden;
-
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, 
-            transparent, 
-            rgba(255, 255, 255, 0.4), 
-            transparent);
-          transition: left 0.5s ease;
-        }
-
-        &:hover::before {
-          left: 100%;
-        }
+        background: var(--primary-dark);
+        color: white;
+        border-color: var(--primary-dark);
       }
 
       &.resume-download {
-        background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
-        border: none;
-        color: var(--glass-background);
-        font-weight: 600;
-        box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
 
         &:hover {
-          background: linear-gradient(45deg, var(--accent-neon), var(--accent-gold));
-          box-shadow: 0 6px 25px rgba(255, 0, 128, 0.4);
-          transform: translateY(-2px);
+          background: var(--primary-dark);
         }
       }
     }
@@ -268,23 +204,23 @@ body {
   text-align: center;
   margin-top: auto;
   padding-top: 2rem;
-  border-top: 1px solid var(--glass-border);
-  color: var(--text-faded);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-tertiary);
   font-size: 0.8rem;
-  flex-shrink: 0;
+  flex-shrink: 0; // Prevent footer from shrinking
 
   p {
     margin: 0.25rem 0;
   }
 }
 
-// Main Content Area
+// Main Content - Only this should scroll
 .scrollable-content {
   flex: 1;
-  margin-left: 320px;
-  height: 100vh;
-  overflow-y: auto;
-  background: transparent;
+  margin-left: 300px;
+  height: 100vh; // Full viewport height
+  overflow-y: auto; // Enable scrolling only for main content
+  background: var(--background-color);
 }
 
 .content-wrapper {
@@ -292,67 +228,58 @@ body {
   margin: 0 auto;
   padding: 2rem;
 
-  // Modern typography
+  // Content styling
   h1, h2, h3, h4, h5, h6 {
-    color: var(--text-glowing);
+    color: var(--text-primary);
     margin-top: 2rem;
     margin-bottom: 1rem;
   }
 
   h1 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-color);
     padding-bottom: 0.5rem;
     margin-top: 0;
   }
 
   h2 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary-shiny);
-    text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+    color: var(--primary-color);
   }
 
   h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-glowing);
   }
 
   p {
     margin-bottom: 1rem;
-    color: var(--text-dim);
+    color: var(--text-secondary);
     line-height: 1.6;
   }
 
   strong {
-    color: var(--text-glowing);
+    color: var(--text-primary);
   }
 
   a {
-    color: var(--primary-shiny);
+    color: var(--primary-color);
     text-decoration: none;
-    transition: all 0.3s ease;
 
     &:hover {
-      color: var(--primary-glow);
-      text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+      text-decoration: underline;
     }
   }
 
   code {
-    background: var(--glass-light);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: 6px;
-    padding: 0.2rem 0.4rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.1rem 0.3rem;
     font-size: 0.9em;
-    color: var(--primary-glow);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: var(--primary-color);
   }
 
   // GitHub stats
@@ -365,36 +292,28 @@ body {
 
     img {
       margin: 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
     }
   }
 
   hr {
     margin: 2rem 0;
     border: none;
-    border-top: 1px solid var(--glass-border);
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+    border-top: 1px solid var(--border-color);
   }
 }
 
-// Glass Project Cards
+// Project Cards - Clean and professional
 .project-card {
-  background: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
-  margin: 2rem 0;
-  transition: all 0.3s ease;
-  box-shadow: var(--glass-shadow);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  transition: all 0.2s ease;
 
   &:hover {
-    border-color: var(--primary-glow);
-    box-shadow: 
-      0 8px 40px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba(0, 255, 136, 0.2);
-    transform: translateY(-5px);
+    border-color: var(--primary-color);
   }
 }
 
@@ -402,110 +321,85 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
 .project-title {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 
   a {
-    color: var(--text-glowing);
+    color: var(--text-primary);
     text-decoration: none;
-    background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 
     &:hover {
-      background: linear-gradient(45deg, var(--accent-neon), var(--accent-gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: none;
+      color: var(--primary-color);
+      text-decoration: none;
     }
   }
 }
 
 .project-links {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
 .project-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1rem;
-  background: var(--glass-light);
-  backdrop-filter: var(--glass-blur);
-  color: var(--text-dim);
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
 
   &:hover {
-    background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
-    color: var(--glass-background);
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
-    transform: translateY(-2px);
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
   }
 }
 
 .project-description {
-  color: var(--text-dim);
+  color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .tech-tag {
   display: inline-block;
-  padding: 0.4rem 0.8rem;
-  background: var(--glass-light);
-  backdrop-filter: var(--glass-blur);
-  color: var(--primary-shiny);
-  border-radius: 20px;
-  font-size: 0.8rem;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: rgba(0, 217, 255, 0.2);
-    border-color: var(--primary-shiny);
-    box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
-  }
+  padding: 0.25rem 0.6rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
 }
 
-// Glass Awards
+// Awards Styles
 .award-item {
-  background: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
-  margin: 2rem 0;
-  transition: all 0.3s ease;
-  box-shadow: var(--glass-shadow);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  transition: all 0.2s ease;
 
   &:hover {
-    border-color: var(--primary-glow);
-    box-shadow: 
-      0 8px 40px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba(0, 255, 136, 0.2);
+    border-color: var(--primary-color);
   }
 }
 
@@ -513,248 +407,205 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .award-date {
-  color: var(--primary-glow);
+  color: var(--primary-color);
   font-weight: 600;
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
 }
 
 .award-badge {
   display: inline-block;
-  padding: 0.4rem 1rem;
-  background: linear-gradient(45deg, var(--accent-gold), #ff6b00);
-  color: var(--glass-background);
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  padding: 0.25rem 0.6rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .award-content {
   strong {
     display: block;
-    margin-bottom: 0.75rem;
-    color: var(--text-glowing);
-    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
   }
 
   p {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 }
 
 .award-links {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .award-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  background: var(--glass-light);
-  backdrop-filter: var(--glass-blur);
-  color: var(--text-dim);
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
 
   &:hover {
-    background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
-    color: var(--glass-background);
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
-    transform: translateY(-2px);
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
   }
 }
 
-// Glass Publications
+// Publication Styles
 .publication-item {
-  background: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 2rem;
-  margin: 2rem 0;
-  transition: all 0.3s ease;
-  box-shadow: var(--glass-shadow);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  transition: all 0.2s ease;
 
   &:hover {
-    border-color: var(--primary-shiny);
-    box-shadow: 
-      0 8px 40px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba(0, 217, 255, 0.2);
+    border-color: var(--primary-color);
   }
 
   &.upcoming {
-    border-left: 4px solid var(--accent-gold);
-    box-shadow: 
-      0 8px 40px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba(255, 215, 0, 0.2);
+    border-left: 3px solid var(--accent-color);
   }
 }
 
 .publication-content {
   strong {
     display: block;
-    margin-bottom: 0.75rem;
-    color: var(--text-glowing);
-    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
   }
 }
 
 .publication-links {
   display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 0.75rem;
+  margin-top: 1rem;
   flex-wrap: wrap;
 }
 
 .publication-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  background: var(--glass-light);
-  backdrop-filter: var(--glass-blur);
-  color: var(--text-dim);
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
 
   &:hover {
-    background: linear-gradient(45deg, var(--primary-shiny), var(--primary-glow));
-    color: var(--glass-background);
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
-    transform: translateY(-2px);
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
   }
 }
 
 .publication-status {
   display: inline-block;
-  padding: 0.4rem 1rem;
-  background: linear-gradient(45deg, var(--accent-gold), #ff6b00);
-  color: var(--glass-background);
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-top: 0.75rem;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  padding: 0.25rem 0.6rem;
+  background: var(--accent-color);
+  color: #1f2937;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
 }
 
-// Glass Thesis Covers
+// Thesis Cover Styles
 .thesis-cover-container {
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: flex-start;
-  margin: 2.5rem 0;
-  padding: 2rem;
-  background: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  border-radius: 20px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: var(--primary-glow);
-    box-shadow: 
-      0 12px 50px rgba(0, 0, 0, 0.4),
-      0 0 25px rgba(0, 255, 136, 0.2);
-  }
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
 .thesis-cover-link {
   position: relative;
-  display: inline-block;
+  display: inline-block; /* Changed to inline-block */
   text-decoration: none;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: visible;
-  transition: all 0.4s ease;
-  border: 3px solid transparent;
-  background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny)) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 4px solid var(--primary-color);
+  background: var(--surface-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  /* Remove transform - we'll control image size directly */
 
   &:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 
-      0 20px 40px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(0, 255, 136, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    border-color: var(--primary-light);
 
     .thesis-overlay {
       opacity: 1;
-      transform: scale(1);
     }
   }
 }
 
 .thesis-cover-image {
-  width: 140px !important;
-  height: auto !important;
+  width: 120px !important; /* Force smaller width */
+  height: auto !important; /* Maintain aspect ratio */
   display: block;
-  border-radius: 8px;
+  border-radius: 4px;
   margin: 0;
 }
 
 .thesis-overlay {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  right: 3px;
-  bottom: 3px;
-  background: linear-gradient(45deg, rgba(0, 255, 136, 0.9), rgba(0, 217, 255, 0.9));
+  top: 4px; /* Account for border */
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  background: rgba(16, 185, 129, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transform: scale(0.9);
-  transition: all 0.4s ease;
-  border-radius: 8px;
+  transition: opacity 0.3s ease;
+  border-radius: 4px;
 }
 
 .thesis-view-text {
-  color: var(--glass-background);
-  font-weight: 700;
-  font-size: 1rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
   text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .thesis-info {
   flex: 1;
 
   h3 {
-    background: linear-gradient(45deg, var(--primary-glow), var(--primary-shiny));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary-color);
     margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
   }
 
   p {
-    color: var(--text-dim);
+    color: var(--text-secondary);
     line-height: 1.6;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -795,11 +646,11 @@ body {
     ul {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.5rem;
 
       li {
         flex: 1;
-        min-width: 140px;
+        min-width: 120px;
       }
     }
   }
@@ -814,12 +665,11 @@ body {
     flex-direction: column;
     text-align: center;
     align-items: center;
-    gap: 2rem;
-    padding: 1.5rem;
+    gap: 1.5rem;
   }
 
   .thesis-cover-image {
-    width: 120px !important;
+    width: 100px !important; /* Even smaller on mobile */
   }
 }
 
@@ -835,12 +685,5 @@ body {
   .sidebar-navigation ul {
     flex-direction: column;
   }
-
-  .project-card,
-  .award-item,
-  .publication-item {
-    padding: 1.5rem;
-  }
 }
-[file content end]
 
