@@ -35,64 +35,117 @@ body {
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--background-color);
-  /* No overflow hidden on body to allow mobile scrolling */
 }
 
 .layout-wrapper {
   display: flex;
-  height: 100vh; // Use full viewport height
-  overflow: hidden; // Prevent wrapper scrolling on desktop
+  height: 100vh;
+  overflow: hidden;
 }
 
-// Fixed Sidebar - Clean and minimal with proper height
+/* Mad Max / X Design - Dirty Black & White Sidebar */
 .fixed-sidebar {
   width: 300px;
-  background: var(--surface-color);
-  color: white;
+  background: #000000 !important;
+  border-right: 3px solid #333333;
   position: fixed;
   left: 0;
   top: 0;
-  height: 100vh; // Exactly viewport height
-  overflow: hidden; // Prevent sidebar scrolling
+  height: 100vh;
+  overflow-y: auto;
   z-index: 1000;
-  border-right: 1px solid var(--border-color);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
-  .sidebar-content {
-    padding: 2rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; // Prevent content overflow
-  }
+.fixed-sidebar::-webkit-scrollbar {
+  display: none;
+}
 
-  .sidebar-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    flex-shrink: 0; // Prevent header from shrinking
+/* Add gritty texture overlay */
+.fixed-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.03) 50%, transparent 51%);
+  background-size: 50px 50px, 30px 30px, 100px 100px;
+  pointer-events: none;
+  z-index: 1;
+}
 
-    .site-title {
-      margin: 0 0 1rem 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--text-primary);
+/* Add scan lines for cyberpunk feel */
+.fixed-sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.02) 2px,
+    rgba(255,255,255,0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
 
-      a {
-        color: var(--text-primary);
-        text-decoration: none;
+.fixed-sidebar .sidebar-content {
+  padding: 2rem;
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
 
-        &:hover {
-          color: var(--primary-color);
-        }
-      }
-    }
+.fixed-sidebar .sidebar-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  flex-shrink: 0;
+}
 
-    .site-description {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-  }
+/* Site title - bold and industrial */
+.fixed-sidebar .site-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px #333333;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 10px;
+}
+
+.fixed-sidebar .site-title a {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.fixed-sidebar .site-title a:hover {
+  color: #cccccc !important;
+  text-shadow: 3px 3px 0px #666666;
+}
+
+/* Site description - industrial feel */
+.fixed-sidebar .site-description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cccccc !important;
+  line-height: 1.5;
+  font-weight: 600;
+  font-style: italic;
+  text-shadow: 1px 1px 0px #000000;
 }
 
 // Avatar styling - Simple and clean
@@ -100,128 +153,128 @@ body {
   margin: 1rem 0 1.5rem 0;
   display: flex;
   justify-content: center;
-  flex-shrink: 0; // Prevent avatar from shrinking
+  flex-shrink: 0;
 }
 
 .avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 2px solid var(--border-color);
+  border: 3px solid #333333 !important;
   transition: all 0.3s ease;
   object-fit: cover;
-
-  &:hover {
-    border-color: var(--primary-color);
-  }
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  filter: grayscale(30%) contrast(110%);
 }
 
-// Social links - Minimal
+// Social links - Industrial design
 .sidebar-header .social-links {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
   margin: 1.5rem 0 0 0;
-  flex-shrink: 0; // Prevent social links from shrinking
-
-  .social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: var(--surface-light);
-    border-radius: 8px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border: 1px solid var(--border-color);
-
-    &:hover {
-      background: var(--primary-color);
-      color: white;
-      border-color: var(--primary-color);
-    }
-  }
+  flex-shrink: 0;
 }
 
-// Sidebar Navigation - Clean with proper scrolling
+.sidebar-header .social-links .social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #111111 !important;
+  border: 2px solid #333333 !important;
+  border-radius: 4px !important;
+  color: #ffffff !important;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sidebar-header .social-links .social-link:hover {
+  background: #333333 !important;
+  border-color: #666666 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+}
+
+// Sidebar Navigation - Industrial brutalist
 .sidebar-navigation {
-  flex: 1; // Take available space
+  flex: 1;
   margin: 2rem 0;
-  overflow-y: auto; // Allow navigation to scroll if needed
-  min-height: 0; // Important for flex child scrolling
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      margin-bottom: 0.5rem;
-    }
-
-    .nav-link {
-      display: block;
-      padding: 0.75rem 1rem;
-      background: var(--surface-light);
-      color: var(--text-secondary);
-      text-decoration: none;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      transition: all 0.2s ease;
-      font-weight: 500;
-      text-align: center;
-
-      &:hover {
-        background: var(--primary-color);
-        color: white;
-        border-color: var(--primary-color);
-      }
-
-      // Active state styling - more distinct
-      &.active {
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        color: white;
-        border-color: var(--primary-light);
-        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-        transform: translateY(-1px);
-      }
-
-      &.resume-download {
-        background: var(--primary-color);
-        border-color: var(--primary-color);
-        color: white;
-
-        &:hover {
-          background: var(--primary-dark);
-        }
-      }
-    }
-  }
+  overflow-y: auto;
+  min-height: 0;
 }
 
-// Sidebar footer
+.sidebar-navigation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-navigation li {
+  margin-bottom: 8px;
+}
+
+.sidebar-navigation .nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: #111111 !important;
+  border: 2px solid #333333 !important;
+  border-radius: 4px !important;
+  color: #ffffff !important;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.sidebar-navigation .nav-link:hover {
+  background: #333333 !important;
+  border-color: #666666 !important;
+  transform: translateX(5px);
+}
+
+.sidebar-navigation .nav-link.active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.sidebar-navigation .nav-link.resume-download {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.sidebar-navigation .nav-link.resume-download:hover {
+  background: #cccccc !important;
+}
+
+// Sidebar footer - industrial minimal
 .sidebar-footer {
   text-align: center;
   margin-top: auto;
   padding-top: 2rem;
-  border-top: 1px solid var(--border-color);
-  color: var(--text-tertiary);
+  border-top: 2px solid #333333;
+  color: #666666 !important;
   font-size: 0.8rem;
-  flex-shrink: 0; // Prevent footer from shrinking
+  flex-shrink: 0;
+  font-weight: 600;
+}
 
-  p {
-    margin: 0.25rem 0;
-  }
+.sidebar-footer p {
+  margin: 0.25rem 0;
 }
 
 // Main Content - Only this should scroll
 .scrollable-content {
   flex: 1;
   margin-left: 300px;
-  height: 100vh; // Full viewport height
-  overflow-y: auto; // Enable scrolling only for main content
+  height: 100vh;
+  overflow-y: auto;
   background: var(--background-color);
 }
 
@@ -608,7 +661,7 @@ body {
   }
 }
 
-// Responsive design - Fixed for mobile scrolling
+// Responsive design
 @media (max-width: 768px) {
   html, body {
     overflow: auto;
@@ -631,13 +684,13 @@ body {
     height: auto;
     overflow: visible;
     border-right: none;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 3px solid #333333;
+  }
 
-    .sidebar-content {
-      padding: 1.5rem;
-      height: auto;
-      overflow: visible;
-    }
+  .fixed-sidebar .sidebar-content {
+    padding: 1.5rem;
+    height: auto;
+    overflow: visible;
   }
 
   .scrollable-content {
@@ -720,170 +773,26 @@ body {
   }
 }
 
-
 @media (max-width: 768px) {
-    // ... existing mobile styles ...
+  .carousel-container {
+    overflow: hidden;
+  }
 
-    // Fix carousel container overflow
-    .carousel-container {
-        overflow: hidden;
-    }
-
-    // Ensure content wrapper doesn't cause horizontal scroll
-    .content-wrapper {
-        overflow: hidden;
-        width: 100%;
-    }
+  .content-wrapper {
+    overflow: hidden;
+    width: 100%;
+  }
 }
 
 // Prevent horizontal scroll on very small screens
 @media (max-width: 480px) {
-    html, body {
-        overflow-x: hidden;
-        position: relative;
-    }
+  html, body {
+    overflow-x: hidden;
+    position: relative;
+  }
 
-    .layout-wrapper {
-        overflow-x: hidden;
-    }
+  .layout-wrapper {
+    overflow-x: hidden;
+  }
 }
-
-
-
-
-/* Add to your style.scss file */
-
-/* Mad Max / X Design - Dirty Black & White Sidebar */
-.fixed-sidebar {
-  background: #000000 !important;
-  border-right: 3px solid #333333;
-  position: relative;
-}
-
-/* Add gritty texture overlay */
-.fixed-sidebar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 1px, transparent 1px),
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.03) 50%, transparent 51%);
-  background-size: 50px 50px, 30px 30px, 100px 100px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.fixed-sidebar .sidebar-content {
-  position: relative;
-  z-index: 2;
-}
-
-/* Site title - bold and industrial */
-.fixed-sidebar .site-title {
-  color: #ffffff !important;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 0px #333333;
-  border-bottom: 2px solid #ffffff;
-  padding-bottom: 10px;
-}
-
-.fixed-sidebar .site-title a {
-  color: #ffffff !important;
-  text-decoration: none;
-}
-
-.fixed-sidebar .site-title a:hover {
-  color: #cccccc !important;
-  text-shadow: 3px 3px 0px #666666;
-}
-
-/* Site description - industrial feel */
-.fixed-sidebar .site-description {
-  color: #cccccc !important;
-  font-weight: 600;
-  font-style: italic;
-  text-shadow: 1px 1px 0px #000000;
-}
-
-/* Avatar - gritty border */
-.fixed-sidebar .avatar {
-  border: 3px solid #333333 !important;
-  box-shadow: 0 0 10px rgba(255,255,255,0.1);
-  filter: grayscale(30%) contrast(110%);
-}
-
-/* Social links - industrial design */
-.fixed-sidebar .social-links .social-link {
-  background: #111111 !important;
-  border: 2px solid #333333 !important;
-  color: #ffffff !important;
-  border-radius: 4px !important;
-  transition: all 0.3s ease;
-}
-
-.fixed-sidebar .social-links .social-link:hover {
-  background: #333333 !important;
-  border-color: #666666 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255,255,255,0.1);
-}
-
-/* Navigation - industrial brutalist */
-.fixed-sidebar .sidebar-navigation .nav-link {
-  background: #111111 !important;
-  border: 2px solid #333333 !important;
-  color: #ffffff !important;
-  border-radius: 4px !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  margin-bottom: 8px;
-}
-
-.fixed-sidebar .sidebar-navigation .nav-link:hover {
-  background: #333333 !important;
-  border-color: #666666 !important;
-  transform: translateX(5px);
-}
-
-.fixed-sidebar .sidebar-navigation .nav-link.active {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-color: #ffffff !important;
-  box-shadow: 0 0 15px rgba(255,255,255,0.3);
-}
-
-/* Footer - industrial minimal */
-.fixed-sidebar .sidebar-footer {
-  border-top: 2px solid #333333;
-  color: #666666 !important;
-  font-weight: 600;
-}
-
-/* Add some subtle scan lines for that cyberpunk feel */
-.fixed-sidebar::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(255,255,255,0.02) 2px,
-    rgba(255,255,255,0.02) 4px
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
 
