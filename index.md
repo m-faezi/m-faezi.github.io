@@ -30,28 +30,16 @@ I am a Ph.D. candidate in Computer Science at the University of Groningen, speci
 ## 📈 GitHub Stats
 
 <div class="github-stats">
-  <div class="github-stat-item streak-stats">
+  <div class="github-stat-item">
     <img height="180" src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=dark&hide_border=true&background=000000&ring=f59e0b&fire=f59e0b&currStreakLabel=f59e0b&dates=9ca3af" />
-    <div class="github-stat-overlay">
-      <div class="stat-label">🔥 Current Streak</div>
-      <div class="stat-value">Daily Contributions</div>
-    </div>
   </div>
   
-  <div class="github-stat-item contribution-stats">
+  <div class="github-stat-item">
     <img height="180" src="https://github-readme-stats.vercel.app/api?username=m-faezi&show_icons=true&theme=dark&hide_border=true&count_private=true&bg_color=000000&title_color=f59e0b&icon_color=f59e0b&text_color=ffffff&ring_color=f59e0b" />
-    <div class="github-stat-overlay">
-      <div class="stat-label">📊 Total Stats</div>
-      <div class="stat-value">Stars • Forks • PRs</div>
-    </div>
   </div>
   
-  <div class="github-stat-item language-stats">
+  <div class="github-stat-item">
     <img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=m-faezi&theme=dark&hide_border=true&layout=compact&langs_count=6&bg_color=000000&title_color=f59e0b&text_color=ffffff" />
-    <div class="github-stat-overlay">
-      <div class="stat-label">💻 Top Languages</div>
-      <div class="stat-value">Most Used Tech</div>
-    </div>
   </div>
 </div>
 
