@@ -22,7 +22,7 @@ Technical and Vocational College, Tehran, Iran
 
 ---
 
-## 💼 Professional Experience
+## 🤖 Professional Experience
 
 **AI Researcher - Data Scientist** | *Sep 2020 - Present*
 Bernoulli Institute, University of Groningen, The Netherlands
@@ -46,11 +46,22 @@ SmartAge, Tehran, Iran
 
 ---
 
-## 🛠️ Technical Proficiency
+## 🚀 Highlights
 
-**Programming:** `Python` `C++` `C` `Rust` `Go`
-**ML & Frameworks:** `PyTorch` `TensorFlow` `OpenCV` `Scikit-learn`
-**Cloud & DevOps:** `Docker` `Kubernetes` `AWS/GCP` `CI/CD` `MLOps`
+*   **🤖 Machine Learning:** Advanced algorithms, computer vision, and deep neural networks.
+*   **⚡ Software Engineering:** Scalable services, microservices, API design, and event-driven architectures.
+*   **🔧 MLOps & DevOps:** CI/CD automation, Docker, Kubernetes, and cloud deployment (AWS/GCP).
+*   **🚀 High-Performance Computing:** Parallel processing and multi-threading.
+*   **📊 Large-Scale Data:** Pipeline automation for processing and analyzing massive datasets.
+
+---
+
+## 🛠️ Tech Stack
+
+**Languages:** `Python` | `C++` | `C` | `Go`  
+**ML & Data Science:** `PyTorch` | `TensorFlow` | `OpenCV` | `Scikit-learn`  
+**Cloud & DevOps:** `Docker` | `Kubernetes` | `AWS/GCP` | `CI/CD` | `MLOps`  
+**Systems & Databases:** `SQL` | `NoSQL` | `REST APIs` | `Microservices`  
 
 ---
 

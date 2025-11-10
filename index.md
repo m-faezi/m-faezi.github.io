@@ -4,25 +4,6 @@ Mohammad Faezi is a distinguished applied data scientist with a significant trac
 His research primarily focuses on Distributed and Decentralized systems, Machine Learning and Computer Vision.
 ---
 
-## 🚀 Highlights & Expertise
-
-*   **🤖 Machine Learning:** Advanced algorithm design, mathematical morphology, computer vision, and deep neural networks.
-*   **⚡ Software Engineering:** Scalable backend services, microservices, API design, and event-driven architectures.
-*   **🔧 MLOps & DevOps:** End-to-end CI/CD automation, Docker, Kubernetes, and cloud deployment (AWS/GCP).
-*   **🚀 High-Performance Computing:** Parallel processing and optimization in Python and C++.
-*   **📊 Large-Scale Data:** Building robust, automated pipelines for processing and analyzing massive datasets.
-
----
-
-## 🛠️ Tech Stack
-
-**Languages:** `Python` | `C++` | `C` | `Go`  
-**ML & Data Science:** `PyTorch` | `TensorFlow` | `OpenCV` | `Scikit-learn`  
-**Cloud & DevOps:** `Docker` | `Kubernetes` | `AWS/GCP` | `CI/CD` | `MLOps`  
-**Systems & Databases:** `SQL` | `NoSQL` | `REST APIs` | `Microservices`  
-
----
-
 ## 📈 GitHub Stats
 
 <div class="github-stats">
