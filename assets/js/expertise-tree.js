@@ -126,7 +126,7 @@ class ExpertiseTree {
         this.data = data;
         this.margin = {top: 20, right: 90, bottom: 30, left: 90};
         this.width = 928 - this.margin.left - this.margin.right;
-        this.height = 700 - this.margin.top - this.margin.bottom; // Adjusted height
+        this.height = 850 - this.margin.top - this.margin.bottom; // Increased height significantly
         this.i = 0;
         this.duration = 750;
 
