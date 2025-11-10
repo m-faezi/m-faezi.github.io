@@ -6,7 +6,7 @@ window.projectsData = [
         tech: ["Python", "PyTorch", "OpenCV", "Mathematical Morphology"],
         githubUrl: "https://github.com/m-faezi/MMTO",
         imageUrl: "https://opengraph.githubassets.com/1/m-faezi/MMTO",
-        language: "Python"
+        language: ["Python", "C++"]
     },
     {
         title: "MTO2",
@@ -30,6 +30,14 @@ window.projectsData = [
         tech: ["Python", "Statistical Modelling", "Data Simulation", "Astronomy"],
         githubUrl: "https://github.com/m-faezi/multi-spectral-sim",
         imageUrl: "https://opengraph.githubassets.com/1/m-faezi/multi-spectral-sim",
+        language: "Python"
+    },
+        {
+        title: "fireball",
+        description: "Web application with PostgreSQL integration, providing RESTful API development capabilities and testing.",
+        tech: ["Python", "Backend", "Databases", "REST API"],
+        githubUrl: "https://github.com/m-faezi/fireball",
+        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/fireball",
         language: "Python"
     }
 ];
