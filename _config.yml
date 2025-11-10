@@ -1,5 +1,6 @@
 # Minimal modern GitHub Pages theme
-title: "Mohammad Faezi"
+#title: "Mohammad Faezi"
+title: "<span class='first-name'>mohammad</span><span class='last-name'>FAEZI</span>"
 description: "AI Researcher & Software Engineer"
 url: "https://m-faezi.github.io"
 baseurl: "" # leave empty for username.github.io

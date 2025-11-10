@@ -114,17 +114,37 @@ body {
   flex-shrink: 0;
 }
 
-/* Site title - bold and industrial */
+/* Updated Site title - mohammad FAEZI styling */
 .fixed-sidebar .site-title {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
   font-weight: 900;
   color: #ffffff !important;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  text-transform: none; /* Remove uppercase */
+  letter-spacing: 1px;
   text-shadow: 2px 2px 0px #333333;
-  border-bottom: 2px solid #ffffff;
-  padding-bottom: 10px;
+  /* Remove the border-bottom line */
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+/* Style for first name (mohammad) */
+.fixed-sidebar .site-title .first-name {
+  text-transform: lowercase;
+  font-weight: 400;
+  font-size: 1.2rem;
+  display: block;
+  line-height: 1.2;
+}
+
+/* Style for last name (FAEZI) */
+.fixed-sidebar .site-title .last-name {
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 1.5rem;
+  display: block;
+  line-height: 1.2;
+  margin-top: 2px;
 }
 
 .fixed-sidebar .site-title a {
