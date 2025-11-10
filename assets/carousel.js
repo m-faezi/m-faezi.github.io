@@ -1,109 +1,4 @@
-class ProjectCarousel {
-    constructor(containerId) {
-        this.container = document.getElementById(containerId);
-        this.track = this.container.querySelector('.carousel-track');
-        this.slides = this.container.querySelectorAll('.carousel-slide');
-        this.dotsContainer = this.container.querySelector('.carousel-dots');
-        this.currentIndex = 0;
-        this.slideCount = this.slides.length;
-        this.autoSlideInterval = null;
-
-        this.init();
-    }
-
-    init() {
-        this.createDots();
-        this.startAutoSlide();
-        this.addEventListeners();
-    }
-
-    createDots() {
-        for (let i = 0; i < this.slideCount; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'carousel-dot';
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => this.goToSlide(i));
-            this.dotsContainer.appendChild(dot);
-        }
-    }
-
-    addEventListeners() {
-        // Pause auto-slide on hover
-        this.container.addEventListener('mouseenter', () => {
-            this.stopAutoSlide();
-        });
-
-        this.container.addEventListener('mouseleave', () => {
-            this.startAutoSlide();
-        });
-
-        // Touch events for mobile
-        let startX = 0;
-        let endX = 0;
-
-        this.track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            this.stopAutoSlide();
-        });
-
-        this.track.addEventListener('touchend', (e) => {
-            endX = e.changedTouches[0].clientX;
-            this.handleSwipe(startX, endX);
-            this.startAutoSlide();
-        });
-    }
-
-    handleSwipe(startX, endX) {
-        const diff = startX - endX;
-        if (Math.abs(diff) > 50) { // Minimum swipe distance
-            if (diff > 0) {
-                this.nextSlide();
-            } else {
-                this.prevSlide();
-            }
-        }
-    }
-
-    goToSlide(index) {
-        this.currentIndex = index;
-        this.updateCarousel();
-    }
-
-    nextSlide() {
-        this.currentIndex = (this.currentIndex + 1) % this.slideCount;
-        this.updateCarousel();
-    }
-
-    prevSlide() {
-        this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
-        this.updateCarousel();
-    }
-
-    updateCarousel() {
-        const translateX = -this.currentIndex * 320; // 300px + 20px gap
-        this.track.style.transform = `translateX(${translateX}px)`;
-
-        // Update dots
-        this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentIndex);
-        });
-    }
-
-    startAutoSlide() {
-        this.autoSlideInterval = setInterval(() => {
-            this.nextSlide();
-        }, 4000); // Change slide every 4 seconds
-    }
-
-    stopAutoSlide() {
-        if (this.autoSlideInterval) {
-            clearInterval(this.autoSlideInterval);
-            this.autoSlideInterval = null;
-        }
-    }
-}
-
-// Project data - you can customize this with your actual projects
+// Project data - updated with your actual projects
 const projectsData = [
     {
         title: "MMTO - Multi-spectral Morphological Tool",
@@ -142,11 +37,12 @@ const projectsData = [
 // Function to create project slides
 function createProjectSlides() {
     const track = document.querySelector('.carousel-track');
-
+    if (!track) return; // Exit if no carousel on this page
+    
     projectsData.forEach(project => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
-
+        
         slide.innerHTML = `
             <div class="project-thumbnail">
                 <span style="font-size: 3rem;">${project.icon}</span>
@@ -174,7 +70,7 @@ function createProjectSlides() {
                 </div>
             </div>
         `;
-
+        
         track.appendChild(slide);
     });
 }
@@ -182,8 +78,12 @@ function createProjectSlides() {
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     createProjectSlides();
-
-    // Initialize carousel
-    new ProjectCarousel('projectsCarousel');
+    
+    // Initialize carousel only if it exists on the page
+    const carouselContainer = document.getElementById('projectsCarousel');
+    if (carouselContainer) {
+        new ProjectCarousel('projectsCarousel');
+    }
 });
+
 
