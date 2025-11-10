@@ -748,3 +748,142 @@ body {
     }
 }
 
+
+
+
+/* Add to your style.scss file */
+
+/* Mad Max / X Design - Dirty Black & White Sidebar */
+.fixed-sidebar {
+  background: #000000 !important;
+  border-right: 3px solid #333333;
+  position: relative;
+}
+
+/* Add gritty texture overlay */
+.fixed-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.03) 50%, transparent 51%);
+  background-size: 50px 50px, 30px 30px, 100px 100px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fixed-sidebar .sidebar-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Site title - bold and industrial */
+.fixed-sidebar .site-title {
+  color: #ffffff !important;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px #333333;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 10px;
+}
+
+.fixed-sidebar .site-title a {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.fixed-sidebar .site-title a:hover {
+  color: #cccccc !important;
+  text-shadow: 3px 3px 0px #666666;
+}
+
+/* Site description - industrial feel */
+.fixed-sidebar .site-description {
+  color: #cccccc !important;
+  font-weight: 600;
+  font-style: italic;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+/* Avatar - gritty border */
+.fixed-sidebar .avatar {
+  border: 3px solid #333333 !important;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  filter: grayscale(30%) contrast(110%);
+}
+
+/* Social links - industrial design */
+.fixed-sidebar .social-links .social-link {
+  background: #111111 !important;
+  border: 2px solid #333333 !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+  transition: all 0.3s ease;
+}
+
+.fixed-sidebar .social-links .social-link:hover {
+  background: #333333 !important;
+  border-color: #666666 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+}
+
+/* Navigation - industrial brutalist */
+.fixed-sidebar .sidebar-navigation .nav-link {
+  background: #111111 !important;
+  border: 2px solid #333333 !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  margin-bottom: 8px;
+}
+
+.fixed-sidebar .sidebar-navigation .nav-link:hover {
+  background: #333333 !important;
+  border-color: #666666 !important;
+  transform: translateX(5px);
+}
+
+.fixed-sidebar .sidebar-navigation .nav-link.active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+/* Footer - industrial minimal */
+.fixed-sidebar .sidebar-footer {
+  border-top: 2px solid #333333;
+  color: #666666 !important;
+  font-weight: 600;
+}
+
+/* Add some subtle scan lines for that cyberpunk feel */
+.fixed-sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.02) 2px,
+    rgba(255,255,255,0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+
