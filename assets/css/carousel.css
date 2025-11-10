@@ -5,7 +5,6 @@
     margin: 2rem 0;
     overflow: hidden;
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-track {
@@ -20,9 +19,9 @@
     background: var(--surface-color);
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .carousel-slide:hover {
@@ -33,62 +32,72 @@
 
 .project-thumbnail {
     width: 100%;
-    height: 180px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 160px;
     position: relative;
     overflow: hidden;
+    background: var(--surface-light);
 }
 
-.project-thumbnail::before {
-    content: '';
+.github-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.carousel-slide:hover .github-preview {
+    transform: scale(1.05);
+}
+
+.project-language {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.1);
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
 }
 
 .project-info {
-    padding: 1.5rem;
+    padding: 1.25rem;
 }
 
 .project-info h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
     color: var(--text-primary);
+    font-weight: 600;
 }
 
 .project-info p {
     margin: 0 0 1rem 0;
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    line-height: 1.5;
 }
 
 .project-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
     margin-bottom: 1rem;
 }
 
 .tech-tag {
     background: var(--surface-light);
     color: var(--text-secondary);
-    padding: 0.25rem 0.75rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: 0.75rem;
     border: 1px solid var(--border-color);
 }
 
 .project-links {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .project-link {
@@ -100,9 +109,11 @@
     color: var(--text-secondary);
     text-decoration: none;
     border-radius: 6px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: all 0.3s ease;
     border: 1px solid var(--border-color);
+    flex: 1;
+    justify-content: center;
 }
 
 .project-link:hover {
@@ -115,8 +126,8 @@
 .carousel-dots {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
 }
 
 .carousel-dot {
@@ -143,7 +154,6 @@
     animation: autoSlide 30s linear infinite;
 }
 
-/* Pause on hover */
 .carousel-container:hover .carousel-track.auto-slide {
     animation-play-state: paused;
 }
@@ -159,8 +169,8 @@
         padding: 1rem;
     }
 
-    .project-links {
-        flex-direction: column;
+    .project-thumbnail {
+        height: 140px;
     }
 }
 
