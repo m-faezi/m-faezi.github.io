@@ -8,6 +8,7 @@
     overflow: auto;
     min-height: 400px;
     position: relative;
+    width: 100%;
 }
 
 /* Show loading state */
@@ -22,6 +23,16 @@
 }
 
 /* D3.js Tree Styling */
+#expertiseTree {
+    width: 100%;
+    height: 100%;
+}
+
+#expertiseTree svg {
+    width: 100%;
+    height: 100%;
+}
+
 .node {
     cursor: pointer;
     transition: all 0.3s ease;
@@ -47,21 +58,10 @@
     font-weight: 500;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     transition: all 0.3s ease;
+    pointer-events: none;
 }
 
 .node:hover text {
-    fill: var(--primary-light);
-    font-weight: 600;
-}
-
-/* Active/selected node */
-.node.active circle {
-    fill: var(--primary-color);
-    stroke: var(--primary-light);
-    r: 7;
-}
-
-.node.active text {
     fill: var(--primary-light);
     font-weight: 600;
 }
@@ -75,110 +75,16 @@
     transition: all 0.3s ease;
 }
 
-.link:hover {
-    stroke: var(--primary-color);
-    stroke-width: 2px;
-    opacity: 1;
-}
-
-/* Tree container responsive behavior */
+/* Responsive design */
 @media (max-width: 768px) {
     .expertise-tree-container {
         padding: 1rem;
         margin: 1.5rem 0;
         min-height: 300px;
-        border-radius: 8px;
     }
 
     .node text {
         font-size: 10px;
-    }
-
-    .node circle {
-        r: 4;
-        stroke-width: 1.5px;
-    }
-
-    .node:hover circle {
-        r: 5;
-    }
-
-    .link {
-        stroke-width: 1px;
-    }
-}
-
-@media (max-width: 480px) {
-    .expertise-tree-container {
-        padding: 0.75rem;
-        margin: 1rem 0;
-        min-height: 250px;
-    }
-
-    .node text {
-        font-size: 9px;
-    }
-
-    .node circle {
-        r: 3.5;
-    }
-
-    .node:hover circle {
-        r: 4.5;
-    }
-}
-
-/* Animation for tree updates */
-.node,
-.link {
-    transition: all 0.5s ease;
-}
-
-/* Focus states for accessibility */
-.node:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-/* Custom scrollbar for tree container */
-.expertise-tree-container::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.expertise-tree-container::-webkit-scrollbar-track {
-    background: var(--surface-light);
-    border-radius: 4px;
-}
-
-.expertise-tree-container::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 4px;
-}
-
-.expertise-tree-container::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
-}
-
-/* Print styles */
-@media print {
-    .expertise-tree-container {
-        border: 1px solid #ccc;
-        background: white;
-    }
-
-    .node text {
-        fill: black;
-        text-shadow: none;
-    }
-
-    .node circle {
-        stroke: black;
-        fill: white;
-    }
-
-    .link {
-        stroke: #666;
     }
 }
 
