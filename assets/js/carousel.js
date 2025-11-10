@@ -405,10 +405,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
 // Interactive data points that connect on hover
 class DataNetworkBackground {
     constructor() {
+        this.canvas = null;
+        this.ctx = null;
+        this.nodes = [];
+        this.mouse = { x: 0, y: 0 };
+        this.animationId = null;
+        this.init();
+    }
+
+    init() {
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.setupCanvas());
+        } else {
+            this.setupCanvas();
+        }
+    }
+
+    setupCanvas() {
+        // Create canvas element
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.canvas.style.cssText = `
@@ -419,47 +437,75 @@ class DataNetworkBackground {
             height: 100%;
             z-index: -1;
             opacity: 0.1;
+            pointer-events: none;
         `;
-        document.body.prepend(this.canvas);
 
-        this.nodes = [];
-        this.mouse = { x: 0, y: 0 };
-        this.init();
+        // Insert at the beginning of body
+        document.body.insertBefore(this.canvas, document.body.firstChild);
+
+        this.resize();
+        this.setupEventListeners();
+        this.createNodes();
+        this.animate();
     }
 
-    init() {
-        this.resize();
+    setupEventListeners() {
         window.addEventListener('resize', () => this.resize());
         window.addEventListener('mousemove', (e) => {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
         });
+    }
 
-        // Create data nodes
-        for (let i = 0; i < 50; i++) {
+    createNodes() {
+        // Clear existing nodes
+        this.nodes = [];
+
+        // Create data nodes - fewer nodes for better performance
+        for (let i = 0; i < 30; i++) {
             this.nodes.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                radius: Math.random() * 3 + 1,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5
+                radius: Math.random() * 2 + 1,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                connections: []
             });
         }
+    }
 
-        this.animate();
+    resize() {
+        if (!this.canvas) return;
+
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+
+        // Recreate nodes when resizing
+        this.createNodes();
     }
 
     animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        if (!this.ctx || !this.canvas) return;
+
+        // Clear with slight fade effect for trails
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Update and draw nodes
         this.nodes.forEach(node => {
+            // Update position
             node.x += node.vx;
             node.y += node.vy;
 
-            // Bounce
-            if (node.x <= 0 || node.x >= this.canvas.width) node.vx *= -1;
-            if (node.y <= 0 || node.y >= this.canvas.height) node.vy *= -1;
+            // Bounce off walls with some randomness
+            if (node.x <= 0 || node.x >= this.canvas.width) {
+                node.vx *= -1;
+                node.x = Math.max(0, Math.min(this.canvas.width, node.x));
+            }
+            if (node.y <= 0 || node.y >= this.canvas.height) {
+                node.vy *= -1;
+                node.y = Math.max(0, Math.min(this.canvas.height, node.y));
+            }
 
             // Draw node
             this.ctx.beginPath();
@@ -468,46 +514,91 @@ class DataNetworkBackground {
             this.ctx.fill();
 
             // Connect nodes near mouse
-            const dist = Math.sqrt(
+            const distToMouse = Math.sqrt(
                 Math.pow(node.x - this.mouse.x, 2) +
                 Math.pow(node.y - this.mouse.y, 2)
             );
 
-            if (dist < 150) {
+            if (distToMouse < 150) {
                 this.ctx.beginPath();
                 this.ctx.moveTo(node.x, node.y);
                 this.ctx.lineTo(this.mouse.x, this.mouse.y);
-                this.ctx.strokeStyle = `rgba(74, 144, 226, ${1 - dist/150})`;
-                this.ctx.lineWidth = 0.5;
+                this.ctx.strokeStyle = `rgba(74, 144, 226, ${0.7 - distToMouse/200})`;
+                this.ctx.lineWidth = 0.8;
                 this.ctx.stroke();
             }
 
-            // Connect nearby nodes
+            // Connect nearby nodes to each other
             this.nodes.forEach(other => {
+                if (node === other) return;
+
                 const nodeDist = Math.sqrt(
                     Math.pow(node.x - other.x, 2) +
                     Math.pow(node.y - other.y, 2)
                 );
 
-                if (nodeDist < 100 && node !== other) {
+                if (nodeDist < 80) {
                     this.ctx.beginPath();
                     this.ctx.moveTo(node.x, node.y);
                     this.ctx.lineTo(other.x, other.y);
-                    this.ctx.strokeStyle = `rgba(100, 100, 200, ${0.2 - nodeDist/500})`;
-                    this.ctx.lineWidth = 0.3;
+                    this.ctx.strokeStyle = `rgba(100, 100, 200, ${0.15 - nodeDist/500})`;
+                    this.ctx.lineWidth = 0.4;
                     this.ctx.stroke();
                 }
             });
         });
 
-        requestAnimationFrame(() => this.animate());
+        this.animationId = requestAnimationFrame(() => this.animate());
     }
 
-    resize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+    // Cleanup method to stop animation
+    destroy() {
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
+        if (this.canvas && this.canvas.parentNode) {
+            this.canvas.parentNode.removeChild(this.canvas);
+        }
     }
 }
 
-new DataNetworkBackground();
+// Initialize the background with error handling
+function initializeBackground() {
+    try {
+        // Check if we're on a capable device (avoid mobile for performance)
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (!isMobile) {
+            window.dataNetwork = new DataNetworkBackground();
+            console.log('Data network background initialized');
+        }
+    } catch (error) {
+        console.warn('Could not initialize background network:', error);
+    }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure everything else is loaded
+    setTimeout(initializeBackground, 1000);
+});
+
+// Handle page visibility changes for performance
+document.addEventListener('visibilitychange', function() {
+    if (window.dataNetwork) {
+        if (document.hidden) {
+            // Page is hidden, stop animation
+            if (window.dataNetwork.animationId) {
+                cancelAnimationFrame(window.dataNetwork.animationId);
+                window.dataNetwork.animationId = null;
+            }
+        } else {
+            // Page is visible, restart animation
+            if (!window.dataNetwork.animationId) {
+                window.dataNetwork.animate();
+            }
+        }
+    }
+});
+
 
