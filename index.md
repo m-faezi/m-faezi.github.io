@@ -1,11 +1,7 @@
-# Hi, I'm Mohammad Faezi 👋🏽
+# Welcome to my blog!
 
-**AI Researcher & Software Engineer** | Bridging advanced machine learning with scalable, real-world systems.
-
-<!-- Add your actual Google Scholar profile ID to the link above -->
-
-I am a Ph.D. candidate in Computer Science at the University of Groningen, specializing in Intelligent Systems. My passion lies in developing novel machine learning algorithms and deploying them as high-performance, scalable software solutions. I thrive on solving complex problems at the intersection of AI, large-scale data processing, and decentralized systems.
-
+Mohammad Faezi is a distinguished applied data scientist with a significant track record in system design and machine learning algorithm development. He holds a PhD in Computer Science from the [Bernoulli Institute](https://www.rug.nl/research/bernoulli/?lang=en) of Mathematics, Computer Science and Artificial Intelligence at the [University of Groningen](https://www.rug.nl).
+His research primarily focuses on Distributed and Decentralized systems, Machine Learning and Computer Vision.
 ---
 
 ## 🚀 Highlights & Expertise
