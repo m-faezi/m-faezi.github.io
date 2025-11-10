@@ -10,7 +10,6 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     <div class="carousel-dots"></div>
 </div>
 
----
 
 ## 📈 GitHub Stats
 
