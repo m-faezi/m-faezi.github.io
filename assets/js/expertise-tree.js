@@ -486,3 +486,154 @@ function initializeExpertiseTree() {
 }
 
 
+// Add this after the ExpertiseTree class in expertise-tree.js
+class InteractiveBackground {
+    constructor() {
+        this.canvas = null;
+        this.ctx = null;
+        this.particles = [];
+        this.mouse = { x: 0, y: 0, radius: 100 };
+        this.init();
+    }
+
+    init() {
+        // Create canvas for background
+        this.canvas = document.createElement('canvas');
+        this.canvas.id = 'interactiveBackground';
+        this.canvas.style.position = 'fixed';
+        this.canvas.style.top = '0';
+        this.canvas.style.left = '0';
+        this.canvas.style.width = '100%';
+        this.canvas.style.height = '100%';
+        this.canvas.style.pointerEvents = 'none';
+        this.canvas.style.zIndex = '-1';
+        this.canvas.style.opacity = '0.4';
+        document.body.appendChild(this.canvas);
+
+        this.ctx = this.canvas.getContext('2d');
+        this.resize();
+        this.createParticles();
+        this.animate();
+
+        // Mouse move interaction
+        document.addEventListener('mousemove', (e) => {
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
+        });
+
+        window.addEventListener('resize', () => this.resize());
+    }
+
+    resize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+        this.createParticles();
+    }
+
+    createParticles() {
+        this.particles = [];
+        const particleCount = Math.min(80, Math.floor((this.width * this.height) / 15000));
+
+        for (let i = 0; i < particleCount; i++) {
+            this.particles.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                size: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+                color: `hsl(${Math.random() * 60 + 150}, 70%, 60%)` // Green-blue colors
+            });
+        }
+    }
+
+    animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        // Update and draw particles
+        this.particles.forEach(particle => {
+            // Mouse interaction
+            const dx = this.mouse.x - particle.x;
+            const dy = this.mouse.y - particle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < this.mouse.radius) {
+                const angle = Math.atan2(dy, dx);
+                const force = (this.mouse.radius - distance) / this.mouse.radius;
+                particle.x -= Math.cos(angle) * force * 2;
+                particle.y -= Math.sin(angle) * force * 2;
+            }
+
+            // Move particles
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+
+            // Bounce off walls
+            if (particle.x <= 0 || particle.x >= this.width) particle.speedX *= -1;
+            if (particle.y <= 0 || particle.y >= this.height) particle.speedY *= -1;
+
+            // Draw particle
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = particle.color;
+            this.ctx.fill();
+        });
+
+        // Draw connections between nearby particles
+        this.ctx.strokeStyle = 'rgba(16, 185, 129, 0.2)';
+        this.ctx.lineWidth = 0.8;
+
+        for (let i = 0; i < this.particles.length; i++) {
+            for (let j = i + 1; j < this.particles.length; j++) {
+                const dx = this.particles[i].x - this.particles[j].x;
+                const dy = this.particles[i].y - this.particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 120) {
+                    this.ctx.globalAlpha = 1 - (distance / 120);
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                    this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                    this.ctx.stroke();
+                }
+            }
+        }
+
+        this.ctx.globalAlpha = 1;
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Add this CSS for better visibility - add to your style.scss
+const addBackgroundStyles = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        #interactiveBackground {
+            background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+        }
+
+        /* Ensure content stays above background */
+        .layout-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        .fixed-sidebar {
+            background: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(10px);
+        }
+    `;
+    document.head.appendChild(style);
+};
+
+// Initialize background when DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+    addBackgroundStyles();
+
+    // Start background after a short delay
+    setTimeout(() => {
+        new InteractiveBackground();
+    }, 100);
+});
+
