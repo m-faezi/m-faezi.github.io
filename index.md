@@ -3,6 +3,14 @@
 Mohammad Faezi is a distinguished applied data scientist with a significant track record in system design and machine learning algorithm development. He holds a PhD in Computer Science from the [Bernoulli Institute](https://www.rug.nl/research/bernoulli/?lang=en) of Mathematics, Computer Science and Artificial Intelligence at the [University of Groningen](https://www.rug.nl).
 His research primarily focuses on Distributed and Decentralized systems, Machine Learning and Computer Vision.
 ---
+## Featured Projects
+
+<div id="projectsCarousel" class="carousel-container">
+    <div class="carousel-track"></div>
+    <div class="carousel-dots"></div>
+</div>
+
+
 
 ## 📈 GitHub Stats
 
