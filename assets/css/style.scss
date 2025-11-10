@@ -720,3 +720,31 @@ body {
   }
 }
 
+
+@media (max-width: 768px) {
+    // ... existing mobile styles ...
+
+    // Fix carousel container overflow
+    .carousel-container {
+        overflow: hidden;
+    }
+
+    // Ensure content wrapper doesn't cause horizontal scroll
+    .content-wrapper {
+        overflow: hidden;
+        width: 100%;
+    }
+}
+
+// Prevent horizontal scroll on very small screens
+@media (max-width: 480px) {
+    html, body {
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .layout-wrapper {
+        overflow-x: hidden;
+    }
+}
+

@@ -21,19 +21,11 @@ class ProjectCarousel {
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
-        this.slideDirection = config.slideDirection || 'right'; // 'right' or 'left'
-        this.carouselType = config.carouselType || 'projects'; // 'projects' or 'publications'
+        this.slideDirection = config.slideDirection || 'right';
+        this.carouselType = config.carouselType || 'projects';
 
-        // Initialize immediately if we have the data
-        if ((this.carouselType === 'projects' && window.projectsData) ||
-            (this.carouselType === 'publications' && window.publicationsData)) {
-            this.initCarousel();
-        } else {
-            // Wait for data to be loaded
-            setTimeout(() => {
-                this.initCarousel();
-            }, 100);
-        }
+        // Initialize
+        setTimeout(() => this.initCarousel(), 100);
     }
 
     initCarousel() {
@@ -135,10 +127,13 @@ class ProjectCarousel {
     init() {
         console.log('Initializing carousel with', this.slideCount, 'slides');
         this.createDots();
-        this.startAutoSlide();
         this.addEventListeners();
-        this.addTouchEventListeners();
         this.updateCarousel();
+
+        // Only start auto-slide if more than one slide
+        if (this.slideCount > 1) {
+            this.startAutoSlide();
+        }
     }
 
     createDots() {
@@ -160,16 +155,17 @@ class ProjectCarousel {
     }
 
     addEventListeners() {
-        this.container.addEventListener('mouseenter', () => {
-            this.stopAutoSlide();
-        });
+        // Only add mouse events for desktop
+        if (!this.isTouchDevice()) {
+            this.container.addEventListener('mouseenter', () => {
+                this.stopAutoSlide();
+            });
 
-        this.container.addEventListener('mouseleave', () => {
-            this.startAutoSlide();
-        });
-    }
+            this.container.addEventListener('mouseleave', () => {
+                this.startAutoSlide();
+            });
+        }
 
-    addTouchEventListeners() {
         // Touch events for mobile
         this.container.addEventListener('touchstart', (e) => {
             this.handleTouchStart(e);
@@ -183,23 +179,14 @@ class ProjectCarousel {
             this.handleTouchEnd(e);
         });
 
-        // Mouse drag events for desktop touch devices
-        this.container.addEventListener('mousedown', (e) => {
-            this.handleMouseDown(e);
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            this.handleMouseMove(e);
-        });
-
-        document.addEventListener('mouseup', (e) => {
-            this.handleMouseUp(e);
-        });
-
         // Prevent image drag
         this.container.addEventListener('dragstart', (e) => {
             e.preventDefault();
         });
+    }
+
+    isTouchDevice() {
+        return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     }
 
     handleTouchStart(e) {
@@ -207,7 +194,6 @@ class ProjectCarousel {
         this.touchStartX = e.touches[0].clientX;
         this.isDragging = true;
         this.track.style.transition = 'none';
-        e.preventDefault();
     }
 
     handleTouchMove(e) {
@@ -245,58 +231,16 @@ class ProjectCarousel {
         }, 3000);
     }
 
-    handleMouseDown(e) {
-        this.stopAutoSlide();
-        this.isDragging = true;
-        this.dragStartX = e.clientX;
-        this.track.style.transition = 'none';
-        this.track.style.cursor = 'grabbing';
-        e.preventDefault();
-    }
+    getSlideWidth() {
+        if (this.slides.length === 0) return 300;
 
-    handleMouseMove(e) {
-        if (!this.isDragging) return;
-
-        this.dragCurrentX = e.clientX;
-        const diff = this.dragStartX - this.dragCurrentX;
-        const translateX = -this.currentIndex * this.getSlideWidth() - diff;
-        this.track.style.transform = `translateX(${translateX}px)`;
-    }
-
-    handleMouseUp(e) {
-        if (!this.isDragging) return;
-
-        this.isDragging = false;
-        this.track.style.transition = 'transform 0.3s ease-in-out';
-        this.track.style.cursor = 'grab';
-
-        const diff = this.dragStartX - this.dragCurrentX;
-
-        if (Math.abs(diff) > this.minSwipeDistance) {
-            if (diff > 0) {
-                // Drag left - next slide
-                this.nextSlide();
-            } else {
-                // Drag right - previous slide
-                this.previousSlide();
-            }
-        } else {
-            // Not enough movement, return to current slide
-            this.updateCarousel();
+        // Use container width for mobile, slide width for desktop
+        if (window.innerWidth <= 768) {
+            return this.container.offsetWidth - 40; // Account for padding
         }
 
-        setTimeout(() => {
-            this.startAutoSlide();
-        }, 3000);
-    }
-
-    getSlideWidth() {
-        if (this.slides.length === 0) return 320;
         const slide = this.slides[0];
-        const style = window.getComputedStyle(slide);
-        const width = slide.offsetWidth;
-        const margin = parseInt(style.marginLeft) + parseInt(style.marginRight);
-        return width + margin + 20; // Include gap
+        return slide.offsetWidth + 20; // Include gap
     }
 
     goToSlide(index) {
@@ -355,98 +299,40 @@ class ProjectCarousel {
     }
 }
 
-// Make data globally available
+// Data remains the same...
 window.projectsData = [
-    {
-        title: "MMTO",
-        description: "Multi-spectral Morphological Tool for astronomical image analysis with advanced source detection.",
-        tech: ["Python", "PyTorch", "OpenCV", "Mathematical Morphology"],
-        githubUrl: "https://github.com/m-faezi/MMTO",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/MMTO",
-        language: "Python"
-    },
-    {
-        title: "MTO2",
-        description: "Max-Tree based source detection and parameter extraction for astronomical image processing.",
-        tech: ["Python", "PyTorch", "OpenCV", "Max-Tree"],
-        githubUrl: "https://github.com/m-faezi/MTO2",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/MTO2",
-        language: "Python"
-    },
-    {
-        title: "DEGAN",
-        description: "Decentralized Generative Adversarial Networks for distributed AI training without central coordination.",
-        tech: ["TensorFlow", "Decentralized AI", "GANs", "Distributed Systems"],
-        githubUrl: "https://github.com/m-faezi/DEGAN",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/DEGAN",
-        language: "Python"
-    },
-    {
-        title: "Multi-spectral Simulator",
-        description: "Astronomical image simulator for validating source segmentation algorithms with synthetic data.",
-        tech: ["Python", "Statistical Modelling", "Data Simulation", "Astronomy"],
-        githubUrl: "https://github.com/m-faezi/multi-spectral-sim",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/multi-spectral-sim",
-        language: "Python"
-    }
+    // ... your existing projects data
 ];
 
 window.publicationsData = [
-    {
-        title: "Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees",
-        authors: "Faezi, M. H., Peletier, R., & Wilkinson, M. H. F.",
-        journal: "IEEE Access, 12, 72288–72302",
-        year: "2024",
-        description: "Novel approach for multi-spectral astronomical image segmentation using semantically-informed max-tree algorithms for precise source detection and analysis.",
-        links: [
-            { url: "https://ieeexplore.ieee.org/document/10535192", text: "📖 Read Paper" },
-            { url: "https://github.com/m-faezi/MMTO", text: "📊 Code" }
-        ],
-        tags: ["Computer Vision", "Mathematical Morphology", "Astronomical Imaging"]
-    },
-    {
-        title: "DEGAN: Decentralized Generative Adversarial Networks",
-        authors: "Faezi, M. H., Bijani, S., & Dolati, A.",
-        journal: "Neurocomputing, 419, 335–343",
-        year: "2021",
-        description: "Innovative decentralized GAN architecture enabling distributed AI training without central coordination across multiple nodes.",
-        links: [
-            { url: "https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522", text: "📖 Read Paper" },
-            { url: "https://github.com/m-faezi/DEGAN", text: "📊 Code" }
-        ],
-        tags: ["Decentralized AI", "GANs", "Distributed Systems"]
-    }
+    // ... your existing publications data
 ];
 
-// Initialize everything when DOM is loaded
+// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing carousels...');
 
-    // Initialize carousels with different configurations
     setTimeout(() => {
         const projectsCarousel = document.getElementById('projectsCarousel');
         if (projectsCarousel) {
             console.log('Found projects carousel, initializing...');
             new ProjectCarousel('projectsCarousel', {
-                autoSlideDelay: 4000, // 4 seconds
-                slideDirection: 'right', // Slides move to the right
+                autoSlideDelay: 4000,
+                slideDirection: 'right',
                 carouselType: 'projects'
             });
-        } else {
-            console.error('Projects carousel container not found');
         }
 
         const publicationsCarousel = document.getElementById('publicationsCarousel');
         if (publicationsCarousel) {
             console.log('Found publications carousel, initializing...');
             new ProjectCarousel('publicationsCarousel', {
-                autoSlideDelay: 5000, // 5 seconds (different timing)
-                slideDirection: 'left', // Slides move to the left (opposite direction)
+                autoSlideDelay: 5000,
+                slideDirection: 'left',
                 carouselType: 'publications'
             });
-        } else {
-            console.error('Publications carousel container not found');
         }
     }, 200);
 });
+
 
