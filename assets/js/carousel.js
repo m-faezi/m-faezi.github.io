@@ -402,3 +402,112 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 200);
 });
 
+
+
+
+
+// Interactive data points that connect on hover
+class DataNetworkBackground {
+    constructor() {
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.canvas.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        `;
+        document.body.prepend(this.canvas);
+
+        this.nodes = [];
+        this.mouse = { x: 0, y: 0 };
+        this.init();
+    }
+
+    init() {
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        window.addEventListener('mousemove', (e) => {
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
+        });
+
+        // Create data nodes
+        for (let i = 0; i < 50; i++) {
+            this.nodes.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                radius: Math.random() * 3 + 1,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        this.animate();
+    }
+
+    animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Update and draw nodes
+        this.nodes.forEach(node => {
+            node.x += node.vx;
+            node.y += node.vy;
+
+            // Bounce
+            if (node.x <= 0 || node.x >= this.canvas.width) node.vx *= -1;
+            if (node.y <= 0 || node.y >= this.canvas.height) node.vy *= -1;
+
+            // Draw node
+            this.ctx.beginPath();
+            this.ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+            this.ctx.fillStyle = '#4A90E2';
+            this.ctx.fill();
+
+            // Connect nodes near mouse
+            const dist = Math.sqrt(
+                Math.pow(node.x - this.mouse.x, 2) +
+                Math.pow(node.y - this.mouse.y, 2)
+            );
+
+            if (dist < 150) {
+                this.ctx.beginPath();
+                this.ctx.moveTo(node.x, node.y);
+                this.ctx.lineTo(this.mouse.x, this.mouse.y);
+                this.ctx.strokeStyle = `rgba(74, 144, 226, ${1 - dist/150})`;
+                this.ctx.lineWidth = 0.5;
+                this.ctx.stroke();
+            }
+
+            // Connect nearby nodes
+            this.nodes.forEach(other => {
+                const nodeDist = Math.sqrt(
+                    Math.pow(node.x - other.x, 2) +
+                    Math.pow(node.y - other.y, 2)
+                );
+
+                if (nodeDist < 100 && node !== other) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(node.x, node.y);
+                    this.ctx.lineTo(other.x, other.y);
+                    this.ctx.strokeStyle = `rgba(100, 100, 200, ${0.2 - nodeDist/500})`;
+                    this.ctx.lineWidth = 0.3;
+                    this.ctx.stroke();
+                }
+            });
+        });
+
+        requestAnimationFrame(() => this.animate());
+    }
+
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+}
+
+new DataNetworkBackground();
+
