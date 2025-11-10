@@ -155,8 +155,8 @@ class ExpertiseTree {
         this.root.x0 = this.height / 2;
         this.root.y0 = 0;
 
-        // Collapse all nodes initially except root
-        this.root.children.forEach(this.collapse);
+        // Collapse all nodes initially except root - FIXED: Use arrow function to preserve 'this'
+        this.root.children.forEach(d => this.collapse(d));
 
         this.update(this.root);
         console.log('Expertise tree initialized successfully');
@@ -165,7 +165,7 @@ class ExpertiseTree {
     collapse(d) {
         if (d.children) {
             d._children = d.children;
-            d._children.forEach(this.collapse);
+            d._children.forEach(child => this.collapse(child)); // FIXED: Use arrow function
             d.children = null;
         }
     }
@@ -196,7 +196,7 @@ class ExpertiseTree {
         // Add circles for nodes
         nodeEnter.append("circle")
             .attr("r", 1e-6)
-            .style("fill", d => d._children ? "var(--primary-color)" : "#fff");
+            .style("fill", d => d._children ? "#10b981" : "#fff");
 
         // Add labels
         nodeEnter.append("text")
@@ -204,9 +204,10 @@ class ExpertiseTree {
             .attr("x", d => d.children || d._children ? -13 : 13)
             .attr("text-anchor", d => d.children || d._children ? "end" : "start")
             .text(d => d.data.name)
-            .style("fill", "var(--text-primary)")
+            .style("fill", "#ffffff")
             .style("font-size", "12px")
-            .style("font-family", "Inter, sans-serif");
+            .style("font-family", "Inter, sans-serif")
+            .style("font-weight", "600");
 
         // Update nodes transition
         const nodeUpdate = node.merge(nodeEnter).transition()
@@ -215,8 +216,8 @@ class ExpertiseTree {
 
         nodeUpdate.select("circle")
             .attr("r", 6)
-            .style("fill", d => d._children ? "var(--primary-color)" : "#fff")
-            .style("stroke", "var(--primary-color)")
+            .style("fill", d => d._children ? "#10b981" : "#fff")
+            .style("stroke", "#10b981")
             .style("stroke-width", "2px");
 
         // Remove exiting nodes
@@ -240,7 +241,7 @@ class ExpertiseTree {
                 return this.diagonal(o, o);
             })
             .style("fill", "none")
-            .style("stroke", "var(--border-color)")
+            .style("stroke", "#6b7280")
             .style("stroke-width", "1.5px");
 
         // Update links transition
@@ -317,7 +318,7 @@ function initializeExpertiseTree() {
         console.log('Expertise tree initialized successfully!');
     } catch (error) {
         console.error('Error initializing expertise tree:', error);
-        treeContainer.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
+        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
     }
 }
 
@@ -330,9 +331,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Second attempt after longer delay
     setTimeout(initializeExpertiseTree, 1000);
-
-    // Third attempt when window fully loads
-    window.addEventListener('load', initializeExpertiseTree);
 });
 
 // Fallback: manual initialization after 3 seconds
@@ -343,5 +341,4 @@ setTimeout(function() {
         initializeExpertiseTree();
     }
 }, 3000);
-
 
