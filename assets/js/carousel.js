@@ -7,6 +7,11 @@ class ProjectCarousel {
         this.currentIndex = 0;
         this.slideCount = this.slides.length;
         this.autoSlideInterval = null;
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+        this.isDragging = false;
+        this.dragStartX = 0;
+        this.dragCurrentX = 0;
 
         this.init();
     }
@@ -15,6 +20,7 @@ class ProjectCarousel {
         this.createDots();
         this.startAutoSlide();
         this.addEventListeners();
+        this.addTouchEventListeners();
     }
 
     createDots() {
@@ -43,6 +49,132 @@ class ProjectCarousel {
         });
     }
 
+    addTouchEventListeners() {
+        // Touch events for mobile
+        this.track.addEventListener('touchstart', (e) => {
+            this.handleTouchStart(e);
+        }, { passive: true });
+
+        this.track.addEventListener('touchmove', (e) => {
+            this.handleTouchMove(e);
+        }, { passive: true });
+
+        this.track.addEventListener('touchend', (e) => {
+            this.handleTouchEnd(e);
+        });
+
+        // Mouse drag events for desktop touch devices
+        this.track.addEventListener('mousedown', (e) => {
+            this.handleMouseDown(e);
+        });
+
+        this.track.addEventListener('mousemove', (e) => {
+            this.handleMouseMove(e);
+        });
+
+        this.track.addEventListener('mouseup', (e) => {
+            this.handleMouseUp(e);
+        });
+
+        this.track.addEventListener('mouseleave', (e) => {
+            this.handleMouseUp(e);
+        });
+
+        // Prevent image drag
+        this.track.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+    }
+
+    handleTouchStart(e) {
+        this.stopAutoSlide();
+        this.touchStartX = e.touches[0].clientX;
+        this.isDragging = true;
+        this.track.style.transition = 'none';
+    }
+
+    handleTouchMove(e) {
+        if (!this.isDragging) return;
+
+        this.touchEndX = e.touches[0].clientX;
+        const diff = this.touchStartX - this.touchEndX;
+        const translateX = -this.currentIndex * this.getSlideWidth() - diff;
+        this.track.style.transform = `translateX(${translateX}px)`;
+    }
+
+    handleTouchEnd(e) {
+        if (!this.isDragging) return;
+
+        this.isDragging = false;
+        this.track.style.transition = 'transform 0.5s ease-in-out';
+
+        const diff = this.touchStartX - this.touchEndX;
+        const threshold = 50; // Minimum swipe distance
+
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0) {
+                // Swipe left - next slide
+                this.nextSlide();
+            } else {
+                // Swipe right - previous slide
+                this.previousSlide();
+            }
+        } else {
+            // Not enough movement, return to current slide
+            this.updateCarousel();
+        }
+
+        this.startAutoSlide();
+    }
+
+    handleMouseDown(e) {
+        this.stopAutoSlide();
+        this.isDragging = true;
+        this.dragStartX = e.clientX;
+        this.track.style.transition = 'none';
+        this.track.style.cursor = 'grabbing';
+    }
+
+    handleMouseMove(e) {
+        if (!this.isDragging) return;
+
+        this.dragCurrentX = e.clientX;
+        const diff = this.dragStartX - this.dragCurrentX;
+        const translateX = -this.currentIndex * this.getSlideWidth() - diff;
+        this.track.style.transform = `translateX(${translateX}px)`;
+    }
+
+    handleMouseUp(e) {
+        if (!this.isDragging) return;
+
+        this.isDragging = false;
+        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.cursor = 'grab';
+
+        const diff = this.dragStartX - this.dragCurrentX;
+        const threshold = 50; // Minimum drag distance
+
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0) {
+                // Drag left - next slide
+                this.nextSlide();
+            } else {
+                // Drag right - previous slide
+                this.previousSlide();
+            }
+        } else {
+            // Not enough movement, return to current slide
+            this.updateCarousel();
+        }
+
+        this.startAutoSlide();
+    }
+
+    getSlideWidth() {
+        if (this.slides.length === 0) return 320; // Default fallback
+        return this.slides[0].offsetWidth + 20; // Include gap
+    }
+
     goToSlide(index) {
         this.currentIndex = index;
         this.updateCarousel();
@@ -53,8 +185,13 @@ class ProjectCarousel {
         this.updateCarousel();
     }
 
+    previousSlide() {
+        this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
+        this.updateCarousel();
+    }
+
     updateCarousel() {
-        const translateX = -this.currentIndex * 320;
+        const translateX = -this.currentIndex * this.getSlideWidth();
         this.track.style.transform = `translateX(${translateX}px)`;
 
         this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
@@ -158,5 +295,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
 });
+
 
 
