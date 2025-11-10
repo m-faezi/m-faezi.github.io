@@ -1,5 +1,5 @@
 class ProjectCarousel {
-    constructor(containerId) {
+    constructor(containerId, config = {}) {
         this.container = document.getElementById(containerId);
         if (!this.container) {
             console.error('Carousel container not found:', containerId);
@@ -19,6 +19,10 @@ class ProjectCarousel {
         this.dragCurrentX = 0;
         this.minSwipeDistance = 50;
 
+        // Configuration
+        this.autoSlideDelay = config.autoSlideDelay || 4000;
+        this.slideDirection = config.slideDirection || 'right'; // 'right' or 'left'
+
         // Wait for slides to be created
         setTimeout(() => {
             this.slides = this.container.querySelectorAll('.carousel-slide');
@@ -27,7 +31,7 @@ class ProjectCarousel {
             if (this.slideCount > 0) {
                 this.init();
             } else {
-                console.warn('No carousel slides found');
+                console.warn('No carousel slides found for:', containerId);
             }
         }, 100);
     }
@@ -208,12 +212,20 @@ class ProjectCarousel {
     }
 
     nextSlide() {
-        this.currentIndex = (this.currentIndex + 1) % this.slideCount;
+        if (this.slideDirection === 'left') {
+            this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
+        } else {
+            this.currentIndex = (this.currentIndex + 1) % this.slideCount;
+        }
         this.updateCarousel();
     }
 
     previousSlide() {
-        this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
+        if (this.slideDirection === 'left') {
+            this.currentIndex = (this.currentIndex + 1) % this.slideCount;
+        } else {
+            this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
+        }
         this.updateCarousel();
     }
 
@@ -235,7 +247,7 @@ class ProjectCarousel {
         if (this.slideCount > 1) {
             this.autoSlideInterval = setInterval(() => {
                 this.nextSlide();
-            }, 4000);
+            }, this.autoSlideDelay);
         }
     }
 
@@ -283,10 +295,38 @@ const projectsData = [
     }
 ];
 
+// Publications data
+const publicationsData = [
+    {
+        title: "Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees",
+        authors: "Faezi, M. H., Peletier, R., & Wilkinson, M. H. F.",
+        journal: "IEEE Access, 12, 72288–72302",
+        year: "2024",
+        description: "Novel approach for multi-spectral astronomical image segmentation using semantically-informed max-tree algorithms for precise source detection and analysis.",
+        links: [
+            { url: "https://ieeexplore.ieee.org/document/10535192", text: "📖 Read Paper" },
+            { url: "https://github.com/m-faezi/MMTO", text: "📊 Code" }
+        ],
+        tags: ["Computer Vision", "Mathematical Morphology", "Astronomical Imaging"]
+    },
+    {
+        title: "DEGAN: Decentralized Generative Adversarial Networks",
+        authors: "Faezi, M. H., Bijani, S., & Dolati, A.",
+        journal: "Neurocomputing, 419, 335–343",
+        year: "2021",
+        description: "Innovative decentralized GAN architecture enabling distributed AI training without central coordination across multiple nodes.",
+        links: [
+            { url: "https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522", text: "📖 Read Paper" },
+            { url: "https://github.com/m-faezi/DEGAN", text: "📊 Code" }
+        ],
+        tags: ["Decentralized AI", "GANs", "Distributed Systems"]
+    }
+];
+
 function createProjectSlides() {
-    const track = document.querySelector('.carousel-track');
+    const track = document.querySelector('#projectsCarousel .carousel-track');
     if (!track) {
-        console.error('Carousel track not found');
+        console.error('Projects carousel track not found');
         return;
     }
 
@@ -294,7 +334,7 @@ function createProjectSlides() {
 
     projectsData.forEach(project => {
         const slide = document.createElement('div');
-        slide.className = 'carousel-slide';
+        slide.className = 'carousel-slide project-slide';
 
         slide.innerHTML = `
             <div class="project-thumbnail">
@@ -322,21 +362,74 @@ function createProjectSlides() {
     });
 }
 
+function createPublicationSlides() {
+    const track = document.querySelector('#publicationsCarousel .carousel-track');
+    if (!track) {
+        console.error('Publications carousel track not found');
+        return;
+    }
+
+    track.innerHTML = '';
+
+    publicationsData.forEach(publication => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide publication-slide';
+
+        slide.innerHTML = `
+            <div class="publication-header">
+                <div class="publication-badge">Journal Paper</div>
+                <div class="publication-year">${publication.year}</div>
+            </div>
+            <div class="publication-content">
+                <h3>${publication.title}</h3>
+                <p class="publication-authors">${publication.authors}</p>
+                <p class="publication-journal"><em>${publication.journal}</em></p>
+                <p class="publication-description">${publication.description}</p>
+                <div class="publication-tags">
+                    ${publication.tags.map(tag => `<span class="publication-tag">${tag}</span>`).join('')}
+                </div>
+                <div class="publication-links">
+                    ${publication.links.map(link =>
+                        `<a href="${link.url}" class="publication-link" target="_blank" rel="noopener">${link.text}</a>`
+                    ).join('')}
+                </div>
+            </div>
+        `;
+
+        track.appendChild(slide);
+    });
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing carousel...');
+    console.log('DOM loaded, initializing carousels...');
 
     // Create slides first
     createProjectSlides();
+    createPublicationSlides();
 
-    // Then initialize carousel with a slight delay to ensure DOM is updated
+    // Then initialize carousels with different configurations
     setTimeout(() => {
-        const carouselContainer = document.getElementById('projectsCarousel');
-        if (carouselContainer) {
-            console.log('Found carousel container, initializing...');
-            new ProjectCarousel('projectsCarousel');
+        const projectsCarousel = document.getElementById('projectsCarousel');
+        if (projectsCarousel) {
+            console.log('Found projects carousel, initializing...');
+            new ProjectCarousel('projectsCarousel', {
+                autoSlideDelay: 4000, // 4 seconds
+                slideDirection: 'right' // Slides move to the right
+            });
         } else {
-            console.error('Carousel container not found');
+            console.error('Projects carousel container not found');
+        }
+
+        const publicationsCarousel = document.getElementById('publicationsCarousel');
+        if (publicationsCarousel) {
+            console.log('Found publications carousel, initializing...');
+            new ProjectCarousel('publicationsCarousel', {
+                autoSlideDelay: 5000, // 5 seconds (different timing)
+                slideDirection: 'left' // Slides move to the left (opposite direction)
+            });
+        } else {
+            console.error('Publications carousel container not found');
         }
     }, 200);
 });
