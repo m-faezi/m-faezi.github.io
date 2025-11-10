@@ -119,13 +119,14 @@ window.expertiseData = {
     ]
 };
 
+
 class ExpertiseTree {
     constructor(containerId, data) {
         this.container = document.getElementById(containerId);
         this.data = data;
         this.margin = {top: 20, right: 90, bottom: 30, left: 90};
         this.width = 928 - this.margin.left - this.margin.right;
-        this.height = 800 - this.margin.top - this.margin.bottom; // Increased height for full tree
+        this.height = 700 - this.margin.top - this.margin.bottom; // Adjusted height
         this.i = 0;
         this.duration = 750;
 
@@ -133,6 +134,7 @@ class ExpertiseTree {
             this.init();
         }
     }
+
 
     init() {
         console.log('Initializing expertise tree...');
