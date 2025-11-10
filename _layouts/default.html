@@ -99,6 +99,14 @@
     <!-- Load JavaScript files in correct order -->
     <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
+
+    <!-- Debug script -->
+    <script>
+    console.log('Scripts loaded - checking dependencies:');
+    console.log('D3.js:', typeof d3 !== 'undefined' ? 'Loaded' : 'Missing');
+    console.log('ExpertiseData:', window.expertiseData ? 'Loaded' : 'Missing');
+    console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
+    </script>
   </body>
 </html>
 

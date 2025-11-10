@@ -134,6 +134,8 @@ class ExpertiseTree {
     }
 
     init() {
+        console.log('Initializing expertise tree...');
+
         // Remove any existing SVG
         d3.select(this.container).select("svg").remove();
 
@@ -157,6 +159,7 @@ class ExpertiseTree {
         this.root.children.forEach(this.collapse);
 
         this.update(this.root);
+        console.log('Expertise tree initialized successfully');
     }
 
     collapse(d) {
@@ -280,18 +283,65 @@ class ExpertiseTree {
     }
 }
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing expertise tree...');
+// Enhanced initialization with multiple fallbacks
+function initializeExpertiseTree() {
+    console.log('Attempting to initialize expertise tree...');
 
-    setTimeout(() => {
-        const treeContainer = document.getElementById('expertiseTree');
-        if (treeContainer && window.expertiseData) {
-            console.log('Found expertise tree container, initializing...');
-            new ExpertiseTree('expertiseTree', window.expertiseData);
-        } else {
-            console.log('Expertise tree container not found or data missing');
-        }
-    }, 100);
+    const treeContainer = document.getElementById('expertiseTree');
+    if (!treeContainer) {
+        console.error('Expertise tree container not found');
+        return;
+    }
+
+    if (!window.expertiseData) {
+        console.error('Expertise data not found');
+        return;
+    }
+
+    if (typeof d3 === 'undefined') {
+        console.error('D3.js not loaded');
+        return;
+    }
+
+    if (typeof ExpertiseTree === 'undefined') {
+        console.error('ExpertiseTree class not defined');
+        return;
+    }
+
+    try {
+        // Clear container
+        treeContainer.innerHTML = '';
+
+        // Initialize tree
+        new ExpertiseTree('expertiseTree', window.expertiseData);
+        console.log('Expertise tree initialized successfully!');
+    } catch (error) {
+        console.error('Error initializing expertise tree:', error);
+        treeContainer.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
+    }
+}
+
+// Multiple initialization attempts
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded - starting expertise tree initialization');
+
+    // First attempt after short delay
+    setTimeout(initializeExpertiseTree, 100);
+
+    // Second attempt after longer delay
+    setTimeout(initializeExpertiseTree, 1000);
+
+    // Third attempt when window fully loads
+    window.addEventListener('load', initializeExpertiseTree);
 });
+
+// Fallback: manual initialization after 3 seconds
+setTimeout(function() {
+    const treeContainer = document.getElementById('expertiseTree');
+    if (treeContainer && treeContainer.innerHTML.trim() === '' && window.expertiseData && typeof ExpertiseTree !== 'undefined') {
+        console.log('Fallback initialization after 3 seconds');
+        initializeExpertiseTree();
+    }
+}, 3000);
+
 
