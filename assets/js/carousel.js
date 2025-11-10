@@ -23,6 +23,7 @@ class ProjectCarousel {
         this.autoSlideDelay = config.autoSlideDelay || 4000;
         this.slideDirection = config.slideDirection || 'right'; // 'right' or 'left'
         this.carouselType = config.carouselType || 'projects'; // 'projects' or 'publications'
+        this.fullWidth = config.fullWidth || false; // Full width slides for publications
 
         // Initialize immediately if we have the data
         if ((this.carouselType === 'projects' && window.projectsData) ||
@@ -108,11 +109,21 @@ class ProjectCarousel {
             slide.className = 'carousel-slide publication-slide';
 
             slide.innerHTML = `
-                <div class="publication-header">
-                    <div class="publication-badge">Journal Paper</div>
-                    <div class="publication-year">${publication.year}</div>
+                <div class="publication-visual">
+                    <div class="paper-thumbnail">
+                        <div class="paper-cover">
+                            <div class="paper-title">${publication.title.split(' ').slice(0, 3).join(' ')}</div>
+                            <div class="paper-authors-short">${publication.authors.split(',')[0].split(' ')[0]} et al.</div>
+                            <div class="paper-journal-short">${publication.journal.split(',')[0]}</div>
+                            <div class="paper-year">${publication.year}</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="publication-content">
+                    <div class="publication-header">
+                        <div class="publication-badge">Journal Paper</div>
+                        <div class="publication-year">${publication.year}</div>
+                    </div>
                     <h3>${publication.title}</h3>
                     <p class="publication-authors">${publication.authors}</p>
                     <p class="publication-journal"><em>${publication.journal}</em></p>
@@ -296,7 +307,7 @@ class ProjectCarousel {
         const style = window.getComputedStyle(slide);
         const width = slide.offsetWidth;
         const margin = parseInt(style.marginLeft) + parseInt(style.marginRight);
-        return width + margin + 20; // Include gap
+        return width + margin + (this.fullWidth ? 0 : 20); // Include gap only for non-fullwidth
     }
 
     goToSlide(index) {
@@ -430,7 +441,8 @@ document.addEventListener('DOMContentLoaded', function() {
             new ProjectCarousel('projectsCarousel', {
                 autoSlideDelay: 4000, // 4 seconds
                 slideDirection: 'right', // Slides move to the right
-                carouselType: 'projects'
+                carouselType: 'projects',
+                fullWidth: false
             });
         } else {
             console.error('Projects carousel container not found');
@@ -442,11 +454,13 @@ document.addEventListener('DOMContentLoaded', function() {
             new ProjectCarousel('publicationsCarousel', {
                 autoSlideDelay: 5000, // 5 seconds (different timing)
                 slideDirection: 'left', // Slides move to the left (opposite direction)
-                carouselType: 'publications'
+                carouselType: 'publications',
+                fullWidth: true
             });
         } else {
             console.error('Publications carousel container not found');
         }
     }, 200);
 });
+
 
