@@ -144,14 +144,14 @@
     transform: scale(1.2);
 }
 
-/* Auto-slide animation */
+/* Auto-slide animation - Updated for endless effect */
 @keyframes autoSlide {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-320px * 3)); }
+    100% { transform: translateX(calc(-320px * 4)); } /* Matches 4 projects */
 }
 
 .carousel-track.auto-slide {
-    animation: autoSlide 30s linear infinite;
+    animation: autoSlide 20s linear infinite; /* Adjusted timing for better loop */
 }
 
 .carousel-container:hover .carousel-track.auto-slide {
@@ -171,6 +171,12 @@
 
     .project-thumbnail {
         height: 140px;
+    }
+
+    /* Adjust animation for mobile */
+    @keyframes autoSlide {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-300px * 4)); } /* Adjusted for mobile slide width */
     }
 }
 
