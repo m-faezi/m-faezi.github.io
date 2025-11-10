@@ -118,13 +118,9 @@ function createProjectSlides() {
 
     track.innerHTML = '';
 
-    // Create duplicate slides for seamless looping
-    const allSlides = [...projectsData, ...projectsData, ...projectsData];
-
-    allSlides.forEach((project, index) => {
+    projectsData.forEach(project => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
-        slide.setAttribute('data-slide-index', index % projectsData.length);
 
         slide.innerHTML = `
             <div class="project-thumbnail">
@@ -162,4 +158,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
 });
+
 
