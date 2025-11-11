@@ -33,7 +33,7 @@ class DataNetworkBackground {
             width: 100vw !important;
             height: 100vh !important;
             z-index: -1 !important;
-            opacity: 0.15;
+            opacity: 0.2; // Increased opacity for brighter effect
             pointer-events: none !important;
             background: transparent !important;
         `;
@@ -81,7 +81,7 @@ class DataNetworkBackground {
                 size: Math.random() * 2 + 1,
                 speedX: (Math.random() - 0.5) * 0.3,
                 speedY: (Math.random() - 0.5) * 0.3,
-                color: '#10b981'
+                color: '#34d399' // Brighter green - was #10b981
             });
         }
         console.log('Created', count, 'particles');
@@ -90,8 +90,8 @@ class DataNetworkBackground {
     animate() {
         if (!this.ctx || !this.canvas) return;
 
-        // Clear with very subtle fade for trails - DON'T clear to black
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.02)'; // This creates the fade effect
+        // Clear with very subtle fade for trails
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Update and draw particles
@@ -128,8 +128,8 @@ class DataNetworkBackground {
                     this.ctx.beginPath();
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(other.x, other.y);
-                    this.ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 - distance/800})`;
-                    this.ctx.lineWidth = 0.5;
+                    this.ctx.strokeStyle = `rgba(52, 211, 153, ${0.3 - distance/600})`; // Brighter and more visible
+                    this.ctx.lineWidth = 0.6; // Slightly thicker lines
                     this.ctx.stroke();
                 }
             });
@@ -143,8 +143,8 @@ class DataNetworkBackground {
                 this.ctx.beginPath();
                 this.ctx.moveTo(particle.x, particle.y);
                 this.ctx.lineTo(this.mouse.x, this.mouse.y);
-                this.ctx.strokeStyle = `rgba(34, 211, 238, ${0.2 - mouseDistance/250})`;
-                this.ctx.lineWidth = 0.8;
+                this.ctx.strokeStyle = `rgba(110, 231, 183, ${0.4 - mouseDistance/200})`; // Much brighter
+                this.ctx.lineWidth = 1.0; // Thicker mouse lines
                 this.ctx.stroke();
             }
         });
@@ -189,4 +189,5 @@ document.addEventListener('visibilitychange', function() {
         }
     }
 });
+
 
