@@ -614,19 +614,38 @@ body {
   }
 }
 
-// UPDATED: Publication Status - Smaller and more compact
+// UPDATED: Publication Status - Much smaller and subtle
 .publication-status {
   display: inline-block;
-  padding: 0.2rem 0.5rem; // Reduced padding
-  background: var(--accent-color);
-  color: #1f2937;
-  border-radius: 4px;
-  font-size: 0.7rem; // Smaller font size
+  padding: 0.1rem 0.4rem; // Even smaller padding
+  background: rgba(107, 114, 128, 0.2); // Subtle gray instead of orange
+  color: var(--text-secondary); // Muted text color
+  border-radius: 3px; // Smaller radius
+  font-size: 0.65rem; // Very small font size
   font-weight: 500;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  border: 1px solid rgba(107, 114, 128, 0.3); // Subtle border
 }
+
+// Mobile responsiveness for publication status
+@media (max-width: 768px) {
+  .publication-status {
+    padding: 0.08rem 0.3rem;
+    font-size: 0.6rem;
+    margin-top: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .publication-status {
+    padding: 0.06rem 0.25rem;
+    font-size: 0.55rem;
+    margin-top: 0.3rem;
+  }
+}
+
 
 // Thesis Section Styles
 .thesis-section {
