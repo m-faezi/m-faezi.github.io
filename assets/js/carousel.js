@@ -32,7 +32,7 @@ window.projectsData = [
         imageUrl: "https://opengraph.githubassets.com/1/m-faezi/multi-spectral-sim",
         language: "Python"
     },
-        {
+    {
         title: "fireball",
         description: "Web application with PostgreSQL integration, providing RESTful API development capabilities and testing.",
         tech: ["Python", "Backend", "Databases", "REST API"],
@@ -392,8 +392,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (publicationsCarousel) {
             console.log('Found publications carousel, initializing...');
             new ProjectCarousel('publicationsCarousel', {
-                autoSlideDelay: 5000,
-                slideDirection: 'left',
+                autoSlideDelay: 6000, // Longer delay for reading publications
+                slideDirection: 'right',
                 carouselType: 'publications'
             });
         } else {
@@ -401,9 +401,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 200);
 });
-
-
-
-
 
 
