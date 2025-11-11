@@ -33,7 +33,7 @@ class DataNetworkBackground {
             width: 100vw !important;
             height: 100vh !important;
             z-index: -1 !important;
-            opacity: 0.4; // Increased opacity for better visibility
+            opacity: 0.2; // Increased opacity for brighter effect
             pointer-events: none !important;
             background: transparent !important;
         `;
@@ -72,40 +72,33 @@ class DataNetworkBackground {
 
     createParticles() {
         this.particles = [];
-        // Increased particle count for denser effect
-        const count = Math.min(80, Math.floor((window.innerWidth * window.innerHeight) / 8000));
+        const count = 40;
 
         for (let i = 0; i < count; i++) {
             this.particles.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                size: Math.random() * 3 + 1.5, // Larger particles
-                speedX: (Math.random() - 0.5) * 0.4,
-                speedY: (Math.random() - 0.5) * 0.4,
-                color: '#6ee7b7', // Very bright green
-                baseColor: '#6ee7b7',
-                pulse: Math.random() * Math.PI * 2 // For pulsing effect
+                size: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.3,
+                speedY: (Math.random() - 0.5) * 0.3,
+                color: '#34d399' // Brighter green - was #10b981
             });
         }
-        console.log('Created', count, 'particles (denser)');
+        console.log('Created', count, 'particles');
     }
 
     animate() {
         if (!this.ctx || !this.canvas) return;
 
-        // Reduced fade effect for more persistent visibility
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.01)';
+        // Clear with very subtle fade for trails
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Update and draw particles
-        this.particles.forEach((particle, index) => {
+        this.particles.forEach(particle => {
             // Move particle
             particle.x += particle.speedX;
             particle.y += particle.speedY;
-
-            // Add pulsing effect
-            particle.pulse += 0.02;
-            const pulseScale = 0.2 * Math.sin(particle.pulse) + 1;
 
             // Bounce off walls with boundary check
             if (particle.x <= 0 || particle.x >= this.canvas.width) {
@@ -117,70 +110,42 @@ class DataNetworkBackground {
                 particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
             }
 
-            // Draw particle with pulsing effect
+            // Draw particle
             this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.size * pulseScale, 0, Math.PI * 2);
-
-            // Add glow effect
-            this.ctx.shadowBlur = 10;
-            this.ctx.shadowColor = particle.color;
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
             this.ctx.fillStyle = particle.color;
             this.ctx.fill();
-            this.ctx.shadowBlur = 0;
 
-            // Draw connections between nearby particles - increased range
-            let connectionCount = 0;
-            this.particles.forEach((other, otherIndex) => {
-                if (particle === other || otherIndex <= index) return;
+            // Draw connections between nearby particles
+            this.particles.forEach(other => {
+                if (particle === other) return;
 
                 const dx = particle.x - other.x;
                 const dy = particle.y - other.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Increased connection range and density
-                if (distance < 150 && connectionCount < 5) { // Limit connections per particle
-                    connectionCount++;
-
+                if (distance < 120) {
                     this.ctx.beginPath();
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(other.x, other.y);
-
-                    const opacity = 0.6 - (distance / 250); // Higher base opacity
-                    this.ctx.strokeStyle = `rgba(110, 231, 183, ${opacity})`;
-                    this.ctx.lineWidth = 1.0 + (0.5 * (1 - distance/150)); // Thicker, variable width
+                    this.ctx.strokeStyle = `rgba(52, 211, 153, ${0.3 - distance/600})`; // Brighter and more visible
+                    this.ctx.lineWidth = 0.6; // Slightly thicker lines
                     this.ctx.stroke();
                 }
             });
 
-            // Connect to mouse - more prominent
+            // Connect to mouse
             const mouseDx = particle.x - this.mouse.x;
             const mouseDy = particle.y - this.mouse.y;
             const mouseDistance = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
 
-            if (mouseDistance < 250) { // Larger mouse interaction area
+            if (mouseDistance < 200) {
                 this.ctx.beginPath();
                 this.ctx.moveTo(particle.x, particle.y);
                 this.ctx.lineTo(this.mouse.x, this.mouse.y);
-
-                const mouseOpacity = 0.8 - (mouseDistance / 300); // Much more visible
-                this.ctx.strokeStyle = `rgba(167, 243, 208, ${mouseOpacity})`;
-                this.ctx.lineWidth = 1.5 + (1.0 * (1 - mouseDistance/250)); // Thicker mouse lines
+                this.ctx.strokeStyle = `rgba(110, 231, 183, ${0.4 - mouseDistance/200})`; // Much brighter
+                this.ctx.lineWidth = 1.0; // Thicker mouse lines
                 this.ctx.stroke();
-
-                // Add particle attraction to mouse
-                if (mouseDistance < 100) {
-                    const attraction = 0.02 * (1 - mouseDistance/100);
-                    particle.speedX += (this.mouse.x - particle.x) * attraction;
-                    particle.speedY += (this.mouse.y - particle.y) * attraction;
-
-                    // Limit speed
-                    const maxSpeed = 2;
-                    const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
-                    if (currentSpeed > maxSpeed) {
-                        particle.speedX = (particle.speedX / currentSpeed) * maxSpeed;
-                        particle.speedY = (particle.speedY / currentSpeed) * maxSpeed;
-                    }
-                }
             }
         });
 
@@ -206,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         try {
             window.dataNetwork = new DataNetworkBackground();
-            console.log('✅ Dense background initialized successfully!');
+            console.log('✅ Background initialized successfully!');
         } catch (error) {
             console.error('❌ Failed to initialize background:', error);
         }
