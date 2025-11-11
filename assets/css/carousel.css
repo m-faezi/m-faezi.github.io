@@ -295,16 +295,18 @@
     }
 }
 
-/* Full-width Publications Banner Carousel */
+/* Full-width Publications Banner Carousel - TRANSPARENT */
 .publications-carousel .carousel-slide {
     flex: 0 0 100%;
     min-width: 100%;
-    background: linear-gradient(135deg, var(--surface-color) 0%, var(--surface-light) 100%);
-    border: 1px solid var(--border-color);
+    background: transparent;
+    border: 1px solid rgba(16, 185, 129, 0.3);
     border-radius: 12px;
     padding: 2rem;
     margin: 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .publications-carousel .carousel-track {
@@ -328,14 +330,16 @@
 }
 
 .publication-badge {
-    background: var(--primary-color);
-    color: white;
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--primary-color);
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    backdrop-filter: blur(5px);
 }
 
 .publication-year {
@@ -388,13 +392,14 @@
 }
 
 .publication-tag {
-    background: rgba(16, 185, 129, 0.15);
+    background: rgba(16, 185, 129, 0.1);
     color: var(--primary-color);
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     font-size: 0.8rem;
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.2);
     font-weight: 600;
+    backdrop-filter: blur(5px);
 }
 
 .publication-links {
@@ -408,29 +413,32 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: var(--surface-light);
+    background: rgba(16, 185, 129, 0.1);
     color: var(--text-secondary);
     text-decoration: none;
     border-radius: 8px;
     font-size: 0.9rem;
     transition: all 0.3s ease;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(16, 185, 129, 0.3);
     font-weight: 600;
+    backdrop-filter: blur(5px);
 }
 
 .publication-link:hover {
-    background: var(--primary-color);
-    color: white;
+    background: rgba(16, 185, 129, 0.3);
+    color: var(--text-primary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     text-decoration: none;
+    border-color: var(--primary-color);
 }
 
 /* Different hover effect for publications banner */
 .publications-carousel .carousel-slide:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
     border-color: var(--primary-color);
+    background: rgba(16, 185, 129, 0.05);
 }
 
 /* Mobile responsiveness for publications banner */
@@ -438,6 +446,7 @@
     .publications-carousel .carousel-slide {
         padding: 1.5rem;
         min-height: 400px;
+        backdrop-filter: blur(5px);
     }
 
     .publication-header {
@@ -472,6 +481,7 @@
     .publications-carousel .carousel-slide {
         padding: 1.25rem;
         min-height: 450px;
+        backdrop-filter: blur(3px);
     }
 
     .publication-content h3 {
@@ -496,6 +506,138 @@
 /* Auto-slide animation for single item display */
 .publications-carousel .carousel-track {
     transition: transform 0.5s ease-in-out;
+}
+
+/* Improved mobile responsiveness */
+@media (max-width: 768px) {
+    .carousel-container {
+        margin: 1.5rem -1rem;
+        width: calc(100% + 2rem);
+        overflow: visible;
+    }
+
+    .carousel-track {
+        gap: 15px;
+        padding: 0 1rem;
+        cursor: default;
+    }
+
+    .carousel-slide {
+        flex: 0 0 calc(100vw - 2rem);
+        min-width: calc(100vw - 2rem);
+        margin: 0;
+        scroll-snap-align: start;
+    }
+
+    .project-info {
+        padding: 1rem;
+    }
+
+    .project-thumbnail {
+        height: 140px;
+    }
+
+    /* Disable hover effects on mobile */
+    .carousel-slide:hover {
+        transform: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .carousel-track {
+        gap: 12px;
+        padding: 0 0.5rem;
+    }
+
+    .carousel-slide {
+        flex: 0 0 calc(100vw - 1rem);
+        min-width: calc(100vw - 1rem);
+    }
+
+    .project-thumbnail {
+        height: 120px;
+    }
+
+    .project-info {
+        padding: 0.75rem;
+    }
+}
+
+/* Prevent horizontal scroll on body */
+body {
+    overflow-x: hidden;
+}
+
+/* Ensure carousel doesn't break layout on mobile */
+@media (max-width: 768px) {
+    .content-wrapper {
+        overflow: hidden;
+    }
+}
+
+/* Publications Carousel Specific Styles */
+.publications-carousel .carousel-slide {
+    background: transparent;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Different hover effect for publications */
+.publications-carousel .carousel-slide:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15);
+    border-left-color: var(--primary-light);
+}
+
+/* Mobile responsiveness for publications */
+@media (max-width: 768px) {
+    .publication-slide {
+        padding: 1.25rem;
+    }
+
+    .publication-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .publication-content h3 {
+        font-size: 1rem;
+    }
+
+    .publication-links {
+        flex-direction: column;
+    }
+
+    .publication-link {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .publication-slide {
+        padding: 1rem;
+    }
+
+    .publication-tags {
+        gap: 0.3rem;
+    }
+
+    .publication-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+    }
+}
+
+/* Add to existing carousel.css */
+.carousel-container {
+    position: relative;
+    max-width: 100%;
+    margin: 2rem 0;
+    overflow: hidden;
+    border-radius: 12px;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Improved mobile responsiveness */
