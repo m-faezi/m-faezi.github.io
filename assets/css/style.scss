@@ -615,34 +615,37 @@ body {
 }
 
 // UPDATED: Publication Status - Much smaller and subtle
+// UPDATED: Publication Status - Same width as other buttons
 .publication-status {
-  display: inline-block;
-  padding: 0.1rem 0.4rem; // Even smaller padding
-  background: rgba(107, 114, 128, 0.2); // Subtle gray instead of orange
-  color: var(--text-secondary); // Muted text color
-  border-radius: 3px; // Smaller radius
-  font-size: 0.65rem; // Very small font size
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.8rem; // Same padding as publication-link
+  background: rgba(107, 114, 128, 0.2);
+  color: var(--text-secondary);
+  border-radius: 6px; // Same radius as publication-link
+  font-size: 0.8rem; // Same font size as publication-link
   font-weight: 500;
   margin-top: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  border: 1px solid rgba(107, 114, 128, 0.3); // Subtle border
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  width: fit-content; // Only take needed width
+  min-width: auto; // Remove any minimum width
 }
 
 // Mobile responsiveness for publication status
 @media (max-width: 768px) {
   .publication-status {
-    padding: 0.08rem 0.3rem;
-    font-size: 0.6rem;
-    margin-top: 0.4rem;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.75rem;
   }
 }
 
 @media (max-width: 480px) {
   .publication-status {
-    padding: 0.06rem 0.25rem;
-    font-size: 0.55rem;
-    margin-top: 0.3rem;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
   }
 }
 
