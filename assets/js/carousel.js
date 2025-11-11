@@ -32,7 +32,7 @@ window.projectsData = [
         imageUrl: "https://opengraph.githubassets.com/1/m-faezi/multi-spectral-sim",
         language: "Python"
     },
-    {
+        {
         title: "fireball",
         description: "Web application with PostgreSQL integration, providing RESTful API development capabilities and testing.",
         tech: ["Python", "Backend", "Databases", "REST API"],
@@ -347,34 +347,11 @@ class ProjectCarousel {
         const translateX = -this.currentIndex * this.getSlideWidth();
         this.track.style.transform = `translateX(${translateX}px)`;
 
-        // Update active states for 3-slide view
-        this.updateActiveStates();
-
         if (this.dotsContainer) {
             this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
                 dot.classList.toggle('active', index === this.currentIndex);
             });
         }
-    }
-
-    updateActiveStates() {
-        // Remove all active classes first
-        this.slides.forEach(slide => {
-            slide.classList.remove('active', 'middle-active');
-        });
-
-        // Add active classes for current and adjacent slides
-        const prevIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
-        const nextIndex = (this.currentIndex + 1) % this.slideCount;
-
-        // Previous slide
-        this.slides[prevIndex]?.classList.add('active');
-        
-        // Current slide (middle) - make it bigger and more prominent
-        this.slides[this.currentIndex]?.classList.add('active', 'middle-active');
-        
-        // Next slide
-        this.slides[nextIndex]?.classList.add('active');
     }
 
     startAutoSlide() {
@@ -424,5 +401,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 200);
 });
+
+
+
+
 
 
