@@ -18,6 +18,7 @@
 
     <!-- Background styles to ensure proper positioning -->
     <style>
+      /* Base styles for all devices */
       body {
         position: relative;
         overflow-x: hidden;
@@ -27,7 +28,6 @@
 
       html {
         height: 100%;
-        overflow: hidden;
       }
 
       canvas {
@@ -45,8 +45,7 @@
         position: relative;
         z-index: 1;
         background: transparent !important;
-        height: 100vh;
-        overflow: hidden;
+        min-height: 100vh;
       }
 
       .fixed-sidebar {
@@ -72,34 +71,39 @@
         min-height: 100%;
       }
 
-      /* Mobile fixes */
+      /* Mobile styles - applied immediately */
       @media (max-width: 768px) {
         html, body {
-          height: auto;
-          overflow: auto;
+          height: auto !important;
+          overflow: auto !important;
+          position: relative !important;
         }
 
         .layout-wrapper {
-          height: auto;
-          overflow: visible;
-          display: block;
+          height: auto !important;
+          overflow: visible !important;
+          display: block !important;
+          min-height: auto !important;
         }
 
         .fixed-sidebar {
-          position: relative;
-          width: 100%;
-          height: auto;
-          overflow: visible;
+          position: relative !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow: visible !important;
+          border-right: none !important;
+          border-bottom: 3px solid #333333 !important;
         }
 
         .scrollable-content {
-          height: auto;
-          overflow: visible;
+          height: auto !important;
+          overflow: visible !important;
           margin-left: 0 !important;
         }
 
         .content-wrapper {
-          overflow: visible;
+          overflow: visible !important;
+          min-height: auto !important;
         }
 
         canvas {
@@ -111,6 +115,12 @@
       /* Prevent horizontal scroll */
       * {
         box-sizing: border-box;
+      }
+
+      /* Force mobile layout on small screens */
+      .mobile-layout {
+        height: auto !important;
+        overflow: auto !important;
       }
     </style>
   </head>
@@ -209,28 +219,67 @@
 
     <!-- Mobile scroll fix -->
     <script>
-      // Mobile scroll fix
+      // Mobile scroll fix - run immediately
       function fixMobileScroll() {
-        if (window.innerWidth <= 768) {
-          // Enable body scroll on mobile
+        const isMobile = window.innerWidth <= 768;
+        console.log('Mobile detection:', isMobile, 'Width:', window.innerWidth);
+
+        if (isMobile) {
+          // Force mobile layout
+          document.body.classList.add('mobile-layout');
           document.body.style.overflow = 'auto';
           document.body.style.height = 'auto';
           document.documentElement.style.overflow = 'auto';
           document.documentElement.style.height = 'auto';
 
-          // Disable any fixed positioning that might block scroll
+          // Fix layout wrapper
+          const layoutWrapper = document.querySelector('.layout-wrapper');
+          if (layoutWrapper) {
+            layoutWrapper.style.height = 'auto';
+            layoutWrapper.style.overflow = 'visible';
+          }
+
+          // Fix scrollable content
           const scrollableContent = document.querySelector('.scrollable-content');
           if (scrollableContent) {
             scrollableContent.style.overflow = 'visible';
             scrollableContent.style.height = 'auto';
           }
+
+          // Fix sidebar
+          const sidebar = document.querySelector('.fixed-sidebar');
+          if (sidebar) {
+            sidebar.style.position = 'relative';
+            sidebar.style.height = 'auto';
+            sidebar.style.overflow = 'visible';
+          }
+
+          console.log('Mobile scroll fix applied');
+        } else {
+          // Desktop layout
+          document.body.classList.remove('mobile-layout');
+          console.log('Desktop layout maintained');
         }
       }
 
-      // Run on load and resize
-      document.addEventListener('DOMContentLoaded', fixMobileScroll);
+      // Run immediately and on all events
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded - applying scroll fix');
+        fixMobileScroll();
+
+        // Also fix after a short delay to catch any late rendering
+        setTimeout(fixMobileScroll, 100);
+        setTimeout(fixMobileScroll, 500);
+      });
+
+      window.addEventListener('load', fixMobileScroll);
       window.addEventListener('resize', fixMobileScroll);
-      window.addEventListener('orientationchange', fixMobileScroll);
+      window.addEventListener('orientationchange', function() {
+        setTimeout(fixMobileScroll, 100);
+      });
+
+      // Force fix on page show (for back/forward navigation)
+      window.addEventListener('pageshow', fixMobileScroll);
 
       // Debug script
       console.log('Scripts loaded - checking dependencies:');
