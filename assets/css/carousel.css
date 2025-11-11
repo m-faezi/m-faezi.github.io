@@ -1,3 +1,4 @@
+
 /* Carousel Styles */
 .carousel-container {
     position: relative;
@@ -20,6 +21,8 @@
     -ms-user-select: none;
     touch-action: pan-y;
     will-change: transform;
+    align-items: center;
+    padding: 20px 0;
 }
 
 .carousel-track.grabbing {
@@ -28,8 +31,8 @@
 }
 
 .carousel-slide {
-    flex: 0 0 300px;
-    min-width: 300px;
+    flex: 0 0 280px;
+    min-width: 280px;
     background: var(--surface-color);
     border-radius: 8px;
     overflow: hidden;
@@ -39,12 +42,34 @@
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     -webkit-user-select: none;
+    opacity: 0.7;
+    transform: scale(0.9);
+}
+
+/* Active slides (3 visible at a time) */
+.carousel-slide.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Middle active slide - bigger and more prominent */
+.carousel-slide.middle-active {
+    flex: 0 0 320px;
+    min-width: 320px;
+    transform: scale(1.1);
+    box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+    border-color: var(--primary-color);
+    z-index: 2;
 }
 
 .carousel-slide:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 36px rgba(16, 185, 129, 0.25);
     border-color: var(--primary-color);
+}
+
+.carousel-slide.middle-active:hover {
+    transform: translateY(-4px) scale(1.15);
 }
 
 .project-thumbnail {
@@ -66,6 +91,10 @@
 
 .carousel-slide:hover .github-preview {
     transform: scale(1.05);
+}
+
+.carousel-slide.middle-active .github-preview {
+    transform: scale(1.1);
 }
 
 .project-language {
@@ -92,11 +121,20 @@
     font-weight: 600;
 }
 
+.carousel-slide.middle-active .project-info h3 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
 .project-info p {
     margin: 0 0 1rem 0;
     color: var(--text-secondary);
     font-size: 0.85rem;
     line-height: 1.5;
+}
+
+.carousel-slide.middle-active .project-info p {
+    font-size: 0.9rem;
 }
 
 .project-tech {
@@ -114,6 +152,12 @@
     font-size: 0.75rem;
     border: 1px solid var(--border-color);
     pointer-events: none;
+}
+
+.carousel-slide.middle-active .tech-tag {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--primary-color);
+    border-color: rgba(16, 185, 129, 0.3);
 }
 
 .project-links {
@@ -137,6 +181,12 @@
     justify-content: center;
     -webkit-tap-highlight-color: rgba(16, 185, 129, 0.2);
     touch-action: manipulation;
+}
+
+.carousel-slide.middle-active .project-link {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
 }
 
 .project-link:hover,
@@ -190,10 +240,16 @@
     }
 
     .carousel-slide {
-        flex: 0 0 280px;
-        min-width: 280px;
+        flex: 0 0 220px;
+        min-width: 220px;
         margin: 0 5px;
         touch-action: pan-y;
+    }
+
+    .carousel-slide.middle-active {
+        flex: 0 0 250px;
+        min-width: 250px;
+        transform: scale(1.05);
     }
 
     .project-info {
@@ -206,6 +262,10 @@
 
     .project-info h3 {
         font-size: 1rem;
+    }
+
+    .carousel-slide.middle-active .project-info h3 {
+        font-size: 1.1rem;
     }
 
     .project-info p {
@@ -235,6 +295,19 @@
         margin-top: 1rem;
         gap: 0.5rem;
     }
+
+    /* Disable hover effects on mobile */
+    .carousel-slide:hover {
+        transform: scale(0.9);
+    }
+
+    .carousel-slide.active:hover {
+        transform: scale(1);
+    }
+
+    .carousel-slide.middle-active:hover {
+        transform: scale(1.05);
+    }
 }
 
 @media (max-width: 480px) {
@@ -244,8 +317,13 @@
     }
 
     .carousel-slide {
-        flex: 0 0 260px;
-        min-width: 260px;
+        flex: 0 0 200px;
+        min-width: 200px;
+    }
+
+    .carousel-slide.middle-active {
+        flex: 0 0 230px;
+        min-width: 230px;
     }
 
     .project-thumbnail {
@@ -269,8 +347,13 @@
 /* iPhone specific optimizations */
 @media (max-width: 414px) {
     .carousel-slide {
-        flex: 0 0 240px;
-        min-width: 240px;
+        flex: 0 0 180px;
+        min-width: 180px;
+    }
+
+    .carousel-slide.middle-active {
+        flex: 0 0 210px;
+        min-width: 210px;
     }
 
     .project-thumbnail {
@@ -286,8 +369,15 @@
 /* Disable hover effects on touch devices */
 @media (hover: none) and (pointer: coarse) {
     .carousel-slide:hover {
-        transform: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transform: scale(0.9);
+    }
+
+    .carousel-slide.active:hover {
+        transform: scale(1);
+    }
+
+    .carousel-slide.middle-active:hover {
+        transform: scale(1.1);
     }
 
     .carousel-slide:hover .github-preview {
@@ -295,11 +385,14 @@
     }
 }
 
-
 /* Publications Carousel Specific Styles */
 .publications-carousel .carousel-slide {
     background: linear-gradient(135deg, var(--surface-color) 0%, var(--surface-light) 100%);
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid var(--border-color);
+}
+
+.publications-carousel .carousel-slide.middle-active {
+    border-left-color: var(--primary-color);
 }
 
 .publication-slide {
@@ -314,8 +407,8 @@
 }
 
 .publication-badge {
-    background: var(--primary-color);
-    color: white;
+    background: var(--border-color);
+    color: var(--text-secondary);
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
     font-size: 0.75rem;
@@ -324,10 +417,19 @@
     letter-spacing: 0.5px;
 }
 
+.publications-carousel .carousel-slide.middle-active .publication-badge {
+    background: var(--primary-color);
+    color: white;
+}
+
 .publication-year {
-    color: var(--primary-color);
+    color: var(--text-secondary);
     font-weight: 600;
     font-size: 0.9rem;
+}
+
+.publications-carousel .carousel-slide.middle-active .publication-year {
+    color: var(--primary-color);
 }
 
 .publication-content h3 {
@@ -338,6 +440,11 @@
     line-height: 1.4;
 }
 
+.publications-carousel .carousel-slide.middle-active .publication-content h3 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
 .publication-authors {
     color: var(--text-secondary);
     font-size: 0.9rem;
@@ -346,10 +453,14 @@
 }
 
 .publication-journal {
-    color: var(--primary-color);
+    color: var(--text-secondary);
     font-size: 0.85rem;
     margin-bottom: 1rem;
     font-weight: 500;
+}
+
+.publications-carousel .carousel-slide.middle-active .publication-journal {
+    color: var(--primary-color);
 }
 
 .publication-description {
@@ -368,12 +479,18 @@
 
 .publication-tag {
     background: rgba(16, 185, 129, 0.1);
-    color: var(--primary-color);
+    color: var(--text-secondary);
     padding: 0.3rem 0.7rem;
     border-radius: 4px;
     font-size: 0.75rem;
     border: 1px solid rgba(16, 185, 129, 0.2);
     font-weight: 500;
+}
+
+.publications-carousel .carousel-slide.middle-active .publication-tag {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--primary-color);
+    border-color: rgba(16, 185, 129, 0.4);
 }
 
 .publication-links {
@@ -400,6 +517,12 @@
     touch-action: manipulation;
 }
 
+.publications-carousel .carousel-slide.middle-active .publication-link {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
 .publication-link:hover {
     background: var(--primary-color);
     color: white;
@@ -409,9 +532,12 @@
 
 /* Different hover effect for publications */
 .publications-carousel .carousel-slide:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1);
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15);
-    border-left-color: var(--primary-light);
+}
+
+.publications-carousel .carousel-slide.middle-active:hover {
+    transform: translateY(-2px) scale(1.1);
 }
 
 /* Mobile responsiveness for publications */
@@ -428,6 +554,10 @@
 
     .publication-content h3 {
         font-size: 1rem;
+    }
+
+    .publications-carousel .carousel-slide.middle-active .publication-content h3 {
+        font-size: 1.1rem;
     }
 
     .publication-links {
@@ -479,10 +609,15 @@
     }
 
     .carousel-slide {
-        flex: 0 0 calc(100vw - 2rem);
-        min-width: calc(100vw - 2rem);
+        flex: 0 0 calc(80vw - 2rem);
+        min-width: calc(80vw - 2rem);
         margin: 0;
         scroll-snap-align: start;
+    }
+
+    .carousel-slide.middle-active {
+        flex: 0 0 calc(90vw - 2rem);
+        min-width: calc(90vw - 2rem);
     }
 
     .project-info {
@@ -495,8 +630,15 @@
 
     /* Disable hover effects on mobile */
     .carousel-slide:hover {
-        transform: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transform: scale(0.9);
+    }
+
+    .carousel-slide.active:hover {
+        transform: scale(1);
+    }
+
+    .carousel-slide.middle-active:hover {
+        transform: scale(1.05);
     }
 }
 
@@ -508,8 +650,13 @@
     }
 
     .carousel-slide {
-        flex: 0 0 calc(100vw - 1rem);
-        min-width: calc(100vw - 1rem);
+        flex: 0 0 calc(75vw - 1rem);
+        min-width: calc(75vw - 1rem);
+    }
+
+    .carousel-slide.middle-active {
+        flex: 0 0 calc(85vw - 1rem);
+        min-width: calc(85vw - 1rem);
     }
 
     .project-thumbnail {
@@ -532,5 +679,4 @@ body {
         overflow: hidden;
     }
 }
-
 
