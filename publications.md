@@ -65,4 +65,5 @@ My research focuses on:
 
 ---
 
-*For the most up-to-date list of publications, please visit my [Google Scholar](https://scholar.google.com/citations?user=YOUR_PROFILE_ID) profile.*
+*For the most up-to-date list of publications, please visit my [Google Scholar](https://scholar.google.com/citations?user=V4iE8TIAAAAJ) profile.*
+

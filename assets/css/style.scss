@@ -558,7 +558,7 @@ body {
   }
 }
 
-// Publication Styles
+// Publication Styles - UPDATED
 .publication-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
@@ -574,6 +574,9 @@ body {
 
   &.upcoming {
     border-left: 3px solid var(--accent-color);
+    .publication-content {
+      padding: 1rem; // Reduced padding for upcoming items
+    }
   }
 }
 
@@ -611,15 +614,18 @@ body {
   }
 }
 
+// UPDATED: Publication Status - Smaller and more compact
 .publication-status {
   display: inline-block;
-  padding: 0.25rem 0.6rem;
+  padding: 0.2rem 0.5rem; // Reduced padding
   background: var(--accent-color);
   color: #1f2937;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.7rem; // Smaller font size
   font-weight: 500;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 // Thesis Section Styles
@@ -762,6 +768,19 @@ body {
   .thesis-links {
     justify-content: center;
   }
+
+  // UPDATED: Mobile responsiveness for publication status
+  .publication-status {
+    padding: 0.15rem 0.4rem;
+    font-size: 0.65rem;
+    margin-top: 0.5rem;
+  }
+
+  .publication-item.upcoming {
+    .publication-content {
+      padding: 0.75rem;
+    }
+  }
 }
 
 @media (max-width: 480px) {
@@ -790,6 +809,13 @@ body {
   .publication-link,
   .thesis-link {
     justify-content: center;
+  }
+
+  // UPDATED: Extra small devices publication status
+  .publication-status {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.6rem;
+    margin-top: 0.4rem;
   }
 }
 
