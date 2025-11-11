@@ -71,36 +71,6 @@
         min-height: 100%;
       }
 
-      /* Clock Styles */
-      .clock-container {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-        background: rgba(0, 0, 0, 0.8);
-        border-radius: 10px;
-        padding: 15px;
-        border: 2px solid #10b981;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        backdrop-filter: blur(10px);
-      }
-
-      .clock {
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        color: #10b981;
-        text-align: center;
-        font-weight: bold;
-        letter-spacing: 1px;
-      }
-
-      .clock-date {
-        font-size: 11px;
-        color: #34d399;
-        margin-top: 5px;
-        opacity: 0.8;
-      }
-
       /* Mobile styles - applied immediately */
       @media (max-width: 768px) {
         html, body {
@@ -140,21 +110,6 @@
           position: absolute !important;
           height: 100% !important;
         }
-
-        /* Mobile clock adjustments */
-        .clock-container {
-          bottom: 10px;
-          right: 10px;
-          padding: 10px;
-        }
-
-        .clock {
-          font-size: 12px;
-        }
-
-        .clock-date {
-          font-size: 10px;
-        }
       }
 
       /* Prevent horizontal scroll */
@@ -171,12 +126,6 @@
   </head>
   <body>
     <!-- Background canvas will be inserted here by background.js -->
-
-    <!-- Clock Container -->
-    <div class="clock-container">
-      <div class="clock" id="digital-clock">00:00:00</div>
-      <div class="clock-date" id="clock-date">Loading...</div>
-    </div>
 
     <div class="layout-wrapper">
       <!-- Fixed Sidebar -->
@@ -267,35 +216,6 @@
     <script src="{{ "/assets/js/background.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
-
-    <!-- Clock Script -->
-    <script>
-      function updateClock() {
-        const now = new Date();
-
-        // Time formatting
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-
-        // Date formatting
-        const options = {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        };
-        const dateString = now.toLocaleDateString('en-US', options);
-
-        // Update display
-        document.getElementById('digital-clock').textContent = `${hours}:${minutes}:${seconds}`;
-        document.getElementById('clock-date').textContent = dateString;
-      }
-
-      // Initialize clock and update every second
-      updateClock();
-      setInterval(updateClock, 1000);
-    </script>
 
     <!-- Mobile scroll fix -->
     <script>
