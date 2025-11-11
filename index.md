@@ -15,13 +15,6 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     <div class="carousel-dots"></div>
 </div>
 
-## Featured Publications
-
-<div id="publicationsCarousel" class="carousel-container publications-carousel">
-    <div class="carousel-track"></div>
-    <div class="carousel-dots"></div>
-</div>
-
 ## My Expertise
 
 <div id="expertiseTree" class="expertise-tree-container">
