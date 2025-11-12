@@ -1,81 +1,147 @@
-/* expertise-tree.css - CENTERED TREE VERSION */
-
+/* Expertise Tree Styles - No Box */
 .expertise-tree-container {
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
     margin: 2rem 0;
-    overflow: hidden;
-    min-height: 600px;
+    overflow: hidden; /* Change from visible to hidden */
+    min-height: 600px; /* Reduced from 800px */
     position: relative;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    max-height: 700px; /* Add max height constraint */
 }
 
-/* Tree node styles */
-.tree-node circle {
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+/* Show loading state */
+.expertise-tree-container:empty::before {
+    content: "Loading expertise tree...";
+    color: #d1d5db;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-style: italic;
 }
 
-.tree-node:hover circle {
-    transform: scale(1.1);
-    filter: url(#glow) brightness(1.2);
-}
-
-/* Tree link styles */
-.tree-link {
-    transition: all 0.3s ease;
-}
-
-.tree-node:hover ~ .tree-link {
-    stroke: rgba(16, 185, 129, 0.6) !important;
-    stroke-width: 2px !important;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .expertise-tree-container {
-        min-height: 500px;
-        margin: 1.5rem 0;
-    }
-
-    .tree-node text {
-        font-size: 10px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .expertise-tree-container {
-        min-height: 400px;
-        margin: 1rem 0;
-    }
-
-    .tree-node text {
-        font-size: 9px !important;
-    }
-}
-
-/* Smooth transitions */
-.tree-node,
-.tree-link {
-    transition: all 0.5s ease;
-}
-
-/* Ensure proper SVG sizing */
+/* D3.js Tree Styling */
 #expertiseTree {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
+    min-height: 500px; /* Reduced from 700px */
+    overflow: hidden; /* Prevent overflow */
 }
 
 #expertiseTree svg {
     width: 100%;
     height: 100%;
+    min-height: 500px; /* Reduced from 700px */
+    background: transparent;
+    overflow: hidden; /* Prevent SVG overflow */
+}
+
+.node {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.node circle {
+    fill: #ffffff;
+    stroke: #10b981;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.node:hover circle {
+    fill: #10b981;
+    stroke: #059669;
+    transform: scale(1.1);
+}
+
+.node text {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    fill: #ffffff;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.node:hover text {
+    fill: #34d399;
+    font-weight: 700;
+}
+
+/* Links/edges between nodes */
+.link {
+    fill: none;
+    stroke: #6b7280;
+    stroke-width: 1.5px;
+    transition: all 0.3s ease;
+}
+
+.node:hover ~ .link {
+    stroke: #10b981;
+    stroke-width: 2px;
+}
+
+/* Animation for when links are updated */
+.link-updating {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 1.5s ease-in-out forwards;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Responsive design - IMPROVED */
+@media (max-width: 768px) {
+    .expertise-tree-container {
+        margin: 1.5rem 0;
+        min-height: 400px; /* Further reduced for mobile */
+        max-height: 500px; /* Constrain max height on mobile */
+    }
+
+    #expertiseTree,
+    #expertiseTree svg {
+        min-height: 350px; /* Smaller on mobile */
+    }
+
+    .node text {
+        font-size: 10px;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .expertise-tree-container {
+        min-height: 350px;
+        max-height: 400px;
+        margin: 1rem 0;
+    }
+
+    #expertiseTree,
+    #expertiseTree svg {
+        min-height: 300px;
+    }
+
+    .node text {
+        font-size: 9px; /* Even smaller text */
+        font-weight: 500;
+    }
+
+    .node circle {
+        r: 4px; /* Smaller circles on mobile */
+    }
+}
+
+/* Smooth transitions for all tree elements */
+#expertiseTree g,
+#expertiseTree path,
+#expertiseTree circle,
+#expertiseTree text {
+    transition: all 0.5s ease;
 }
 

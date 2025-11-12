@@ -1,5 +1,4 @@
-// expertise-tree.js - SIMPLIFIED CENTERED TREE VERSION
-
+// Expertise Tree Data Structure
 window.expertiseData = {
     "name": "My Expertise",
     "children": [
@@ -9,23 +8,23 @@ window.expertiseData = {
                 {
                     "name": "Deep Learning",
                     "children": [
-                        {"name": "Computer Vision", "value": 1},
-                        {"name": "Neural Networks", "value": 1},
-                        {"name": "GANs", "value": 1}
+                        {"name": "Computer Vision", "size": 400},
+                        {"name": "Neural Networks", "size": 350},
+                        {"name": "GANs", "size": 300}
                     ]
                 },
                 {
                     "name": "Traditional ML",
                     "children": [
-                        {"name": "Statistical Modeling", "value": 1},
-                        {"name": "Feature Engineering", "value": 1}
+                        {"name": "Statistical Modeling", "size": 300},
+                        {"name": "Feature Engineering", "size": 250}
                     ]
                 },
                 {
                     "name": "Mathematical Morphology",
                     "children": [
-                        {"name": "Max-Tree Algorithms", "value": 1},
-                        {"name": "Image Segmentation", "value": 1}
+                        {"name": "Max-Tree Algorithms", "size": 450},
+                        {"name": "Image Segmentation", "size": 400}
                     ]
                 }
             ]
@@ -36,25 +35,25 @@ window.expertiseData = {
                 {
                     "name": "Backend Development",
                     "children": [
-                        {"name": "Microservices", "value": 1},
-                        {"name": "REST APIs", "value": 1},
-                        {"name": "Event-Driven Architecture", "value": 1}
+                        {"name": "Microservices", "size": 350},
+                        {"name": "REST APIs", "size": 300},
+                        {"name": "Event-Driven Architecture", "size": 280}
                     ]
                 },
                 {
                     "name": "System Design",
                     "children": [
-                        {"name": "Scalable Architecture", "value": 1},
-                        {"name": "Distributed Systems", "value": 1}
+                        {"name": "Scalable Architecture", "size": 400},
+                        {"name": "Distributed Systems", "size": 350}
                     ]
                 },
                 {
                     "name": "Programming Languages",
                     "children": [
-                        {"name": "Python", "value": 1},
-                        {"name": "C++", "value": 1},
-                        {"name": "Go", "value": 1},
-                        {"name": "C", "value": 1}
+                        {"name": "Python", "size": 500},
+                        {"name": "C++", "size": 350},
+                        {"name": "Go", "size": 300},
+                        {"name": "C", "size": 280}
                     ]
                 }
             ]
@@ -65,16 +64,16 @@ window.expertiseData = {
                 {
                     "name": "MLOps",
                     "children": [
-                        {"name": "Model Deployment", "value": 1},
-                        {"name": "Pipeline Automation", "value": 1}
+                        {"name": "Model Deployment", "size": 350},
+                        {"name": "Pipeline Automation", "size": 300}
                     ]
                 },
                 {
                     "name": "Cloud & Infrastructure",
                     "children": [
-                        {"name": "Docker & Kubernetes", "value": 1},
-                        {"name": "AWS/GCP", "value": 1},
-                        {"name": "CI/CD", "value": 1}
+                        {"name": "Docker & Kubernetes", "size": 400},
+                        {"name": "AWS/GCP", "size": 350},
+                        {"name": "CI/CD", "size": 300}
                     ]
                 }
             ]
@@ -85,15 +84,15 @@ window.expertiseData = {
                 {
                     "name": "Parallel Processing",
                     "children": [
-                        {"name": "Multi-threading", "value": 1},
-                        {"name": "GPU Computing", "value": 1}
+                        {"name": "Multi-threading", "size": 350},
+                        {"name": "GPU Computing", "size": 300}
                     ]
                 },
                 {
                     "name": "Large-Scale Data",
                     "children": [
-                        {"name": "Data Pipeline Design", "value": 1},
-                        {"name": "Performance Optimization", "value": 1}
+                        {"name": "Data Pipeline Design", "size": 400},
+                        {"name": "Performance Optimization", "size": 350}
                     ]
                 }
             ]
@@ -104,15 +103,15 @@ window.expertiseData = {
                 {
                     "name": "Astronomical Imaging",
                     "children": [
-                        {"name": "Source Detection", "value": 1},
-                        {"name": "Multi-spectral Analysis", "value": 1}
+                        {"name": "Source Detection", "size": 450},
+                        {"name": "Multi-spectral Analysis", "size": 400}
                     ]
                 },
                 {
                     "name": "Academic Research",
                     "children": [
-                        {"name": "Peer Review", "value": 1},
-                        {"name": "Paper Publication", "value": 1}
+                        {"name": "Peer Review", "size": 300},
+                        {"name": "Paper Publication", "size": 400}
                     ]
                 }
             ]
@@ -120,164 +119,248 @@ window.expertiseData = {
     ]
 };
 
+
 class ExpertiseTree {
     constructor(containerId, data) {
         this.container = document.getElementById(containerId);
         this.data = data;
-        this.width = this.container.clientWidth;
-        this.height = 600;
+        this.margin = {top: 20, right: 90, bottom: 30, left: 90};
+        this.width = 928 - this.margin.left - this.margin.right;
+        this.height = 850 - this.margin.top - this.margin.bottom; // Increased height significantly
+        this.i = 0;
+        this.duration = 750;
 
         if (this.container) {
             this.init();
         }
     }
 
-    init() {
-        console.log('Initializing centered expertise tree...');
+init() {
+    console.log('Initializing expertise tree...');
 
-        // Remove any existing SVG
-        d3.select(this.container).select("svg").remove();
+    // Remove any existing SVG
+    d3.select(this.container).select("svg").remove();
 
-        // Create SVG
-        this.svg = d3.select(this.container)
-            .append("svg")
-            .attr("width", this.width)
-            .attr("height", this.height)
-            .append("g")
-            .attr("transform", `translate(${this.width / 2}, 50)`);
+    // Calculate responsive dimensions
+    this.calculateDimensions();
 
-        // Create cluster layout (centered tree)
-        this.tree = d3.cluster()
-            .size([2 * Math.PI, this.height / 2 - 100]) // Radial layout
-            .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+    // Create SVG
+    this.svg = d3.select(this.container)
+        .append("svg")
+        .attr("width", this.width + this.margin.right + this.margin.left)
+        .attr("height", this.height + this.margin.top + this.margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-        this.root = d3.hierarchy(this.data);
-        this.root.each(d => {
-            d.id = d.data.name;
-        });
+    // Create tree layout with responsive size
+    this.tree = d3.tree().size([this.height, this.width]);
 
-        this.tree(this.root);
+    // Initialize with root - KEEP ALL NODES EXPANDED INITIALLY
+    this.root = d3.hierarchy(this.data, d => d.children);
+    this.root.x0 = this.height / 2;
+    this.root.y0 = 0;
 
-        // Add links
-        this.svg.append("g")
-            .selectAll("path")
-            .data(this.root.links())
-            .enter().append("path")
-            .attr("class", "tree-link")
-            .attr("d", d3.linkRadial()
-                .angle(d => d.x)
-                .radius(d => d.y))
-            .style("fill", "none")
-            .style("stroke", "rgba(16, 185, 129, 0.4)")
-            .style("stroke-width", 1.5);
+    this.update(this.root);
+    console.log('Expertise tree initialized successfully');
+}
 
-        // Add nodes
-        const node = this.svg.append("g")
-            .selectAll("g")
-            .data(this.root.descendants())
-            .enter().append("g")
-            .attr("class", "tree-node")
-            .attr("transform", d => `
-                rotate(${d.x * 180 / Math.PI - 90})
-                translate(${d.y},0)
-            `);
+
+// Add this new method to calculate responsive dimensions
+calculateDimensions() {
+    const container = this.container;
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+        // Mobile dimensions
+        this.width = Math.min(container.clientWidth - 40, 500) - this.margin.left - this.margin.right;
+        this.height = 350 - this.margin.top - this.margin.bottom;
+        // Reduce horizontal spacing for mobile
+        this.margin.left = 50;
+        this.margin.right = 50;
+    } else {
+        // Desktop dimensions
+        this.width = Math.min(container.clientWidth, 928) - this.margin.left - this.margin.right;
+        this.height = 500 - this.margin.top - this.margin.bottom;
+    }
+
+    console.log(`Tree dimensions: ${this.width}x${this.height}, mobile: ${isMobile}`);
+}
+
+
+    collapse(d) {
+        if (d.children) {
+            d._children = d.children;
+            d._children.forEach(child => this.collapse(child));
+            d.children = null;
+        }
+    }
+
+    update(source) {
+        // Compute the new tree layout.
+        const treeData = this.tree(this.root);
+
+        // Nodes
+        const nodes = treeData.descendants();
+        const links = treeData.descendants().slice(1);
+
+        // Normalize for fixed-depth.
+        // Responsive node positioning
+        const isMobile = window.innerWidth <= 768;
+        const horizontalSpacing = isMobile ? 120 : 180; // Reduced spacing on mobile
+        nodes.forEach(d => { d.y = d.depth * horizontalSpacing; });
+        // ************************
+        // NODE ANIMATION SECTION
+        // ************************
+
+        // Update nodes
+        const node = this.svg.selectAll("g.node")
+            .data(nodes, d => d.id || (d.id = ++this.i));
+
+        // Enter any new nodes with animation
+        const nodeEnter = node.enter().append("g")
+            .attr("class", "node")
+            .attr("transform", d => `translate(${source.y0},${source.x0})`)
+            .style("opacity", 0) // Start invisible
+            .on("click", (event, d) => this.click(event, d));
 
         // Add circles for nodes
-        node.append("circle")
-            .attr("r", d => this.getNodeRadius(d))
-            .style("fill", d => this.getNodeColor(d))
-            .style("stroke", "rgba(16, 185, 129, 0.8)")
-            .style("stroke-width", 2)
-            .style("cursor", "pointer")
-            .style("filter", "url(#glow)")
-            .on("click", (event, d) => this.handleClick(event, d));
+        nodeEnter.append("circle")
+            .attr("r", 0) // Start with radius 0
+            .style("fill", d => d._children ? "#10b981" : "#fff")
+            .transition()
+            .duration(this.duration)
+            .attr("r", 6)
+            .style("opacity", 1);
 
-        // Add text labels
-        node.append("text")
-            .attr("dy", "0.31em")
-            .attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
-            .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
-            .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+        // Add labels with fade-in animation
+        nodeEnter.append("text")
+            .attr("dy", ".35em")
+            .attr("x", d => d.children || d._children ? -13 : 13)
+            .attr("text-anchor", d => d.children || d._children ? "end" : "start")
             .text(d => d.data.name)
             .style("fill", "#ffffff")
-            .style("font-size", d => this.getFontSize(d))
-            .style("font-weight", "600")
+            .style("font-size", "12px")
             .style("font-family", "Inter, sans-serif")
-            .style("pointer-events", "none")
-            .style("user-select", "none");
+            .style("font-weight", "600")
+            .style("opacity", 0)
+            .transition()
+            .delay(this.duration / 2)
+            .duration(this.duration / 2)
+            .style("opacity", 1);
 
-        // Add glow filter
-        const defs = this.svg.append("defs");
-        const filter = defs.append("filter")
-            .attr("id", "glow")
-            .attr("height", "300%")
-            .attr("width", "300%")
-            .attr("x", "-100%")
-            .attr("y", "-100%");
+        // Fade in the node group
+        nodeEnter.transition()
+            .duration(this.duration)
+            .style("opacity", 1);
 
-        filter.append("feGaussianBlur")
-            .attr("stdDeviation", "2.5")
-            .attr("result", "coloredBlur");
+        // Update nodes transition to new position
+        const nodeUpdate = node.merge(nodeEnter).transition()
+            .duration(this.duration)
+            .attr("transform", d => `translate(${d.y},${d.x})`)
+            .style("opacity", 1);
 
-        const feMerge = filter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "coloredBlur");
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
+        nodeUpdate.select("circle")
+            .attr("r", 6)
+            .style("fill", d => d._children ? "#10b981" : "#fff")
+            .style("stroke", "#10b981")
+            .style("stroke-width", "2px");
 
-        console.log('Centered expertise tree initialized successfully');
+        // Remove exiting nodes with animation
+        const nodeExit = node.exit().transition()
+            .duration(this.duration)
+            .attr("transform", d => `translate(${source.y},${source.x})`)
+            .style("opacity", 0)
+            .remove();
+
+        nodeExit.select("circle")
+            .attr("r", 0);
+        nodeExit.select("text")
+            .style("fill-opacity", 0);
+
+        // ************************
+        // LINK ANIMATION SECTION
+        // ************************
+
+        // Update links
+        const link = this.svg.selectAll("path.link")
+            .data(links, d => d.id);
+
+        // Enter new links with draw animation
+        const linkEnter = link.enter().insert("path", "g")
+            .attr("class", "link")
+            .attr("d", d => {
+                const o = {x: source.x0, y: source.y0};
+                return this.diagonal(o, o);
+            })
+            .style("fill", "none")
+            .style("stroke", "#6b7280")
+            .style("stroke-width", "1.5px")
+            .style("opacity", 0)
+            .transition()
+            .duration(this.duration)
+            .style("opacity", 1)
+            .attr("d", d => this.diagonal(d, d.parent));
+
+        // Update links transition with smooth animation
+        link.merge(linkEnter).transition()
+            .duration(this.duration)
+            .attr("d", d => this.diagonal(d, d.parent))
+            .style("opacity", 1);
+
+        // Remove exiting links with fade out
+        link.exit().transition()
+            .duration(this.duration)
+            .attr("d", d => {
+                const o = {x: source.x, y: source.y};
+                return this.diagonal(o, o);
+            })
+            .style("opacity", 0)
+            .remove();
+
+        // Store old positions for transition
+        nodes.forEach(d => {
+            d.x0 = d.x;
+            d.y0 = d.y;
+        });
     }
 
-    getNodeRadius(d) {
-        if (d.depth === 0) return 8;  // Root node
-        if (d.depth === 1) return 6;  // Main domains
-        if (d.depth === 2) return 5;  // Subdomains
-        return 4;                     // Skills
+    diagonal(s, d) {
+        const path = `M ${s.y} ${s.x}
+                C ${(s.y + d.y) / 2} ${s.x},
+                  ${(s.y + d.y) / 2} ${d.x},
+                  ${d.y} ${d.x}`;
+        return path;
     }
 
-    getNodeColor(d) {
-        const colors = {
-            0: "rgba(16, 185, 129, 0.3)",   // Root
-            1: "rgba(16, 185, 129, 0.25)",  // Main domains
-            2: "rgba(16, 185, 129, 0.2)",   // Subdomains
-            3: "rgba(16, 185, 129, 0.15)"   // Skills
-        };
-        return colors[d.depth] || "rgba(16, 185, 129, 0.15)";
-    }
+    click(event, d) {
+        event.stopPropagation();
 
-    getFontSize(d) {
-        const sizes = {
-            0: "14px",  // Root
-            1: "13px",  // Main domains
-            2: "12px",  // Subdomains
-            3: "11px"   // Skills
-        };
-        return sizes[d.depth] || "11px";
-    }
+        // Toggle children
+        if (d.children) {
+            d._children = d.children;
+            d.children = null;
+        } else {
+            d.children = d._children;
+            d._children = null;
+        }
 
-    handleClick(event, d) {
-        // Simple click animation
+        // Add click animation to the node
         d3.select(event.currentTarget)
+            .select("circle")
             .transition()
             .duration(200)
-            .attr("r", this.getNodeRadius(d) + 2)
+            .attr("r", 8)
             .transition()
             .duration(200)
-            .attr("r", this.getNodeRadius(d));
-    }
+            .attr("r", 6);
 
-    handleResize() {
-        this.width = this.container.clientWidth;
-        d3.select(this.container).select("svg")
-            .attr("width", this.width)
-            .select("g")
-            .attr("transform", `translate(${this.width / 2}, 50)`);
+        this.update(d);
     }
 }
 
-// Simple initialization
+// Enhanced initialization with multiple fallbacks
 function initializeExpertiseTree() {
-    console.log('Initializing centered expertise tree...');
+    console.log('Attempting to initialize expertise tree...');
 
     const treeContainer = document.getElementById('expertiseTree');
     if (!treeContainer) {
@@ -295,26 +378,111 @@ function initializeExpertiseTree() {
         return;
     }
 
+    if (typeof ExpertiseTree === 'undefined') {
+        console.error('ExpertiseTree class not defined');
+        return;
+    }
+
     try {
+        // Clear container
         treeContainer.innerHTML = '';
-        window.expertiseTree = new ExpertiseTree('expertiseTree', window.expertiseData);
-        console.log('Centered expertise tree initialized successfully!');
+
+        // Show loading state
+        treeContainer.innerHTML = '<div style="color: #d1d5db; text-align: center; padding: 2rem;">Loading expertise tree...</div>';
+
+        // Small delay to show loading state
+        setTimeout(() => {
+            treeContainer.innerHTML = '';
+            // Initialize tree
+            new ExpertiseTree('expertiseTree', window.expertiseData);
+            console.log('Expertise tree initialized successfully!');
+        }, 100);
+
     } catch (error) {
         console.error('Error initializing expertise tree:', error);
-        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree.</p>';
+        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
     }
 }
 
-// Initialize when ready
+// Multiple initialization attempts
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded - starting expertise tree initialization');
+
+    // First attempt after short delay
     setTimeout(initializeExpertiseTree, 100);
+
+    // Second attempt after longer delay
+    setTimeout(initializeExpertiseTree, 1000);
 });
 
-// Handle resize
-window.addEventListener('resize', function() {
-    if (window.expertiseTree) {
-        window.expertiseTree.handleResize();
+// Fallback: manual initialization after 3 seconds
+setTimeout(function() {
+    const treeContainer = document.getElementById('expertiseTree');
+    if (treeContainer && treeContainer.innerHTML.trim() === '' && window.expertiseData && typeof ExpertiseTree !== 'undefined') {
+        console.log('Fallback initialization after 3 seconds');
+        initializeExpertiseTree();
     }
+}, 3000);
+
+
+// Handle window resize for responsiveness
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        const treeContainer = document.getElementById('expertiseTree');
+        if (treeContainer && treeContainer.__expertiseTreeInstance) {
+            console.log('Window resized, reinitializing tree...');
+            treeContainer.__expertiseTreeInstance.init();
+        }
+    }, 250);
 });
+
+// Enhanced initialization with multiple fallbacks
+function initializeExpertiseTree() {
+    console.log('Attempting to initialize expertise tree...');
+
+    const treeContainer = document.getElementById('expertiseTree');
+    if (!treeContainer) {
+        console.error('Expertise tree container not found');
+        return;
+    }
+
+    if (!window.expertiseData) {
+        console.error('Expertise data not found');
+        return;
+    }
+
+    if (typeof d3 === 'undefined') {
+        console.error('D3.js not loaded');
+        return;
+    }
+
+    if (typeof ExpertiseTree === 'undefined') {
+        console.error('ExpertiseTree class not defined');
+        return;
+    }
+
+    try {
+        // Clear container
+        treeContainer.innerHTML = '';
+
+        // Show loading state
+        treeContainer.innerHTML = '<div style="color: #d1d5db; text-align: center; padding: 2rem;">Loading expertise tree...</div>';
+
+        // Small delay to show loading state
+        setTimeout(() => {
+            treeContainer.innerHTML = '';
+            // Initialize tree and store instance
+            const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
+            treeContainer.__expertiseTreeInstance = treeInstance;
+            console.log('Expertise tree initialized successfully!');
+        }, 100);
+
+    } catch (error) {
+        console.error('Error initializing expertise tree:', error);
+        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
+    }
+}
 
 
