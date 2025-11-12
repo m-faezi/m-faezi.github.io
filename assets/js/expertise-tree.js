@@ -119,170 +119,217 @@ window.expertiseData = {
     ]
 };
 
+
 class ExpertiseTree {
     constructor(containerId, data) {
         this.container = document.getElementById(containerId);
         this.data = data;
-        this.width = 928;
-        this.height = 800;
-        this.radius = 300;
+        this.margin = {top: 20, right: 90, bottom: 30, left: 90};
+        this.width = 928 - this.margin.left - this.margin.right;
+        this.height = 850 - this.margin.top - this.margin.bottom; // Increased height significantly
+        this.i = 0;
+        this.duration = 750;
 
         if (this.container) {
             this.init();
         }
     }
 
-    init() {
-        console.log('Initializing interactive radial expertise tree...');
+init() {
+    console.log('Initializing expertise tree...');
 
-        // Remove any existing SVG
-        d3.select(this.container).select("svg").remove();
+    // Remove any existing SVG
+    d3.select(this.container).select("svg").remove();
 
-        // Calculate responsive dimensions
-        this.calculateDimensions();
+    // Calculate responsive dimensions
+    this.calculateDimensions();
 
-        // Create SVG
-        this.svg = d3.select(this.container)
-            .append("svg")
-            .attr("width", this.width)
-            .attr("height", this.height)
-            .attr("viewBox", [-this.width / 2, -this.height / 2, this.width, this.height])
-            .style("font", "12px Inter, sans-serif")
-            .style("background", "transparent");
+    // Create SVG
+    this.svg = d3.select(this.container)
+        .append("svg")
+        .attr("width", this.width + this.margin.right + this.margin.left)
+        .attr("height", this.height + this.margin.top + this.margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-        // Create container for nodes
-        this.g = this.svg.append("g");
+    // Create tree layout with responsive size
+    this.tree = d3.tree().size([this.height, this.width]);
 
-        // Convert data to hierarchical format
-        this.root = d3.hierarchy(this.data);
-        this.root.x0 = 0;
-        this.root.y0 = 0;
+    // Initialize with root - KEEP ALL NODES EXPANDED INITIALLY
+    this.root = d3.hierarchy(this.data, d => d.children);
+    this.root.x0 = this.height / 2;
+    this.root.y0 = 0;
 
-        // Initialize all nodes as expanded
-        this.root.descendants().forEach(d => {
-            d._children = d.children;
-        });
+    this.update(this.root);
+    console.log('Expertise tree initialized successfully');
+}
 
-        this.update(this.root);
 
-        console.log('Interactive radial expertise tree initialized successfully');
+// Add this new method to calculate responsive dimensions
+calculateDimensions() {
+    const container = this.container;
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+        // Mobile dimensions
+        this.width = Math.min(container.clientWidth - 40, 500) - this.margin.left - this.margin.right;
+        this.height = 350 - this.margin.top - this.margin.bottom;
+        // Reduce horizontal spacing for mobile
+        this.margin.left = 50;
+        this.margin.right = 50;
+    } else {
+        // Desktop dimensions
+        this.width = Math.min(container.clientWidth, 928) - this.margin.left - this.margin.right;
+        this.height = 500 - this.margin.top - this.margin.bottom;
     }
 
-    calculateDimensions() {
-        const container = this.container;
-        const isMobile = window.innerWidth <= 768;
+    console.log(`Tree dimensions: ${this.width}x${this.height}, mobile: ${isMobile}`);
+}
 
-        if (isMobile) {
-            this.width = Math.min(container.clientWidth - 40, 500);
-            this.height = 500;
-            this.radius = Math.min(this.width, this.height) / 2 - 60;
-        } else {
-            this.width = Math.min(container.clientWidth, 928);
-            this.height = 700;
-            this.radius = Math.min(this.width, this.height) / 2 - 80;
+
+    collapse(d) {
+        if (d.children) {
+            d._children = d.children;
+            d._children.forEach(child => this.collapse(child));
+            d.children = null;
         }
-
-        console.log(`Tree dimensions: ${this.width}x${this.height}, radius: ${this.radius}, mobile: ${isMobile}`);
     }
 
     update(source) {
-        const duration = 750;
+        // Compute the new tree layout.
+        const treeData = this.tree(this.root);
 
-        // Assign positions to nodes
-        const tree = d3.tree()
-            .size([2 * Math.PI, this.radius])
-            .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+        // Nodes
+        const nodes = treeData.descendants();
+        const links = treeData.descendants().slice(1);
 
-        const data = tree(this.root);
-
-        const nodes = data.descendants();
-        const links = data.links();
+        // Normalize for fixed-depth.
+        // Responsive node positioning
+        const isMobile = window.innerWidth <= 768;
+        const horizontalSpacing = isMobile ? 120 : 180; // Reduced spacing on mobile
+        nodes.forEach(d => { d.y = d.depth * horizontalSpacing; });
+        // ************************
+        // NODE ANIMATION SECTION
+        // ************************
 
         // Update nodes
-        const node = this.g.selectAll("g.node")
-            .data(nodes, d => d.id || (d.id = Math.random()));
+        const node = this.svg.selectAll("g.node")
+            .data(nodes, d => d.id || (d.id = ++this.i));
 
-        // Enter new nodes
+        // Enter any new nodes with animation
         const nodeEnter = node.enter().append("g")
             .attr("class", "node")
-            .attr("transform", d => `
-                rotate(${d.x * 180 / Math.PI - 90})
-                translate(${d.y},0)
-            `)
-            .style("opacity", 0)
-            .call(this.drag(this.svg));
-
-        // Add circles to nodes
-        nodeEnter.append("circle")
-            .attr("r", d => this.calculateRadius(d))
-            .attr("fill", d => this.getNodeColor(d))
-            .attr("stroke", d => this.getNodeStroke(d))
-            .attr("stroke-width", 2)
-            .style("cursor", "pointer")
+            .attr("transform", d => `translate(${source.y0},${source.x0})`)
+            .style("opacity", 0) // Start invisible
             .on("click", (event, d) => this.click(event, d));
 
-        // Add labels to nodes
+        // Add circles for nodes
+        nodeEnter.append("circle")
+            .attr("r", 0) // Start with radius 0
+            .style("fill", d => d._children ? "#10b981" : "#fff")
+            .transition()
+            .duration(this.duration)
+            .attr("r", 6)
+            .style("opacity", 1);
+
+        // Add labels with fade-in animation
         nodeEnter.append("text")
-            .attr("dy", "0.31em")
-            .attr("x", d => d.x < Math.PI ? 8 : -8)
-            .attr("text-anchor", d => d.x < Math.PI ? "start" : "end")
-            .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+            .attr("dy", ".35em")
+            .attr("x", d => d.children || d._children ? -13 : 13)
+            .attr("text-anchor", d => d.children || d._children ? "end" : "start")
             .text(d => d.data.name)
-            .attr("fill", "#ffffff")
-            .style("font-weight", "600")
+            .style("fill", "#ffffff")
+            .style("font-size", "12px")
             .style("font-family", "Inter, sans-serif")
-            .style("pointer-events", "none")
-            .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.8)")
-            .clone(true)
-            .lower()
-            .attr("fill", "none")
-            .attr("stroke", "#000000")
-            .attr("stroke-width", 3);
-
-        // Update nodes
-        const nodeUpdate = node.merge(nodeEnter)
+            .style("font-weight", "600")
+            .style("opacity", 0)
             .transition()
-            .duration(duration)
-            .style("opacity", 1)
-            .attr("transform", d => `
-                rotate(${d.x * 180 / Math.PI - 90})
-                translate(${d.y},0)
-            `);
+            .delay(this.duration / 2)
+            .duration(this.duration / 2)
+            .style("opacity", 1);
 
-        // Remove exiting nodes
-        const nodeExit = node.exit()
-            .transition()
-            .duration(duration)
+        // Fade in the node group
+        nodeEnter.transition()
+            .duration(this.duration)
+            .style("opacity", 1);
+
+        // Update nodes transition to new position
+        const nodeUpdate = node.merge(nodeEnter).transition()
+            .duration(this.duration)
+            .attr("transform", d => `translate(${d.y},${d.x})`)
+            .style("opacity", 1);
+
+        nodeUpdate.select("circle")
+            .attr("r", 6)
+            .style("fill", d => d._children ? "#10b981" : "#fff")
+            .style("stroke", "#10b981")
+            .style("stroke-width", "2px");
+
+        // Remove exiting nodes with animation
+        const nodeExit = node.exit().transition()
+            .duration(this.duration)
+            .attr("transform", d => `translate(${source.y},${source.x})`)
             .style("opacity", 0)
             .remove();
 
-        // Update links
-        const link = this.g.selectAll("path.link")
-            .data(links, d => d.target.id);
+        nodeExit.select("circle")
+            .attr("r", 0);
+        nodeExit.select("text")
+            .style("fill-opacity", 0);
 
-        // Enter new links
+        // ************************
+        // LINK ANIMATION SECTION
+        // ************************
+
+        // Update links
+        const link = this.svg.selectAll("path.link")
+            .data(links, d => d.id);
+
+        // Enter new links with draw animation
         const linkEnter = link.enter().insert("path", "g")
             .attr("class", "link")
-            .attr("d", d3.linkRadial()
-                .angle(d => d.x)
-                .radius(d => d.y))
-            .style("opacity", 0);
-
-        // Update links
-        link.merge(linkEnter)
+            .attr("d", d => {
+                const o = {x: source.x0, y: source.y0};
+                return this.diagonal(o, o);
+            })
+            .style("fill", "none")
+            .style("stroke", "#6b7280")
+            .style("stroke-width", "1.5px")
+            .style("opacity", 0)
             .transition()
-            .duration(duration)
-            .style("opacity", 0.6)
-            .attr("d", d3.linkRadial()
-                .angle(d => d.x)
-                .radius(d => d.y));
+            .duration(this.duration)
+            .style("opacity", 1)
+            .attr("d", d => this.diagonal(d, d.parent));
 
-        // Remove exiting links
-        link.exit()
-            .transition()
-            .duration(duration)
+        // Update links transition with smooth animation
+        link.merge(linkEnter).transition()
+            .duration(this.duration)
+            .attr("d", d => this.diagonal(d, d.parent))
+            .style("opacity", 1);
+
+        // Remove exiting links with fade out
+        link.exit().transition()
+            .duration(this.duration)
+            .attr("d", d => {
+                const o = {x: source.x, y: source.y};
+                return this.diagonal(o, o);
+            })
             .style("opacity", 0)
             .remove();
+
+        // Store old positions for transition
+        nodes.forEach(d => {
+            d.x0 = d.x;
+            d.y0 = d.y;
+        });
+    }
+
+    diagonal(s, d) {
+        const path = `M ${s.y} ${s.x}
+                C ${(s.y + d.y) / 2} ${s.x},
+                  ${(s.y + d.y) / 2} ${d.x},
+                  ${d.y} ${d.x}`;
+        return path;
     }
 
     click(event, d) {
@@ -297,93 +344,23 @@ class ExpertiseTree {
             d._children = null;
         }
 
-        // Add click animation
+        // Add click animation to the node
         d3.select(event.currentTarget)
             .select("circle")
             .transition()
             .duration(200)
-            .attr("r", this.calculateRadius(d) * 1.2)
+            .attr("r", 8)
             .transition()
             .duration(200)
-            .attr("r", this.calculateRadius(d));
+            .attr("r", 6);
 
         this.update(d);
-    }
-
-    drag(svg) {
-        function dragstarted(event, d) {
-            d3.select(this).raise().classed("active", true);
-        }
-
-        function dragged(event, d) {
-            // Convert drag coordinates to polar coordinates
-            const [x, y] = d3.pointer(event, svg.node());
-            const radius = Math.sqrt(x * x + y * y);
-            const angle = Math.atan2(y, x);
-
-            // Update node position
-            d.x = angle + Math.PI / 2; // Adjust for radial layout
-            d.y = Math.max(50, Math.min(radius, this.radius)); // Keep within bounds
-
-            // Update the visualization
-            d3.select(this)
-                .attr("transform", `
-                    rotate(${d.x * 180 / Math.PI - 90})
-                    translate(${d.y},0)
-                `);
-
-            // Update links
-            svg.selectAll("path.link")
-                .filter(link => link.source === d || link.target === d)
-                .attr("d", d3.linkRadial()
-                    .angle(link => link.x)
-                    .radius(link => link.y));
-        }
-
-        function dragended(event, d) {
-            d3.select(this).classed("active", false);
-        }
-
-        return d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended);
-    }
-
-    calculateRadius(d) {
-        // Base size on depth and custom size if available
-        const baseSize = d.depth === 0 ? 12 : (d.children || d._children ? 8 : 6);
-        const customSize = d.data.size ? d.data.size / 150 : 1;
-
-        return baseSize * customSize;
-    }
-
-    getNodeColor(d) {
-        const greenShades = {
-            0: "#10b981", // Root - Bright emerald
-            1: "#34d399", // Main categories - Medium emerald
-            2: "#6ee7b7", // Subcategories - Light emerald
-            3: "#a7f3d0"  // Leaf nodes - Very light emerald
-        };
-
-        return greenShades[d.depth] || "#10b981";
-    }
-
-    getNodeStroke(d) {
-        const strokeColors = {
-            0: "#059669", // Root - Dark emerald
-            1: "#10b981", // Main categories - Emerald
-            2: "#34d399", // Subcategories - Light emerald
-            3: "#6ee7b7"  // Leaf nodes - Very light emerald
-        };
-
-        return strokeColors[d.depth] || "#059669";
     }
 }
 
 // Enhanced initialization with multiple fallbacks
 function initializeExpertiseTree() {
-    console.log('Attempting to initialize interactive radial expertise tree...');
+    console.log('Attempting to initialize expertise tree...');
 
     const treeContainer = document.getElementById('expertiseTree');
     if (!treeContainer) {
@@ -417,9 +394,8 @@ function initializeExpertiseTree() {
         setTimeout(() => {
             treeContainer.innerHTML = '';
             // Initialize tree
-            const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
-            treeContainer.__expertiseTreeInstance = treeInstance;
-            console.log('Interactive radial expertise tree initialized successfully!');
+            new ExpertiseTree('expertiseTree', window.expertiseData);
+            console.log('Expertise tree initialized successfully!');
         }, 100);
 
     } catch (error) {
@@ -448,6 +424,7 @@ setTimeout(function() {
     }
 }, 3000);
 
+
 // Handle window resize for responsiveness
 let resizeTimeout;
 window.addEventListener('resize', function() {
@@ -460,5 +437,52 @@ window.addEventListener('resize', function() {
         }
     }, 250);
 });
+
+// Enhanced initialization with multiple fallbacks
+function initializeExpertiseTree() {
+    console.log('Attempting to initialize expertise tree...');
+
+    const treeContainer = document.getElementById('expertiseTree');
+    if (!treeContainer) {
+        console.error('Expertise tree container not found');
+        return;
+    }
+
+    if (!window.expertiseData) {
+        console.error('Expertise data not found');
+        return;
+    }
+
+    if (typeof d3 === 'undefined') {
+        console.error('D3.js not loaded');
+        return;
+    }
+
+    if (typeof ExpertiseTree === 'undefined') {
+        console.error('ExpertiseTree class not defined');
+        return;
+    }
+
+    try {
+        // Clear container
+        treeContainer.innerHTML = '';
+
+        // Show loading state
+        treeContainer.innerHTML = '<div style="color: #d1d5db; text-align: center; padding: 2rem;">Loading expertise tree...</div>';
+
+        // Small delay to show loading state
+        setTimeout(() => {
+            treeContainer.innerHTML = '';
+            // Initialize tree and store instance
+            const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
+            treeContainer.__expertiseTreeInstance = treeInstance;
+            console.log('Expertise tree initialized successfully!');
+        }, 100);
+
+    } catch (error) {
+        console.error('Error initializing expertise tree:', error);
+        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
+    }
+}
 
 

@@ -1,15 +1,15 @@
-/* Expertise Tree Styles - Interactive Radial Tree */
+/* Expertise Tree Styles - No Box */
 .expertise-tree-container {
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
     margin: 2rem 0;
-    overflow: hidden;
-    min-height: 700px;
+    overflow: hidden; /* Change from visible to hidden */
+    min-height: 600px; /* Reduced from 800px */
     position: relative;
     width: 100%;
-    max-height: 800px;
+    max-height: 700px; /* Add max height constraint */
 }
 
 /* Show loading state */
@@ -23,229 +23,125 @@
     font-style: italic;
 }
 
-/* D3.js Interactive Radial Tree Styling */
+/* D3.js Tree Styling */
 #expertiseTree {
     width: 100%;
     height: 100%;
-    min-height: 600px;
-    overflow: hidden;
+    min-height: 500px; /* Reduced from 700px */
+    overflow: hidden; /* Prevent overflow */
 }
 
 #expertiseTree svg {
     width: 100%;
     height: 100%;
-    min-height: 600px;
+    min-height: 500px; /* Reduced from 700px */
     background: transparent;
-    overflow: hidden;
+    overflow: hidden; /* Prevent SVG overflow */
 }
 
-/* Node styles */
 .node {
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .node circle {
+    fill: #ffffff;
+    stroke: #10b981;
+    stroke-width: 2px;
     transition: all 0.3s ease;
-    filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
 }
 
 .node:hover circle {
-    transform: scale(1.2);
-    filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.6));
-}
-
-.node.active circle {
-    filter: drop-shadow(0 6px 12px rgba(16, 185, 129, 0.8));
+    fill: #10b981;
+    stroke: #059669;
+    transform: scale(1.1);
 }
 
 .node text {
     font-family: 'Inter', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     fill: #ffffff;
     font-weight: 600;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    pointer-events: none;
     transition: all 0.3s ease;
 }
 
 .node:hover text {
-    fill: #a7f3d0;
+    fill: #34d399;
     font-weight: 700;
 }
 
-/* Links/edges between nodes - Green theme */
+/* Links/edges between nodes */
 .link {
-    stroke: #34d399;
-    stroke-opacity: 0.6;
-    stroke-width: 1.5;
     fill: none;
+    stroke: #6b7280;
+    stroke-width: 1.5px;
     transition: all 0.3s ease;
 }
 
-.link:hover {
-    stroke-opacity: 0.9;
-    stroke-width: 2;
-}
-
-/* Green theme color hierarchy */
-.node--root circle {
-    fill: #10b981;
-    stroke: #059669;
-}
-
-.node--internal circle {
-    fill: #34d399;
+.node:hover ~ .link {
     stroke: #10b981;
+    stroke-width: 2px;
 }
 
-.node--leaf circle {
-    fill: #6ee7b7;
-    stroke: #34d399;
+/* Animation for when links are updated */
+.link-updating {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 1.5s ease-in-out forwards;
 }
 
-/* Fold/unfold indicators */
-.node circle::after {
-    content: "";
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #ffffff;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.8;
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
-.node--internal:not(.collapsed) circle::after {
-    content: "−";
-    color: white;
-    font-weight: bold;
-    font-size: 10px;
-    background: none;
-}
-
-.node--internal.collapsed circle::after {
-    content: "+";
-    color: white;
-    font-weight: bold;
-    font-size: 10px;
-    background: none;
-}
-
-/* Responsive design */
+/* Responsive design - IMPROVED */
 @media (max-width: 768px) {
     .expertise-tree-container {
         margin: 1.5rem 0;
-        min-height: 500px;
-        max-height: 600px;
+        min-height: 400px; /* Further reduced for mobile */
+        max-height: 500px; /* Constrain max height on mobile */
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 450px;
+        min-height: 350px; /* Smaller on mobile */
     }
 
     .node text {
-        font-size: 9px;
+        font-size: 10px;
     }
 }
 
 /* Extra small devices */
 @media (max-width: 480px) {
     .expertise-tree-container {
-        min-height: 400px;
-        max-height: 500px;
+        min-height: 350px;
+        max-height: 400px;
         margin: 1rem 0;
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 350px;
+        min-height: 300px;
     }
 
     .node text {
-        font-size: 8px;
+        font-size: 9px; /* Even smaller text */
         font-weight: 500;
     }
 
     .node circle {
-        r: 4px;
+        r: 4px; /* Smaller circles on mobile */
     }
 }
 
-/* Smooth transitions */
+/* Smooth transitions for all tree elements */
 #expertiseTree g,
 #expertiseTree path,
 #expertiseTree circle,
 #expertiseTree text {
-    transition: all 0.3s ease;
-}
-
-/* Interactive hints */
-.expertise-tree-container::after {
-    content: "💡 Click to fold/unfold • Drag to move nodes";
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: #34d399;
-    font-size: 0.8rem;
-    pointer-events: none;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid #34d399;
-}
-
-@media (max-width: 768px) {
-    .expertise-tree-container::after {
-        content: "💡 Tap to fold/unfold • Drag to move";
-        font-size: 0.7rem;
-        bottom: 5px;
-        right: 5px;
-        padding: 4px 8px;
-    }
-}
-
-/* Center the radial tree */
-#expertiseTree svg {
-    display: block;
-    margin: 0 auto;
-}
-
-/* Animation for fold/unfold */
-.node-exit {
-    opacity: 0;
-    transform: scale(0.5);
-}
-
-.node-enter {
-    opacity: 0;
-    transform: scale(0.5);
-}
-
-.node-enter-active {
-    opacity: 1;
-    transform: scale(1);
     transition: all 0.5s ease;
 }
-
-/* Green glow effect for active nodes */
-@keyframes greenPulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-    }
-}
-
-.node circle:active {
-    animation: greenPulse 0.6s ease;
-}
-
 
