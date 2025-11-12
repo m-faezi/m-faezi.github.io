@@ -1,120 +1,54 @@
-/* Expertise Tree Styles - No Box */
+/* expertise-tree.css - UPDATED VERSION */
+/* Floating Interactive Graph Styles */
+
 .expertise-tree-container {
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
     margin: 2rem 0;
-    overflow: hidden; /* Change from visible to hidden */
-    min-height: 600px; /* Reduced from 800px */
+    overflow: hidden;
+    min-height: 600px;
     position: relative;
     width: 100%;
-    max-height: 700px; /* Add max height constraint */
+    max-height: 700px;
 }
 
-/* Show loading state */
-.expertise-tree-container:empty::before {
-    content: "Loading expertise tree...";
-    color: #d1d5db;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-style: italic;
+/* Graph node styles */
+.graph-node rect {
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
-/* D3.js Tree Styling */
-#expertiseTree {
-    width: 100%;
-    height: 100%;
-    min-height: 500px; /* Reduced from 700px */
-    overflow: hidden; /* Prevent overflow */
+.graph-node:hover rect {
+    transform: scale(1.05);
+    filter: url(#glow) brightness(1.2);
 }
 
-#expertiseTree svg {
-    width: 100%;
-    height: 100%;
-    min-height: 500px; /* Reduced from 700px */
-    background: transparent;
-    overflow: hidden; /* Prevent SVG overflow */
-}
-
-.node {
-    cursor: pointer;
+/* Graph link styles */
+.graph-link {
     transition: all 0.3s ease;
 }
 
-.node circle {
-    fill: #ffffff;
-    stroke: #10b981;
-    stroke-width: 2px;
-    transition: all 0.3s ease;
-}
-
-.node:hover circle {
-    fill: #10b981;
-    stroke: #059669;
-    transform: scale(1.1);
-}
-
-.node text {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    fill: #ffffff;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.node:hover text {
-    fill: #34d399;
-    font-weight: 700;
-}
-
-/* Links/edges between nodes */
-.link {
-    fill: none;
-    stroke: #6b7280;
-    stroke-width: 1.5px;
-    transition: all 0.3s ease;
-}
-
-.node:hover ~ .link {
-    stroke: #10b981;
-    stroke-width: 2px;
-}
-
-/* Animation for when links are updated */
-.link-updating {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: draw 1.5s ease-in-out forwards;
-}
-
-@keyframes draw {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-/* Responsive design - IMPROVED */
+/* Responsive design */
 @media (max-width: 768px) {
     .expertise-tree-container {
         margin: 1.5rem 0;
-        min-height: 400px; /* Further reduced for mobile */
-        max-height: 500px; /* Constrain max height on mobile */
+        min-height: 400px;
+        max-height: 500px;
     }
 
-    #expertiseTree,
-    #expertiseTree svg {
-        min-height: 350px; /* Smaller on mobile */
+    .graph-node text {
+        font-size: 10px !important;
     }
 
-    .node text {
-        font-size: 10px;
+    .graph-node rect {
+        width: 120px !important;
+        height: 35px !important;
     }
 }
 
-/* Extra small devices */
 @media (max-width: 480px) {
     .expertise-tree-container {
         min-height: 350px;
@@ -122,26 +56,30 @@
         margin: 1rem 0;
     }
 
-    #expertiseTree,
-    #expertiseTree svg {
-        min-height: 300px;
+    .graph-node text {
+        font-size: 9px !important;
     }
 
-    .node text {
-        font-size: 9px; /* Even smaller text */
-        font-weight: 500;
-    }
-
-    .node circle {
-        r: 4px; /* Smaller circles on mobile */
+    .graph-node rect {
+        width: 100px !important;
+        height: 30px !important;
     }
 }
 
-/* Smooth transitions for all tree elements */
-#expertiseTree g,
-#expertiseTree path,
-#expertiseTree circle,
-#expertiseTree text {
+/* Smooth transitions */
+.graph-node,
+.graph-link {
     transition: all 0.5s ease;
+}
+
+/* Mobile touch improvements */
+@media (hover: none) and (pointer: coarse) {
+    .graph-node rect {
+        cursor: grab;
+    }
+
+    .graph-node:active rect {
+        cursor: grabbing;
+    }
 }
 
