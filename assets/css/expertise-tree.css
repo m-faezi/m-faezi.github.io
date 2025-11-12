@@ -1,5 +1,4 @@
-/* expertise-tree.css - UPDATED VERSION */
-/* Wider Floating Interactive Graph Styles */
+/* expertise-tree.css - CENTERED TREE VERSION */
 
 .expertise-tree-container {
     background: transparent;
@@ -8,117 +7,71 @@
     padding: 0;
     margin: 2rem 0;
     overflow: hidden;
-    min-height: 700px;
+    min-height: 600px;
     position: relative;
     width: 100%;
-    max-height: 800px;
-    /* Make it wider by reducing margins */
-    margin-left: -1rem;
-    margin-right: -1rem;
-    width: calc(100% + 2rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Make the container even wider on larger screens */
-@media (min-width: 1200px) {
-    .expertise-tree-container {
-        margin-left: -2rem;
-        margin-right: -2rem;
-        width: calc(100% + 4rem);
-    }
-}
-
-/* Graph node styles */
-.graph-node rect {
+/* Tree node styles */
+.tree-node circle {
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
-.graph-node:hover rect {
-    transform: scale(1.05);
+.tree-node:hover circle {
+    transform: scale(1.1);
     filter: url(#glow) brightness(1.2);
 }
 
-/* Graph link styles */
-.graph-link {
+/* Tree link styles */
+.tree-link {
     transition: all 0.3s ease;
+}
+
+.tree-node:hover ~ .tree-link {
+    stroke: rgba(16, 185, 129, 0.6) !important;
+    stroke-width: 2px !important;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
     .expertise-tree-container {
-        margin: 1.5rem -0.5rem;
-        width: calc(100% + 1rem);
         min-height: 500px;
-        max-height: 600px;
+        margin: 1.5rem 0;
     }
 
-    .graph-node text {
-        font-size: 11px !important;
-    }
-
-    .graph-node rect {
-        width: 140px !important;
-        height: 45px !important;
+    .tree-node text {
+        font-size: 10px !important;
     }
 }
 
 @media (max-width: 480px) {
     .expertise-tree-container {
-        margin: 1rem -0.25rem;
-        width: calc(100% + 0.5rem);
         min-height: 400px;
-        max-height: 500px;
+        margin: 1rem 0;
     }
 
-    .graph-node text {
-        font-size: 10px !important;
-    }
-
-    .graph-node rect {
-        width: 120px !important;
-        height: 40px !important;
-    }
-}
-
-/* Extra small devices */
-@media (max-width: 360px) {
-    .expertise-tree-container {
-        min-height: 350px;
-        max-height: 450px;
-    }
-
-    .graph-node text {
+    .tree-node text {
         font-size: 9px !important;
-    }
-
-    .graph-node rect {
-        width: 100px !important;
-        height: 35px !important;
     }
 }
 
 /* Smooth transitions */
-.graph-node,
-.graph-link {
+.tree-node,
+.tree-link {
     transition: all 0.5s ease;
 }
 
-/* Mobile touch improvements */
-@media (hover: none) and (pointer: coarse) {
-    .graph-node rect {
-        cursor: grab;
-    }
-
-    .graph-node:active rect {
-        cursor: grabbing;
-    }
-}
-
-/* Ensure the graph uses full available width */
+/* Ensure proper SVG sizing */
 #expertiseTree {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 #expertiseTree svg {
