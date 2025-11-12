@@ -125,6 +125,7 @@ class ExpertiseTree {
         this.data = data;
         this.width = 928;
         this.height = 800;
+        this.radius = 300;
 
         if (this.container) {
             this.init();
@@ -132,7 +133,7 @@ class ExpertiseTree {
     }
 
     init() {
-        console.log('Initializing radial expertise tree...');
+        console.log('Initializing interactive radial expertise tree...');
 
         // Remove any existing SVG
         d3.select(this.container).select("svg").remove();
@@ -140,73 +141,88 @@ class ExpertiseTree {
         // Calculate responsive dimensions
         this.calculateDimensions();
 
-        // Create radial tree layout
-        this.tree = d3.tree()
-            .size([2 * Math.PI, this.radius])
-            .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
-
         // Create SVG
         this.svg = d3.select(this.container)
             .append("svg")
             .attr("width", this.width)
             .attr("height", this.height)
             .attr("viewBox", [-this.width / 2, -this.height / 2, this.width, this.height])
-            .style("font", "12px Inter, sans-serif");
+            .style("font", "12px Inter, sans-serif")
+            .style("background", "transparent");
 
-        // Create container for zoomable content
+        // Create container for nodes
         this.g = this.svg.append("g");
 
         // Convert data to hierarchical format
         this.root = d3.hierarchy(this.data);
-        this.tree(this.root);
+        this.root.x0 = 0;
+        this.root.y0 = 0;
 
-        // Add links (edges)
-        this.g.append("g")
-            .attr("fill", "none")
-            .attr("stroke", "#6b7280")
-            .attr("stroke-opacity", 0.6)
-            .attr("stroke-width", 1.5)
-            .selectAll("path")
-            .data(this.root.links())
-            .join("path")
-            .attr("d", d3.linkRadial()
-                .angle(d => d.x)
-                .radius(d => d.y));
+        // Initialize all nodes as expanded
+        this.root.descendants().forEach(d => {
+            d._children = d.children;
+        });
 
-        // Add nodes
-        const node = this.g.append("g")
-            .selectAll("g")
-            .data(this.root.descendants())
-            .join("g")
+        this.update(this.root);
+
+        console.log('Interactive radial expertise tree initialized successfully');
+    }
+
+    calculateDimensions() {
+        const container = this.container;
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+            this.width = Math.min(container.clientWidth - 40, 500);
+            this.height = 500;
+            this.radius = Math.min(this.width, this.height) / 2 - 60;
+        } else {
+            this.width = Math.min(container.clientWidth, 928);
+            this.height = 700;
+            this.radius = Math.min(this.width, this.height) / 2 - 80;
+        }
+
+        console.log(`Tree dimensions: ${this.width}x${this.height}, radius: ${this.radius}, mobile: ${isMobile}`);
+    }
+
+    update(source) {
+        const duration = 750;
+
+        // Assign positions to nodes
+        const tree = d3.tree()
+            .size([2 * Math.PI, this.radius])
+            .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+
+        const data = tree(this.root);
+
+        const nodes = data.descendants();
+        const links = data.links();
+
+        // Update nodes
+        const node = this.g.selectAll("g.node")
+            .data(nodes, d => d.id || (d.id = Math.random()));
+
+        // Enter new nodes
+        const nodeEnter = node.enter().append("g")
+            .attr("class", "node")
             .attr("transform", d => `
                 rotate(${d.x * 180 / Math.PI - 90})
                 translate(${d.y},0)
-            `);
+            `)
+            .style("opacity", 0)
+            .call(this.drag(this.svg));
 
         // Add circles to nodes
-        node.append("circle")
+        nodeEnter.append("circle")
             .attr("r", d => this.calculateRadius(d))
             .attr("fill", d => this.getNodeColor(d))
-            .attr("stroke", "#10b981")
+            .attr("stroke", d => this.getNodeStroke(d))
             .attr("stroke-width", 2)
             .style("cursor", "pointer")
-            .on("mouseover", function(event, d) {
-                d3.select(this)
-                    .transition()
-                    .duration(200)
-                    .attr("r", d => d.children || d._children ? 10 : 8)
-                    .attr("stroke-width", 3);
-            })
-            .on("mouseout", function(event, d) {
-                d3.select(this)
-                    .transition()
-                    .duration(200)
-                    .attr("r", d => d.children || d._children ? 8 : 6)
-                    .attr("stroke-width", 2);
-            });
+            .on("click", (event, d) => this.click(event, d));
 
         // Add labels to nodes
-        node.append("text")
+        nodeEnter.append("text")
             .attr("dy", "0.31em")
             .attr("x", d => d.x < Math.PI ? 8 : -8)
             .attr("text-anchor", d => d.x < Math.PI ? "start" : "end")
@@ -223,32 +239,115 @@ class ExpertiseTree {
             .attr("stroke", "#000000")
             .attr("stroke-width", 3);
 
-        // Add zoom behavior
-        this.svg.call(d3.zoom()
-            .extent([[0, 0], [this.width, this.height]])
-            .scaleExtent([0.5, 3])
-            .on("zoom", (event) => {
-                this.g.attr("transform", event.transform);
-            }));
+        // Update nodes
+        const nodeUpdate = node.merge(nodeEnter)
+            .transition()
+            .duration(duration)
+            .style("opacity", 1)
+            .attr("transform", d => `
+                rotate(${d.x * 180 / Math.PI - 90})
+                translate(${d.y},0)
+            `);
 
-        console.log('Radial expertise tree initialized successfully');
+        // Remove exiting nodes
+        const nodeExit = node.exit()
+            .transition()
+            .duration(duration)
+            .style("opacity", 0)
+            .remove();
+
+        // Update links
+        const link = this.g.selectAll("path.link")
+            .data(links, d => d.target.id);
+
+        // Enter new links
+        const linkEnter = link.enter().insert("path", "g")
+            .attr("class", "link")
+            .attr("d", d3.linkRadial()
+                .angle(d => d.x)
+                .radius(d => d.y))
+            .style("opacity", 0);
+
+        // Update links
+        link.merge(linkEnter)
+            .transition()
+            .duration(duration)
+            .style("opacity", 0.6)
+            .attr("d", d3.linkRadial()
+                .angle(d => d.x)
+                .radius(d => d.y));
+
+        // Remove exiting links
+        link.exit()
+            .transition()
+            .duration(duration)
+            .style("opacity", 0)
+            .remove();
     }
 
-    calculateDimensions() {
-        const container = this.container;
-        const isMobile = window.innerWidth <= 768;
+    click(event, d) {
+        event.stopPropagation();
 
-        if (isMobile) {
-            this.width = Math.min(container.clientWidth - 40, 500);
-            this.height = 500;
-            this.radius = Math.min(this.width, this.height) / 2 - 80;
+        // Toggle children
+        if (d.children) {
+            d._children = d.children;
+            d.children = null;
         } else {
-            this.width = Math.min(container.clientWidth, 928);
-            this.height = 700;
-            this.radius = Math.min(this.width, this.height) / 2 - 100;
+            d.children = d._children;
+            d._children = null;
         }
 
-        console.log(`Tree dimensions: ${this.width}x${this.height}, radius: ${this.radius}, mobile: ${isMobile}`);
+        // Add click animation
+        d3.select(event.currentTarget)
+            .select("circle")
+            .transition()
+            .duration(200)
+            .attr("r", this.calculateRadius(d) * 1.2)
+            .transition()
+            .duration(200)
+            .attr("r", this.calculateRadius(d));
+
+        this.update(d);
+    }
+
+    drag(svg) {
+        function dragstarted(event, d) {
+            d3.select(this).raise().classed("active", true);
+        }
+
+        function dragged(event, d) {
+            // Convert drag coordinates to polar coordinates
+            const [x, y] = d3.pointer(event, svg.node());
+            const radius = Math.sqrt(x * x + y * y);
+            const angle = Math.atan2(y, x);
+
+            // Update node position
+            d.x = angle + Math.PI / 2; // Adjust for radial layout
+            d.y = Math.max(50, Math.min(radius, this.radius)); // Keep within bounds
+
+            // Update the visualization
+            d3.select(this)
+                .attr("transform", `
+                    rotate(${d.x * 180 / Math.PI - 90})
+                    translate(${d.y},0)
+                `);
+
+            // Update links
+            svg.selectAll("path.link")
+                .filter(link => link.source === d || link.target === d)
+                .attr("d", d3.linkRadial()
+                    .angle(link => link.x)
+                    .radius(link => link.y));
+        }
+
+        function dragended(event, d) {
+            d3.select(this).classed("active", false);
+        }
+
+        return d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended);
     }
 
     calculateRadius(d) {
@@ -260,20 +359,31 @@ class ExpertiseTree {
     }
 
     getNodeColor(d) {
-        const colors = {
-            0: "#10b981", // Root - Emerald
-            1: "#3b82f6", // Main categories - Blue
-            2: "#8b5cf6", // Subcategories - Purple
-            3: "#f59e0b"  // Leaf nodes - Amber
+        const greenShades = {
+            0: "#10b981", // Root - Bright emerald
+            1: "#34d399", // Main categories - Medium emerald
+            2: "#6ee7b7", // Subcategories - Light emerald
+            3: "#a7f3d0"  // Leaf nodes - Very light emerald
         };
 
-        return colors[d.depth] || "#6b7280"; // Default gray
+        return greenShades[d.depth] || "#10b981";
+    }
+
+    getNodeStroke(d) {
+        const strokeColors = {
+            0: "#059669", // Root - Dark emerald
+            1: "#10b981", // Main categories - Emerald
+            2: "#34d399", // Subcategories - Light emerald
+            3: "#6ee7b7"  // Leaf nodes - Very light emerald
+        };
+
+        return strokeColors[d.depth] || "#059669";
     }
 }
 
 // Enhanced initialization with multiple fallbacks
 function initializeExpertiseTree() {
-    console.log('Attempting to initialize radial expertise tree...');
+    console.log('Attempting to initialize interactive radial expertise tree...');
 
     const treeContainer = document.getElementById('expertiseTree');
     if (!treeContainer) {
@@ -309,7 +419,7 @@ function initializeExpertiseTree() {
             // Initialize tree
             const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
             treeContainer.__expertiseTreeInstance = treeInstance;
-            console.log('Radial expertise tree initialized successfully!');
+            console.log('Interactive radial expertise tree initialized successfully!');
         }, 100);
 
     } catch (error) {
@@ -350,6 +460,5 @@ window.addEventListener('resize', function() {
         }
     }, 250);
 });
-
 
 
