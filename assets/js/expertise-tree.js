@@ -1,5 +1,5 @@
 // expertise-tree.js - UPDATED VERSION
-// Floating Interactive Graph with Glassy Nodes
+// Wider Floating Interactive Graph
 
 window.expertiseData = {
     "nodes": [
@@ -168,8 +168,7 @@ class ExpertiseGraph {
         this.container = document.getElementById(containerId);
         this.data = data;
         this.width = this.container.clientWidth;
-        this.height = 600;
-        this.simulation = null;
+        this.height = 700; // Increased height for better spacing
 
         if (this.container) {
             this.init();
@@ -182,19 +181,21 @@ class ExpertiseGraph {
         // Remove any existing SVG
         d3.select(this.container).select("svg").remove();
 
-        // Create SVG
+        // Create SVG with full container width
         this.svg = d3.select(this.container)
             .append("svg")
-            .attr("width", this.width)
+            .attr("width", "100%")
             .attr("height", this.height)
             .style("background", "transparent");
 
-        // Create force simulation
+        // Create force simulation with better positioning
         this.simulation = d3.forceSimulation(this.data.nodes)
-            .force("link", d3.forceLink(this.data.links).id(d => d.id).distance(100))
-            .force("charge", d3.forceManyBody().strength(-300))
+            .force("link", d3.forceLink(this.data.links).id(d => d.id).distance(120))
+            .force("charge", d3.forceManyBody().strength(-400))
             .force("center", d3.forceCenter(this.width / 2, this.height / 2))
-            .force("collision", d3.forceCollide().radius(60));
+            .force("collision", d3.forceCollide().radius(80))
+            .force("x", d3.forceX(this.width / 2).strength(0.1))
+            .force("y", d3.forceY(this.height / 2).strength(0.1));
 
         // Create links
         const link = this.svg.append("g")
@@ -228,7 +229,9 @@ class ExpertiseGraph {
             .style("stroke", d => this.getNodeStroke(d))
             .style("stroke-width", 2)
             .style("filter", "url(#glow)")
-            .style("cursor", "pointer");
+            .style("cursor", "pointer")
+            .style("backdrop-filter", "blur(10px)")
+            .style("-webkit-backdrop-filter", "blur(10px)");
 
         // Add text labels
         node.append("text")
@@ -264,35 +267,84 @@ class ExpertiseGraph {
         // Update positions on simulation tick
         this.simulation.on("tick", () => {
             link
-                .attr("x1", d => d.source.x)
-                .attr("y1", d => d.source.y)
-                .attr("x2", d => d.target.x)
-                .attr("y2", d => d.target.y);
+                .attr("x1", d => Math.max(0, Math.min(this.width, d.source.x)))
+                .attr("y1", d => Math.max(0, Math.min(this.height, d.source.y)))
+                .attr("x2", d => Math.max(0, Math.min(this.width, d.target.x)))
+                .attr("y2", d => Math.max(0, Math.min(this.height, d.target.y)));
 
             node
-                .attr("transform", d => `translate(${d.x},${d.y})`);
+                .attr("transform", d => `translate(${Math.max(20, Math.min(this.width - 20, d.x))},${Math.max(20, Math.min(this.height - 20, d.y))})`);
         });
 
         // Add hover effects
         node.on("mouseover", (event, d) => this.handleMouseOver(event, d))
             .on("mouseout", (event, d) => this.handleMouseOut(event, d));
 
+        // Initial positioning to spread nodes
+        this.spreadNodes();
+
         console.log('Expertise graph initialized successfully');
     }
 
+    spreadNodes() {
+        // Manually position main domains in a horizontal line at the top
+        const domains = this.data.nodes.filter(d => d.level === 0);
+        const domainSpacing = this.width / (domains.length + 1);
+
+        domains.forEach((domain, i) => {
+            domain.x = domainSpacing * (i + 1);
+            domain.y = 100;
+            domain.fx = domain.x;
+            domain.fy = domain.y;
+        });
+
+        // Position subdomains below their parent domains
+        const subdomains = this.data.nodes.filter(d => d.level === 1);
+        subdomains.forEach(subdomain => {
+            const parentLinks = this.data.links.filter(link => link.target.id === subdomain.id);
+            if (parentLinks.length > 0) {
+                const parent = parentLinks[0].source;
+                subdomain.x = parent.x + (Math.random() - 0.5) * 200;
+                subdomain.y = parent.y + 120;
+            }
+        });
+
+        // Position skills below their parent subdomains
+        const skills = this.data.nodes.filter(d => d.level === 2);
+        skills.forEach(skill => {
+            const parentLinks = this.data.links.filter(link => link.target.id === skill.id);
+            if (parentLinks.length > 0) {
+                const parent = parentLinks[0].source;
+                skill.x = parent.x + (Math.random() - 0.5) * 150;
+                skill.y = parent.y + 80;
+            }
+        });
+
+        // Restart simulation with initial positions
+        this.simulation.alpha(1).restart();
+
+        // Release fixed positions after initial layout
+        setTimeout(() => {
+            this.data.nodes.forEach(node => {
+                node.fx = null;
+                node.fy = null;
+            });
+        }, 2000);
+    }
+
     getNodeWidth(d) {
-        const baseSizes = { domain: 180, subdomain: 160, skill: 140 };
-        return baseSizes[d.type] || 140;
+        const baseSizes = { domain: 200, subdomain: 180, skill: 160 };
+        return baseSizes[d.type] || 160;
     }
 
     getNodeHeight(d) {
-        const baseSizes = { domain: 60, subdomain: 50, skill: 40 };
-        return baseSizes[d.type] || 40;
+        const baseSizes = { domain: 70, subdomain: 60, skill: 50 };
+        return baseSizes[d.type] || 50;
     }
 
     getNodeColor(d) {
         const colors = {
-            domain: "rgba(16, 185, 129, 0.25)",
+            domain: "rgba(16, 185, 129, 0.3)",
             subdomain: "rgba(16, 185, 129, 0.2)",
             skill: "rgba(16, 185, 129, 0.15)"
         };
@@ -309,8 +361,8 @@ class ExpertiseGraph {
     }
 
     getFontSize(d) {
-        const sizes = { domain: "14px", subdomain: "12px", skill: "11px" };
-        return sizes[d.type] || "11px";
+        const sizes = { domain: "14px", subdomain: "13px", skill: "12px" };
+        return sizes[d.type] || "12px";
     }
 
     dragStarted(event, d) {
@@ -457,5 +509,4 @@ window.addEventListener('resize', function() {
         }
     }, 250);
 });
-
 
