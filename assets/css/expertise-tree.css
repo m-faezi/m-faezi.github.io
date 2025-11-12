@@ -1,15 +1,15 @@
-/* Expertise Tree Styles - No Box */
+/* Expertise Tree Styles - Force Directed Version */
 .expertise-tree-container {
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
     margin: 2rem 0;
-    overflow: hidden; /* Change from visible to hidden */
-    min-height: 600px; /* Reduced from 800px */
+    overflow: hidden;
+    min-height: 600px;
     position: relative;
     width: 100%;
-    max-height: 700px; /* Add max height constraint */
+    max-height: 700px;
 }
 
 /* Show loading state */
@@ -23,20 +23,21 @@
     font-style: italic;
 }
 
-/* D3.js Tree Styling */
+/* D3.js Force Tree Styling */
 #expertiseTree {
     width: 100%;
     height: 100%;
-    min-height: 500px; /* Reduced from 700px */
-    overflow: hidden; /* Prevent overflow */
+    min-height: 500px;
+    overflow: hidden;
 }
 
 #expertiseTree svg {
     width: 100%;
     height: 100%;
-    min-height: 500px; /* Reduced from 700px */
+    min-height: 500px;
     background: transparent;
-    overflow: hidden; /* Prevent SVG overflow */
+    overflow: hidden;
+    cursor: move;
 }
 
 .node {
@@ -45,24 +46,22 @@
 }
 
 .node circle {
-    fill: #ffffff;
-    stroke: #10b981;
-    stroke-width: 2px;
     transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .node:hover circle {
-    fill: #10b981;
-    stroke: #059669;
-    transform: scale(1.1);
+    transform: scale(1.2);
+    filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.4));
 }
 
 .node text {
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     fill: #ffffff;
     font-weight: 600;
-    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
 }
 
 .node:hover text {
@@ -72,45 +71,31 @@
 
 /* Links/edges between nodes */
 .link {
-    fill: none;
     stroke: #6b7280;
-    stroke-width: 1.5px;
+    stroke-opacity: 0.6;
     transition: all 0.3s ease;
 }
 
 .node:hover ~ .link {
     stroke: #10b981;
-    stroke-width: 2px;
+    stroke-opacity: 0.8;
 }
 
-/* Animation for when links are updated */
-.link-updating {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: draw 1.5s ease-in-out forwards;
-}
-
-@keyframes draw {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-/* Responsive design - IMPROVED */
+/* Responsive design */
 @media (max-width: 768px) {
     .expertise-tree-container {
         margin: 1.5rem 0;
-        min-height: 400px; /* Further reduced for mobile */
-        max-height: 500px; /* Constrain max height on mobile */
+        min-height: 400px;
+        max-height: 500px;
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 350px; /* Smaller on mobile */
+        min-height: 350px;
     }
 
     .node text {
-        font-size: 10px;
+        font-size: 9px;
     }
 }
 
@@ -128,20 +113,38 @@
     }
 
     .node text {
-        font-size: 9px; /* Even smaller text */
+        font-size: 8px;
         font-weight: 500;
     }
 
     .node circle {
-        r: 4px; /* Smaller circles on mobile */
+        r: 4px;
     }
 }
 
-/* Smooth transitions for all tree elements */
+/* Smooth transitions */
 #expertiseTree g,
 #expertiseTree path,
 #expertiseTree circle,
 #expertiseTree text {
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
+}
+
+/* Zoom controls hint */
+.expertise-tree-container::after {
+    content: "💡 Drag to move • Scroll to zoom";
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: #6b7280;
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .expertise-tree-container::after {
+        content: "💡 Drag to move • Pinch to zoom";
+        font-size: 0.7rem;
+    }
 }
 
