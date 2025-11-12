@@ -124,7 +124,7 @@ class ExpertiseTree {
         this.container = document.getElementById(containerId);
         this.data = data;
         this.width = 928;
-        this.height = 700;
+        this.height = 800;
 
         if (this.container) {
             this.init();
@@ -132,7 +132,7 @@ class ExpertiseTree {
     }
 
     init() {
-        console.log('Initializing force-directed expertise tree...');
+        console.log('Initializing radial expertise tree...');
 
         // Remove any existing SVG
         d3.select(this.container).select("svg").remove();
@@ -140,68 +140,85 @@ class ExpertiseTree {
         // Calculate responsive dimensions
         this.calculateDimensions();
 
+        // Create radial tree layout
+        this.tree = d3.tree()
+            .size([2 * Math.PI, this.radius])
+            .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+
         // Create SVG
         this.svg = d3.select(this.container)
             .append("svg")
             .attr("width", this.width)
             .attr("height", this.height)
             .attr("viewBox", [-this.width / 2, -this.height / 2, this.width, this.height])
-            .style("font", "12px sans-serif");
-
-        // Create force simulation
-        this.simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(d => d.id).distance(100))
-            .force("charge", d3.forceManyBody().strength(-300))
-            .force("x", d3.forceX())
-            .force("y", d3.forceY())
-            .force("center", d3.forceCenter(0, 0));
+            .style("font", "12px Inter, sans-serif");
 
         // Create container for zoomable content
         this.g = this.svg.append("g");
 
         // Convert data to hierarchical format
-        const root = d3.hierarchy(this.data);
-        const nodes = root.descendants();
-        const links = root.links();
+        this.root = d3.hierarchy(this.data);
+        this.tree(this.root);
 
-        // Add id to nodes
-        nodes.forEach((d, i) => {
-            d.id = i;
-        });
-
-        // Create links
-        const link = this.g.append("g")
+        // Add links (edges)
+        this.g.append("g")
+            .attr("fill", "none")
             .attr("stroke", "#6b7280")
             .attr("stroke-opacity", 0.6)
-            .selectAll("line")
-            .data(links)
-            .join("line")
-            .attr("stroke-width", 1.5);
+            .attr("stroke-width", 1.5)
+            .selectAll("path")
+            .data(this.root.links())
+            .join("path")
+            .attr("d", d3.linkRadial()
+                .angle(d => d.x)
+                .radius(d => d.y));
 
-        // Create nodes
+        // Add nodes
         const node = this.g.append("g")
             .selectAll("g")
-            .data(nodes)
+            .data(this.root.descendants())
             .join("g")
-            .call(this.drag(this.simulation));
+            .attr("transform", d => `
+                rotate(${d.x * 180 / Math.PI - 90})
+                translate(${d.y},0)
+            `);
 
         // Add circles to nodes
         node.append("circle")
             .attr("r", d => this.calculateRadius(d))
             .attr("fill", d => this.getNodeColor(d))
             .attr("stroke", "#10b981")
-            .attr("stroke-width", 2);
+            .attr("stroke-width", 2)
+            .style("cursor", "pointer")
+            .on("mouseover", function(event, d) {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr("r", d => d.children || d._children ? 10 : 8)
+                    .attr("stroke-width", 3);
+            })
+            .on("mouseout", function(event, d) {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr("r", d => d.children || d._children ? 8 : 6)
+                    .attr("stroke-width", 2);
+            });
 
         // Add labels to nodes
         node.append("text")
+            .attr("dy", "0.31em")
+            .attr("x", d => d.x < Math.PI ? 8 : -8)
+            .attr("text-anchor", d => d.x < Math.PI ? "start" : "end")
+            .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
             .text(d => d.data.name)
-            .attr("x", 8)
-            .attr("y", "0.31em")
             .attr("fill", "#ffffff")
             .style("font-weight", "600")
             .style("font-family", "Inter, sans-serif")
             .style("pointer-events", "none")
-            .clone(true).lower()
+            .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.8)")
+            .clone(true)
+            .lower()
             .attr("fill", "none")
             .attr("stroke", "#000000")
             .attr("stroke-width", 3);
@@ -209,28 +226,12 @@ class ExpertiseTree {
         // Add zoom behavior
         this.svg.call(d3.zoom()
             .extent([[0, 0], [this.width, this.height]])
-            .scaleExtent([0.1, 4])
+            .scaleExtent([0.5, 3])
             .on("zoom", (event) => {
                 this.g.attr("transform", event.transform);
             }));
 
-        // Update simulation
-        this.simulation.nodes(nodes);
-        this.simulation.force("link").links(links);
-
-        // Update positions on tick
-        this.simulation.on("tick", () => {
-            link
-                .attr("x1", d => d.source.x)
-                .attr("y1", d => d.source.y)
-                .attr("x2", d => d.target.x)
-                .attr("y2", d => d.target.y);
-
-            node
-                .attr("transform", d => `translate(${d.x},${d.y})`);
-        });
-
-        console.log('Force-directed expertise tree initialized successfully');
+        console.log('Radial expertise tree initialized successfully');
     }
 
     calculateDimensions() {
@@ -240,21 +241,22 @@ class ExpertiseTree {
         if (isMobile) {
             this.width = Math.min(container.clientWidth - 40, 500);
             this.height = 500;
+            this.radius = Math.min(this.width, this.height) / 2 - 80;
         } else {
             this.width = Math.min(container.clientWidth, 928);
-            this.height = 600;
+            this.height = 700;
+            this.radius = Math.min(this.width, this.height) / 2 - 100;
         }
 
-        console.log(`Tree dimensions: ${this.width}x${this.height}, mobile: ${isMobile}`);
+        console.log(`Tree dimensions: ${this.width}x${this.height}, radius: ${this.radius}, mobile: ${isMobile}`);
     }
 
     calculateRadius(d) {
         // Base size on depth and custom size if available
-        const baseSize = 6;
-        const depthMultiplier = 1 - (d.depth * 0.1); // Smaller as we go deeper
-        const customSize = d.data.size ? d.data.size / 100 : 1;
+        const baseSize = d.depth === 0 ? 12 : (d.children || d._children ? 8 : 6);
+        const customSize = d.data.size ? d.data.size / 150 : 1;
 
-        return baseSize * depthMultiplier * customSize;
+        return baseSize * customSize;
     }
 
     getNodeColor(d) {
@@ -267,35 +269,11 @@ class ExpertiseTree {
 
         return colors[d.depth] || "#6b7280"; // Default gray
     }
-
-    drag(simulation) {
-        function dragstarted(event) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            event.subject.fx = event.subject.x;
-            event.subject.fy = event.subject.y;
-        }
-
-        function dragged(event) {
-            event.subject.fx = event.x;
-            event.subject.fy = event.y;
-        }
-
-        function dragended(event) {
-            if (!event.active) simulation.alphaTarget(0);
-            event.subject.fx = null;
-            event.subject.fy = null;
-        }
-
-        return d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended);
-    }
 }
 
 // Enhanced initialization with multiple fallbacks
 function initializeExpertiseTree() {
-    console.log('Attempting to initialize force-directed expertise tree...');
+    console.log('Attempting to initialize radial expertise tree...');
 
     const treeContainer = document.getElementById('expertiseTree');
     if (!treeContainer) {
@@ -331,7 +309,7 @@ function initializeExpertiseTree() {
             // Initialize tree
             const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
             treeContainer.__expertiseTreeInstance = treeInstance;
-            console.log('Force-directed expertise tree initialized successfully!');
+            console.log('Radial expertise tree initialized successfully!');
         }, 100);
 
     } catch (error) {
@@ -372,4 +350,6 @@ window.addEventListener('resize', function() {
         }
     }, 250);
 });
+
+
 

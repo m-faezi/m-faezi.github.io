@@ -1,4 +1,4 @@
-/* Expertise Tree Styles - Force Directed Version */
+/* Expertise Tree Styles - Radial Tree Version */
 .expertise-tree-container {
     background: transparent;
     border: none;
@@ -6,10 +6,10 @@
     padding: 0;
     margin: 2rem 0;
     overflow: hidden;
-    min-height: 600px;
+    min-height: 700px;
     position: relative;
     width: 100%;
-    max-height: 700px;
+    max-height: 800px;
 }
 
 /* Show loading state */
@@ -23,18 +23,18 @@
     font-style: italic;
 }
 
-/* D3.js Force Tree Styling */
+/* D3.js Radial Tree Styling */
 #expertiseTree {
     width: 100%;
     height: 100%;
-    min-height: 500px;
+    min-height: 600px;
     overflow: hidden;
 }
 
 #expertiseTree svg {
     width: 100%;
     height: 100%;
-    min-height: 500px;
+    min-height: 600px;
     background: transparent;
     overflow: hidden;
     cursor: move;
@@ -81,17 +81,36 @@
     stroke-opacity: 0.8;
 }
 
+/* Radial tree specific styles */
+#expertiseTree .node circle {
+    stroke-width: 2px;
+    stroke: #10b981;
+}
+
+#expertiseTree .node--internal circle {
+    fill: #3b82f6;
+}
+
+#expertiseTree .node--leaf circle {
+    fill: #f59e0b;
+}
+
+#expertiseTree .node--root circle {
+    fill: #10b981;
+    stroke-width: 3px;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .expertise-tree-container {
         margin: 1.5rem 0;
-        min-height: 400px;
-        max-height: 500px;
+        min-height: 500px;
+        max-height: 600px;
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 350px;
+        min-height: 450px;
     }
 
     .node text {
@@ -102,14 +121,14 @@
 /* Extra small devices */
 @media (max-width: 480px) {
     .expertise-tree-container {
-        min-height: 350px;
-        max-height: 400px;
+        min-height: 400px;
+        max-height: 500px;
         margin: 1rem 0;
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 300px;
+        min-height: 350px;
     }
 
     .node text {
@@ -132,19 +151,30 @@
 
 /* Zoom controls hint */
 .expertise-tree-container::after {
-    content: "💡 Drag to move • Scroll to zoom";
+    content: "💡 Scroll to zoom • Drag to pan";
     position: absolute;
     bottom: 10px;
     right: 10px;
     color: #6b7280;
     font-size: 0.8rem;
     pointer-events: none;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 @media (max-width: 768px) {
     .expertise-tree-container::after {
-        content: "💡 Drag to move • Pinch to zoom";
+        content: "💡 Pinch to zoom • Drag to pan";
         font-size: 0.7rem;
+        bottom: 5px;
+        right: 5px;
     }
+}
+
+/* Center the radial tree */
+#expertiseTree svg {
+    display: block;
+    margin: 0 auto;
 }
 
