@@ -438,6 +438,7 @@ window.addEventListener('resize', function() {
     }, 250);
 });
 
+
 // Enhanced initialization with multiple fallbacks
 function initializeExpertiseTree() {
     console.log('Attempting to initialize expertise tree...');
