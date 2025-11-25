@@ -94,7 +94,7 @@ class ProjectCarousel {
         this.slideWidth = 0;
         this.resizeTimeout = null;
         this.originalSlideCount = 0;
-        this.gap = 20; // Fixed gap value
+        this.gap = 30; // Updated gap for wider slides
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
@@ -233,7 +233,7 @@ class ProjectCarousel {
 
     calculateSlideWidth() {
         if (this.slides.length === 0) {
-            this.slideWidth = 300;
+            this.slideWidth = 400; // Increased base width for wider slides
             return;
         }
 
@@ -470,19 +470,58 @@ class ProjectCarousel {
         const match = transform.match(/translateX\(([^)]+)px\)/);
         return match ? parseFloat(match[1]) : 0;
     }
+
+    // Method to manually check slide metrics (useful for debugging)
+    checkMetrics() {
+        this.calculateSlideWidth();
+        this.debugPositions();
+    }
+}
+
+// Enhanced initialization with error handling
+function initializeCarouselWithRetry(containerId, config, retries = 3) {
+    return new Promise((resolve, reject) => {
+        let attempts = 0;
+
+        function tryInitialize() {
+            attempts++;
+            try {
+                const carousel = new ProjectCarousel(containerId, config);
+                if (carousel.container && carousel.slides.length > 0) {
+                    resolve(carousel);
+                } else {
+                    throw new Error('Carousel initialization failed');
+                }
+            } catch (error) {
+                if (attempts < retries) {
+                    console.warn(`Carousel initialization attempt ${attempts} failed, retrying...`);
+                    setTimeout(tryInitialize, 500);
+                } else {
+                    reject(error);
+                }
+            }
+        }
+
+        tryInitialize();
+    });
 }
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing carousels...');
 
+    // Small delay to ensure all elements are rendered
     setTimeout(() => {
         const projectsCarousel = document.getElementById('projectsCarousel');
         if (projectsCarousel) {
             console.log('Found projects carousel, initializing...');
-            new ProjectCarousel('projectsCarousel', {
+            initializeCarouselWithRetry('projectsCarousel', {
                 autoSlideDelay: 4000,
                 carouselType: 'projects'
+            }).then(carousel => {
+                console.log('✅ Projects carousel initialized successfully!');
+            }).catch(error => {
+                console.error('❌ Failed to initialize projects carousel:', error);
             });
         } else {
             console.error('Projects carousel container not found');
@@ -491,13 +530,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const publicationsCarousel = document.getElementById('publicationsCarousel');
         if (publicationsCarousel) {
             console.log('Found publications carousel, initializing...');
-            new ProjectCarousel('publicationsCarousel', {
+            initializeCarouselWithRetry('publicationsCarousel', {
                 autoSlideDelay: 6000,
                 carouselType: 'publications'
+            }).then(carousel => {
+                console.log('✅ Publications carousel initialized successfully!');
+            }).catch(error => {
+                console.error('❌ Failed to initialize publications carousel:', error);
             });
         } else {
             console.error('Publications carousel container not found');
         }
     }, 200);
 });
+
+// Export for potential external use
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { ProjectCarousel, initializeCarouselWithRetry };
+}
 
