@@ -220,7 +220,7 @@ class ProjectCarousel {
         this.addEventListeners();
 
         // Only start auto-slide if more than one slide
-        if (this.slideCount > 3) { // For infinite carousel, we need at least 3 slides
+        if (this.slideCount > 3) { // For infinite carousel
             this.startAutoSlide();
         }
     }
@@ -249,13 +249,14 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
+        this.track.style.transition = 'transform 0.5s ease-in-out';
         // Real slides start from index 1 to slideCount-2
         this.currentIndex = realIndex + 1;
         this.updateCarousel();
 
         setTimeout(() => {
             this.isTransitioning = false;
-        }, 300);
+        }, 500);
     }
 
     addEventListeners() {
@@ -318,7 +319,7 @@ class ProjectCarousel {
         if (!this.isDragging) return;
 
         this.isDragging = false;
-        this.track.style.transition = 'transform 0.3s ease-in-out';
+        this.track.style.transition = 'transform 0.5s ease-in-out';
 
         const diff = this.touchStartX - this.touchEndX;
 
@@ -352,6 +353,7 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
+        this.track.style.transition = 'transform 0.5s ease-in-out';
         this.currentIndex++;
         this.updateCarousel();
     }
@@ -360,6 +362,7 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
+        this.track.style.transition = 'transform 0.5s ease-in-out';
         this.currentIndex--;
         this.updateCarousel();
     }
@@ -400,27 +403,25 @@ class ProjectCarousel {
 
         // If we're at the cloned first slide (end), jump to real first slide
         if (this.currentIndex === this.slideCount - 1) {
-            this.track.style.transition = 'none';
-            this.currentIndex = 1;
-            this.updateCarousel();
+            setTimeout(() => {
+                this.track.style.transition = 'none';
+                this.currentIndex = 1;
+                this.updateCarousel();
 
-            // Force reflow
-            this.track.offsetHeight;
-
-            // Restore transition
-            this.track.style.transition = 'transform 0.3s ease-in-out';
+                // Force reflow
+                this.track.offsetHeight;
+            }, 50);
         }
         // If we're at the cloned last slide (beginning), jump to real last slide
         else if (this.currentIndex === 0) {
-            this.track.style.transition = 'none';
-            this.currentIndex = realSlideCount;
-            this.updateCarousel();
+            setTimeout(() => {
+                this.track.style.transition = 'none';
+                this.currentIndex = realSlideCount;
+                this.updateCarousel();
 
-            // Force reflow
-            this.track.offsetHeight;
-
-            // Restore transition
-            this.track.style.transition = 'transform 0.3s ease-in-out';
+                // Force reflow
+                this.track.offsetHeight;
+            }, 50);
         }
     }
 
