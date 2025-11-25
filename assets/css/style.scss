@@ -299,34 +299,27 @@ body {
   margin: 0.25rem 0;
 }
 
-// Main Content - FIXED for scroll issues
-.scrollable-content {
-  position: fixed;
-  left: 300px;
-  top: 0;
-  width: calc(100vw - 300px);
-  height: 100vh;
-  overflow-y: auto;
-  background: var(--background-color);
-  z-index: 1;
-  margin: 0;
-  padding: 0;
-  right: 0;
-}
-
+// CENTERED CONTENT WRAPPER
 .content-wrapper {
   background: transparent;
   min-height: 100%;
   width: 100%;
   max-width: none;
-  padding: 2rem 0 2rem 2rem;
-  margin: 0;
+  padding: 2rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   // Content styling
   h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
     margin-top: 2rem;
     margin-bottom: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   h1 {
@@ -352,6 +345,10 @@ body {
     margin-bottom: 1rem;
     color: var(--text-secondary);
     line-height: 1.6;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   strong {
@@ -383,6 +380,10 @@ body {
     gap: 1.5rem;
     margin: 2rem 0;
     align-items: start;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .github-stat-item {
@@ -411,7 +412,66 @@ body {
     margin: 2rem 0;
     border: none;
     border-top: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
+}
+
+// CENTERED HOME CONTENT
+.home-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+
+  // Center all child elements
+  & > * {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1200px;
+  }
+}
+
+// CENTERED COMPONENTS
+#projectsCarousel,
+#expertiseTree,
+.github-stats,
+.thesis-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+// Center carousel specifically
+.carousel-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  width: 100%;
+}
+
+// Center expertise tree
+.expertise-tree-container {
+  max-width: 1200px;
+  margin: 3rem auto;
+  width: 100%;
+}
+
+// Center GitHub stats
+.github-stats {
+  max-width: 1200px;
+  margin: 2rem auto;
+  width: 100%;
+}
+
+// Center thesis section
+.thesis-section {
+  max-width: 1200px;
+  margin: 2rem auto;
+  width: 100%;
 }
 
 // Project Cards - Clean and professional
@@ -422,6 +482,10 @@ body {
   padding: 1.5rem;
   margin: 1.5rem 0;
   transition: all 0.2s ease;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
   &:hover {
     border-color: var(--primary-color);
@@ -509,6 +573,10 @@ body {
   padding: 1.5rem;
   margin: 1.5rem 0;
   transition: all 0.2s ease;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
   &:hover {
     border-color: var(--primary-color);
@@ -585,6 +653,10 @@ body {
   padding: 1.5rem;
   margin: 1.5rem 0;
   transition: all 0.2s ease;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
   &:hover {
     border-color: var(--primary-color);
@@ -652,25 +724,13 @@ body {
   min-width: auto; // Remove any minimum width
 }
 
-// Mobile responsiveness for publication status
-@media (max-width: 768px) {
-  .publication-status {
-    padding: 0.25rem 0.7rem;
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .publication-status {
-    padding: 0.2rem 0.6rem;
-    font-size: 0.7rem;
-  }
-}
-
-
 // Thesis Section Styles
 .thesis-section {
   margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .thesis-cover {
@@ -727,181 +787,49 @@ body {
   }
 }
 
-// Modern Carousel Styles
-.modern-carousel-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  background: var(--surface-color);
-  padding: 2rem 0;
-  margin: 2rem 0;
+// Main Content - FIXED for scroll issues
+.scrollable-content {
+  position: fixed;
+  left: 300px;
+  top: 0;
+  width: calc(100vw - 300px);
+  height: 100vh;
+  overflow-y: auto;
+  background: transparent;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  right: 0;
+
+  // Critical: Ensure scroll area captures events
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
+
+  // Force hardware acceleration for smooth scrolling
+  transform: translateZ(0);
+
+  // Make sure content is visible and interactive
+  & > * {
+    pointer-events: auto;
+  }
 }
 
-.modern-carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  gap: 20px;
-  padding: 0 20px;
-}
-
-.modern-carousel-slide {
-  flex: 0 0 calc(33.333% - 14px);
-  min-width: calc(33.333% - 14px);
-  background: var(--surface-light);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.modern-carousel-slide:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
-  border-color: var(--primary-color);
-}
-
-.modern-slide-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 3rem;
-}
-
-.modern-slide-content {
-  padding: 1.5rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.modern-slide-title {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-}
-
-.modern-slide-description {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  flex: 1;
-}
-
-.modern-slide-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.modern-tag {
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--primary-color);
-  padding: 0.3rem 0.7rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-}
-
-.modern-slide-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.2rem;
-  background: var(--primary-color);
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: auto;
-}
-
-.modern-slide-link:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-  text-decoration: none;
-}
-
-/* Navigation Controls */
-.modern-carousel-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  gap: 1rem;
-}
-
-.modern-carousel-btn {
-  background: var(--surface-light);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1.2rem;
-}
-
-.modern-carousel-btn:hover {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-  transform: scale(1.1);
-}
-
-.modern-carousel-dots {
-  display: flex;
-  gap: 0.7rem;
-}
-
-.modern-carousel-dot {
+// Fix scrollbar positioning and ensure it's always visible
+.scrollable-content::-webkit-scrollbar {
   width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--text-tertiary);
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.modern-carousel-dot.active {
-  background: var(--primary-color);
-  transform: scale(1.2);
+.scrollable-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
 }
 
-/* Responsive Design for Modern Carousel */
-@media (max-width: 1024px) {
-  .modern-carousel-slide {
-    flex: 0 0 calc(50% - 10px);
-    min-width: calc(50% - 10px);
-  }
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 6px;
 }
 
-@media (max-width: 768px) {
-  .modern-carousel-slide {
-    flex: 0 0 calc(100% - 10px);
-    min-width: calc(100% - 10px);
-  }
-
-  .modern-carousel-container {
-    padding: 1rem 0;
-  }
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #555555;
 }
 
 // Responsive design - FIXED for mobile
@@ -950,6 +878,20 @@ body {
     padding: 1.5rem;
     overflow: visible;
     width: 100%;
+  }
+
+  .home-content {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  #projectsCarousel,
+  #expertiseTree,
+  .github-stats,
+  .thesis-section {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .sidebar-navigation {
@@ -1040,17 +982,6 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  .carousel-container {
-    overflow: hidden;
-  }
-
-  .content-wrapper {
-    overflow: hidden;
-    width: 100%;
-  }
-}
-
 // Prevent horizontal scroll on very small screens
 @media (max-width: 480px) {
   html, body {
@@ -1063,28 +994,7 @@ body {
   }
 }
 
-// Add to your style.scss file
-canvas {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-
-// Ensure main content has proper z-index
-.scrollable-content {
-    position: relative;
-    z-index: 1;
-}
-
-.fixed-sidebar {
-    position: relative;
-    z-index: 2;
-}
-
-
-// Add this to your style.scss - Background positioning
+// Background positioning
 body {
     position: relative;
     overflow-x: hidden;
@@ -1131,184 +1041,6 @@ body, .layout-wrapper, .scrollable-content {
     background: transparent;
 }
 
-// Fix scrollable content width and scrollbar positioning - ENHANCED
-.scrollable-content {
-  &::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #1a1a1a;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #333333;
-    border-radius: 6px 0 0 6px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555555;
-  }
-}
-
-// Ensure content uses full width on desktop - ENHANCED
-@media (min-width: 769px) {
-  .content-wrapper {
-    width: 100%;
-    max-width: none;
-    padding-right: 0;
-    margin-right: 0;
-  }
-
-  .carousel-container,
-  .expertise-tree-container,
-  .github-stats {
-    width: 100%;
-    max-width: none;
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-// FIX: Remove any right padding/margin that creates space
-body, html, .layout-wrapper, .scrollable-content, .content-wrapper {
-  margin-right: 0 !important;
-  padding-right: 0 !important;
-}
-
-// FIX: Ensure scrollable content takes full available width
-.scrollable-content {
-  width: calc(100vw - 300px) !important;
-  right: 0 !important;
-}
-
-// FIX: Prevent any element from blocking scroll events
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.scrollable-content, .scrollable-content * {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-}
-
-// Add to your existing style.scss
-
-// Home page centering
-.home-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-
-  // Center all child elements
-  & > * {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-// Ensure content wrapper allows proper scrolling
-.content-wrapper {
-  background: transparent;
-  min-height: 100%;
-  width: 100%;
-  max-width: none;
-  padding: 2rem 0 2rem 2rem;
-  margin: 0;
-
-  // Force scrollable area to capture events
-  pointer-events: auto;
-
-  // Ensure proper stacking
-  position: relative;
-  z-index: 10;
-}
-
-// Fix scrollable content to properly capture scroll events
-.scrollable-content {
-  position: fixed;
-  left: 300px;
-  top: 0;
-  width: calc(100vw - 300px);
-  height: 100vh;
-  overflow-y: auto;
-  background: transparent;
-  z-index: 1;
-  margin: 0;
-  padding: 0;
-  right: 0;
-
-  // Critical: Ensure scroll area captures events
-  pointer-events: auto;
-  -webkit-overflow-scrolling: touch;
-
-  // Force hardware acceleration for smooth scrolling
-  transform: translateZ(0);
-
-  // Make sure content is visible and interactive
-  & > * {
-    pointer-events: auto;
-  }
-}
-
-// Center specific elements in home page
-#projectsCarousel,
-#expertiseTree,
-.github-stats,
-.thesis-section {
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-// Center carousel specifically
-.carousel-container {
-  max-width: 1200px;
-  margin: 2rem auto;
-}
-
-// Center expertise tree
-.expertise-tree-container {
-  max-width: 1200px;
-  margin: 3rem auto;
-}
-
-// Center GitHub stats
-.github-stats {
-  max-width: 1200px;
-  margin: 2rem auto;
-}
-
-// Center thesis section
-.thesis-section {
-  max-width: 1200px;
-  margin: 2rem auto;
-}
-
-// Fix scrollbar positioning and ensure it's always visible
-.scrollable-content::-webkit-scrollbar {
-  width: 12px;
-}
-
-.scrollable-content::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb {
-  background: #333333;
-  border-radius: 6px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb:hover {
-  background: #555555;
-}
-
 // Ensure the scrollable content area is always interactive
 @media (min-width: 769px) {
   .scrollable-content {
@@ -1323,36 +1055,6 @@ body, html, .layout-wrapper, .scrollable-content, .content-wrapper {
     & > * {
       pointer-events: auto;
     }
-  }
-}
-
-// Mobile responsiveness
-@media (max-width: 768px) {
-  .home-content {
-    padding: 0 1rem;
-    max-width: 100%;
-  }
-
-  .scrollable-content {
-    left: 0 !important;
-    width: 100% !important;
-    height: auto;
-    position: relative;
-    overflow-y: visible;
-  }
-
-  .content-wrapper {
-    padding: 1.5rem;
-    overflow: visible;
-  }
-
-  #projectsCarousel,
-  #expertiseTree,
-  .github-stats,
-  .thesis-section {
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
   }
 }
 

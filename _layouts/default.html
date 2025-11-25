@@ -83,6 +83,7 @@
         pointer-events: auto !important;
       }
 
+      /* CENTERED CONTENT WRAPPER */
       .content-wrapper {
         background: transparent;
         min-height: 100%;
@@ -383,7 +384,7 @@
                   scrollableContent.style.marginRight = '0';
                   scrollableContent.style.paddingRight = '0';
 
-                  // Center the content wrapper
+                  // Center the content wrapper and all elements
                   const contentWrapper = document.querySelector('.content-wrapper');
                   if (contentWrapper) {
                       contentWrapper.style.marginLeft = 'auto';
@@ -391,7 +392,28 @@
                       contentWrapper.style.display = 'flex';
                       contentWrapper.style.flexDirection = 'column';
                       contentWrapper.style.alignItems = 'center';
+                      contentWrapper.style.width = '100%';
                   }
+
+                  // Center specific elements
+                  const centeredElements = [
+                      '#projectsCarousel',
+                      '#expertiseTree',
+                      '.github-stats',
+                      '.thesis-section',
+                      '.home-content',
+                      'h1', 'h2', 'h3', 'p', 'ul', 'ol'
+                  ];
+
+                  centeredElements.forEach(selector => {
+                      const elements = document.querySelectorAll(selector);
+                      elements.forEach(element => {
+                          element.style.marginLeft = 'auto';
+                          element.style.marginRight = 'auto';
+                          element.style.maxWidth = '1200px';
+                          element.style.width = '100%';
+                      });
+                  });
 
                   // Add a small timeout to ensure rendering
                   setTimeout(() => {
@@ -496,4 +518,5 @@
     </script>
   </body>
 </html>
+
 

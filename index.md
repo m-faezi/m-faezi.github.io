@@ -3,9 +3,10 @@ layout: default
 title: Home
 ---
 
+<div class="home-content">
+
 # Welcome to my blog!
 
-<div class="home-content">
 Mohammad Faezi is a distinguished applied data scientist and software engineer with a significant track record in system design and machine learning algorithm development. He holds a PhD in Computer Science from the [Bernoulli Institute](https://www.rug.nl/research/bernoulli/?lang=en) of Mathematics, Computer Science and Artificial Intelligence at the [University of Groningen](https://www.rug.nl).
 His research primarily focuses on Distributed and Decentralized systems, Machine Learning and Computer Vision.
 
@@ -67,5 +68,6 @@ I'm always open to discussing research, collaboration, or new opportunities.
 
 *   **Email:** [faezi.h.m@gmail.com](mailto:faezi.h.m@gmail.com)
 *   **LinkedIn:** [mohammad-faezi](https://linkedin.com/in/mohammad-faezi)
+
 </div>
 
