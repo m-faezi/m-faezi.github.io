@@ -3,13 +3,13 @@
 
 @import "{{ site.theme }}";
 
-// Dark Blue & Silver Color Theme
+// Dark Green & Bright Modern Color Theme
 :root {
-  --primary-color: #2563eb;      // Royal blue
-  --primary-dark: #1d4ed8;       // Dark blue
-  --primary-light: #3b82f6;      // Light blue
+  --primary-color: #10b981;      // Emerald green
+  --primary-dark: #059669;       // Dark emerald
+  --primary-light: #34d399;      // Light emerald
   --secondary-color: #ffffff;    // White
-  --accent-color: #cbd5e1;       // Silver
+  --accent-color: #f59e0b;       // Amber orange for accents
 
   // Black theme colors
   --background-color: #000000;   // Pure black
@@ -373,7 +373,7 @@ body {
     color: var(--primary-color);
   }
 
-  // GitHub Stats - Minimal Blue Theme
+  // GitHub Stats - Minimal Green Theme
   .github-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -395,7 +395,7 @@ body {
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
       border-color: var(--primary-color);
     }
 
@@ -489,7 +489,7 @@ body {
 
   &:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   }
 }
 
@@ -580,7 +580,7 @@ body {
 
   &:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   }
 }
 
@@ -660,7 +660,7 @@ body {
 
   &:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   }
 
   &.upcoming {
@@ -789,29 +789,29 @@ body {
 
 // Main Content - FIXED for scroll issues
 .scrollable-content {
-    position: fixed;
-    left: 300px;
-    top: 0;
-    width: calc(100vw - 300px);
-    height: 100vh;
-    overflow-y: auto;
-    background: transparent;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
-    right: auto;
+  position: fixed;
+  left: 300px;
+  top: 0;
+  width: calc(100vw - 300px);
+  height: 100vh;
+  overflow-y: auto;
+  background: transparent;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  right: 0;
 
-    // Critical: Ensure scroll area captures events
+  // Critical: Ensure scroll area captures events
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
+
+  // Force hardware acceleration for smooth scrolling
+  transform: translateZ(0);
+
+  // Make sure content is visible and interactive
+  & > * {
     pointer-events: auto;
-    -webkit-overflow-scrolling: touch;
-
-    // Force hardware acceleration for smooth scrolling
-    transform: translateZ(0);
-
-    // Make sure content is visible and interactive
-    & > * {
-        pointer-events: auto;
-    }
+  }
 }
 
 // Fix scrollbar positioning and ensure it's always visible
@@ -872,7 +872,6 @@ body {
     overflow: visible;
     position: relative;
     width: 100%;
-    right: auto !important;
   }
 
   .content-wrapper {
@@ -1057,5 +1056,71 @@ body, .layout-wrapper, .scrollable-content {
       pointer-events: auto;
     }
   }
+}
+
+/* NUCLEAR FIX FOR CUTOFF ISSUE */
+/* Add this at the VERY END of your style.scss file */
+
+/* Remove all max-width restrictions */
+body, html,
+.layout-wrapper,
+.scrollable-content,
+.content-wrapper,
+.home-content,
+.carousel-container,
+.carousel-track,
+.carousel-slide,
+#projectsCarousel,
+#expertiseTree,
+.github-stats,
+.thesis-section,
+.project-card,
+.award-item,
+.publication-item {
+    max-width: none !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Force full width */
+.layout-wrapper {
+    width: 100vw !important;
+    max-width: 100vw !important;
+}
+
+.scrollable-content {
+    width: calc(100vw - 300px) !important;
+    left: 300px !important;
+    right: 0 !important;
+}
+
+.content-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 2rem !important;
+}
+
+/* Remove any overflow hidden that might cause cutoff */
+body, html {
+    overflow-x: visible !important;
+}
+
+.layout-wrapper,
+.scrollable-content,
+.content-wrapper {
+    overflow-x: visible !important;
+}
+
+/* Ensure carousel uses full available width */
+.carousel-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2rem 0 !important;
+}
+
+.carousel-track {
+    width: 100% !important;
+    max-width: 100% !important;
 }
 

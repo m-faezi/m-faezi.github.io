@@ -110,7 +110,7 @@ class DataNetworkBackground {
                 size: Math.random() * 2 + 1,
                 speedX: (Math.random() - 0.5) * 0.3,
                 speedY: (Math.random() - 0.5) * 0.3,
-                color: '#3b82f6' // Light blue (was #34d399 - green)
+                color: '#34d399' // Brighter green - was #10b981
             });
         }
         console.log('Created', count, 'particles');
@@ -157,7 +157,7 @@ class DataNetworkBackground {
                     this.ctx.beginPath();
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(other.x, other.y);
-                    this.ctx.strokeStyle = `rgba(59, 130, 246, ${0.3 - distance/600})`; // Light blue
+                    this.ctx.strokeStyle = `rgba(52, 211, 153, ${0.3 - distance/600})`; // Brighter and more visible
                     this.ctx.lineWidth = 0.6; // Slightly thicker lines
                     this.ctx.stroke();
                 }
@@ -172,7 +172,7 @@ class DataNetworkBackground {
                 this.ctx.beginPath();
                 this.ctx.moveTo(particle.x, particle.y);
                 this.ctx.lineTo(this.mouse.x, this.mouse.y);
-                this.ctx.strokeStyle = `rgba(96, 165, 250, ${0.4 - mouseDistance/200})`; // Blue
+                this.ctx.strokeStyle = `rgba(110, 231, 183, ${0.4 - mouseDistance/200})`; // Much brighter
                 this.ctx.lineWidth = 1.0; // Thicker mouse lines
                 this.ctx.stroke();
             }
