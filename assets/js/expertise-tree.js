@@ -144,12 +144,14 @@ class ExpertiseTree {
         // Calculate responsive dimensions - FIXED
         this.calculateDimensions();
 
-        // Create SVG with proper viewBox for responsiveness
+        // Create SVG with proper viewBox for responsiveness and centering
         this.svg = d3.select(this.container)
             .append("svg")
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height + this.margin.top + this.margin.bottom}`)
+            .style("display", "block") // Ensure proper centering
+            .style("margin", "0 auto") // Center the SVG
             .append("g")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
@@ -158,6 +160,8 @@ class ExpertiseTree {
 
         // Initialize with root - KEEP ALL NODES EXPANDED INITIALLY
         this.root = d3.hierarchy(this.data, d => d.children);
+
+        // Center the root node vertically
         this.root.x0 = this.height / 2;
         this.root.y0 = 0;
 
@@ -172,16 +176,16 @@ class ExpertiseTree {
 
         if (isMobile) {
             // Mobile dimensions - increased for better readability
-            this.width = Math.min(container.clientWidth - 60, 500) - this.margin.left - this.margin.right;
+            this.width = Math.min(container.clientWidth - 80, 500) - this.margin.left - this.margin.right;
             this.height = 400 - this.margin.top - this.margin.bottom; // Increased height
             // Better margins for mobile
-            this.margin.left = 60;
-            this.margin.right = 60;
+            this.margin.left = 40;
+            this.margin.right = 40;
         } else {
             // Desktop dimensions - increased width and height
-            this.width = Math.min(container.clientWidth, 1000) - this.margin.left - this.margin.right; // Increased from 928
+            this.width = Math.min(container.clientWidth - 200, 1000) - this.margin.left - this.margin.right; // Increased from 928
             this.height = 600 - this.margin.top - this.margin.bottom; // Increased from 500
-            // Better margins for desktop
+            // Better margins for desktop - centered
             this.margin.left = 100;
             this.margin.right = 100;
         }
@@ -205,16 +209,26 @@ class ExpertiseTree {
         const nodes = treeData.descendants();
         const links = treeData.descendants().slice(1);
 
-        // Improved node positioning with better spacing
+        // Improved node positioning with better spacing and centering
         const isMobile = window.innerWidth <= 768;
-        const horizontalSpacing = isMobile ? 140 : 220; // Increased spacing
-        const verticalSpacing = isMobile ? 80 : 100; // Added vertical spacing control
+        const horizontalSpacing = isMobile ? 120 : 180; // Adjusted for centering
+        const maxDepth = d3.max(nodes, d => d.depth);
+
+        // Calculate centering offset based on max depth
+        const centerOffset = (this.width - (maxDepth * horizontalSpacing)) / 2;
 
         nodes.forEach(d => {
-            d.y = d.depth * horizontalSpacing;
-            // Add vertical spacing adjustment for better distribution
+            d.y = centerOffset + (d.depth * horizontalSpacing);
+            // Center nodes vertically within their level
             if (d.depth > 0) {
-                d.x = d.x + (d.depth * 10); // Small vertical offset per level
+                // Distribute nodes more evenly vertically
+                const siblings = nodes.filter(node => node.depth === d.depth);
+                const siblingIndex = siblings.indexOf(d);
+                const totalSiblings = siblings.length;
+                const verticalRange = this.height * 0.8; // Use 80% of height for nodes
+                const verticalStart = (this.height - verticalRange) / 2;
+
+                d.x = verticalStart + (siblingIndex / Math.max(1, totalSiblings - 1)) * verticalRange;
             }
         });
 
@@ -453,4 +467,5 @@ window.addEventListener('resize', function() {
         }
     }, 300);
 });
+
 

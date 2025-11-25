@@ -4,12 +4,16 @@
     border: none;
     border-radius: 0;
     padding: 0;
-    margin: 2rem 0;
-    overflow: visible; /* Changed back to visible */
-    min-height: 650px; /* Increased from 600px */
+    margin: 2rem auto; /* Center the container */
+    overflow: visible;
+    min-height: 650px;
     position: relative;
     width: 100%;
-    max-height: none; /* Remove max height constraint */
+    max-width: 1200px; /* Limit maximum width */
+    max-height: none;
+    display: flex;
+    justify-content: center; /* Center contents */
+    align-items: center;
 }
 
 /* Show loading state */
@@ -27,16 +31,21 @@
 #expertiseTree {
     width: 100%;
     height: 100%;
-    min-height: 550px; /* Increased from 500px */
-    overflow: visible; /* Allow proper rendering */
+    min-height: 550px;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #expertiseTree svg {
     width: 100%;
     height: 100%;
-    min-height: 550px; /* Increased from 500px */
+    min-height: 550px;
     background: transparent;
-    overflow: visible; /* Allow nodes to render properly */
+    overflow: visible;
+    display: block;
+    margin: 0 auto; /* Center the SVG */
 }
 
 .node {
@@ -59,11 +68,11 @@
 
 .node text {
     font-family: 'Inter', sans-serif;
-    font-size: 11px; /* Slightly larger */
+    font-size: 11px;
     fill: #ffffff;
     font-weight: 600;
     transition: all 0.3s ease;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Better text contrast */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .node:hover text {
@@ -100,14 +109,15 @@
 /* Responsive design - IMPROVED */
 @media (max-width: 768px) {
     .expertise-tree-container {
-        margin: 1.5rem 0;
-        min-height: 450px; /* Increased from 400px */
+        margin: 1.5rem auto;
+        min-height: 450px;
         max-height: none;
+        padding: 0 1rem; /* Add padding for mobile */
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 400px; /* Increased from 350px */
+        min-height: 400px;
     }
 
     .node text {
@@ -118,23 +128,24 @@
 /* Extra small devices */
 @media (max-width: 480px) {
     .expertise-tree-container {
-        min-height: 400px; /* Increased from 350px */
+        min-height: 400px;
         max-height: none;
-        margin: 1rem 0;
+        margin: 1rem auto;
+        padding: 0 0.5rem; /* Less padding on very small screens */
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 350px; /* Increased from 300px */
+        min-height: 350px;
     }
 
     .node text {
-        font-size: 9px; /* Even smaller text */
+        font-size: 9px;
         font-weight: 500;
     }
 
     .node circle {
-        r: 4px; /* Smaller circles on mobile */
+        r: 4px;
     }
 }
 
@@ -145,5 +156,4 @@
 #expertiseTree text {
     transition: all 0.5s ease;
 }
-
 

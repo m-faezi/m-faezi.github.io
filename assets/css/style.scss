@@ -933,3 +933,18 @@ body, .layout-wrapper, .scrollable-content {
 }
 
 
+// In the .content-wrapper section, add:
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  // Ensure expertise tree is centered
+  #expertiseTree {
+    display: flex;
+    justify-content: center;
+  }
+
+  // ... rest of your existing styles
+}
+
