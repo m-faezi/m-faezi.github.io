@@ -70,6 +70,84 @@ window.publicationsData = [
     }
 ];
 
+// Force wider carousel layout via JavaScript
+function forceWiderCarouselLayout() {
+    console.log('🔧 Applying wider carousel layout...');
+
+    const projectsCarousel = document.getElementById('projectsCarousel');
+    if (!projectsCarousel) {
+        console.log('Projects carousel not found for wider layout');
+        return;
+    }
+
+    // Force wider styles via JavaScript with !important
+    const style = document.createElement('style');
+    style.textContent = `
+        #projectsCarousel .carousel-slide {
+            flex: 0 0 calc(50% - 15px) !important;
+            min-width: calc(50% - 15px) !important;
+            max-width: calc(50% - 15px) !important;
+            width: calc(50% - 15px) !important;
+        }
+
+        #projectsCarousel .carousel-track {
+            gap: 30px !important;
+            padding: 0 15px !important;
+        }
+
+        #projectsCarousel .project-thumbnail {
+            height: 200px !important;
+        }
+
+        #projectsCarousel .project-info {
+            padding: 1.75rem !important;
+        }
+
+        #projectsCarousel .project-info h3 {
+            font-size: 1.3rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        #projectsCarousel .project-info p {
+            font-size: 0.95rem !important;
+            margin-bottom: 1.25rem !important;
+            line-height: 1.6 !important;
+        }
+
+        #projectsCarousel .tech-tag {
+            padding: 0.3rem 0.8rem !important;
+            font-size: 0.8rem !important;
+        }
+
+        #projectsCarousel .project-link {
+            padding: 0.75rem 1.25rem !important;
+            font-size: 0.9rem !important;
+        }
+
+        /* Mobile overrides */
+        @media (max-width: 768px) {
+            #projectsCarousel .carousel-slide {
+                flex: 0 0 calc(100% - 10px) !important;
+                min-width: calc(100% - 10px) !important;
+                max-width: calc(100% - 10px) !important;
+                width: calc(100% - 10px) !important;
+            }
+
+            #projectsCarousel .carousel-track {
+                gap: 20px !important;
+                padding: 0 10px !important;
+            }
+
+            #projectsCarousel .project-thumbnail {
+                height: 180px !important;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    console.log('✅ Wider carousel layout applied!');
+}
+
 class ProjectCarousel {
     constructor(containerId, config = {}) {
         this.container = document.getElementById(containerId);
@@ -233,7 +311,7 @@ class ProjectCarousel {
 
     calculateSlideWidth() {
         if (this.slides.length === 0) {
-            this.slideWidth = 400; // Increased base width for wider slides
+            this.slideWidth = 500; // Increased base width for wider slides
             return;
         }
 
@@ -244,7 +322,7 @@ class ProjectCarousel {
         // Calculate exact slide width including gap
         this.slideWidth = slideRect.width + this.gap;
 
-        console.log('Robust slide width calculation:', {
+        console.log('📏 Slide width calculation:', {
             slideWidth: this.slideWidth,
             elementWidth: slideRect.width,
             gap: this.gap,
@@ -506,30 +584,68 @@ function initializeCarouselWithRetry(containerId, config, retries = 3) {
     });
 }
 
+// Debug function to check applied styles
+function debugCarouselStyles() {
+    const projectsCarousel = document.getElementById('projectsCarousel');
+    if (!projectsCarousel) {
+        console.log('❌ Projects carousel not found for debug');
+        return;
+    }
+
+    const slide = projectsCarousel.querySelector('.carousel-slide');
+    if (slide) {
+        const styles = window.getComputedStyle(slide);
+        console.log('🔍 Current slide styles:', {
+            flex: styles.flex,
+            width: styles.width,
+            minWidth: styles.minWidth,
+            maxWidth: styles.maxWidth
+        });
+    }
+
+    const track = projectsCarousel.querySelector('.carousel-track');
+    if (track) {
+        const styles = window.getComputedStyle(track);
+        console.log('🔍 Current track styles:', {
+            gap: styles.gap,
+            padding: styles.padding
+        });
+    }
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing carousels...');
+    console.log('🚀 DOM loaded, initializing carousels...');
+
+    // Apply wider layout FIRST
+    forceWiderCarouselLayout();
 
     // Small delay to ensure all elements are rendered
     setTimeout(() => {
         const projectsCarousel = document.getElementById('projectsCarousel');
         if (projectsCarousel) {
-            console.log('Found projects carousel, initializing...');
+            console.log('🎯 Found projects carousel, initializing...');
             initializeCarouselWithRetry('projectsCarousel', {
                 autoSlideDelay: 4000,
                 carouselType: 'projects'
             }).then(carousel => {
                 console.log('✅ Projects carousel initialized successfully!');
+                // Recalculate after wider layout is applied
+                setTimeout(() => {
+                    carousel.calculateSlideWidth();
+                    carousel.updateCarousel();
+                    debugCarouselStyles(); // Debug styles
+                }, 100);
             }).catch(error => {
                 console.error('❌ Failed to initialize projects carousel:', error);
             });
         } else {
-            console.error('Projects carousel container not found');
+            console.error('❌ Projects carousel container not found');
         }
 
         const publicationsCarousel = document.getElementById('publicationsCarousel');
         if (publicationsCarousel) {
-            console.log('Found publications carousel, initializing...');
+            console.log('📚 Found publications carousel, initializing...');
             initializeCarouselWithRetry('publicationsCarousel', {
                 autoSlideDelay: 6000,
                 carouselType: 'publications'
@@ -539,7 +655,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('❌ Failed to initialize publications carousel:', error);
             });
         } else {
-            console.error('Publications carousel container not found');
+            console.error('❌ Publications carousel container not found');
         }
     }, 200);
 });
