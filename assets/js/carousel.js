@@ -227,9 +227,14 @@ class ProjectCarousel {
             return;
         }
 
-        // Calculate exact slide width based on container
+        // Get the exact container width
         const containerWidth = this.container.offsetWidth;
-        this.slideWidth = (containerWidth - 40) / 3; // Account for gaps
+
+        // Calculate exact slide width - 3 slides with gaps
+        const totalGaps = 20 * 2; // 20px gap on each side of the track
+        this.slideWidth = (containerWidth - totalGaps) / 3;
+
+        console.log('Slide width calculated:', this.slideWidth, 'Container:', containerWidth);
     }
 
     createDots() {
@@ -458,5 +463,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 200);
 });
-
 
