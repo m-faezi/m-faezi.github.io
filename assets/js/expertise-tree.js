@@ -130,9 +130,9 @@ class ExpertiseTree {
         this.i = 0;
         this.duration = 1000;
 
-        // Color scheme: Black, White, Green
+        // Color scheme: Black, White, Blue
         this.colors = {
-            expertise: '#10b981',  // Green for expertise node only
+            expertise: '#2563eb',  // Blue for expertise node only
             default: '#ffffff',    // White for all other nodes
             stroke: '#000000'      // Black stroke
         };
@@ -201,12 +201,12 @@ class ExpertiseTree {
 
         gradient.append("stop")
             .attr("offset", "0%")
-            .attr("stop-color", "#10b981")
+            .attr("stop-color", "#2563eb")
             .attr("stop-opacity", 0.6);
 
         gradient.append("stop")
             .attr("offset", "100%")
-            .attr("stop-color", "#10b981")
+            .attr("stop-color", "#2563eb")
             .attr("stop-opacity", 0.6);
 
         // Glow filter for hover effects
@@ -255,9 +255,9 @@ class ExpertiseTree {
     }
 
     getNodeColor(d) {
-        // Only the root "My Expertise" node gets green
+        // Only the root "My Expertise" node gets blue
         if (d.depth === 0) {
-            return this.colors.expertise; // Green
+            return this.colors.expertise; // Blue
         }
         // All other nodes get white
         return this.colors.default; // White
@@ -462,7 +462,7 @@ class ExpertiseTree {
                 return this.diagonal(o, o);
             })
             .style("fill", "none")
-            .style("stroke", "#10b981")
+            .style("stroke", "#2563eb")
             .style("stroke-width", "1.1px") // Increased from 1px
             .style("opacity", 0)
             .style("stroke-linecap", "round")
