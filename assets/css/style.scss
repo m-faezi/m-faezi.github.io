@@ -289,13 +289,25 @@ body {
   margin: 0.25rem 0;
 }
 
-// Main Content - Only this should scroll
 .scrollable-content {
   flex: 1;
-  margin-left: 300px;
+  margin-left: 0 !important;  // Remove margin
+  padding-left: 300px !important;  // Use padding instead
+  width: calc(100% - 300px) !important;  // Adjust width
   height: 100vh;
   overflow-y: auto;
   background: var(--background-color);
+}
+
+@media (max-width: 768px) {
+  .scrollable-content {
+    margin-left: 0;
+    padding-left: 0 !important;
+    width: 100% !important;
+    height: auto;
+    min-height: 50vh;
+    overflow: visible;
+  }
 }
 
 .content-wrapper {
