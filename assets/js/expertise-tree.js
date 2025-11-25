@@ -311,10 +311,8 @@ class ExpertiseTree {
         const horizontalSpacing = isMobile ? 100 : 160;
         const maxDepth = d3.max(nodes, d => d.depth);
 
-        // NEW: Calculate center offset considering text positions
-        // Account for text on right side by reducing right margin
-        const effectiveWidth = this.width - 30; // Reduce width to account for right text
-        const centerOffset = (effectiveWidth - (maxDepth * horizontalSpacing)) / 2;
+        // SIMPLIFIED: Start with center positioning
+        const centerOffset = this.width / 2;
 
         // Group nodes by depth for proper vertical distribution
         const nodesByDepth = {};
@@ -332,8 +330,8 @@ class ExpertiseTree {
             const verticalStart = (this.height - verticalRange) / 2;
 
             depthNodes.forEach((node, index) => {
-                // NEW: Better centering by adjusting starting position
-                node.y = centerOffset + (node.depth * horizontalSpacing);
+                // Position nodes from center outward
+                node.y = centerOffset + ((node.depth - 1.5) * horizontalSpacing);
 
                 // Enhanced vertical distribution with more space for rightmost nodes
                 if (depth === '3') {
@@ -349,20 +347,21 @@ class ExpertiseTree {
             });
         });
 
-        // NEW: Calculate the actual bounds of all nodes to center properly
+        // FORCE CENTERING: Calculate bounds and shift everything to center
         const minY = d3.min(nodes, d => d.y);
         const maxY = d3.max(nodes, d => d.y);
-        const totalWidth = maxY - minY;
-        const centeringAdjustment = (this.width - totalWidth) / 2 - minY;
+        const actualCenter = (minY + maxY) / 2;
+        const centerShift = this.width / 2 - actualCenter;
 
-        // Apply centering adjustment to all nodes
+        // Apply the centering shift to ALL nodes
         nodes.forEach(d => {
-            d.y += centeringAdjustment;
+            d.y += centerShift;
         });
 
-        // Ensure root node is centered
+        // Ensure root node is exactly centered
         if (nodesByDepth[0] && nodesByDepth[0][0]) {
             nodesByDepth[0][0].x = this.height / 2;
+            nodesByDepth[0][0].y = this.width / 2;
         }
 
         // NODES
