@@ -1,4 +1,4 @@
-// Projects Data
+// Projects Data (same as before)
 window.projectsData = [
     {
         title: "MMTO",
@@ -42,7 +42,7 @@ window.projectsData = [
     }
 ];
 
-// Publications Data
+// Publications Data (same as before)
 window.publicationsData = [
     {
         title: "Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees",
@@ -130,9 +130,8 @@ class ProjectCarousel {
 
         this.track.innerHTML = '';
 
-        // Create multiple copies of the slides for seamless looping
-        const copies = 3; // Create 3 copies for smooth infinite effect
-
+        // Create 3 copies for seamless infinite scrolling
+        const copies = 3;
         for (let copy = 0; copy < copies; copy++) {
             window.projectsData.forEach(project => {
                 this.createProjectSlide(project);
@@ -210,12 +209,15 @@ class ProjectCarousel {
         console.log('Initializing carousel with', this.slideCount, 'slides');
 
         this.calculateSlideWidth();
-        this.updateCarousel();
 
+        // Start in the middle copy for infinite scrolling in both directions
+        const originalSlideCount = window.projectsData.length;
+        this.currentIndex = originalSlideCount;
+
+        this.updateCarousel();
         this.createDots();
         this.addEventListeners();
 
-        // Only start auto-slide if more than one slide
         if (this.slideCount > window.projectsData.length) {
             this.startAutoSlide();
         }
@@ -227,9 +229,8 @@ class ProjectCarousel {
             return;
         }
 
-        // Calculate exact slide width based on container
         const containerWidth = this.container.offsetWidth;
-        this.slideWidth = (containerWidth - 40) / 3; // Account for gaps
+        this.slideWidth = (containerWidth - 40) / 3;
     }
 
     createDots() {
@@ -241,7 +242,6 @@ class ProjectCarousel {
 
         this.dotsContainer.innerHTML = '';
 
-        // Create dots only for the original projects (not the copies)
         const originalSlideCount = window.projectsData.length;
         for (let i = 0; i < originalSlideCount; i++) {
             const dot = document.createElement('div');
@@ -256,19 +256,21 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.6s ease-in-out';
+        this.track.style.transition = 'transform 0.5s ease-in-out';
 
-        // Calculate the position in the first copy
-        this.currentIndex = targetIndex;
+        // Navigate within the middle copy
+        const originalSlideCount = window.projectsData.length;
+        this.currentIndex = targetIndex + originalSlideCount;
+
+        this.updateDots();
         this.updateCarousel();
 
         setTimeout(() => {
             this.isTransitioning = false;
-        }, 600);
+        }, 500);
     }
 
     addEventListeners() {
-        // Only add mouse events for desktop
         if (!this.isTouchDevice()) {
             this.container.addEventListener('mouseenter', () => {
                 this.stopAutoSlide();
@@ -279,7 +281,6 @@ class ProjectCarousel {
             });
         }
 
-        // Touch events for mobile
         this.container.addEventListener('touchstart', (e) => {
             this.handleTouchStart(e);
         }, { passive: true });
@@ -292,17 +293,14 @@ class ProjectCarousel {
             this.handleTouchEnd(e);
         });
 
-        // Prevent image drag
         this.container.addEventListener('dragstart', (e) => {
             e.preventDefault();
         });
 
-        // Listen for transition end to handle infinite loop
         this.track.addEventListener('transitionend', () => {
             this.handleInfiniteTransition();
         });
 
-        // Handle window resize
         window.addEventListener('resize', () => {
             this.calculateSlideWidth();
             this.updateCarousel();
@@ -333,7 +331,7 @@ class ProjectCarousel {
         if (!this.isDragging) return;
 
         this.isDragging = false;
-        this.track.style.transition = 'transform 0.6s ease-in-out';
+        this.track.style.transition = 'transform 0.5s ease-in-out';
 
         const diff = this.touchStartX - this.touchEndX;
 
@@ -356,8 +354,10 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.6s ease-in-out';
+        this.track.style.transition = 'transform 0.5s ease-in-out';
         this.currentIndex++;
+
+        this.updateDots();
         this.updateCarousel();
     }
 
@@ -365,8 +365,10 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.6s ease-in-out';
+        this.track.style.transition = 'transform 0.5s ease-in-out';
         this.currentIndex--;
+
+        this.updateDots();
         this.updateCarousel();
     }
 
@@ -375,15 +377,17 @@ class ProjectCarousel {
 
         const translateX = -this.currentIndex * this.slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
+    }
 
-        // Update dots based on modulo of original slide count
-        if (this.dotsContainer) {
-            const originalSlideCount = window.projectsData.length;
-            const dotIndex = this.currentIndex % originalSlideCount;
-            this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === dotIndex);
-            });
-        }
+    updateDots() {
+        if (!this.dotsContainer) return;
+
+        const originalSlideCount = window.projectsData.length;
+        const dotIndex = this.currentIndex % originalSlideCount;
+
+        this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index === dotIndex);
+        });
     }
 
     handleInfiniteTransition() {
@@ -391,25 +395,20 @@ class ProjectCarousel {
 
         const originalSlideCount = window.projectsData.length;
         const totalCopies = 3;
-        const totalSlidesInCopies = originalSlideCount * totalCopies;
 
-        // If we've scrolled past the middle copy, jump to the equivalent position in the first copy
+        // If we've scrolled to the end of the last copy, jump to the middle copy
         if (this.currentIndex >= originalSlideCount * 2) {
             this.track.style.transition = 'none';
-            this.currentIndex -= originalSlideCount;
+            this.currentIndex = originalSlideCount;
             this.updateCarousel();
-
-            // Force reflow
-            this.track.offsetHeight;
+            this.track.offsetHeight; // Force reflow
         }
-        // If we've scrolled before the first copy, jump to the equivalent position in the last copy
-        else if (this.currentIndex < 0) {
+        // If we've scrolled before the first copy, jump to the middle copy
+        else if (this.currentIndex < originalSlideCount) {
             this.track.style.transition = 'none';
-            this.currentIndex += originalSlideCount;
+            this.currentIndex = originalSlideCount * 2 - 1;
             this.updateCarousel();
-
-            // Force reflow
-            this.track.offsetHeight;
+            this.track.offsetHeight; // Force reflow
         }
     }
 
@@ -458,5 +457,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 200);
 });
-
 
