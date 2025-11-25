@@ -70,9 +70,9 @@ window.publicationsData = [
     }
 ];
 
-// Force wider carousel layout via JavaScript
+// Force 3-slide wider carousel layout via JavaScript
 function forceWiderCarouselLayout() {
-    console.log('🔧 Applying wider carousel layout...');
+    console.log('🔧 Applying 3-slide wider carousel layout...');
 
     const projectsCarousel = document.getElementById('projectsCarousel');
     if (!projectsCarousel) {
@@ -80,19 +80,38 @@ function forceWiderCarouselLayout() {
         return;
     }
 
-    // Force wider styles via JavaScript with !important
+    // Force 3-slide layout with !important
     const style = document.createElement('style');
     style.textContent = `
+        /* Force wider website layout */
+        .layout-wrapper {
+            max-width: 1600px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+
+        .scrollable-content {
+            margin-left: 300px !important;
+            width: calc(100% - 300px) !important;
+        }
+
+        .content-wrapper {
+            max-width: 1300px !important;
+            margin: 0 auto !important;
+            padding: 2rem 4rem !important;
+        }
+
+        /* Force 3 wider slides */
         #projectsCarousel .carousel-slide {
-            flex: 0 0 calc(50% - 15px) !important;
-            min-width: calc(50% - 15px) !important;
-            max-width: calc(50% - 15px) !important;
-            width: calc(50% - 15px) !important;
+            flex: 0 0 calc(33.333% - 20px) !important;
+            min-width: calc(33.333% - 20px) !important;
+            max-width: calc(33.333% - 20px) !important;
+            width: calc(33.333% - 20px) !important;
         }
 
         #projectsCarousel .carousel-track {
             gap: 30px !important;
-            padding: 0 15px !important;
+            padding: 0 20px !important;
         }
 
         #projectsCarousel .project-thumbnail {
@@ -124,8 +143,59 @@ function forceWiderCarouselLayout() {
             font-size: 0.9rem !important;
         }
 
-        /* Mobile overrides */
+        /* Medium screens - 2 slides */
+        @media (max-width: 1200px) {
+            .layout-wrapper {
+                max-width: 1200px !important;
+            }
+
+            .content-wrapper {
+                max-width: 1000px !important;
+                padding: 2rem !important;
+            }
+
+            #projectsCarousel .carousel-slide {
+                flex: 0 0 calc(50% - 15px) !important;
+                min-width: calc(50% - 15px) !important;
+                max-width: calc(50% - 15px) !important;
+                width: calc(50% - 15px) !important;
+            }
+
+            #projectsCarousel .project-thumbnail {
+                height: 180px !important;
+            }
+
+            #projectsCarousel .project-info {
+                padding: 1.5rem !important;
+            }
+        }
+
+        /* Tablet - 1 slide */
+        @media (max-width: 900px) {
+            .scrollable-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+
+            .content-wrapper {
+                padding: 1.5rem !important;
+                max-width: 100% !important;
+            }
+
+            #projectsCarousel .carousel-slide {
+                flex: 0 0 calc(100% - 20px) !important;
+                min-width: calc(100% - 20px) !important;
+                max-width: calc(100% - 20px) !important;
+                width: calc(100% - 20px) !important;
+            }
+        }
+
+        /* Mobile - 1 slide */
         @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem !important;
+            }
+
             #projectsCarousel .carousel-slide {
                 flex: 0 0 calc(100% - 10px) !important;
                 min-width: calc(100% - 10px) !important;
@@ -133,19 +203,18 @@ function forceWiderCarouselLayout() {
                 width: calc(100% - 10px) !important;
             }
 
-            #projectsCarousel .carousel-track {
-                gap: 20px !important;
-                padding: 0 10px !important;
-            }
-
             #projectsCarousel .project-thumbnail {
                 height: 180px !important;
+            }
+
+            #projectsCarousel .project-info {
+                padding: 1.5rem !important;
             }
         }
     `;
     document.head.appendChild(style);
 
-    console.log('✅ Wider carousel layout applied!');
+    console.log('✅ 3-slide wider carousel layout applied!');
 }
 
 class ProjectCarousel {
@@ -172,7 +241,7 @@ class ProjectCarousel {
         this.slideWidth = 0;
         this.resizeTimeout = null;
         this.originalSlideCount = 0;
-        this.gap = 30; // Updated gap for wider slides
+        this.gap = 30;
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
@@ -183,14 +252,12 @@ class ProjectCarousel {
     }
 
     initCarousel() {
-        // Create slides based on carousel type
         if (this.carouselType === 'projects') {
             this.createInfiniteProjectSlides();
         } else if (this.carouselType === 'publications') {
             this.createPublicationSlides();
         }
 
-        // Wait for slides to be created
         setTimeout(() => {
             this.slides = this.container.querySelectorAll('.carousel-slide');
             this.slideCount = this.slides.length;
@@ -212,8 +279,7 @@ class ProjectCarousel {
 
         this.track.innerHTML = '';
 
-        // Create multiple copies for seamless looping
-        const copies = 3; // Create 3 copies for smooth infinite effect
+        const copies = 3;
 
         for (let copy = 0; copy < copies; copy++) {
             window.projectsData.forEach((project, index) => {
@@ -294,10 +360,8 @@ class ProjectCarousel {
     init() {
         console.log('Initializing carousel with', this.slideCount, 'slides');
 
-        // Wait for DOM to render slides properly
         setTimeout(() => {
             this.calculateSlideWidth();
-            // Start in the middle copy for seamless infinite scrolling
             this.currentIndex = this.originalSlideCount;
             this.updateCarousel();
             this.createDots();
@@ -311,18 +375,16 @@ class ProjectCarousel {
 
     calculateSlideWidth() {
         if (this.slides.length === 0) {
-            this.slideWidth = 500; // Increased base width for wider slides
+            this.slideWidth = 400;
             return;
         }
 
-        // Use the actual rendered width of the first slide
         const firstSlide = this.slides[0];
         const slideRect = firstSlide.getBoundingClientRect();
 
-        // Calculate exact slide width including gap
         this.slideWidth = slideRect.width + this.gap;
 
-        console.log('📏 Slide width calculation:', {
+        console.log('📏 Slide width calculation for 3 slides:', {
             slideWidth: this.slideWidth,
             elementWidth: slideRect.width,
             gap: this.gap,
@@ -344,7 +406,6 @@ class ProjectCarousel {
 
         this.dotsContainer.innerHTML = '';
 
-        // Create dots only for the original projects
         for (let i = 0; i < this.originalSlideCount; i++) {
             const dot = document.createElement('div');
             dot.className = 'carousel-dot';
@@ -360,7 +421,6 @@ class ProjectCarousel {
         this.isTransitioning = true;
         this.track.style.transition = 'transform 0.6s ease-in-out';
 
-        // Calculate position in the middle copy for seamless looping
         this.currentIndex = targetIndex + this.originalSlideCount;
         this.updateCarousel();
 
@@ -370,7 +430,6 @@ class ProjectCarousel {
     }
 
     addEventListeners() {
-        // Only add mouse events for desktop
         if (!this.isTouchDevice()) {
             this.container.addEventListener('mouseenter', () => {
                 this.stopAutoSlide();
@@ -381,7 +440,6 @@ class ProjectCarousel {
             });
         }
 
-        // Touch events for mobile
         this.container.addEventListener('touchstart', (e) => {
             this.handleTouchStart(e);
         }, { passive: true });
@@ -394,17 +452,14 @@ class ProjectCarousel {
             this.handleTouchEnd(e);
         });
 
-        // Prevent image drag
         this.container.addEventListener('dragstart', (e) => {
             e.preventDefault();
         });
 
-        // Listen for transition end to handle infinite loop
         this.track.addEventListener('transitionend', () => {
             this.handleInfiniteTransition();
         });
 
-        // Handle window resize with debouncing
         window.addEventListener('resize', () => {
             clearTimeout(this.resizeTimeout);
             this.resizeTimeout = setTimeout(() => {
@@ -477,11 +532,9 @@ class ProjectCarousel {
     updateCarousel() {
         if (this.slideCount === 0) return;
 
-        // Calculate exact translation with pixel-perfect precision
         const translateX = -this.currentIndex * this.slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
 
-        // Update dots based on modulo of original slide count
         if (this.dotsContainer) {
             const dotIndex = (this.currentIndex % this.originalSlideCount + this.originalSlideCount) % this.originalSlideCount;
             this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
@@ -493,16 +546,11 @@ class ProjectCarousel {
     handleInfiniteTransition() {
         this.isTransitioning = false;
 
-        const totalSlides = this.originalSlideCount * 3;
-
-        // Robust boundary checking with exact positions
         if (this.currentIndex >= this.originalSlideCount * 2) {
-            // Jump to equivalent position in the middle copy
             this.track.style.transition = 'none';
             this.currentIndex -= this.originalSlideCount;
             this.updateCarousel();
         } else if (this.currentIndex < this.originalSlideCount) {
-            // Jump to equivalent position in the middle copy
             this.track.style.transition = 'none';
             this.currentIndex += this.originalSlideCount;
             this.updateCarousel();
@@ -525,7 +573,6 @@ class ProjectCarousel {
         }
     }
 
-    // Debug method to verify positions
     debugPositions() {
         console.log('=== CAROUSEL DEBUG ===');
         console.log('Current Index:', this.currentIndex);
@@ -549,14 +596,12 @@ class ProjectCarousel {
         return match ? parseFloat(match[1]) : 0;
     }
 
-    // Method to manually check slide metrics (useful for debugging)
     checkMetrics() {
         this.calculateSlideWidth();
         this.debugPositions();
     }
 }
 
-// Enhanced initialization with error handling
 function initializeCarouselWithRetry(containerId, config, retries = 3) {
     return new Promise((resolve, reject) => {
         let attempts = 0;
@@ -584,7 +629,6 @@ function initializeCarouselWithRetry(containerId, config, retries = 3) {
     });
 }
 
-// Debug function to check applied styles
 function debugCarouselStyles() {
     const projectsCarousel = document.getElementById('projectsCarousel');
     if (!projectsCarousel) {
@@ -602,25 +646,14 @@ function debugCarouselStyles() {
             maxWidth: styles.maxWidth
         });
     }
-
-    const track = projectsCarousel.querySelector('.carousel-track');
-    if (track) {
-        const styles = window.getComputedStyle(track);
-        console.log('🔍 Current track styles:', {
-            gap: styles.gap,
-            padding: styles.padding
-        });
-    }
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 DOM loaded, initializing carousels...');
 
     // Apply wider layout FIRST
     forceWiderCarouselLayout();
 
-    // Small delay to ensure all elements are rendered
     setTimeout(() => {
         const projectsCarousel = document.getElementById('projectsCarousel');
         if (projectsCarousel) {
@@ -630,11 +663,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 carouselType: 'projects'
             }).then(carousel => {
                 console.log('✅ Projects carousel initialized successfully!');
-                // Recalculate after wider layout is applied
                 setTimeout(() => {
                     carousel.calculateSlideWidth();
                     carousel.updateCarousel();
-                    debugCarouselStyles(); // Debug styles
+                    debugCarouselStyles();
                 }, 100);
             }).catch(error => {
                 console.error('❌ Failed to initialize projects carousel:', error);
@@ -660,7 +692,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 200);
 });
 
-// Export for potential external use
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { ProjectCarousel, initializeCarouselWithRetry };
 }

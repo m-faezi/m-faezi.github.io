@@ -1,18 +1,19 @@
-/* CAROUSEL.CSS - WIDER LAYOUT */
+/* CAROUSEL.CSS - 3 WIDER SLIDES LAYOUT */
 .carousel-container {
     position: relative;
-    max-width: 100%;
-    margin: 2rem 0;
+    max-width: 1300px;
+    margin: 2rem auto;
     overflow: hidden;
     border-radius: 12px;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
+    width: 100%;
 }
 
 .carousel-track {
     display: flex;
     transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    gap: 30px; /* Increased gap for wider slides */
+    gap: 30px;
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
@@ -20,8 +21,7 @@
     -ms-user-select: none;
     touch-action: pan-y;
     will-change: transform;
-    padding: 0 15px; /* Increased padding for wider slides */
-    /* Ensure consistent rendering */
+    padding: 0 20px;
     backface-visibility: hidden;
     transform-style: preserve-3d;
 }
@@ -31,37 +31,36 @@
     transition: none;
 }
 
-/* WIDER SLIDES - 2 slides instead of 3 */
+/* 3 WIDER SLIDES - Optimized for larger screens */
 .carousel-slide {
-    flex: 0 0 calc(50% - 15px); /* 2 slides instead of 3, accounting for gap */
-    min-width: calc(50% - 15px);
-    max-width: calc(50% - 15px);
-    width: calc(50% - 15px);
+    flex: 0 0 calc(33.333% - 20px);
+    min-width: calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+    width: calc(33.333% - 20px);
     background: var(--surface-color);
-    border-radius: 12px; /* Slightly larger border radius */
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     -webkit-user-select: none;
     box-sizing: border-box;
-    /* Ensure consistent rendering */
     backface-visibility: hidden;
     transform-style: preserve-3d;
 }
 
 .carousel-slide:hover {
-    transform: translateY(-6px); /* Enhanced hover effect */
+    transform: translateY(-6px);
     box-shadow: 0 12px 40px rgba(16, 185, 129, 0.2);
     border-color: var(--primary-color);
 }
 
-/* Larger project thumbnail for wider slides */
+/* Larger project thumbnail for 3 slides */
 .project-thumbnail {
     width: 100%;
-    height: 200px; /* Increased height */
+    height: 200px;
     position: relative;
     overflow: hidden;
     background: var(--surface-light);
@@ -77,30 +76,30 @@
 }
 
 .carousel-slide:hover .github-preview {
-    transform: scale(1.08); /* Slightly stronger zoom */
+    transform: scale(1.08);
 }
 
 .project-language {
     position: absolute;
-    top: 15px; /* Adjusted position */
+    top: 15px;
     right: 15px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 6px 12px; /* Slightly larger */
+    padding: 6px 12px;
     border-radius: 6px;
     font-size: 0.8rem;
     font-weight: 500;
     pointer-events: none;
 }
 
-/* Enhanced project info with more space */
+/* Enhanced project info for 3 slides */
 .project-info {
-    padding: 1.75rem; /* More padding */
+    padding: 1.75rem;
 }
 
 .project-info h3 {
     margin: 0 0 1rem 0;
-    font-size: 1.3rem; /* Larger font */
+    font-size: 1.3rem;
     color: var(--text-primary);
     font-weight: 600;
     line-height: 1.3;
@@ -109,7 +108,7 @@
 .project-info p {
     margin: 0 0 1.25rem 0;
     color: var(--text-secondary);
-    font-size: 0.95rem; /* Slightly larger text */
+    font-size: 0.95rem;
     line-height: 1.6;
 }
 
@@ -123,7 +122,7 @@
 .tech-tag {
     background: var(--surface-light);
     color: var(--text-secondary);
-    padding: 0.3rem 0.8rem; /* Slightly larger */
+    padding: 0.3rem 0.8rem;
     border-radius: 6px;
     font-size: 0.8rem;
     border: 1px solid var(--border-color);
@@ -139,7 +138,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.25rem; /* Larger buttons */
+    padding: 0.75rem 1.25rem;
     background: var(--surface-light);
     color: var(--text-secondary);
     text-decoration: none;
@@ -166,12 +165,12 @@
     display: flex;
     justify-content: center;
     gap: 0.75rem;
-    margin-top: 2rem; /* More spacing */
+    margin-top: 2rem;
     touch-action: manipulation;
 }
 
 .carousel-dot {
-    width: 10px; /* Slightly larger dots */
+    width: 10px;
     height: 10px;
     border-radius: 50%;
     background: var(--text-tertiary);
@@ -183,25 +182,46 @@
 
 .carousel-dot.active {
     background: var(--primary-color);
-    transform: scale(1.3); /* More prominent active state */
+    transform: scale(1.3);
 }
 
 .carousel-dot:hover {
     background: var(--primary-light);
 }
 
-/* Enhanced Mobile Responsiveness for wider slides */
-@media (max-width: 1024px) {
+/* Responsive design for 3 slides */
+@media (max-width: 1200px) {
+    .carousel-container {
+        max-width: 1000px;
+    }
+
     .carousel-slide {
-        flex: 0 0 calc(60% - 15px); /* Slightly smaller on tablets */
-        min-width: calc(60% - 15px);
-        max-width: calc(60% - 15px);
-        width: calc(60% - 15px);
+        flex: 0 0 calc(50% - 15px);
+        min-width: calc(50% - 15px);
+        max-width: calc(50% - 15px);
+        width: calc(50% - 15px);
+    }
+
+    .project-thumbnail {
+        height: 180px;
+    }
+
+    .project-info {
+        padding: 1.5rem;
+    }
+
+    .project-info h3 {
+        font-size: 1.2rem;
+    }
+
+    .project-info p {
+        font-size: 0.9rem;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .carousel-container {
+        max-width: 100%;
         margin: 1.5rem 0;
         overflow: visible;
         touch-action: pan-y;
@@ -209,12 +229,12 @@
 
     .carousel-track {
         gap: 20px;
-        padding: 0 10px;
+        padding: 0 15px;
         touch-action: pan-y;
     }
 
     .carousel-slide {
-        flex: 0 0 calc(100% - 10px); /* Full width on mobile */
+        flex: 0 0 calc(100% - 10px);
         min-width: calc(100% - 10px);
         max-width: calc(100% - 10px);
         width: calc(100% - 10px);
@@ -266,7 +286,7 @@
 @media (max-width: 480px) {
     .carousel-track {
         gap: 15px;
-        padding: 0 8px;
+        padding: 0 10px;
     }
 
     .carousel-slide {
@@ -294,38 +314,7 @@
     }
 }
 
-/* iPhone specific optimizations */
-@media (max-width: 414px) {
-    .carousel-slide {
-        flex: 0 0 calc(100% - 8px);
-        min-width: calc(100% - 8px);
-        max-width: calc(100% - 8px);
-        width: calc(100% - 8px);
-    }
-
-    .project-thumbnail {
-        height: 150px;
-    }
-
-    .carousel-track {
-        gap: 12px;
-        padding: 0 6px;
-    }
-}
-
-/* Disable hover effects on touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .carousel-slide:hover {
-        transform: none;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .carousel-slide:hover .github-preview {
-        transform: none;
-    }
-}
-
-/* Wider Publications Banner Carousel */
+/* Publications Carousel Styles (unchanged) */
 .publications-carousel .carousel-slide {
     flex: 0 0 100%;
     min-width: 100%;
@@ -333,8 +322,8 @@
     width: 100%;
     background: transparent;
     border: 1px solid rgba(16, 185, 129, 0.3);
-    border-radius: 16px; /* Larger border radius */
-    padding: 2.5rem; /* More padding */
+    border-radius: 16px;
+    padding: 2.5rem;
     margin: 0;
     box-shadow: 0 6px 30px rgba(16, 185, 129, 0.15);
     backdrop-filter: blur(10px);
@@ -349,14 +338,14 @@
     display: flex;
     flex-direction: column;
     height: auto;
-    min-height: 350px; /* Taller for more content */
+    min-height: 350px;
 }
 
 .publication-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem; /* More spacing */
+    margin-bottom: 2rem;
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -364,7 +353,7 @@
 .publication-badge {
     background: rgba(16, 185, 129, 0.2);
     color: var(--primary-color);
-    padding: 0.6rem 1.2rem; /* Larger badge */
+    padding: 0.6rem 1.2rem;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -377,7 +366,7 @@
 .publication-year {
     color: var(--primary-color);
     font-weight: 700;
-    font-size: 1.1rem; /* Larger year */
+    font-size: 1.1rem;
 }
 
 .publication-content {
@@ -388,7 +377,7 @@
 
 .publication-content h3 {
     margin: 0 0 1.25rem 0;
-    font-size: 1.6rem; /* Larger title */
+    font-size: 1.6rem;
     color: var(--text-primary);
     font-weight: 700;
     line-height: 1.4;
@@ -396,21 +385,21 @@
 
 .publication-authors {
     color: var(--text-secondary);
-    font-size: 1.1rem; /* Larger authors */
+    font-size: 1.1rem;
     margin-bottom: 1rem;
     font-style: italic;
 }
 
 .publication-journal {
     color: var(--primary-color);
-    font-size: 1.05rem; /* Larger journal */
+    font-size: 1.05rem;
     margin-bottom: 2rem;
     font-weight: 600;
 }
 
 .publication-description {
     color: var(--text-secondary);
-    font-size: 1.05rem; /* Larger description */
+    font-size: 1.05rem;
     line-height: 1.7;
     margin-bottom: 2rem;
     flex: 1;
@@ -426,7 +415,7 @@
 .publication-tag {
     background: rgba(16, 185, 129, 0.1);
     color: var(--primary-color);
-    padding: 0.5rem 1rem; /* Larger tags */
+    padding: 0.5rem 1rem;
     border-radius: 8px;
     font-size: 0.85rem;
     border: 1px solid rgba(16, 185, 129, 0.2);
@@ -436,7 +425,7 @@
 
 .publication-links {
     display: flex;
-    gap: 1.25rem; /* More spacing */
+    gap: 1.25rem;
     flex-wrap: wrap;
 }
 
@@ -444,7 +433,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.9rem 1.75rem; /* Larger buttons */
+    padding: 0.9rem 1.75rem;
     background: rgba(16, 185, 129, 0.1);
     color: var(--text-secondary);
     text-decoration: none;
@@ -465,7 +454,6 @@
     border-color: var(--primary-color);
 }
 
-/* Different hover effect for publications banner */
 .publications-carousel .carousel-slide:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 40px rgba(16, 185, 129, 0.2);
@@ -473,7 +461,7 @@
     background: rgba(16, 185, 129, 0.08);
 }
 
-/* Mobile responsiveness for wider publications banner */
+/* Mobile responsiveness for publications */
 @media (max-width: 768px) {
     .publications-carousel .carousel-slide {
         padding: 2rem;
@@ -535,36 +523,16 @@
     }
 }
 
-/* Auto-slide animation for single item display */
-.publications-carousel .carousel-track {
-    transition: transform 0.5s ease-in-out;
-}
-
-/* Prevent horizontal scroll on body */
-body {
-    overflow-x: hidden;
-}
-
-/* Ensure carousel doesn't break layout on mobile */
-@media (max-width: 768px) {
-    .content-wrapper {
-        overflow: hidden;
-    }
-}
-
 /* Performance optimizations */
 .carousel-track {
-    /* Hardware acceleration */
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
 }
 
 .carousel-slide {
-    /* Prevent layout shifts */
     contain: layout style paint;
 }
 
-/* High DPI screen optimizations */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .carousel-track {
         transform: translateZ(0) scale(0.9999);
