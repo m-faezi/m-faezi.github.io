@@ -249,14 +249,14 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.4s ease-in-out';
         // Real slides start from index 1 to slideCount-2
         this.currentIndex = realIndex + 1;
         this.updateCarousel();
 
         setTimeout(() => {
             this.isTransitioning = false;
-        }, 500);
+        }, 400);
     }
 
     addEventListeners() {
@@ -293,6 +293,11 @@ class ProjectCarousel {
         this.track.addEventListener('transitionend', () => {
             this.handleEndlessTransition();
         });
+
+        // Handle window resize to recalculate slide widths
+        window.addEventListener('resize', () => {
+            this.updateCarousel();
+        });
     }
 
     isTouchDevice() {
@@ -311,7 +316,8 @@ class ProjectCarousel {
 
         this.touchEndX = e.touches[0].clientX;
         const diff = this.touchStartX - this.touchEndX;
-        const translateX = -this.currentIndex * this.getSlideWidth() - diff;
+        const slideWidth = this.getSlideWidth();
+        const translateX = -this.currentIndex * slideWidth - diff;
         this.track.style.transform = `translateX(${translateX}px)`;
     }
 
@@ -319,7 +325,7 @@ class ProjectCarousel {
         if (!this.isDragging) return;
 
         this.isDragging = false;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.4s ease-in-out';
 
         const diff = this.touchStartX - this.touchEndX;
 
@@ -344,16 +350,17 @@ class ProjectCarousel {
     getSlideWidth() {
         if (this.slides.length === 0) return 300;
 
-        // Always use the same calculation for consistent 3-slide layout
-        const slide = this.slides[0];
-        return slide.offsetWidth + 20; // Include gap
+        // Get the container width and calculate exact slide width for 3 slides
+        const containerWidth = this.container.offsetWidth;
+        const slideWidth = (containerWidth - 40) / 3; // 40px for gaps (20px * 2 gaps between 3 slides)
+        return slideWidth;
     }
 
     nextSlide() {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.4s ease-in-out';
         this.currentIndex++;
         this.updateCarousel();
     }
@@ -362,7 +369,7 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.4s ease-in-out';
         this.currentIndex--;
         this.updateCarousel();
     }
@@ -370,7 +377,7 @@ class ProjectCarousel {
     updateCarousel() {
         if (this.slideCount === 0) return;
 
-        // Always move by exactly one slide width
+        // Calculate exact position based on slide width
         const slideWidth = this.getSlideWidth();
         const translateX = -this.currentIndex * slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
@@ -406,22 +413,26 @@ class ProjectCarousel {
             setTimeout(() => {
                 this.track.style.transition = 'none';
                 this.currentIndex = 1;
-                this.updateCarousel();
+                const slideWidth = this.getSlideWidth();
+                const translateX = -this.currentIndex * slideWidth;
+                this.track.style.transform = `translateX(${translateX}px)`;
 
                 // Force reflow
                 this.track.offsetHeight;
-            }, 50);
+            }, 10);
         }
         // If we're at the cloned last slide (beginning), jump to real last slide
         else if (this.currentIndex === 0) {
             setTimeout(() => {
                 this.track.style.transition = 'none';
                 this.currentIndex = realSlideCount;
-                this.updateCarousel();
+                const slideWidth = this.getSlideWidth();
+                const translateX = -this.currentIndex * slideWidth;
+                this.track.style.transform = `translateX(${translateX}px)`;
 
                 // Force reflow
                 this.track.offsetHeight;
-            }, 50);
+            }, 10);
         }
     }
 
