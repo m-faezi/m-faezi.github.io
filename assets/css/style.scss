@@ -1197,3 +1197,162 @@ body, html, .layout-wrapper, .scrollable-content, .content-wrapper {
   user-select: text;
 }
 
+// Add to your existing style.scss
+
+// Home page centering
+.home-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  // Center all child elements
+  & > * {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// Ensure content wrapper allows proper scrolling
+.content-wrapper {
+  background: transparent;
+  min-height: 100%;
+  width: 100%;
+  max-width: none;
+  padding: 2rem 0 2rem 2rem;
+  margin: 0;
+
+  // Force scrollable area to capture events
+  pointer-events: auto;
+
+  // Ensure proper stacking
+  position: relative;
+  z-index: 10;
+}
+
+// Fix scrollable content to properly capture scroll events
+.scrollable-content {
+  position: fixed;
+  left: 300px;
+  top: 0;
+  width: calc(100vw - 300px);
+  height: 100vh;
+  overflow-y: auto;
+  background: transparent;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  right: 0;
+
+  // Critical: Ensure scroll area captures events
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
+
+  // Force hardware acceleration for smooth scrolling
+  transform: translateZ(0);
+
+  // Make sure content is visible and interactive
+  & > * {
+    pointer-events: auto;
+  }
+}
+
+// Center specific elements in home page
+#projectsCarousel,
+#expertiseTree,
+.github-stats,
+.thesis-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Center carousel specifically
+.carousel-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+// Center expertise tree
+.expertise-tree-container {
+  max-width: 1200px;
+  margin: 3rem auto;
+}
+
+// Center GitHub stats
+.github-stats {
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+// Center thesis section
+.thesis-section {
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+// Fix scrollbar positioning and ensure it's always visible
+.scrollable-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 6px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+// Ensure the scrollable content area is always interactive
+@media (min-width: 769px) {
+  .scrollable-content {
+    // Force the element to be a scroll container
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+
+    // Ensure it captures all pointer events
+    pointer-events: auto !important;
+
+    // Make sure children don't block events
+    & > * {
+      pointer-events: auto;
+    }
+  }
+}
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+  .home-content {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  .scrollable-content {
+    left: 0 !important;
+    width: 100% !important;
+    height: auto;
+    position: relative;
+    overflow-y: visible;
+  }
+
+  .content-wrapper {
+    padding: 1.5rem;
+    overflow: visible;
+  }
+
+  #projectsCarousel,
+  #expertiseTree,
+  .github-stats,
+  .thesis-section {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
