@@ -137,7 +137,7 @@ class ExpertiseTree {
             stroke: '#000000'      // Black stroke
         };
 
-        // NEW: Progressive node sizes from left to right
+        // Progressive node sizes from left to right
         this.nodeSizes = {
             0: 8,  // Root node (largest)
             1: 7,  // Second column
@@ -263,19 +263,19 @@ class ExpertiseTree {
         return this.colors.default; // White
     }
 
-    // NEW: Get node size based on depth (progressive sizing)
+    // Get node size based on depth (progressive sizing)
     getNodeSize(d) {
         // Use depth to determine size, fallback to smallest size
         return this.nodeSizes[d.depth] || this.nodeSizes[3];
     }
 
-    // NEW: Get hover size based on depth (progressive hover scaling)
+    // Get hover size based on depth (progressive hover scaling)
     getHoverSize(d) {
         const baseSize = this.getNodeSize(d);
         return baseSize + 2; // Consistent hover effect across all sizes
     }
 
-    // NEW: Get click size based on depth (progressive click scaling)
+    // Get click size based on depth (progressive click scaling)
     getClickSize(d) {
         const baseSize = this.getNodeSize(d);
         return baseSize + 4; // Consistent click effect across all sizes
@@ -310,7 +310,11 @@ class ExpertiseTree {
         const isMobile = window.innerWidth <= 768;
         const horizontalSpacing = isMobile ? 100 : 160;
         const maxDepth = d3.max(nodes, d => d.depth);
-        const centerOffset = (this.width - (maxDepth * horizontalSpacing)) / 2;
+
+        // NEW: Calculate center offset considering text positions
+        // Account for text on right side by reducing right margin
+        const effectiveWidth = this.width - 30; // Reduce width to account for right text
+        const centerOffset = (effectiveWidth - (maxDepth * horizontalSpacing)) / 2;
 
         // Group nodes by depth for proper vertical distribution
         const nodesByDepth = {};
@@ -328,6 +332,7 @@ class ExpertiseTree {
             const verticalStart = (this.height - verticalRange) / 2;
 
             depthNodes.forEach((node, index) => {
+                // NEW: Better centering by adjusting starting position
                 node.y = centerOffset + (node.depth * horizontalSpacing);
 
                 // Enhanced vertical distribution with more space for rightmost nodes
@@ -342,6 +347,17 @@ class ExpertiseTree {
                     node.x = verticalStart + (verticalRange * easedProgress);
                 }
             });
+        });
+
+        // NEW: Calculate the actual bounds of all nodes to center properly
+        const minY = d3.min(nodes, d => d.y);
+        const maxY = d3.max(nodes, d => d.y);
+        const totalWidth = maxY - minY;
+        const centeringAdjustment = (this.width - totalWidth) / 2 - minY;
+
+        // Apply centering adjustment to all nodes
+        nodes.forEach(d => {
+            d.y += centeringAdjustment;
         });
 
         // Ensure root node is centered
@@ -362,7 +378,7 @@ class ExpertiseTree {
             .on("mouseover", (event, d) => this.mouseOver(event, d))
             .on("mouseout", (event, d) => this.mouseOut(event, d));
 
-        // Add elegant circles with PROGRESSIVE SIZES
+        // Add elegant circles with progressive sizes
         nodeEnter.append("circle")
             .attr("r", 0)
             .style("fill", d => this.getNodeColor(d))
@@ -371,7 +387,7 @@ class ExpertiseTree {
             .transition()
             .duration(this.duration)
             .ease(d3.easeCubicOut)
-            .attr("r", d => this.getNodeSize(d)) // Use progressive sizing
+            .attr("r", d => this.getNodeSize(d))
             .style("opacity", 1);
 
         // Add professional text labels with adjusted font sizes
@@ -422,7 +438,7 @@ class ExpertiseTree {
             .style("opacity", 1);
 
         nodeUpdate.select("circle")
-            .attr("r", d => this.getNodeSize(d)) // Use progressive sizing
+            .attr("r", d => this.getNodeSize(d))
             .style("fill", d => this.getNodeColor(d))
             .style("stroke", this.colors.stroke);
 
@@ -495,13 +511,13 @@ class ExpertiseTree {
     }
 
     mouseOver(event, d) {
-        // Elegant hover effects with PROGRESSIVE SIZING
+        // Elegant hover effects with progressive sizing
         d3.select(event.currentTarget)
             .select("circle")
             .transition()
             .duration(300)
             .ease(d3.easeCubicOut)
-            .attr("r", this.getHoverSize(d)) // Progressive hover size
+            .attr("r", this.getHoverSize(d))
             .style("filter", "url(#glow)");
 
         d3.select(event.currentTarget)
@@ -518,7 +534,7 @@ class ExpertiseTree {
             .transition()
             .duration(300)
             .ease(d3.easeCubicOut)
-            .attr("r", this.getNodeSize(d)) // Return to progressive base size
+            .attr("r", this.getNodeSize(d))
             .style("filter", "none");
 
         d3.select(event.currentTarget)
@@ -540,16 +556,16 @@ class ExpertiseTree {
             d._children = null;
         }
 
-        // Elegant click animation with PROGRESSIVE SIZING
+        // Elegant click animation with progressive sizing
         d3.select(event.currentTarget)
             .select("circle")
             .transition()
             .duration(150)
             .ease(d3.easeCubicOut)
-            .attr("r", this.getClickSize(d)) // Progressive click size
+            .attr("r", this.getClickSize(d))
             .transition()
             .duration(150)
-            .attr("r", this.getNodeSize(d)); // Return to progressive base size
+            .attr("r", this.getNodeSize(d));
 
         this.update(d);
     }
