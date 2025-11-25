@@ -128,15 +128,15 @@ class ExpertiseTree {
         this.width = 928 - this.margin.left - this.margin.right;
         this.height = 800 - this.margin.top - this.margin.bottom;
         this.i = 0;
-        this.duration = 1000; // Slower, more elegant transitions
+        this.duration = 1000;
 
         // Color scheme for different levels
         this.colors = {
-            level0: '#10b981',  // Emerald green - root
-            level1: '#3b82f6',  // Blue - main categories
-            level2: '#8b5cf6',  // Purple - subcategories
-            level3: '#ec4899',  // Pink - skills
-            link: 'url(#gradient)' // Gradient links
+            level0: '#10b981',
+            level1: '#3b82f6',
+            level2: '#8b5cf6',
+            level3: '#ec4899',
+            link: 'url(#gradient)'
         };
 
         if (this.container) {
@@ -161,7 +161,7 @@ class ExpertiseTree {
             .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height + this.margin.top + this.margin.bottom}`)
             .style("display", "block")
             .style("margin", "0 auto")
-            .style("filter", "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))"); // Subtle shadow
+            .style("filter", "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))");
 
         // Add gradient definitions
         this.addGradients();
@@ -258,6 +258,27 @@ class ExpertiseTree {
         }
     }
 
+    // SIMPLIFIED: Determine text position based on node depth and position
+    getTextPosition(d) {
+        // For root node, always center text below
+        if (d.depth === 0) {
+            return { x: 0, textAnchor: "middle", dy: "1.8em" };
+        }
+
+        // For left side nodes (depth 1), put text on right
+        if (d.depth === 1) {
+            return { x: 15, textAnchor: "start", dy: "0.35em" };
+        }
+
+        // For middle depth nodes, put text below
+        if (d.depth === 2) {
+            return { x: 0, textAnchor: "middle", dy: "2.2em" };
+        }
+
+        // For right side nodes (depth 3), put text on left
+        return { x: -15, textAnchor: "end", dy: "0.35em" };
+    }
+
     update(source) {
         const treeData = this.tree(this.root);
         const nodes = treeData.descendants();
@@ -320,22 +341,26 @@ class ExpertiseTree {
             .attr("r", d => d.depth === 0 ? 8 : 6)
             .style("opacity", 1);
 
-        // Add professional text labels
+        // Add professional text labels with SIMPLIFIED positioning
         nodeEnter.append("text")
-            .attr("dy", d => d.depth === 0 ? "1.8em" : "2.2em")
-            .attr("text-anchor", "middle")
+            .attr("x", d => this.getTextPosition(d).x)
+            .attr("dy", d => this.getTextPosition(d).dy)
+            .attr("text-anchor", d => this.getTextPosition(d).textAnchor)
             .text(d => d.data.name)
             .style("fill", "#ffffff")
-            .style("font-size", d => d.depth === 0 ? "12px" : "10px")
+            .style("font-size", d => {
+                if (d.depth === 0) return "13px";
+                if (d.depth === 1) return "11px";
+                return "10px";
+            })
             .style("font-family", "'Inter', 'SF Pro Display', -apple-system, sans-serif")
             .style("font-weight", d => d.depth === 0 ? "700" : "500")
-            .style("opacity", 0)
+            .style("opacity", 1) // CHANGED: Start visible
             .style("pointer-events", "none")
-            .style("text-shadow", "0 1px 2px rgba(0,0,0,0.8)")
-            .transition()
-            .delay(this.duration / 2)
-            .duration(this.duration / 2)
-            .style("opacity", 0.9);
+            .style("text-shadow", "0 1px 3px rgba(0,0,0,0.9)")
+            .style("paint-order", "stroke") // Better text rendering
+            .style("stroke", "rgba(0,0,0,0.5)") // Text outline for better readability
+            .style("stroke-width", "1px");
 
         // Fade in nodes
         nodeEnter.transition()
@@ -348,6 +373,13 @@ class ExpertiseTree {
             .ease(d3.easeCubicOut)
             .attr("transform", d => `translate(${d.y},${d.x})`)
             .style("opacity", 1);
+
+        // Update text positions for existing nodes
+        nodeUpdate.select("text")
+            .attr("x", d => this.getTextPosition(d).x)
+            .attr("dy", d => this.getTextPosition(d).dy)
+            .attr("text-anchor", d => this.getTextPosition(d).textAnchor)
+            .style("opacity", 1); // Ensure text is visible
 
         nodeUpdate.select("circle")
             .attr("r", d => d.depth === 0 ? 8 : 6)
@@ -452,7 +484,7 @@ class ExpertiseTree {
             .select("text")
             .transition()
             .duration(300)
-            .style("opacity", 0.9)
+            .style("opacity", 1) // Keep text visible
             .style("font-weight", d => d.depth === 0 ? "700" : "500");
     }
 
