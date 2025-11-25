@@ -23,12 +23,11 @@
   --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
 }
 
-// Base styles - FIXED for scroll issues
+// Base styles
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
 }
 
 body {
@@ -36,19 +35,12 @@ body {
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--background-color);
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  overflow: hidden;
 }
 
 .layout-wrapper {
   display: flex;
   height: 100vh;
   overflow: hidden;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
 }
 
 /* Mad Max / X Design - Dirty Black & White Sidebar */
@@ -64,8 +56,6 @@ body {
   z-index: 1000;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  margin: 0;
-  padding: 0;
 }
 
 .fixed-sidebar::-webkit-scrollbar {
@@ -299,28 +289,24 @@ body {
   margin: 0.25rem 0;
 }
 
-// Main Content - FIXED for scroll issues
+// Main Content - Only this should scroll
 .scrollable-content {
-  position: fixed;
-  left: 300px;
-  top: 0;
-  width: calc(100vw - 300px);
+  flex: 1;
+  margin-left: 300px;
   height: 100vh;
   overflow-y: auto;
   background: var(--background-color);
-  z-index: 1;
-  margin: 0;
-  padding: 0;
+  width: calc(100vw - 300px);
+  position: fixed;
   right: 0;
+  top: 0;
 }
 
 .content-wrapper {
-  background: transparent;
-  min-height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 4rem 2rem 2rem;
   width: 100%;
-  max-width: none;
-  padding: 2rem 0 2rem 2rem;
-  margin: 0;
 
   // Content styling
   h1, h2, h3, h4, h5, h6 {
@@ -904,7 +890,7 @@ body {
   }
 }
 
-// Responsive design - FIXED for mobile
+// Responsive design
 @media (max-width: 768px) {
   html, body {
     overflow: auto;
@@ -919,7 +905,6 @@ body {
     flex-direction: column;
     height: auto;
     overflow: visible;
-    width: 100%;
   }
 
   .fixed-sidebar {
@@ -938,7 +923,7 @@ body {
   }
 
   .scrollable-content {
-    left: 0 !important;
+    margin-left: 0;
     height: auto;
     min-height: 50vh;
     overflow: visible;
@@ -1131,7 +1116,7 @@ body, .layout-wrapper, .scrollable-content {
     background: transparent;
 }
 
-// Fix scrollable content width and scrollbar positioning - ENHANCED
+// Fix scrollable content width and scrollbar positioning
 .scrollable-content {
   &::-webkit-scrollbar {
     width: 12px;
@@ -1143,7 +1128,7 @@ body, .layout-wrapper, .scrollable-content {
 
   &::-webkit-scrollbar-thumb {
     background: #333333;
-    border-radius: 6px 0 0 6px;
+    border-radius: 6px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -1151,13 +1136,12 @@ body, .layout-wrapper, .scrollable-content {
   }
 }
 
-// Ensure content uses full width on desktop - ENHANCED
+// Ensure content uses full width on desktop
 @media (min-width: 769px) {
   .content-wrapper {
     width: 100%;
     max-width: none;
-    padding-right: 0;
-    margin-right: 0;
+    padding-right: 2rem;
   }
 
   .carousel-container,
@@ -1170,75 +1154,4 @@ body, .layout-wrapper, .scrollable-content {
   }
 }
 
-// FIX: Remove any right padding/margin that creates space
-body, html, .layout-wrapper, .scrollable-content, .content-wrapper {
-  margin-right: 0 !important;
-  padding-right: 0 !important;
-}
-
-// FIX: Ensure scrollable content takes full available width
-.scrollable-content {
-  width: calc(100vw - 300px) !important;
-  right: 0 !important;
-}
-
-// FIX: Prevent any element from blocking scroll events
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.scrollable-content, .scrollable-content * {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-}
-
-// Page-specific content styles for narrower layout
-.cv-page, .projects-page, .publications-page, .awards-page {
-  .content-wrapper {
-    h1, h2, h3, h4, h5, h6 {
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    p, ul, ol, .project-card, .publication-item, .award-item {
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-}
-
-// Ensure project cards and other elements look good in narrower layout
-.cv-page, .projects-page, .publications-page, .awards-page {
-  .project-card,
-  .publication-item,
-  .award-item {
-    width: 100%;
-    max-width: 900px;
-  }
-}
-
-// Mobile reset for page-specific styles
-@media (max-width: 768px) {
-  .cv-page, .projects-page, .publications-page, .awards-page {
-    .content-wrapper {
-      max-width: none !important;
-      margin: 0 !important;
-      padding: 1.5rem !important;
-
-      h1, h2, h3, h4, h5, h6,
-      p, ul, ol, .project-card, .publication-item, .award-item {
-        max-width: none !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-    }
-  }
-}
 
