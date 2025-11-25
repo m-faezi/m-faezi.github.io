@@ -137,12 +137,12 @@ class ExpertiseTree {
             stroke: '#000000'      // Black stroke
         };
 
-        // Progressive node sizes from left to right
+        // SMALLER Progressive node sizes from left to right (reduced by ~30%)
         this.nodeSizes = {
-            0: 8,  // Root node (largest)
-            1: 7,  // Second column
-            2: 6,  // Third column
-            3: 5   // Rightmost column (smallest)
+            0: 6,  // Root node (was 8)
+            1: 5,  // Second column (was 7)
+            2: 4,  // Third column (was 6)
+            3: 3   // Rightmost column (was 5)
         };
 
         if (this.container) {
@@ -219,7 +219,7 @@ class ExpertiseTree {
 
         filter.append("feGaussianBlur")
             .attr("in", "SourceGraphic")
-            .attr("stdDeviation", "3")
+            .attr("stdDeviation", "2") // Reduced from 3 to 2 for smaller nodes
             .attr("result", "blur");
 
         filter.append("feMerge")
@@ -272,33 +272,33 @@ class ExpertiseTree {
     // Get hover size based on depth (progressive hover scaling)
     getHoverSize(d) {
         const baseSize = this.getNodeSize(d);
-        return baseSize + 2; // Consistent hover effect across all sizes
+        return baseSize + 1.5; // Reduced from +2 to +1.5 for smaller nodes
     }
 
     // Get click size based on depth (progressive click scaling)
     getClickSize(d) {
         const baseSize = this.getNodeSize(d);
-        return baseSize + 4; // Consistent click effect across all sizes
+        return baseSize + 3; // Reduced from +4 to +3 for smaller nodes
     }
 
     getTextPosition(d) {
         // For root node, always center text below
         if (d.depth === 0) {
-            return { x: 0, textAnchor: "middle", dy: "1.8em" };
+            return { x: 0, textAnchor: "middle", dy: "1.5em" }; // Reduced from 1.8em
         }
 
         // For depth 1 nodes (second column), put text ON TOP
         if (d.depth === 1) {
-            return { x: 0, textAnchor: "middle", dy: "-1.2em" };
+            return { x: 0, textAnchor: "middle", dy: "-1.0em" }; // Reduced from -1.2em
         }
 
         // For depth 2 nodes, put text below (centered)
         if (d.depth === 2) {
-            return { x: 0, textAnchor: "middle", dy: "2.2em" };
+            return { x: 0, textAnchor: "middle", dy: "1.8em" }; // Reduced from 2.2em
         }
 
         // For depth 3+ nodes (right side), put text on RIGHT side
-        return { x: 15, textAnchor: "start", dy: "0.35em" };
+        return { x: 12, textAnchor: "start", dy: "0.3em" }; // Reduced from 15 and 0.35em
     }
 
     update(source) {
@@ -382,14 +382,14 @@ class ExpertiseTree {
             .attr("r", 0)
             .style("fill", d => this.getNodeColor(d))
             .style("stroke", this.colors.stroke)
-            .style("stroke-width", "1.5px")
+            .style("stroke-width", "1.2px") // Reduced from 1.5px
             .transition()
             .duration(this.duration)
             .ease(d3.easeCubicOut)
             .attr("r", d => this.getNodeSize(d))
             .style("opacity", 1);
 
-        // Add professional text labels with adjusted font sizes
+        // Add professional text labels with SMALLER adjusted font sizes (reduced by ~25%)
         nodeEnter.append("text")
             .attr("x", d => this.getTextPosition(d).x)
             .attr("dy", d => this.getTextPosition(d).dy)
@@ -397,19 +397,19 @@ class ExpertiseTree {
             .text(d => d.data.name)
             .style("fill", "#ffffff")
             .style("font-size", d => {
-                if (d.depth === 0) return "13px";
-                if (d.depth === 1) return "12px";
-                if (d.depth === 3) return "9px"; // Smaller font for rightmost nodes
-                return "10px";
+                if (d.depth === 0) return "10px"; // Was 13px
+                if (d.depth === 1) return "9px";  // Was 12px
+                if (d.depth === 3) return "7px";  // Was 9px
+                return "8px"; // Was 10px
             })
             .style("font-family", "'Inter', 'SF Pro Display', -apple-system, sans-serif")
             .style("font-weight", d => d.depth === 0 ? "700" : "500")
             .style("opacity", 1)
             .style("pointer-events", "none")
-            .style("text-shadow", "0 1px 3px rgba(0,0,0,0.9)")
+            .style("text-shadow", "0 1px 2px rgba(0,0,0,0.9)") // Reduced shadow
             .style("paint-order", "stroke")
             .style("stroke", "rgba(0,0,0,0.5)")
-            .style("stroke-width", "1px");
+            .style("stroke-width", "0.8px"); // Reduced from 1px
 
         // Fade in nodes
         nodeEnter.transition()
@@ -429,10 +429,10 @@ class ExpertiseTree {
             .attr("dy", d => this.getTextPosition(d).dy)
             .attr("text-anchor", d => this.getTextPosition(d).textAnchor)
             .style("font-size", d => {
-                if (d.depth === 0) return "13px";
-                if (d.depth === 1) return "12px";
-                if (d.depth === 3) return "9px";
-                return "10px";
+                if (d.depth === 0) return "10px"; // Was 13px
+                if (d.depth === 1) return "9px";  // Was 12px
+                if (d.depth === 3) return "7px";  // Was 9px
+                return "8px"; // Was 10px
             })
             .style("opacity", 1);
 
@@ -463,7 +463,7 @@ class ExpertiseTree {
             })
             .style("fill", "none")
             .style("stroke", "#10b981")
-            .style("stroke-width", "1.2px")
+            .style("stroke-width", "1px") // Reduced from 1.2px
             .style("opacity", 0)
             .style("stroke-linecap", "round")
             .transition()
