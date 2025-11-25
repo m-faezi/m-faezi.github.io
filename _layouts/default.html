@@ -91,6 +91,41 @@
         margin: 0;
       }
 
+      /* Page-specific content widths */
+      /* Home page - keep full width */
+      .home-page .content-wrapper {
+        max-width: none;
+        width: 100%;
+      }
+
+      /* Other pages - narrower content */
+      .cv-page .content-wrapper,
+      .projects-page .content-wrapper,
+      .publications-page .content-wrapper,
+      .awards-page .content-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Ensure carousels still use full width on home page */
+      .home-page .carousel-container,
+      .home-page .expertise-tree-container,
+      .home-page .github-stats {
+        width: 100%;
+        max-width: none;
+      }
+
+      /* Narrower content for other pages */
+      .cv-page .content-wrapper h1,
+      .projects-page .content-wrapper h1,
+      .publications-page .content-wrapper h1,
+      .awards-page .content-wrapper h1 {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       /* Updated Mobile styles */
       @media (max-width: 768px) {
         html, body {
@@ -128,6 +163,18 @@
           overflow: visible !important;
           min-height: auto !important;
           width: 100% !important;
+          padding: 1.5rem !important;
+          max-width: none !important;
+          margin: 0 !important;
+        }
+
+        /* Reset page-specific styles on mobile */
+        .cv-page .content-wrapper,
+        .projects-page .content-wrapper,
+        .publications-page .content-wrapper,
+        .awards-page .content-wrapper {
+          max-width: none !important;
+          margin: 0 !important;
           padding: 1.5rem !important;
         }
 
@@ -338,10 +385,35 @@
         }
       }
 
+      // Page-specific layout classes
+      function addPageClass() {
+        const body = document.body;
+        const currentPath = window.location.pathname;
+
+        // Remove any existing page classes
+        body.classList.remove('home-page', 'cv-page', 'projects-page', 'publications-page', 'awards-page');
+
+        // Add appropriate page class
+        if (currentPath.endsWith('/cv') || currentPath.includes('/cv/')) {
+          body.classList.add('cv-page');
+        } else if (currentPath.endsWith('/projects') || currentPath.includes('/projects/')) {
+          body.classList.add('projects-page');
+        } else if (currentPath.endsWith('/publications') || currentPath.includes('/publications/')) {
+          body.classList.add('publications-page');
+        } else if (currentPath.endsWith('/awards') || currentPath.includes('/awards/')) {
+          body.classList.add('awards-page');
+        } else {
+          body.classList.add('home-page');
+        }
+
+        console.log('Page class applied:', body.className);
+      }
+
       // Enhanced event listeners for scroll fixes
       document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM loaded - applying scroll fix');
         fixMobileScroll();
+        addPageClass();
 
         // Additional fixes with delays
         setTimeout(fixMobileScroll, 100);
@@ -364,7 +436,10 @@
       });
 
       // Force fix on page show (for back/forward navigation)
-      window.addEventListener('pageshow', fixMobileScroll);
+      window.addEventListener('pageshow', function() {
+        fixMobileScroll();
+        addPageClass();
+      });
 
       // Enhanced resize handler for expertise tree
       let expertiseResizeTimeout;

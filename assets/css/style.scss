@@ -1197,3 +1197,48 @@ body, html, .layout-wrapper, .scrollable-content, .content-wrapper {
   user-select: text;
 }
 
+// Page-specific content styles for narrower layout
+.cv-page, .projects-page, .publications-page, .awards-page {
+  .content-wrapper {
+    h1, h2, h3, h4, h5, h6 {
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    p, ul, ol, .project-card, .publication-item, .award-item {
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+// Ensure project cards and other elements look good in narrower layout
+.cv-page, .projects-page, .publications-page, .awards-page {
+  .project-card,
+  .publication-item,
+  .award-item {
+    width: 100%;
+    max-width: 900px;
+  }
+}
+
+// Mobile reset for page-specific styles
+@media (max-width: 768px) {
+  .cv-page, .projects-page, .publications-page, .awards-page {
+    .content-wrapper {
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 1.5rem !important;
+
+      h1, h2, h3, h4, h5, h6,
+      p, ul, ol, .project-card, .publication-item, .award-item {
+        max-width: none !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+    }
+  }
+}
+
