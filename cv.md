@@ -65,4 +65,4 @@ SmartAge, Tehran, Iran
 
 ---
 
-*For a detailed version of my CV, including publications and projects, please use the navigation menu or [download the full PDF](https://drive.google.com/file/d/1jOSrCVVE8vcs3jlMj5HOViVA8-HftfVI/view?usp=drive_link).*
+*For a detailed version of my CV, including publications and projects, please use the navigation menu or [download the full PDF](https://drive.google.com/file/d/1flwm8qwC-G7npLl40xciHmRc4JEz96YL/view?usp=sharing).*
