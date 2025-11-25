@@ -303,16 +303,23 @@ class ProjectCarousel {
         }, 3000);
     }
 
+    // In the getSlideWidth method of ProjectCarousel class, replace with:
     getSlideWidth() {
         if (this.slides.length === 0) return 300;
-
-        // Use container width for mobile, slide width for desktop
+    
+        // Use responsive calculation based on container width
+        const containerWidth = this.container.offsetWidth;
+        
         if (window.innerWidth <= 768) {
-            return this.container.offsetWidth - 40; // Account for padding
+            // Mobile: full width minus padding
+            return containerWidth - 40;
+        } else if (window.innerWidth <= 1024) {
+            // Tablet: 2 slides visible
+            return (containerWidth - 40) / 2;
+        } else {
+            // Desktop: 3 slides visible
+            return (containerWidth - 60) / 3; // Account for gaps
         }
-
-        const slide = this.slides[0];
-        return slide.offsetWidth + 20; // Include gap
     }
 
     goToSlide(index) {
