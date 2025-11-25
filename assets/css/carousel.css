@@ -32,6 +32,8 @@
 .carousel-slide {
     flex: 0 0 calc(33.333% - 14px);
     min-width: calc(33.333% - 14px);
+    max-width: calc(33.333% - 14px);
+    width: calc(33.333% - 14px);
     background: var(--surface-color);
     border-radius: 8px;
     overflow: hidden;
@@ -41,6 +43,7 @@
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     -webkit-user-select: none;
+    box-sizing: border-box;
 }
 
 .carousel-slide:hover {
@@ -194,6 +197,8 @@
     .carousel-slide {
         flex: 0 0 calc(100% - 20px);
         min-width: calc(100% - 20px);
+        max-width: calc(100% - 20px);
+        width: calc(100% - 20px);
         margin: 0 5px;
         touch-action: pan-y;
     }
@@ -248,6 +253,8 @@
     .carousel-slide {
         flex: 0 0 calc(100% - 16px);
         min-width: calc(100% - 16px);
+        max-width: calc(100% - 16px);
+        width: calc(100% - 16px);
     }
 
     .project-thumbnail {
@@ -273,6 +280,8 @@
     .carousel-slide {
         flex: 0 0 calc(100% - 16px);
         min-width: calc(100% - 16px);
+        max-width: calc(100% - 16px);
+        width: calc(100% - 16px);
     }
 
     .project-thumbnail {
@@ -301,6 +310,8 @@
 .publications-carousel .carousel-slide {
     flex: 0 0 100%;
     min-width: 100%;
+    max-width: 100%;
+    width: 100%;
     background: transparent;
     border: 1px solid rgba(16, 185, 129, 0.3);
     border-radius: 12px;
@@ -579,6 +590,8 @@ body {
 .publications-carousel .carousel-slide {
     flex: 0 0 100%;
     min-width: 100%;
+    max-width: 100%;
+    width: 100%;
     background: rgba(16, 185, 129, 0.05);
     border: 1px solid rgba(16, 185, 129, 0.2);
     border-radius: 8px;

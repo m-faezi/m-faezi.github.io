@@ -92,6 +92,7 @@ class ProjectCarousel {
         this.minSwipeDistance = 50;
         this.isTransitioning = false;
         this.slideWidth = 0;
+        this.resizeTimeout = null;
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
@@ -209,16 +210,17 @@ class ProjectCarousel {
     init() {
         console.log('Initializing carousel with', this.slideCount, 'slides');
 
-        this.calculateSlideWidth();
-        this.updateCarousel();
+        // Wait for DOM to render slides properly
+        setTimeout(() => {
+            this.calculateSlideWidth();
+            this.updateCarousel();
+            this.createDots();
+            this.addEventListeners();
 
-        this.createDots();
-        this.addEventListeners();
-
-        // Only start auto-slide if more than one slide
-        if (this.slideCount > window.projectsData.length) {
-            this.startAutoSlide();
-        }
+            if (this.slideCount > window.projectsData.length) {
+                this.startAutoSlide();
+            }
+        }, 100);
     }
 
     calculateSlideWidth() {
@@ -227,9 +229,17 @@ class ProjectCarousel {
             return;
         }
 
-        // Calculate exact slide width based on container
-        const containerWidth = this.container.offsetWidth;
-        this.slideWidth = (containerWidth - 40) / 3; // Account for gaps
+        // Use the actual rendered width of the first slide
+        const firstSlide = this.slides[0];
+        const slideRect = firstSlide.getBoundingClientRect();
+        this.slideWidth = slideRect.width;
+
+        console.log('Slide width calculated:', this.slideWidth, 'Actual width:', slideRect.width);
+    }
+
+    updateSlideMetrics() {
+        this.calculateSlideWidth();
+        this.updateCarousel(); // Immediately update position
     }
 
     createDots() {
@@ -302,10 +312,12 @@ class ProjectCarousel {
             this.handleInfiniteTransition();
         });
 
-        // Handle window resize
+        // Handle window resize with debouncing
         window.addEventListener('resize', () => {
-            this.calculateSlideWidth();
-            this.updateCarousel();
+            clearTimeout(this.resizeTimeout);
+            this.resizeTimeout = setTimeout(() => {
+                this.updateSlideMetrics();
+            }, 250);
         });
     }
 
@@ -428,6 +440,16 @@ class ProjectCarousel {
             this.autoSlideInterval = null;
         }
     }
+
+    // Debug method
+    debugSlideMetrics() {
+        console.log('Slide Metrics:');
+        console.log('- Calculated width:', this.slideWidth);
+        console.log('- Track width:', this.track.offsetWidth);
+        console.log('- Container width:', this.container.offsetWidth);
+        console.log('- Current transform:', this.track.style.transform);
+        console.log('- Current index:', this.currentIndex);
+    }
 }
 
 // Initialize when DOM is loaded
@@ -458,5 +480,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 200);
 });
-
 
