@@ -90,6 +90,7 @@ class ProjectCarousel {
         this.dragStartX = 0;
         this.dragCurrentX = 0;
         this.minSwipeDistance = 50;
+        this.isTransitioning = false;
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
@@ -255,6 +256,12 @@ class ProjectCarousel {
         this.container.addEventListener('dragstart', (e) => {
             e.preventDefault();
         });
+
+        // Listen for transition end to reset position for endless effect
+        this.track.addEventListener('transitionend', () => {
+            this.isTransitioning = false;
+            this.handleEndlessTransition();
+        });
     }
 
     isTouchDevice() {
@@ -312,6 +319,8 @@ class ProjectCarousel {
     }
 
     goToSlide(index) {
+        if (this.isTransitioning) return;
+
         if (index < 0) index = 0;
         if (index >= this.slideCount) index = this.slideCount - 1;
 
@@ -320,20 +329,18 @@ class ProjectCarousel {
     }
 
     nextSlide() {
-        if (this.slideDirection === 'left') {
-            this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
-        } else {
-            this.currentIndex = (this.currentIndex + 1) % this.slideCount;
-        }
+        if (this.isTransitioning) return;
+
+        this.isTransitioning = true;
+        this.currentIndex = (this.currentIndex + 1) % this.slideCount;
         this.updateCarousel();
     }
 
     previousSlide() {
-        if (this.slideDirection === 'left') {
-            this.currentIndex = (this.currentIndex + 1) % this.slideCount;
-        } else {
-            this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
-        }
+        if (this.isTransitioning) return;
+
+        this.isTransitioning = true;
+        this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
         this.updateCarousel();
     }
 
@@ -350,6 +357,12 @@ class ProjectCarousel {
                 dot.classList.toggle('active', index === this.currentIndex);
             });
         }
+    }
+
+    handleEndlessTransition() {
+        // This method handles the seamless looping
+        // No need for any special handling since we're using modulo arithmetic
+        // The carousel will naturally loop due to the modulo operation in nextSlide/previousSlide
     }
 
     startAutoSlide() {
@@ -399,5 +412,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 200);
 });
-
 
