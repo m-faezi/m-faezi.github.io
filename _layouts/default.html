@@ -18,7 +18,6 @@
 
     <!-- Background styles to ensure proper positioning -->
     <style>
-        
       /* Base styles for all devices */
       body {
         position: relative;
@@ -68,7 +67,6 @@
         width: 300px;
       }
 
-      /* FIXED: Scrollable content with proper width calculation */
       .scrollable-content {
         position: fixed;
         z-index: 10;
@@ -76,9 +74,10 @@
         height: 100vh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        width: calc(100vw - 300px - 12px); /* Account for scrollbar width */
+        width: calc(100vw - 300px);
         left: 300px;
         top: 0;
+        right: 0;
         margin: 0;
         padding: 0;
         pointer-events: auto !important;
@@ -160,7 +159,6 @@
           left: 0 !important;
           width: 100% !important;
           position: relative !important;
-          padding-right: 0 !important;
         }
 
         .content-wrapper {
@@ -372,8 +370,7 @@
 
               const scrollableContent = document.querySelector('.scrollable-content');
               if (scrollableContent) {
-                  // FIXED: Proper width accounting for scrollbar
-                  scrollableContent.style.width = 'calc(100vw - 300px - 12px)';
+                  scrollableContent.style.width = 'calc(100vw - 300px)';
                   scrollableContent.style.left = '300px';
                   scrollableContent.style.position = 'fixed';
                   scrollableContent.style.height = '100vh';
@@ -521,4 +518,5 @@
     </script>
   </body>
 </html>
+
 
