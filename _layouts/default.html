@@ -77,10 +77,10 @@
         width: calc(100vw - 300px);
         left: 300px;
         top: 0;
+        right: 0;
         margin: 0;
         padding: 0;
         pointer-events: auto !important;
-        right: auto !important;
       }
 
       /* CENTERED CONTENT WRAPPER */
@@ -95,7 +95,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        box-sizing: border-box;
       }
 
       /* Center all content in the main area */
@@ -104,7 +103,6 @@
         max-width: 1200px;
         margin-left: auto;
         margin-right: auto;
-        box-sizing: border-box;
       }
 
       /* Ensure specific elements are centered */
@@ -161,7 +159,6 @@
           left: 0 !important;
           width: 100% !important;
           position: relative !important;
-          right: auto !important;
         }
 
         .content-wrapper {
@@ -379,7 +376,6 @@
                   scrollableContent.style.height = '100vh';
                   scrollableContent.style.overflowY = 'auto';
                   scrollableContent.style.pointerEvents = 'auto';
-                  scrollableContent.style.right = 'auto';
 
                   // Force scrollable area to be interactive
                   scrollableContent.style.zIndex = '10';
@@ -522,4 +518,5 @@
     </script>
   </body>
 </html>
+
 
