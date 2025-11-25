@@ -25,7 +25,7 @@ class DataNetworkBackground {
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
 
-        // Style the canvas to cover entire viewport
+        // Style the canvas to cover entire viewport - FIXED for scroll issues
         this.canvas.style.cssText = `
             position: fixed !important;
             top: 0 !important;
@@ -37,6 +37,10 @@ class DataNetworkBackground {
             pointer-events: none !important;
             background: transparent !important;
             touch-action: none !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
         `;
 
         // Add to body at the very beginning
@@ -59,20 +63,26 @@ class DataNetworkBackground {
     }
 
     handleScrollInterference() {
-        // Prevent any pointer events on canvas
+        // Prevent any pointer events on canvas - ENHANCED
         this.canvas.style.pointerEvents = 'none';
         this.canvas.style.touchAction = 'none';
 
-        // Ensure canvas doesn't capture any events
-        this.canvas.addEventListener('pointerdown', (e) => {
+        // Ensure canvas doesn't capture any events - ENHANCED
+        const preventAllEvents = (e) => {
             e.preventDefault();
             e.stopPropagation();
-        });
+            return false;
+        };
 
-        this.canvas.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-        });
+        this.canvas.addEventListener('pointerdown', preventAllEvents);
+        this.canvas.addEventListener('touchstart', preventAllEvents);
+        this.canvas.addEventListener('mousedown', preventAllEvents);
+        this.canvas.addEventListener('click', preventAllEvents);
+        this.canvas.addEventListener('wheel', preventAllEvents);
+
+        // Also ensure the canvas doesn't block scroll in any way
+        this.canvas.style.overscrollBehavior = 'none';
+        this.canvas.style.touchAction = 'none';
     }
 
     resize() {
