@@ -33,9 +33,10 @@ class DataNetworkBackground {
             width: 100vw !important;
             height: 100vh !important;
             z-index: -1 !important;
-            opacity: 0.2; // Increased opacity for brighter effect
+            opacity: 0.2;
             pointer-events: none !important;
             background: transparent !important;
+            touch-action: none !important;
         `;
 
         // Add to body at the very beginning
@@ -43,6 +44,7 @@ class DataNetworkBackground {
         console.log('Canvas added to body');
 
         this.setupEventListeners();
+        this.handleScrollInterference();
         this.resize();
         this.createParticles();
         this.animate();
@@ -53,6 +55,23 @@ class DataNetworkBackground {
         window.addEventListener('mousemove', (e) => {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
+        });
+    }
+
+    handleScrollInterference() {
+        // Prevent any pointer events on canvas
+        this.canvas.style.pointerEvents = 'none';
+        this.canvas.style.touchAction = 'none';
+
+        // Ensure canvas doesn't capture any events
+        this.canvas.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
         });
     }
 
@@ -189,5 +208,4 @@ document.addEventListener('visibilitychange', function() {
         }
     }
 });
-
 

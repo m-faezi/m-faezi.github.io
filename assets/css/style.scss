@@ -296,12 +296,17 @@ body {
   height: 100vh;
   overflow-y: auto;
   background: var(--background-color);
+  width: calc(100vw - 300px);
+  position: fixed;
+  right: 0;
+  top: 0;
 }
 
 .content-wrapper {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 4rem 2rem 2rem;
+  width: 100%;
 
   // Content styling
   h1, h2, h3, h4, h5, h6 {
@@ -614,7 +619,6 @@ body {
   }
 }
 
-// UPDATED: Publication Status - Much smaller and subtle
 // UPDATED: Publication Status - Same width as other buttons
 .publication-status {
   display: inline-flex;
@@ -923,11 +927,14 @@ body {
     height: auto;
     min-height: 50vh;
     overflow: visible;
+    position: relative;
+    width: 100%;
   }
 
   .content-wrapper {
     padding: 1.5rem;
     overflow: visible;
+    width: 100%;
   }
 
   .sidebar-navigation {
@@ -1108,3 +1115,43 @@ body, .layout-wrapper, .scrollable-content {
 .content-wrapper {
     background: transparent;
 }
+
+// Fix scrollable content width and scrollbar positioning
+.scrollable-content {
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+  }
+}
+
+// Ensure content uses full width on desktop
+@media (min-width: 769px) {
+  .content-wrapper {
+    width: 100%;
+    max-width: none;
+    padding-right: 2rem;
+  }
+
+  .carousel-container,
+  .expertise-tree-container,
+  .github-stats {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+
