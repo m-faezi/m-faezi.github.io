@@ -5,11 +5,11 @@
     border-radius: 0;
     padding: 0;
     margin: 2rem 0;
-    overflow: hidden; /* Change from visible to hidden */
-    min-height: 600px; /* Reduced from 800px */
+    overflow: visible; /* Changed back to visible */
+    min-height: 650px; /* Increased from 600px */
     position: relative;
     width: 100%;
-    max-height: 700px; /* Add max height constraint */
+    max-height: none; /* Remove max height constraint */
 }
 
 /* Show loading state */
@@ -27,16 +27,16 @@
 #expertiseTree {
     width: 100%;
     height: 100%;
-    min-height: 500px; /* Reduced from 700px */
-    overflow: hidden; /* Prevent overflow */
+    min-height: 550px; /* Increased from 500px */
+    overflow: visible; /* Allow proper rendering */
 }
 
 #expertiseTree svg {
     width: 100%;
     height: 100%;
-    min-height: 500px; /* Reduced from 700px */
+    min-height: 550px; /* Increased from 500px */
     background: transparent;
-    overflow: hidden; /* Prevent SVG overflow */
+    overflow: visible; /* Allow nodes to render properly */
 }
 
 .node {
@@ -59,10 +59,11 @@
 
 .node text {
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 11px; /* Slightly larger */
     fill: #ffffff;
     font-weight: 600;
     transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Better text contrast */
 }
 
 .node:hover text {
@@ -100,13 +101,13 @@
 @media (max-width: 768px) {
     .expertise-tree-container {
         margin: 1.5rem 0;
-        min-height: 400px; /* Further reduced for mobile */
-        max-height: 500px; /* Constrain max height on mobile */
+        min-height: 450px; /* Increased from 400px */
+        max-height: none;
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 350px; /* Smaller on mobile */
+        min-height: 400px; /* Increased from 350px */
     }
 
     .node text {
@@ -117,14 +118,14 @@
 /* Extra small devices */
 @media (max-width: 480px) {
     .expertise-tree-container {
-        min-height: 350px;
-        max-height: 400px;
+        min-height: 400px; /* Increased from 350px */
+        max-height: none;
         margin: 1rem 0;
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 300px;
+        min-height: 350px; /* Increased from 300px */
     }
 
     .node text {
@@ -144,4 +145,5 @@
 #expertiseTree text {
     transition: all 0.5s ease;
 }
+
 

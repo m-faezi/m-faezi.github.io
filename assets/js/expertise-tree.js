@@ -126,7 +126,7 @@ class ExpertiseTree {
         this.data = data;
         this.margin = {top: 20, right: 90, bottom: 30, left: 90};
         this.width = 928 - this.margin.left - this.margin.right;
-        this.height = 850 - this.margin.top - this.margin.bottom; // Increased height significantly
+        this.height = 850 - this.margin.top - this.margin.bottom;
         this.i = 0;
         this.duration = 750;
 
@@ -135,57 +135,59 @@ class ExpertiseTree {
         }
     }
 
-init() {
-    console.log('Initializing expertise tree...');
+    init() {
+        console.log('Initializing expertise tree...');
 
-    // Remove any existing SVG
-    d3.select(this.container).select("svg").remove();
+        // Remove any existing SVG
+        d3.select(this.container).select("svg").remove();
 
-    // Calculate responsive dimensions
-    this.calculateDimensions();
+        // Calculate responsive dimensions - FIXED
+        this.calculateDimensions();
 
-    // Create SVG
-    this.svg = d3.select(this.container)
-        .append("svg")
-        .attr("width", this.width + this.margin.right + this.margin.left)
-        .attr("height", this.height + this.margin.top + this.margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
+        // Create SVG with proper viewBox for responsiveness
+        this.svg = d3.select(this.container)
+            .append("svg")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height + this.margin.top + this.margin.bottom}`)
+            .append("g")
+            .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-    // Create tree layout with responsive size
-    this.tree = d3.tree().size([this.height, this.width]);
+        // Create tree layout with proper size
+        this.tree = d3.tree().size([this.height, this.width]);
 
-    // Initialize with root - KEEP ALL NODES EXPANDED INITIALLY
-    this.root = d3.hierarchy(this.data, d => d.children);
-    this.root.x0 = this.height / 2;
-    this.root.y0 = 0;
+        // Initialize with root - KEEP ALL NODES EXPANDED INITIALLY
+        this.root = d3.hierarchy(this.data, d => d.children);
+        this.root.x0 = this.height / 2;
+        this.root.y0 = 0;
 
-    this.update(this.root);
-    console.log('Expertise tree initialized successfully');
-}
-
-
-// Add this new method to calculate responsive dimensions
-calculateDimensions() {
-    const container = this.container;
-    const isMobile = window.innerWidth <= 768;
-
-    if (isMobile) {
-        // Mobile dimensions
-        this.width = Math.min(container.clientWidth - 40, 500) - this.margin.left - this.margin.right;
-        this.height = 350 - this.margin.top - this.margin.bottom;
-        // Reduce horizontal spacing for mobile
-        this.margin.left = 50;
-        this.margin.right = 50;
-    } else {
-        // Desktop dimensions
-        this.width = Math.min(container.clientWidth, 928) - this.margin.left - this.margin.right;
-        this.height = 500 - this.margin.top - this.margin.bottom;
+        this.update(this.root);
+        console.log('Expertise tree initialized successfully');
     }
 
-    console.log(`Tree dimensions: ${this.width}x${this.height}, mobile: ${isMobile}`);
-}
+    // Add this new method to calculate responsive dimensions
+    calculateDimensions() {
+        const container = this.container;
+        const isMobile = window.innerWidth <= 768;
 
+        if (isMobile) {
+            // Mobile dimensions - increased for better readability
+            this.width = Math.min(container.clientWidth - 60, 500) - this.margin.left - this.margin.right;
+            this.height = 400 - this.margin.top - this.margin.bottom; // Increased height
+            // Better margins for mobile
+            this.margin.left = 60;
+            this.margin.right = 60;
+        } else {
+            // Desktop dimensions - increased width and height
+            this.width = Math.min(container.clientWidth, 1000) - this.margin.left - this.margin.right; // Increased from 928
+            this.height = 600 - this.margin.top - this.margin.bottom; // Increased from 500
+            // Better margins for desktop
+            this.margin.left = 100;
+            this.margin.right = 100;
+        }
+
+        console.log(`Tree dimensions: ${this.width}x${this.height}, mobile: ${isMobile}`);
+    }
 
     collapse(d) {
         if (d.children) {
@@ -203,11 +205,19 @@ calculateDimensions() {
         const nodes = treeData.descendants();
         const links = treeData.descendants().slice(1);
 
-        // Normalize for fixed-depth.
-        // Responsive node positioning
+        // Improved node positioning with better spacing
         const isMobile = window.innerWidth <= 768;
-        const horizontalSpacing = isMobile ? 120 : 180; // Reduced spacing on mobile
-        nodes.forEach(d => { d.y = d.depth * horizontalSpacing; });
+        const horizontalSpacing = isMobile ? 140 : 220; // Increased spacing
+        const verticalSpacing = isMobile ? 80 : 100; // Added vertical spacing control
+
+        nodes.forEach(d => {
+            d.y = d.depth * horizontalSpacing;
+            // Add vertical spacing adjustment for better distribution
+            if (d.depth > 0) {
+                d.x = d.x + (d.depth * 10); // Small vertical offset per level
+            }
+        });
+
         // ************************
         // NODE ANIMATION SECTION
         // ************************
@@ -239,9 +249,10 @@ calculateDimensions() {
             .attr("text-anchor", d => d.children || d._children ? "end" : "start")
             .text(d => d.data.name)
             .style("fill", "#ffffff")
-            .style("font-size", "12px")
+            .style("font-size", "11px") // Slightly larger
             .style("font-family", "Inter, sans-serif")
             .style("font-weight", "600")
+            .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.8)") // Better contrast
             .style("opacity", 0)
             .transition()
             .delay(this.duration / 2)
@@ -325,9 +336,10 @@ calculateDimensions() {
     }
 
     diagonal(s, d) {
+        // Smoother curves with better control points
         const path = `M ${s.y} ${s.x}
-                C ${(s.y + d.y) / 2} ${s.x},
-                  ${(s.y + d.y) / 2} ${d.x},
+                C ${s.y + 60} ${s.x},
+                  ${d.y - 60} ${d.x},
                   ${d.y} ${d.x}`;
         return path;
     }
@@ -393,8 +405,9 @@ function initializeExpertiseTree() {
         // Small delay to show loading state
         setTimeout(() => {
             treeContainer.innerHTML = '';
-            // Initialize tree
-            new ExpertiseTree('expertiseTree', window.expertiseData);
+            // Initialize tree and store instance
+            const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
+            treeContainer.__expertiseTreeInstance = treeInstance;
             console.log('Expertise tree initialized successfully!');
         }, 100);
 
@@ -424,66 +437,20 @@ setTimeout(function() {
     }
 }, 3000);
 
-
-// Handle window resize for responsiveness
-let resizeTimeout;
+// Enhanced resize handler for expertise tree
+let expertiseResizeTimeout;
 window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
+    clearTimeout(expertiseResizeTimeout);
+    expertiseResizeTimeout = setTimeout(function() {
         const treeContainer = document.getElementById('expertiseTree');
         if (treeContainer && treeContainer.__expertiseTreeInstance) {
-            console.log('Window resized, reinitializing tree...');
-            treeContainer.__expertiseTreeInstance.init();
-        }
-    }, 250);
-});
-
-
-// Enhanced initialization with multiple fallbacks
-function initializeExpertiseTree() {
-    console.log('Attempting to initialize expertise tree...');
-
-    const treeContainer = document.getElementById('expertiseTree');
-    if (!treeContainer) {
-        console.error('Expertise tree container not found');
-        return;
-    }
-
-    if (!window.expertiseData) {
-        console.error('Expertise data not found');
-        return;
-    }
-
-    if (typeof d3 === 'undefined') {
-        console.error('D3.js not loaded');
-        return;
-    }
-
-    if (typeof ExpertiseTree === 'undefined') {
-        console.error('ExpertiseTree class not defined');
-        return;
-    }
-
-    try {
-        // Clear container
-        treeContainer.innerHTML = '';
-
-        // Show loading state
-        treeContainer.innerHTML = '<div style="color: #d1d5db; text-align: center; padding: 2rem;">Loading expertise tree...</div>';
-
-        // Small delay to show loading state
-        setTimeout(() => {
+            console.log('Window resized, reinitializing expertise tree...');
+            // Clear and reinitialize
             treeContainer.innerHTML = '';
-            // Initialize tree and store instance
-            const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
-            treeContainer.__expertiseTreeInstance = treeInstance;
-            console.log('Expertise tree initialized successfully!');
-        }, 100);
-
-    } catch (error) {
-        console.error('Error initializing expertise tree:', error);
-        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
-    }
-}
-
+            setTimeout(() => {
+                treeContainer.__expertiseTreeInstance.init();
+            }, 100);
+        }
+    }, 300);
+});
 
