@@ -16,9 +16,9 @@
     <!-- D3.js for interactive visualizations -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
-    <!-- SIMPLE FIXED STYLES -->
+    <!-- Background styles to ensure proper positioning -->
     <style>
-      /* Base styles */
+      /* Base styles for all devices */
       body {
         position: relative;
         overflow-x: hidden;
@@ -67,7 +67,6 @@
         width: 300px;
       }
 
-      /* SIMPLE FIX - Force content to left */
       .scrollable-content {
         position: fixed;
         z-index: 10;
@@ -84,81 +83,124 @@
         right: auto !important;
       }
 
+      /* CENTERED CONTENT WRAPPER */
       .content-wrapper {
         background: transparent;
         min-height: 100%;
         width: 100%;
         max-width: none;
         padding: 2rem;
-        margin: 0 !important;
+        margin: 0 auto;
         pointer-events: auto;
-        display: block !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
       }
 
-      /* Force EVERYTHING to left align */
+      /* Center all content in the main area */
       .content-wrapper > * {
-        margin-left: 0 !important;
-        margin-right: auto !important;
-        text-align: left !important;
-        align-items: flex-start !important;
-        justify-content: flex-start !important;
-        max-width: 100% !important;
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
       }
 
-      /* Force specific components to left */
+      /* Ensure specific elements are centered */
+      .content-wrapper h1,
+      .content-wrapper h2,
+      .content-wrapper h3,
+      .content-wrapper p,
+      .content-wrapper ul,
+      .content-wrapper ol {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Center carousel and other components */
       #projectsCarousel,
       #expertiseTree,
       .github-stats,
-      .thesis-section,
-      .home-content {
-        margin-left: 0 !important;
+      .thesis-section {
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto !important;
         margin-right: auto !important;
-        text-align: left !important;
       }
 
-      /* Force headings and text to left */
-      h1, h2, h3, h4, h5, h6, p, ul, ol {
-        margin-left: 0 !important;
-        margin-right: auto !important;
-        text-align: left !important;
-        max-width: 100% !important;
-      }
-
-      /* Mobile */
+      /* Updated Mobile styles */
       @media (max-width: 768px) {
         html, body {
           height: auto !important;
           overflow: auto !important;
+          position: relative !important;
+          -webkit-overflow-scrolling: touch;
         }
 
         .layout-wrapper {
           height: auto !important;
           overflow: visible !important;
           display: block !important;
+          min-height: auto !important;
         }
 
         .fixed-sidebar {
           position: relative !important;
           width: 100% !important;
           height: auto !important;
+          overflow: visible !important;
           border-right: none !important;
           border-bottom: 3px solid #333333 !important;
         }
 
         .scrollable-content {
-          position: relative !important;
+          height: auto !important;
+          overflow: visible !important;
           left: 0 !important;
           width: 100% !important;
-          height: auto !important;
+          position: relative !important;
+          right: auto !important;
         }
 
         .content-wrapper {
-          padding: 1.5rem !important;
+          overflow: visible !important;
+          min-height: auto !important;
           width: 100% !important;
+          padding: 1.5rem !important;
+          display: block !important;
+        }
+
+        .content-wrapper > * {
+          max-width: 100% !important;
+        }
+
+        #projectsCarousel,
+        #expertiseTree,
+        .github-stats,
+        .thesis-section {
+          max-width: 100% !important;
+        }
+
+        canvas {
+          position: absolute !important;
+          height: 100% !important;
         }
       }
 
-      /* Scrollbar */
+      /* Prevent horizontal scroll */
+      * {
+        box-sizing: border-box;
+      }
+
+      /* Force mobile layout on small screens */
+      .mobile-layout {
+        height: auto !important;
+        overflow: auto !important;
+      }
+
+      /* Scrollbar styling - positioned at very right edge */
       .scrollable-content::-webkit-scrollbar {
         width: 12px;
       }
@@ -169,7 +211,30 @@
 
       .scrollable-content::-webkit-scrollbar-thumb {
         background: #333333;
-        border-radius: 6px;
+        border-radius: 6px 0 0 6px;
+      }
+
+      .scrollable-content::-webkit-scrollbar-thumb:hover {
+        background: #555555;
+      }
+
+      /* Remove any right padding/margin that creates space */
+      body, html, .layout-wrapper, .scrollable-content {
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      /* Ensure scrollable content captures events */
+      @media (min-width: 769px) {
+        .scrollable-content {
+          overflow-y: scroll !important;
+          -webkit-overflow-scrolling: touch !important;
+          pointer-events: auto !important;
+        }
+
+        .scrollable-content > * {
+          pointer-events: auto;
+        }
       }
     </style>
   </head>
@@ -266,19 +331,194 @@
     <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
 
-    <!-- Simple Layout Fix -->
+    <!-- Enhanced Layout and Scroll Fix -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('Applying simple layout fix...');
+      // Enhanced scroll and mobile fix
+      function fixLayoutIssues() {
+          const isMobile = window.innerWidth <= 768;
+          console.log('Layout fix - Mobile:', isMobile, 'Width:', window.innerWidth);
 
-        // Force left alignment
-        const scrollableContent = document.querySelector('.scrollable-content');
-        if (scrollableContent) {
-          scrollableContent.style.left = '300px';
-          scrollableContent.style.width = 'calc(100vw - 300px)';
-          scrollableContent.style.right = 'auto';
-        }
+          if (isMobile) {
+              // Mobile layout
+              document.body.classList.add('mobile-layout');
+              document.body.style.overflow = 'auto';
+              document.body.style.height = 'auto';
+              document.documentElement.style.overflow = 'auto';
+              document.documentElement.style.height = 'auto';
+
+              // Fix all layout elements
+              const elements = [
+                  '.layout-wrapper',
+                  '.scrollable-content',
+                  '.content-wrapper',
+                  '.fixed-sidebar'
+              ];
+
+              elements.forEach(selector => {
+                  const element = document.querySelector(selector);
+                  if (element) {
+                      element.style.position = 'relative';
+                      element.style.height = 'auto';
+                      element.style.overflow = 'visible';
+                      element.style.width = '100%';
+                      if (selector === '.scrollable-content') {
+                          element.style.left = '0';
+                      }
+                  }
+              });
+
+          } else {
+              // Desktop layout - ensure proper scrolling and centering
+              document.body.classList.remove('mobile-layout');
+
+              const scrollableContent = document.querySelector('.scrollable-content');
+              if (scrollableContent) {
+                  scrollableContent.style.width = 'calc(100vw - 300px)';
+                  scrollableContent.style.left = '300px';
+                  scrollableContent.style.position = 'fixed';
+                  scrollableContent.style.height = '100vh';
+                  scrollableContent.style.overflowY = 'auto';
+                  scrollableContent.style.pointerEvents = 'auto';
+                  scrollableContent.style.right = 'auto';
+
+                  // Force scrollable area to be interactive
+                  scrollableContent.style.zIndex = '10';
+
+                  // Ensure no right margin/padding
+                  scrollableContent.style.marginRight = '0';
+                  scrollableContent.style.paddingRight = '0';
+
+                  // Center the content wrapper and all elements
+                  const contentWrapper = document.querySelector('.content-wrapper');
+                  if (contentWrapper) {
+                      contentWrapper.style.marginLeft = 'auto';
+                      contentWrapper.style.marginRight = 'auto';
+                      contentWrapper.style.display = 'flex';
+                      contentWrapper.style.flexDirection = 'column';
+                      contentWrapper.style.alignItems = 'center';
+                      contentWrapper.style.width = '100%';
+                  }
+
+                  // Center specific elements
+                  const centeredElements = [
+                      '#projectsCarousel',
+                      '#expertiseTree',
+                      '.github-stats',
+                      '.thesis-section',
+                      '.home-content',
+                      'h1', 'h2', 'h3', 'p', 'ul', 'ol'
+                  ];
+
+                  centeredElements.forEach(selector => {
+                      const elements = document.querySelectorAll(selector);
+                      elements.forEach(element => {
+                          element.style.marginLeft = 'auto';
+                          element.style.marginRight = 'auto';
+                          element.style.maxWidth = '1200px';
+                          element.style.width = '100%';
+                      });
+                  });
+
+                  // Add a small timeout to ensure rendering
+                  setTimeout(() => {
+                      scrollableContent.scrollTop = 0;
+                  }, 100);
+              }
+          }
+      }
+
+      // Enhanced event listeners
+      document.addEventListener('DOMContentLoaded', function() {
+          console.log('DOM loaded - applying layout fixes');
+
+          // Apply fixes multiple times to ensure they stick
+          fixLayoutIssues();
+          setTimeout(fixLayoutIssues, 100);
+          setTimeout(fixLayoutIssues, 500);
+
+          // Force reflow
+          setTimeout(() => {
+              const scrollableContent = document.querySelector('.scrollable-content');
+              if (scrollableContent) {
+                  scrollableContent.style.display = 'none';
+                  scrollableContent.offsetHeight; // Trigger reflow
+                  scrollableContent.style.display = 'block';
+              }
+          }, 300);
       });
+
+      window.addEventListener('load', fixLayoutIssues);
+      window.addEventListener('resize', fixLayoutIssues);
+      window.addEventListener('orientationchange', function() {
+          setTimeout(fixLayoutIssues, 100);
+      });
+
+      // Force fix on page show (for back/forward navigation)
+      window.addEventListener('pageshow', fixLayoutIssues);
+
+      // Additional scroll event handler to ensure scrolling works
+      document.addEventListener('scroll', function(e) {
+          const scrollableContent = document.querySelector('.scrollable-content');
+          if (scrollableContent && scrollableContent.contains(e.target)) {
+              e.stopPropagation();
+          }
+      }, true);
+
+      // Enhanced resize handler for expertise tree
+      let expertiseResizeTimeout;
+      window.addEventListener('resize', function() {
+          clearTimeout(expertiseResizeTimeout);
+          expertiseResizeTimeout = setTimeout(function() {
+              const treeContainer = document.getElementById('expertiseTree');
+              if (treeContainer && treeContainer.__expertiseTreeInstance) {
+                  console.log('Window resized, reinitializing expertise tree...');
+                  // Clear and reinitialize
+                  treeContainer.innerHTML = '';
+                  setTimeout(() => {
+                      treeContainer.__expertiseTreeInstance.init();
+                  }, 100);
+              }
+          }, 300);
+      });
+
+      // Debug info
+      console.log('Layout fixes applied - checking scrollable content:');
+      setTimeout(() => {
+          const scrollableContent = document.querySelector('.scrollable-content');
+          const contentWrapper = document.querySelector('.content-wrapper');
+          if (scrollableContent && contentWrapper) {
+              console.log('Scrollable content:', {
+                  width: scrollableContent.offsetWidth,
+                  scrollWidth: scrollableContent.scrollWidth,
+                  clientWidth: scrollableContent.clientWidth
+              });
+              console.log('Content wrapper:', {
+                  width: contentWrapper.offsetWidth,
+                  marginLeft: contentWrapper.style.marginLeft,
+                  marginRight: contentWrapper.style.marginRight
+              });
+          }
+      }, 1000);
+
+      // Debug script
+      console.log('Scripts loaded - checking dependencies:');
+      console.log('D3.js:', typeof d3 !== 'undefined' ? 'Loaded' : 'Missing');
+      console.log('ExpertiseData:', window.expertiseData ? 'Loaded' : 'Missing');
+      console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
+
+      // Additional background debug
+      setTimeout(() => {
+          const canvas = document.querySelector('canvas');
+          if (canvas) {
+              console.log('🎯 Background Canvas Status:');
+              console.log('✅ Position: fixed');
+              console.log('✅ Size:', canvas.offsetWidth + 'x' + canvas.offsetHeight);
+              console.log('✅ Z-index: -1');
+              console.log('✅ Covering entire page');
+          } else {
+              console.log('❌ No canvas found for background');
+          }
+      }, 1000);
     </script>
   </body>
 </html>
