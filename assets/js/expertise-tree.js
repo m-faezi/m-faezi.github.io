@@ -124,7 +124,7 @@ class ExpertiseTree {
     constructor(containerId, data) {
         this.container = document.getElementById(containerId);
         this.data = data;
-        this.margin = {top: 40, right: 120, bottom: 40, left: 120};
+        this.margin = {top: 40, right: 80, bottom: 40, left: 80}; // Reduced margins
         this.width = 928 - this.margin.left - this.margin.right;
         this.height = 800 - this.margin.top - this.margin.bottom;
         this.i = 0;
@@ -234,15 +234,15 @@ class ExpertiseTree {
         const isMobile = window.innerWidth <= 768;
 
         if (isMobile) {
-            this.width = Math.min(container.clientWidth - 60, 450) - this.margin.left - this.margin.right;
+            this.width = Math.min(container.clientWidth - 40, 450) - this.margin.left - this.margin.right; // Reduced container padding
             this.height = 450 - this.margin.top - this.margin.bottom;
-            this.margin.left = 30;
-            this.margin.right = 30;
+            this.margin.left = 20; // Reduced left margin
+            this.margin.right = 20; // Reduced right margin
         } else {
-            this.width = Math.min(container.clientWidth - 240, 900) - this.margin.left - this.margin.right;
+            this.width = Math.min(container.clientWidth - 160, 900) - this.margin.left - this.margin.right; // Reduced container padding
             this.height = 700 - this.margin.top - this.margin.bottom;
-            this.margin.left = 120;
-            this.margin.right = 120;
+            this.margin.left = 80; // Reduced left margin
+            this.margin.right = 80; // Reduced right margin
         }
     }
 
@@ -306,15 +306,14 @@ class ExpertiseTree {
         const nodes = treeData.descendants();
         const links = treeData.descendants().slice(1);
 
-        // Improved node positioning
+        // Improved node positioning with left shift
         const isMobile = window.innerWidth <= 768;
-        const horizontalSpacing = isMobile ? 100 : 160;
+        const horizontalSpacing = isMobile ? 90 : 140; // Reduced spacing
         const maxDepth = d3.max(nodes, d => d.depth);
 
-        // NEW: Calculate center offset considering text positions
-        // Account for text on right side by reducing right margin
-        const effectiveWidth = this.width - 30; // Reduce width to account for right text
-        const centerOffset = (effectiveWidth - (maxDepth * horizontalSpacing)) / 2;
+        // Calculate center offset with left shift
+        const effectiveWidth = this.width - 20; // Further reduced to shift left
+        const centerOffset = (effectiveWidth - (maxDepth * horizontalSpacing)) / 2 - 20; // Additional -20px left shift
 
         // Group nodes by depth for proper vertical distribution
         const nodesByDepth = {};
@@ -332,7 +331,7 @@ class ExpertiseTree {
             const verticalStart = (this.height - verticalRange) / 2;
 
             depthNodes.forEach((node, index) => {
-                // NEW: Better centering by adjusting starting position
+                // Apply left-shifted positioning
                 node.y = centerOffset + (node.depth * horizontalSpacing);
 
                 // Enhanced vertical distribution with more space for rightmost nodes
@@ -349,11 +348,11 @@ class ExpertiseTree {
             });
         });
 
-        // NEW: Calculate the actual bounds of all nodes to center properly
+        // Calculate the actual bounds of all nodes to center properly
         const minY = d3.min(nodes, d => d.y);
         const maxY = d3.max(nodes, d => d.y);
         const totalWidth = maxY - minY;
-        const centeringAdjustment = (this.width - totalWidth) / 2 - minY;
+        const centeringAdjustment = (this.width - totalWidth) / 2 - minY - 30; // Additional -30px left shift
 
         // Apply centering adjustment to all nodes
         nodes.forEach(d => {
