@@ -303,23 +303,12 @@ class ProjectCarousel {
         }, 3000);
     }
 
-    // In the getSlideWidth method of ProjectCarousel class, replace with:
     getSlideWidth() {
         if (this.slides.length === 0) return 300;
-    
-        // Use responsive calculation based on container width
-        const containerWidth = this.container.offsetWidth;
-        
-        if (window.innerWidth <= 768) {
-            // Mobile: full width minus padding
-            return containerWidth - 40;
-        } else if (window.innerWidth <= 1024) {
-            // Tablet: 2 slides visible
-            return (containerWidth - 40) / 2;
-        } else {
-            // Desktop: 3 slides visible
-            return (containerWidth - 60) / 3; // Account for gaps
-        }
+
+        // Always use the same calculation for consistent 3-slide layout
+        const slide = this.slides[0];
+        return slide.offsetWidth + 20; // Include gap
     }
 
     goToSlide(index) {
@@ -351,7 +340,9 @@ class ProjectCarousel {
     updateCarousel() {
         if (this.slideCount === 0) return;
 
-        const translateX = -this.currentIndex * this.getSlideWidth();
+        // Always move by exactly one slide width
+        const slideWidth = this.getSlideWidth();
+        const translateX = -this.currentIndex * slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
 
         if (this.dotsContainer) {
