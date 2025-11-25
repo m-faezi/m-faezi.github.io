@@ -124,7 +124,7 @@ class ExpertiseTree {
     constructor(containerId, data) {
         this.container = document.getElementById(containerId);
         this.data = data;
-        this.margin = {top: 40, right: 80, bottom: 40, left: 80}; // Reduced margins
+        this.margin = {top: 40, right: 80, bottom: 40, left: 80};
         this.width = 928 - this.margin.left - this.margin.right;
         this.height = 800 - this.margin.top - this.margin.bottom;
         this.i = 0;
@@ -137,12 +137,12 @@ class ExpertiseTree {
             stroke: '#000000'      // Black stroke
         };
 
-        // SMALLER Progressive node sizes from left to right (reduced by ~30%)
+        // SLIGHTLY BIGGER Progressive node sizes from left to right (increased by ~15%)
         this.nodeSizes = {
-            0: 6,  // Root node (was 8)
-            1: 5,  // Second column (was 7)
-            2: 4,  // Third column (was 6)
-            3: 3   // Rightmost column (was 5)
+            0: 7,  // Root node (was 6)
+            1: 6,  // Second column (was 5)
+            2: 5,  // Third column (was 4)
+            3: 4   // Rightmost column (was 3) - relatively bigger increase
         };
 
         if (this.container) {
@@ -219,7 +219,7 @@ class ExpertiseTree {
 
         filter.append("feGaussianBlur")
             .attr("in", "SourceGraphic")
-            .attr("stdDeviation", "2") // Reduced from 3 to 2 for smaller nodes
+            .attr("stdDeviation", "2.5") // Increased from 2 to 2.5
             .attr("result", "blur");
 
         filter.append("feMerge")
@@ -234,15 +234,15 @@ class ExpertiseTree {
         const isMobile = window.innerWidth <= 768;
 
         if (isMobile) {
-            this.width = Math.min(container.clientWidth - 40, 450) - this.margin.left - this.margin.right; // Reduced container padding
+            this.width = Math.min(container.clientWidth - 40, 450) - this.margin.left - this.margin.right;
             this.height = 450 - this.margin.top - this.margin.bottom;
-            this.margin.left = 20; // Reduced left margin
-            this.margin.right = 20; // Reduced right margin
+            this.margin.left = 20;
+            this.margin.right = 20;
         } else {
-            this.width = Math.min(container.clientWidth - 160, 900) - this.margin.left - this.margin.right; // Reduced container padding
+            this.width = Math.min(container.clientWidth - 160, 900) - this.margin.left - this.margin.right;
             this.height = 700 - this.margin.top - this.margin.bottom;
-            this.margin.left = 80; // Reduced left margin
-            this.margin.right = 80; // Reduced right margin
+            this.margin.left = 80;
+            this.margin.right = 80;
         }
     }
 
@@ -272,33 +272,33 @@ class ExpertiseTree {
     // Get hover size based on depth (progressive hover scaling)
     getHoverSize(d) {
         const baseSize = this.getNodeSize(d);
-        return baseSize + 1.5; // Reduced from +2 to +1.5 for smaller nodes
+        return baseSize + 1.8; // Increased from +1.5 to +1.8
     }
 
     // Get click size based on depth (progressive click scaling)
     getClickSize(d) {
         const baseSize = this.getNodeSize(d);
-        return baseSize + 3; // Reduced from +4 to +3 for smaller nodes
+        return baseSize + 3.5; // Increased from +3 to +3.5
     }
 
     getTextPosition(d) {
         // For root node, always center text below
         if (d.depth === 0) {
-            return { x: 0, textAnchor: "middle", dy: "1.5em" }; // Reduced from 1.8em
+            return { x: 0, textAnchor: "middle", dy: "1.6em" }; // Increased from 1.5em
         }
 
         // For depth 1 nodes (second column), put text ON TOP
         if (d.depth === 1) {
-            return { x: 0, textAnchor: "middle", dy: "-1.0em" }; // Reduced from -1.2em
+            return { x: 0, textAnchor: "middle", dy: "-1.1em" }; // Increased from -1.0em
         }
 
         // For depth 2 nodes, put text below (centered)
         if (d.depth === 2) {
-            return { x: 0, textAnchor: "middle", dy: "1.8em" }; // Reduced from 2.2em
+            return { x: 0, textAnchor: "middle", dy: "2.0em" }; // Increased from 1.8em
         }
 
         // For depth 3+ nodes (right side), put text on RIGHT side
-        return { x: 12, textAnchor: "start", dy: "0.3em" }; // Reduced from 15 and 0.35em
+        return { x: 14, textAnchor: "start", dy: "0.32em" }; // Increased from 12 and 0.3em
     }
 
     update(source) {
@@ -308,12 +308,12 @@ class ExpertiseTree {
 
         // Improved node positioning with left shift
         const isMobile = window.innerWidth <= 768;
-        const horizontalSpacing = isMobile ? 90 : 140; // Reduced spacing
+        const horizontalSpacing = isMobile ? 90 : 140;
         const maxDepth = d3.max(nodes, d => d.depth);
 
         // Calculate center offset with left shift
-        const effectiveWidth = this.width - 20; // Further reduced to shift left
-        const centerOffset = (effectiveWidth - (maxDepth * horizontalSpacing)) / 2 - 20; // Additional -20px left shift
+        const effectiveWidth = this.width - 20;
+        const centerOffset = (effectiveWidth - (maxDepth * horizontalSpacing)) / 2 - 20;
 
         // Group nodes by depth for proper vertical distribution
         const nodesByDepth = {};
@@ -352,7 +352,7 @@ class ExpertiseTree {
         const minY = d3.min(nodes, d => d.y);
         const maxY = d3.max(nodes, d => d.y);
         const totalWidth = maxY - minY;
-        const centeringAdjustment = (this.width - totalWidth) / 2 - minY - 30; // Additional -30px left shift
+        const centeringAdjustment = (this.width - totalWidth) / 2 - minY - 30;
 
         // Apply centering adjustment to all nodes
         nodes.forEach(d => {
@@ -382,14 +382,14 @@ class ExpertiseTree {
             .attr("r", 0)
             .style("fill", d => this.getNodeColor(d))
             .style("stroke", this.colors.stroke)
-            .style("stroke-width", "1.2px") // Reduced from 1.5px
+            .style("stroke-width", "1.4px") // Increased from 1.2px
             .transition()
             .duration(this.duration)
             .ease(d3.easeCubicOut)
             .attr("r", d => this.getNodeSize(d))
             .style("opacity", 1);
 
-        // Add professional text labels with SMALLER adjusted font sizes (reduced by ~25%)
+        // Add professional text labels with SLIGHTLY BIGGER adjusted font sizes (increased by ~15%)
         nodeEnter.append("text")
             .attr("x", d => this.getTextPosition(d).x)
             .attr("dy", d => this.getTextPosition(d).dy)
@@ -397,19 +397,19 @@ class ExpertiseTree {
             .text(d => d.data.name)
             .style("fill", "#ffffff")
             .style("font-size", d => {
-                if (d.depth === 0) return "10px"; // Was 13px
-                if (d.depth === 1) return "9px";  // Was 12px
-                if (d.depth === 3) return "7px";  // Was 9px
-                return "8px"; // Was 10px
+                if (d.depth === 0) return "11px"; // Was 10px
+                if (d.depth === 1) return "10px"; // Was 9px
+                if (d.depth === 3) return "8px";  // Was 7px - relatively bigger increase
+                return "9px"; // Was 8px
             })
             .style("font-family", "'Inter', 'SF Pro Display', -apple-system, sans-serif")
             .style("font-weight", d => d.depth === 0 ? "700" : "500")
             .style("opacity", 1)
             .style("pointer-events", "none")
-            .style("text-shadow", "0 1px 2px rgba(0,0,0,0.9)") // Reduced shadow
+            .style("text-shadow", "0 1px 3px rgba(0,0,0,0.9)") // Increased shadow
             .style("paint-order", "stroke")
             .style("stroke", "rgba(0,0,0,0.5)")
-            .style("stroke-width", "0.8px"); // Reduced from 1px
+            .style("stroke-width", "0.9px"); // Increased from 0.8px
 
         // Fade in nodes
         nodeEnter.transition()
@@ -429,10 +429,10 @@ class ExpertiseTree {
             .attr("dy", d => this.getTextPosition(d).dy)
             .attr("text-anchor", d => this.getTextPosition(d).textAnchor)
             .style("font-size", d => {
-                if (d.depth === 0) return "10px"; // Was 13px
-                if (d.depth === 1) return "9px";  // Was 12px
-                if (d.depth === 3) return "7px";  // Was 9px
-                return "8px"; // Was 10px
+                if (d.depth === 0) return "11px"; // Was 10px
+                if (d.depth === 1) return "10px"; // Was 9px
+                if (d.depth === 3) return "8px";  // Was 7px - relatively bigger increase
+                return "9px"; // Was 8px
             })
             .style("opacity", 1);
 
@@ -463,7 +463,7 @@ class ExpertiseTree {
             })
             .style("fill", "none")
             .style("stroke", "#10b981")
-            .style("stroke-width", "1px") // Reduced from 1.2px
+            .style("stroke-width", "1.1px") // Increased from 1px
             .style("opacity", 0)
             .style("stroke-linecap", "round")
             .transition()
