@@ -93,6 +93,7 @@ class ProjectCarousel {
         this.isTransitioning = false;
         this.slideWidth = 0;
         this.resizeTimeout = null;
+        this.originalSlideCount = 0;
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
@@ -114,6 +115,7 @@ class ProjectCarousel {
         setTimeout(() => {
             this.slides = this.container.querySelectorAll('.carousel-slide');
             this.slideCount = this.slides.length;
+            this.originalSlideCount = window.projectsData.length;
 
             if (this.slideCount > 0) {
                 this.init();
@@ -131,12 +133,15 @@ class ProjectCarousel {
 
         this.track.innerHTML = '';
 
-        // Create multiple copies of the slides for seamless looping
+        // Create multiple copies for seamless looping
         const copies = 3; // Create 3 copies for smooth infinite effect
 
         for (let copy = 0; copy < copies; copy++) {
-            window.projectsData.forEach(project => {
-                this.createProjectSlide(project);
+            window.projectsData.forEach((project, index) => {
+                const slide = this.createProjectSlide(project);
+                slide.setAttribute('data-original-index', index);
+                slide.setAttribute('data-copy', copy);
+                this.track.appendChild(slide);
             });
         }
     }
@@ -167,7 +172,7 @@ class ProjectCarousel {
             </div>
         `;
 
-        this.track.appendChild(slide);
+        return slide;
     }
 
     createPublicationSlides() {
@@ -217,7 +222,7 @@ class ProjectCarousel {
             this.createDots();
             this.addEventListeners();
 
-            if (this.slideCount > window.projectsData.length) {
+            if (this.slideCount > this.originalSlideCount) {
                 this.startAutoSlide();
             }
         }, 100);
@@ -229,17 +234,20 @@ class ProjectCarousel {
             return;
         }
 
-        // Use the actual rendered width of the first slide
+        // Use the actual rendered width of the first slide including gap
         const firstSlide = this.slides[0];
         const slideRect = firstSlide.getBoundingClientRect();
-        this.slideWidth = slideRect.width;
+        const trackStyle = window.getComputedStyle(this.track);
+        const gap = parseInt(trackStyle.gap) || 20;
 
-        console.log('Slide width calculated:', this.slideWidth, 'Actual width:', slideRect.width);
+        this.slideWidth = slideRect.width + gap;
+
+        console.log('Slide width calculated:', this.slideWidth, 'Slide width:', slideRect.width, 'Gap:', gap);
     }
 
     updateSlideMetrics() {
         this.calculateSlideWidth();
-        this.updateCarousel(); // Immediately update position
+        this.updateCarousel();
     }
 
     createDots() {
@@ -251,9 +259,8 @@ class ProjectCarousel {
 
         this.dotsContainer.innerHTML = '';
 
-        // Create dots only for the original projects (not the copies)
-        const originalSlideCount = window.projectsData.length;
-        for (let i = 0; i < originalSlideCount; i++) {
+        // Create dots only for the original projects
+        for (let i = 0; i < this.originalSlideCount; i++) {
             const dot = document.createElement('div');
             dot.className = 'carousel-dot';
             if (i === 0) dot.classList.add('active');
@@ -268,8 +275,8 @@ class ProjectCarousel {
         this.isTransitioning = true;
         this.track.style.transition = 'transform 0.6s ease-in-out';
 
-        // Calculate the position in the first copy
-        this.currentIndex = targetIndex;
+        // Calculate position in the middle copy for seamless looping
+        this.currentIndex = targetIndex + this.originalSlideCount;
         this.updateCarousel();
 
         setTimeout(() => {
@@ -390,8 +397,7 @@ class ProjectCarousel {
 
         // Update dots based on modulo of original slide count
         if (this.dotsContainer) {
-            const originalSlideCount = window.projectsData.length;
-            const dotIndex = this.currentIndex % originalSlideCount;
+            const dotIndex = (this.currentIndex % this.originalSlideCount + this.originalSlideCount) % this.originalSlideCount;
             this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
                 dot.classList.toggle('active', index === dotIndex);
             });
@@ -401,33 +407,23 @@ class ProjectCarousel {
     handleInfiniteTransition() {
         this.isTransitioning = false;
 
-        const originalSlideCount = window.projectsData.length;
-        const totalCopies = 3;
-        const totalSlidesInCopies = originalSlideCount * totalCopies;
-
-        // If we've scrolled past the middle copy, jump to the equivalent position in the first copy
-        if (this.currentIndex >= originalSlideCount * 2) {
+        // If we've scrolled past the end of the middle copy, jump to equivalent position in middle copy
+        if (this.currentIndex >= this.originalSlideCount * 2) {
             this.track.style.transition = 'none';
-            this.currentIndex -= originalSlideCount;
+            this.currentIndex -= this.originalSlideCount;
             this.updateCarousel();
-
-            // Force reflow
-            this.track.offsetHeight;
         }
-        // If we've scrolled before the first copy, jump to the equivalent position in the last copy
-        else if (this.currentIndex < 0) {
+        // If we've scrolled before the middle copy, jump to equivalent position in middle copy
+        else if (this.currentIndex < this.originalSlideCount) {
             this.track.style.transition = 'none';
-            this.currentIndex += originalSlideCount;
+            this.currentIndex += this.originalSlideCount;
             this.updateCarousel();
-
-            // Force reflow
-            this.track.offsetHeight;
         }
     }
 
     startAutoSlide() {
         this.stopAutoSlide();
-        if (this.slideCount > window.projectsData.length) {
+        if (this.slideCount > this.originalSlideCount) {
             this.autoSlideInterval = setInterval(() => {
                 this.nextSlide();
             }, this.autoSlideDelay);
@@ -449,6 +445,7 @@ class ProjectCarousel {
         console.log('- Container width:', this.container.offsetWidth);
         console.log('- Current transform:', this.track.style.transform);
         console.log('- Current index:', this.currentIndex);
+        console.log('- Original slide count:', this.originalSlideCount);
     }
 }
 
