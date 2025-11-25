@@ -94,6 +94,7 @@ class ProjectCarousel {
         this.slideWidth = 0;
         this.resizeTimeout = null;
         this.originalSlideCount = 0;
+        this.gap = 20; // Fixed gap value
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
@@ -218,6 +219,8 @@ class ProjectCarousel {
         // Wait for DOM to render slides properly
         setTimeout(() => {
             this.calculateSlideWidth();
+            // Start in the middle copy for seamless infinite scrolling
+            this.currentIndex = this.originalSlideCount;
             this.updateCarousel();
             this.createDots();
             this.addEventListeners();
@@ -234,15 +237,19 @@ class ProjectCarousel {
             return;
         }
 
-        // Use the actual rendered width of the first slide including gap
+        // Use the actual rendered width of the first slide
         const firstSlide = this.slides[0];
         const slideRect = firstSlide.getBoundingClientRect();
-        const trackStyle = window.getComputedStyle(this.track);
-        const gap = parseInt(trackStyle.gap) || 20;
 
-        this.slideWidth = slideRect.width + gap;
+        // Calculate exact slide width including gap
+        this.slideWidth = slideRect.width + this.gap;
 
-        console.log('Slide width calculated:', this.slideWidth, 'Slide width:', slideRect.width, 'Gap:', gap);
+        console.log('Robust slide width calculation:', {
+            slideWidth: this.slideWidth,
+            elementWidth: slideRect.width,
+            gap: this.gap,
+            containerWidth: this.container.offsetWidth
+        });
     }
 
     updateSlideMetrics() {
@@ -392,6 +399,7 @@ class ProjectCarousel {
     updateCarousel() {
         if (this.slideCount === 0) return;
 
+        // Calculate exact translation with pixel-perfect precision
         const translateX = -this.currentIndex * this.slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
 
@@ -407,14 +415,16 @@ class ProjectCarousel {
     handleInfiniteTransition() {
         this.isTransitioning = false;
 
-        // If we've scrolled past the end of the middle copy, jump to equivalent position in middle copy
+        const totalSlides = this.originalSlideCount * 3;
+
+        // Robust boundary checking with exact positions
         if (this.currentIndex >= this.originalSlideCount * 2) {
+            // Jump to equivalent position in the middle copy
             this.track.style.transition = 'none';
             this.currentIndex -= this.originalSlideCount;
             this.updateCarousel();
-        }
-        // If we've scrolled before the middle copy, jump to equivalent position in middle copy
-        else if (this.currentIndex < this.originalSlideCount) {
+        } else if (this.currentIndex < this.originalSlideCount) {
+            // Jump to equivalent position in the middle copy
             this.track.style.transition = 'none';
             this.currentIndex += this.originalSlideCount;
             this.updateCarousel();
@@ -437,15 +447,28 @@ class ProjectCarousel {
         }
     }
 
-    // Debug method
-    debugSlideMetrics() {
-        console.log('Slide Metrics:');
-        console.log('- Calculated width:', this.slideWidth);
-        console.log('- Track width:', this.track.offsetWidth);
-        console.log('- Container width:', this.container.offsetWidth);
-        console.log('- Current transform:', this.track.style.transform);
-        console.log('- Current index:', this.currentIndex);
-        console.log('- Original slide count:', this.originalSlideCount);
+    // Debug method to verify positions
+    debugPositions() {
+        console.log('=== CAROUSEL DEBUG ===');
+        console.log('Current Index:', this.currentIndex);
+        console.log('Original Slide Count:', this.originalSlideCount);
+        console.log('Total Slides:', this.slideCount);
+        console.log('Slide Width:', this.slideWidth);
+        console.log('Current Transform:', this.track.style.transform);
+
+        const expectedPosition = -this.currentIndex * this.slideWidth;
+        const actualPosition = this.getCurrentTransformValue();
+        console.log('Expected Position:', expectedPosition);
+        console.log('Actual Position:', actualPosition);
+        console.log('Offset:', Math.abs(expectedPosition - actualPosition));
+    }
+
+    getCurrentTransformValue() {
+        const transform = this.track.style.transform;
+        if (!transform) return 0;
+
+        const match = transform.match(/translateX\(([^)]+)px\)/);
+        return match ? parseFloat(match[1]) : 0;
     }
 }
 
