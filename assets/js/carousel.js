@@ -1,4 +1,4 @@
-// Projects Data
+// Projects Data (same as before)
 window.projectsData = [
     {
         title: "MMTO",
@@ -42,7 +42,7 @@ window.projectsData = [
     }
 ];
 
-// Publications Data
+// Publications Data (same as before)
 window.publicationsData = [
     {
         title: "Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees",
@@ -218,13 +218,6 @@ class ProjectCarousel {
         this.createDots();
         this.addEventListeners();
 
-        // Chrome-specific fixes
-        if (this.isChrome()) {
-            setTimeout(() => {
-                this.fixChromeRendering();
-            }, 100);
-        }
-
         if (this.slideCount > window.projectsData.length) {
             this.startAutoSlide();
         }
@@ -232,18 +225,12 @@ class ProjectCarousel {
 
     calculateSlideWidth() {
         if (this.slides.length === 0) {
-            this.slideWidth = 320; // Default wider width
+            this.slideWidth = 300;
             return;
         }
 
-        // More precise calculation for Chrome
         const containerWidth = this.container.offsetWidth;
-        const gap = 24; // Match CSS gap
-        const padding = 40; // Match CSS padding (20px * 2)
-
-        this.slideWidth = (containerWidth - padding - (gap * 2)) / 3;
-
-        console.log('Slide width calculated:', this.slideWidth, 'Container:', containerWidth);
+        this.slideWidth = (containerWidth - 40) / 3;
     }
 
     createDots() {
@@ -324,21 +311,6 @@ class ProjectCarousel {
         return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     }
 
-    isChrome() {
-        return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-    }
-
-    fixChromeRendering() {
-        // Force Chrome to recalculate layout
-        this.track.style.display = 'none';
-        this.track.offsetHeight; // Force reflow
-        this.track.style.display = 'flex';
-
-        // Recalculate slide width after forced reflow
-        this.calculateSlideWidth();
-        this.updateCarousel();
-    }
-
     handleTouchStart(e) {
         this.stopAutoSlide();
         this.touchStartX = e.touches[0].clientX;
@@ -352,10 +324,7 @@ class ProjectCarousel {
         this.touchEndX = e.touches[0].clientX;
         const diff = this.touchStartX - this.touchEndX;
         const translateX = -this.currentIndex * this.slideWidth - diff;
-
-        // Use transform3d during drag for Chrome
-        this.track.style.transform = `translate3d(${translateX}px, 0, 0)`;
-        this.track.style.webkitTransform = `translate3d(${translateX}px, 0, 0)`;
+        this.track.style.transform = `translateX(${translateX}px)`;
     }
 
     handleTouchEnd(e) {
@@ -407,10 +376,7 @@ class ProjectCarousel {
         if (this.slideCount === 0) return;
 
         const translateX = -this.currentIndex * this.slideWidth;
-
-        // Use transform3d for better Chrome performance
-        this.track.style.transform = `translate3d(${translateX}px, 0, 0)`;
-        this.track.style.webkitTransform = `translate3d(${translateX}px, 0, 0)`;
+        this.track.style.transform = `translateX(${translateX}px)`;
     }
 
     updateDots() {
