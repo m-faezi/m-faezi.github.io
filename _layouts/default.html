@@ -1,3 +1,5 @@
+[file name]: default.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
@@ -24,14 +26,10 @@
         overflow-x: hidden;
         background: #000000 !important;
         height: 100%;
-        margin: 0;
-        padding: 0;
       }
 
       html {
         height: 100%;
-        margin: 0;
-        padding: 0;
       }
 
       canvas {
@@ -50,9 +48,6 @@
         z-index: 1;
         background: transparent !important;
         min-height: 100vh;
-        width: 100%;
-        margin: 0;
-        padding: 0;
       }
 
       .fixed-sidebar {
@@ -62,31 +57,20 @@
         height: 100vh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        width: 300px;
-        left: 0;
-        top: 0;
       }
 
       .scrollable-content {
-        position: fixed;
+        position: relative;
         z-index: 1;
         background: transparent !important;
         height: 100vh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        left: 300px;
-        right: 0;
-        width: calc(100% - 300px);
-        margin: 0;
-        padding: 0;
       }
 
       .content-wrapper {
         background: transparent;
         min-height: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem;
       }
 
       /* Mobile styles - applied immediately */
@@ -114,18 +98,14 @@
         }
 
         .scrollable-content {
-          position: relative !important;
           height: auto !important;
           overflow: visible !important;
-          left: 0 !important;
-          right: auto !important;
-          width: 100% !important;
+          margin-left: 0 !important;
         }
 
         .content-wrapper {
           overflow: visible !important;
           min-height: auto !important;
-          padding: 1.5rem !important;
         }
 
         canvas {
@@ -239,6 +219,7 @@
     <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
 
+        <!-- Mobile scroll fix -->
     <script>
       // Mobile scroll fix - run immediately
       function fixMobileScroll() {
@@ -265,10 +246,6 @@
           if (scrollableContent) {
             scrollableContent.style.overflow = 'visible';
             scrollableContent.style.height = 'auto';
-            scrollableContent.style.position = 'relative';
-            scrollableContent.style.left = '0';
-            scrollableContent.style.right = 'auto';
-            scrollableContent.style.width = '100%';
           }
 
           // Fix sidebar
@@ -281,17 +258,8 @@
 
           console.log('Mobile scroll fix applied');
         } else {
-          // Desktop layout - ensure fixed positioning
+          // Desktop layout
           document.body.classList.remove('mobile-layout');
-          const scrollableContent = document.querySelector('.scrollable-content');
-          if (scrollableContent) {
-            scrollableContent.style.position = 'fixed';
-            scrollableContent.style.left = '300px';
-            scrollableContent.style.right = '0';
-            scrollableContent.style.width = 'calc(100% - 300px)';
-            scrollableContent.style.height = '100vh';
-            scrollableContent.style.overflowY = 'auto';
-          }
           console.log('Desktop layout maintained');
         }
       }
@@ -352,6 +320,94 @@
           }
       }, 1000);
     </script>
+
+
+    <!-- Mobile scroll fix -->
+    <script>
+      // Mobile scroll fix - run immediately
+      function fixMobileScroll() {
+        const isMobile = window.innerWidth <= 768;
+        console.log('Mobile detection:', isMobile, 'Width:', window.innerWidth);
+
+        if (isMobile) {
+          // Force mobile layout
+          document.body.classList.add('mobile-layout');
+          document.body.style.overflow = 'auto';
+          document.body.style.height = 'auto';
+          document.documentElement.style.overflow = 'auto';
+          document.documentElement.style.height = 'auto';
+
+          // Fix layout wrapper
+          const layoutWrapper = document.querySelector('.layout-wrapper');
+          if (layoutWrapper) {
+            layoutWrapper.style.height = 'auto';
+            layoutWrapper.style.overflow = 'visible';
+          }
+
+          // Fix scrollable content
+          const scrollableContent = document.querySelector('.scrollable-content');
+          if (scrollableContent) {
+            scrollableContent.style.overflow = 'visible';
+            scrollableContent.style.height = 'auto';
+          }
+
+          // Fix sidebar
+          const sidebar = document.querySelector('.fixed-sidebar');
+          if (sidebar) {
+            sidebar.style.position = 'relative';
+            sidebar.style.height = 'auto';
+            sidebar.style.overflow = 'visible';
+          }
+
+          console.log('Mobile scroll fix applied');
+        } else {
+          // Desktop layout
+          document.body.classList.remove('mobile-layout');
+          console.log('Desktop layout maintained');
+        }
+      }
+
+      // Run immediately and on all events
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded - applying scroll fix');
+        fixMobileScroll();
+
+        // Also fix after a short delay to catch any late rendering
+        setTimeout(fixMobileScroll, 100);
+        setTimeout(fixMobileScroll, 500);
+      });
+
+      window.addEventListener('load', fixMobileScroll);
+      window.addEventListener('resize', fixMobileScroll);
+      window.addEventListener('orientationchange', function() {
+        setTimeout(fixMobileScroll, 100);
+      });
+
+      // Force fix on page show (for back/forward navigation)
+      window.addEventListener('pageshow', fixMobileScroll);
+
+      // Debug script
+      console.log('Scripts loaded - checking dependencies:');
+      console.log('D3.js:', typeof d3 !== 'undefined' ? 'Loaded' : 'Missing');
+      console.log('ExpertiseData:', window.expertiseData ? 'Loaded' : 'Missing');
+      console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
+
+      // Additional background debug
+      setTimeout(() => {
+        const canvas = document.querySelector('canvas');
+        if (canvas) {
+          console.log('🎯 Background Canvas Status:');
+          console.log('✅ Position: fixed');
+          console.log('✅ Size:', canvas.offsetWidth + 'x' + canvas.offsetHeight);
+          console.log('✅ Z-index: -1');
+          console.log('✅ Covering entire page');
+        } else {
+          console.log('❌ No canvas found for background');
+        }
+      }, 1000);
+    </script>
+
+
   </body>
 </html>
-
+[file content end]
