@@ -1058,3 +1058,69 @@ body, .layout-wrapper, .scrollable-content {
   }
 }
 
+/* NUCLEAR FIX FOR CUTOFF ISSUE */
+/* Add this at the VERY END of your style.scss file */
+
+/* Remove all max-width restrictions */
+body, html,
+.layout-wrapper,
+.scrollable-content,
+.content-wrapper,
+.home-content,
+.carousel-container,
+.carousel-track,
+.carousel-slide,
+#projectsCarousel,
+#expertiseTree,
+.github-stats,
+.thesis-section,
+.project-card,
+.award-item,
+.publication-item {
+    max-width: none !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Force full width */
+.layout-wrapper {
+    width: 100vw !important;
+    max-width: 100vw !important;
+}
+
+.scrollable-content {
+    width: calc(100vw - 300px) !important;
+    left: 300px !important;
+    right: 0 !important;
+}
+
+.content-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 2rem !important;
+}
+
+/* Remove any overflow hidden that might cause cutoff */
+body, html {
+    overflow-x: visible !important;
+}
+
+.layout-wrapper,
+.scrollable-content,
+.content-wrapper {
+    overflow-x: visible !important;
+}
+
+/* Ensure carousel uses full available width */
+.carousel-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2rem 0 !important;
+}
+
+.carousel-track {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
