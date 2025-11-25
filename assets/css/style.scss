@@ -1,3 +1,4 @@
+
 ---
 ---
 
@@ -1058,13 +1059,14 @@ body, .layout-wrapper, .scrollable-content {
   }
 }
 
+
 /* NUCLEAR FIX FOR CUTOFF ISSUE */
 /* Add this at the VERY END of your style.scss file */
 
 /* Remove all max-width restrictions */
-body, html,
-.layout-wrapper,
-.scrollable-content,
+body, html, 
+.layout-wrapper, 
+.scrollable-content, 
 .content-wrapper,
 .home-content,
 .carousel-container,
@@ -1123,4 +1125,3 @@ body, html {
     width: 100% !important;
     max-width: 100% !important;
 }
-
