@@ -1,4 +1,4 @@
-// Projects Data (same as before)
+// Projects Data
 window.projectsData = [
     {
         title: "MMTO",
@@ -42,7 +42,7 @@ window.projectsData = [
     }
 ];
 
-// Publications Data (same as before)
+// Publications Data
 window.publicationsData = [
     {
         title: "Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees",
@@ -67,52 +67,6 @@ window.publicationsData = [
             { url: "https://github.com/m-faezi/DEGAN", text: "📊 Code" }
         ],
         tags: ["Decentralized AI", "GANs", "Distributed Systems"]
-    }
-];
-
-// Modern carousel data
-const modernCarouselData = [
-    {
-        title: "MMTO - Multi-spectral Tool",
-        description: "Advanced multi-spectral faint emission detection and color extraction tool for astronomical image analysis.",
-        tags: ["Python", "PyTorch", "OpenCV", "Astronomy"],
-        icon: "🔭",
-        link: "https://github.com/m-faezi/MMTO"
-    },
-    {
-        title: "DEGAN - Decentralized GAN",
-        description: "Novel decentralized generative adversarial network architecture for distributed AI training.",
-        tags: ["TensorFlow", "GANs", "Distributed AI", "Research"],
-        icon: "🤖",
-        link: "https://github.com/m-faezi/DEGAN"
-    },
-    {
-        title: "MTO2 - Source Detection",
-        description: "AI-powered max-tree based source detection and parameter extraction for astronomical data.",
-        tags: ["Python", "Max-Tree", "Computer Vision", "AI"],
-        icon: "⚡",
-        link: "https://github.com/m-faezi/MTO2"
-    },
-    {
-        title: "Multi-spectral Simulator",
-        description: "Comprehensive astronomical image simulator for validating source segmentation algorithms.",
-        tags: ["Python", "Simulation", "Testing", "Validation"],
-        icon: "🔄",
-        link: "https://github.com/m-faezi/multi-spectral-sim"
-    },
-    {
-        title: "Fireball Web App",
-        description: "Web application with PostgreSQL integration and RESTful API development capabilities.",
-        tags: ["Python", "Backend", "Databases", "REST API"],
-        icon: "🌐",
-        link: "https://github.com/m-faezi/fireball"
-    },
-    {
-        title: "Research Publications",
-        description: "Peer-reviewed publications in IEEE Access and Neurocomputing journals.",
-        tags: ["Research", "Publications", "Academic", "Papers"],
-        icon: "📄",
-        link: "/publications"
     }
 ];
 
@@ -176,8 +130,9 @@ class ProjectCarousel {
 
         this.track.innerHTML = '';
 
-        // Create 3 copies for seamless infinite scrolling
-        const copies = 3;
+        // Create multiple copies of the slides for seamless looping
+        const copies = 3; // Create 3 copies for smooth infinite effect
+
         for (let copy = 0; copy < copies; copy++) {
             window.projectsData.forEach(project => {
                 this.createProjectSlide(project);
@@ -255,15 +210,12 @@ class ProjectCarousel {
         console.log('Initializing carousel with', this.slideCount, 'slides');
 
         this.calculateSlideWidth();
-
-        // Start in the middle copy for infinite scrolling in both directions
-        const originalSlideCount = window.projectsData.length;
-        this.currentIndex = originalSlideCount;
-
         this.updateCarousel();
+
         this.createDots();
         this.addEventListeners();
 
+        // Only start auto-slide if more than one slide
         if (this.slideCount > window.projectsData.length) {
             this.startAutoSlide();
         }
@@ -275,8 +227,9 @@ class ProjectCarousel {
             return;
         }
 
+        // Calculate exact slide width based on container
         const containerWidth = this.container.offsetWidth;
-        this.slideWidth = (containerWidth - 40) / 3;
+        this.slideWidth = (containerWidth - 40) / 3; // Account for gaps
     }
 
     createDots() {
@@ -288,6 +241,7 @@ class ProjectCarousel {
 
         this.dotsContainer.innerHTML = '';
 
+        // Create dots only for the original projects (not the copies)
         const originalSlideCount = window.projectsData.length;
         for (let i = 0; i < originalSlideCount; i++) {
             const dot = document.createElement('div');
@@ -302,21 +256,19 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.6s ease-in-out';
 
-        // Navigate within the middle copy
-        const originalSlideCount = window.projectsData.length;
-        this.currentIndex = targetIndex + originalSlideCount;
-
-        this.updateDots();
+        // Calculate the position in the first copy
+        this.currentIndex = targetIndex;
         this.updateCarousel();
 
         setTimeout(() => {
             this.isTransitioning = false;
-        }, 500);
+        }, 600);
     }
 
     addEventListeners() {
+        // Only add mouse events for desktop
         if (!this.isTouchDevice()) {
             this.container.addEventListener('mouseenter', () => {
                 this.stopAutoSlide();
@@ -327,6 +279,7 @@ class ProjectCarousel {
             });
         }
 
+        // Touch events for mobile
         this.container.addEventListener('touchstart', (e) => {
             this.handleTouchStart(e);
         }, { passive: true });
@@ -339,14 +292,17 @@ class ProjectCarousel {
             this.handleTouchEnd(e);
         });
 
+        // Prevent image drag
         this.container.addEventListener('dragstart', (e) => {
             e.preventDefault();
         });
 
+        // Listen for transition end to handle infinite loop
         this.track.addEventListener('transitionend', () => {
             this.handleInfiniteTransition();
         });
 
+        // Handle window resize
         window.addEventListener('resize', () => {
             this.calculateSlideWidth();
             this.updateCarousel();
@@ -377,7 +333,7 @@ class ProjectCarousel {
         if (!this.isDragging) return;
 
         this.isDragging = false;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.6s ease-in-out';
 
         const diff = this.touchStartX - this.touchEndX;
 
@@ -400,10 +356,8 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.6s ease-in-out';
         this.currentIndex++;
-
-        this.updateDots();
         this.updateCarousel();
     }
 
@@ -411,10 +365,8 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.track.style.transition = 'transform 0.5s ease-in-out';
+        this.track.style.transition = 'transform 0.6s ease-in-out';
         this.currentIndex--;
-
-        this.updateDots();
         this.updateCarousel();
     }
 
@@ -423,17 +375,15 @@ class ProjectCarousel {
 
         const translateX = -this.currentIndex * this.slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
-    }
 
-    updateDots() {
-        if (!this.dotsContainer) return;
-
-        const originalSlideCount = window.projectsData.length;
-        const dotIndex = this.currentIndex % originalSlideCount;
-
-        this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === dotIndex);
-        });
+        // Update dots based on modulo of original slide count
+        if (this.dotsContainer) {
+            const originalSlideCount = window.projectsData.length;
+            const dotIndex = this.currentIndex % originalSlideCount;
+            this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === dotIndex);
+            });
+        }
     }
 
     handleInfiniteTransition() {
@@ -441,20 +391,25 @@ class ProjectCarousel {
 
         const originalSlideCount = window.projectsData.length;
         const totalCopies = 3;
+        const totalSlidesInCopies = originalSlideCount * totalCopies;
 
-        // If we've scrolled to the end of the last copy, jump to the middle copy
+        // If we've scrolled past the middle copy, jump to the equivalent position in the first copy
         if (this.currentIndex >= originalSlideCount * 2) {
             this.track.style.transition = 'none';
-            this.currentIndex = originalSlideCount;
+            this.currentIndex -= originalSlideCount;
             this.updateCarousel();
-            this.track.offsetHeight; // Force reflow
+
+            // Force reflow
+            this.track.offsetHeight;
         }
-        // If we've scrolled before the first copy, jump to the middle copy
-        else if (this.currentIndex < originalSlideCount) {
+        // If we've scrolled before the first copy, jump to the equivalent position in the last copy
+        else if (this.currentIndex < 0) {
             this.track.style.transition = 'none';
-            this.currentIndex = originalSlideCount * 2 - 1;
+            this.currentIndex += originalSlideCount;
             this.updateCarousel();
-            this.track.offsetHeight; // Force reflow
+
+            // Force reflow
+            this.track.offsetHeight;
         }
     }
 
@@ -475,237 +430,11 @@ class ProjectCarousel {
     }
 }
 
-class ModernCarousel {
-    constructor(containerId, data) {
-        this.container = document.getElementById(containerId);
-        if (!this.container) {
-            console.error('Modern carousel container not found:', containerId);
-            return;
-        }
-
-        this.data = data;
-        this.track = this.container.querySelector('.modern-carousel-track');
-        this.prevBtn = document.querySelector('.modern-carousel-nav .prev-btn');
-        this.nextBtn = document.querySelector('.modern-carousel-nav .next-btn');
-        this.dotsContainer = document.querySelector('.modern-carousel-dots');
-
-        this.currentIndex = 0;
-        this.slideWidth = 0;
-        this.slidesPerView = 3;
-        this.isTransitioning = false;
-        this.autoSlideInterval = null;
-
-        this.init();
-    }
-
-    init() {
-        this.createSlides();
-        this.createDots();
-        this.addEventListeners();
-        this.updateCarousel();
-        this.startAutoSlide();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            this.calculateSlideWidth();
-            this.updateCarousel();
-        });
-    }
-
-    createSlides() {
-        // Clear existing slides
-        this.track.innerHTML = '';
-
-        // Create slides for each data item
-        this.data.forEach((item, index) => {
-            const slide = document.createElement('div');
-            slide.className = 'modern-carousel-slide';
-            slide.setAttribute('data-index', index);
-
-            slide.innerHTML = `
-                <div class="modern-slide-image">
-                    ${item.icon}
-                </div>
-                <div class="modern-slide-content">
-                    <h3 class="modern-slide-title">${item.title}</h3>
-                    <p class="modern-slide-description">${item.description}</p>
-                    <div class="modern-slide-tags">
-                        ${item.tags.map(tag => `<span class="modern-tag">${tag}</span>`).join('')}
-                    </div>
-                    <a href="${item.link || '#'}" class="modern-slide-link">
-                        Learn More
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                        </svg>
-                    </a>
-                </div>
-            `;
-
-            this.track.appendChild(slide);
-        });
-
-        this.calculateSlideWidth();
-    }
-
-    calculateSlideWidth() {
-        const containerWidth = this.container.offsetWidth;
-        const gap = 20;
-        this.slideWidth = (containerWidth - (gap * (this.slidesPerView - 1)) - 40) / this.slidesPerView;
-
-        // Update slide widths
-        document.querySelectorAll('.modern-carousel-slide').forEach(slide => {
-            slide.style.width = `${this.slideWidth}px`;
-        });
-    }
-
-    createDots() {
-        if (!this.dotsContainer) return;
-
-        this.dotsContainer.innerHTML = '';
-
-        // Create dots based on number of slides
-        for (let i = 0; i < this.data.length; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'modern-carousel-dot';
-            if (i === 0) dot.classList.add('active');
-
-            dot.addEventListener('click', () => {
-                this.goToSlide(i);
-            });
-
-            this.dotsContainer.appendChild(dot);
-        }
-    }
-
-    addEventListeners() {
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', () => {
-                this.previousSlide();
-            });
-        }
-
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => {
-                this.nextSlide();
-            });
-        }
-
-        // Pause auto-slide on hover
-        this.container.addEventListener('mouseenter', () => {
-            this.stopAutoSlide();
-        });
-
-        this.container.addEventListener('mouseleave', () => {
-            this.startAutoSlide();
-        });
-
-        // Touch events for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        this.track.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            this.stopAutoSlide();
-        }, { passive: true });
-
-        this.track.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].clientX;
-            this.handleSwipe(touchStartX, touchEndX);
-            this.startAutoSlide();
-        });
-    }
-
-    handleSwipe(startX, endX) {
-        const minSwipeDistance = 50;
-        const distance = startX - endX;
-
-        if (Math.abs(distance) < minSwipeDistance) return;
-
-        if (distance > 0) {
-            this.nextSlide();
-        } else {
-            this.previousSlide();
-        }
-    }
-
-    goToSlide(index) {
-        if (this.isTransitioning) return;
-
-        this.isTransitioning = true;
-        this.currentIndex = index;
-        this.updateCarousel();
-
-        setTimeout(() => {
-            this.isTransitioning = false;
-        }, 500);
-    }
-
-    nextSlide() {
-        if (this.isTransitioning) return;
-
-        this.isTransitioning = true;
-        this.currentIndex = (this.currentIndex + 1) % this.data.length;
-        this.updateCarousel();
-
-        setTimeout(() => {
-            this.isTransitioning = false;
-        }, 500);
-    }
-
-    previousSlide() {
-        if (this.isTransitioning) return;
-
-        this.isTransitioning = true;
-        this.currentIndex = (this.currentIndex - 1 + this.data.length) % this.data.length;
-        this.updateCarousel();
-
-        setTimeout(() => {
-            this.isTransitioning = false;
-        }, 500);
-    }
-
-    updateCarousel() {
-        const translateX = -this.currentIndex * (this.slideWidth + 20);
-        this.track.style.transform = `translateX(${translateX}px)`;
-
-        // Update active dot
-        if (this.dotsContainer) {
-            this.dotsContainer.querySelectorAll('.modern-carousel-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === this.currentIndex);
-            });
-        }
-    }
-
-    startAutoSlide() {
-        this.stopAutoSlide();
-        this.autoSlideInterval = setInterval(() => {
-            this.nextSlide();
-        }, 4000);
-    }
-
-    stopAutoSlide() {
-        if (this.autoSlideInterval) {
-            clearInterval(this.autoSlideInterval);
-            this.autoSlideInterval = null;
-        }
-    }
-}
-
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing carousels...');
 
     setTimeout(() => {
-        // Initialize modern carousel
-        const modernCarousel = document.getElementById('modernCarousel');
-        if (modernCarousel) {
-            console.log('Found modern carousel, initializing...');
-            new ModernCarousel('modernCarousel', modernCarouselData);
-        } else {
-            console.error('Modern carousel container not found');
-        }
-
-        // Initialize old carousels (for backward compatibility)
         const projectsCarousel = document.getElementById('projectsCarousel');
         if (projectsCarousel) {
             console.log('Found projects carousel, initializing...');
@@ -713,6 +442,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 autoSlideDelay: 4000,
                 carouselType: 'projects'
             });
+        } else {
+            console.error('Projects carousel container not found');
         }
 
         const publicationsCarousel = document.getElementById('publicationsCarousel');
@@ -722,7 +453,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 autoSlideDelay: 6000,
                 carouselType: 'publications'
             });
+        } else {
+            console.error('Publications carousel container not found');
         }
     }, 200);
 });
+
 
