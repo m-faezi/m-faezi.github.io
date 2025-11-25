@@ -652,7 +652,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 DOM loaded, initializing carousels...');
 
     // Apply wider layout FIRST
-    forceWiderCarouselLayout();
+    // forceWiderCarouselLayout();
 
     setTimeout(() => {
         const projectsCarousel = document.getElementById('projectsCarousel');
