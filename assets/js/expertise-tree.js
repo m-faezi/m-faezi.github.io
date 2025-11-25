@@ -141,7 +141,7 @@ class ExpertiseTree {
         // Remove any existing SVG
         d3.select(this.container).select("svg").remove();
 
-        // Calculate responsive dimensions - FIXED
+        // Calculate responsive dimensions
         this.calculateDimensions();
 
         // Create SVG with proper viewBox for responsiveness and centering
@@ -150,8 +150,8 @@ class ExpertiseTree {
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height + this.margin.top + this.margin.bottom}`)
-            .style("display", "block") // Ensure proper centering
-            .style("margin", "0 auto") // Center the SVG
+            .style("display", "block")
+            .style("margin", "0 auto")
             .append("g")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
@@ -169,23 +169,20 @@ class ExpertiseTree {
         console.log('Expertise tree initialized successfully');
     }
 
-    // Add this new method to calculate responsive dimensions
     calculateDimensions() {
         const container = this.container;
         const isMobile = window.innerWidth <= 768;
 
         if (isMobile) {
-            // Mobile dimensions - increased for better readability
+            // Mobile dimensions
             this.width = Math.min(container.clientWidth - 80, 500) - this.margin.left - this.margin.right;
-            this.height = 400 - this.margin.top - this.margin.bottom; // Increased height
-            // Better margins for mobile
+            this.height = 500 - this.margin.top - this.margin.bottom; // Increased height for better vertical spacing
             this.margin.left = 40;
             this.margin.right = 40;
         } else {
-            // Desktop dimensions - increased width and height
-            this.width = Math.min(container.clientWidth - 200, 1000) - this.margin.left - this.margin.right; // Increased from 928
-            this.height = 600 - this.margin.top - this.margin.bottom; // Increased from 500
-            // Better margins for desktop - centered
+            // Desktop dimensions
+            this.width = Math.min(container.clientWidth - 200, 1000) - this.margin.left - this.margin.right;
+            this.height = 700 - this.margin.top - this.margin.bottom; // Increased height for better vertical spacing
             this.margin.left = 100;
             this.margin.right = 100;
         }
@@ -209,28 +206,37 @@ class ExpertiseTree {
         const nodes = treeData.descendants();
         const links = treeData.descendants().slice(1);
 
-        // Improved node positioning with better spacing and centering
+        // Improved node positioning with proper vertical distribution
         const isMobile = window.innerWidth <= 768;
-        const horizontalSpacing = isMobile ? 120 : 180; // Adjusted for centering
+        const horizontalSpacing = isMobile ? 120 : 180;
         const maxDepth = d3.max(nodes, d => d.depth);
 
         // Calculate centering offset based on max depth
         const centerOffset = (this.width - (maxDepth * horizontalSpacing)) / 2;
 
+        // Group nodes by depth for proper vertical distribution
+        const nodesByDepth = {};
         nodes.forEach(d => {
-            d.y = centerOffset + (d.depth * horizontalSpacing);
-            // Center nodes vertically within their level
-            if (d.depth > 0) {
-                // Distribute nodes more evenly vertically
-                const siblings = nodes.filter(node => node.depth === d.depth);
-                const siblingIndex = siblings.indexOf(d);
-                const totalSiblings = siblings.length;
-                const verticalRange = this.height * 0.8; // Use 80% of height for nodes
-                const verticalStart = (this.height - verticalRange) / 2;
-
-                d.x = verticalStart + (siblingIndex / Math.max(1, totalSiblings - 1)) * verticalRange;
-            }
+            if (!nodesByDepth[d.depth]) nodesByDepth[d.depth] = [];
+            nodesByDepth[d.depth].push(d);
         });
+
+        // Position nodes with proper vertical spacing
+        Object.keys(nodesByDepth).forEach(depth => {
+            const depthNodes = nodesByDepth[depth];
+            const verticalSpacing = this.height / (depthNodes.length + 1);
+
+            depthNodes.forEach((node, index) => {
+                node.y = centerOffset + (node.depth * horizontalSpacing);
+                // Distribute nodes vertically with proper spacing
+                node.x = verticalSpacing * (index + 1);
+            });
+        });
+
+        // Ensure root node is properly centered
+        if (nodesByDepth[0] && nodesByDepth[0][0]) {
+            nodesByDepth[0][0].x = this.height / 2;
+        }
 
         // ************************
         // NODE ANIMATION SECTION
@@ -244,30 +250,37 @@ class ExpertiseTree {
         const nodeEnter = node.enter().append("g")
             .attr("class", "node")
             .attr("transform", d => `translate(${source.y0},${source.x0})`)
-            .style("opacity", 0) // Start invisible
+            .style("opacity", 0)
             .on("click", (event, d) => this.click(event, d));
 
         // Add circles for nodes
         nodeEnter.append("circle")
-            .attr("r", 0) // Start with radius 0
+            .attr("r", 0)
             .style("fill", d => d._children ? "#10b981" : "#fff")
             .transition()
             .duration(this.duration)
             .attr("r", 6)
             .style("opacity", 1);
 
-        // Add labels with fade-in animation
+        // Add labels with fade-in animation - improved for Firefox
         nodeEnter.append("text")
             .attr("dy", ".35em")
-            .attr("x", d => d.children || d._children ? -13 : 13)
-            .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+            .attr("x", d => {
+                if (d.children || d._children) return -10;
+                return 10;
+            })
+            .attr("text-anchor", d => {
+                if (d.children || d._children) return "end";
+                return "start";
+            })
             .text(d => d.data.name)
             .style("fill", "#ffffff")
-            .style("font-size", "11px") // Slightly larger
+            .style("font-size", "11px")
             .style("font-family", "Inter, sans-serif")
             .style("font-weight", "600")
-            .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.8)") // Better contrast
+            .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.8)")
             .style("opacity", 0)
+            .style("pointer-events", "none") // Better Firefox text rendering
             .transition()
             .delay(this.duration / 2)
             .duration(this.duration / 2)
@@ -303,7 +316,7 @@ class ExpertiseTree {
             .style("fill-opacity", 0);
 
         // ************************
-        // LINK ANIMATION SECTION
+        // LINK ANIMATION SECTION - IMPROVED FOR FIREFOX
         // ************************
 
         // Update links
@@ -321,6 +334,7 @@ class ExpertiseTree {
             .style("stroke", "#6b7280")
             .style("stroke-width", "1.5px")
             .style("opacity", 0)
+            .style("shape-rendering", "geometricPrecision") // Better Firefox rendering
             .transition()
             .duration(this.duration)
             .style("opacity", 1)
@@ -330,7 +344,8 @@ class ExpertiseTree {
         link.merge(linkEnter).transition()
             .duration(this.duration)
             .attr("d", d => this.diagonal(d, d.parent))
-            .style("opacity", 1);
+            .style("opacity", 1)
+            .style("shape-rendering", "geometricPrecision");
 
         // Remove exiting links with fade out
         link.exit().transition()
@@ -350,10 +365,14 @@ class ExpertiseTree {
     }
 
     diagonal(s, d) {
-        // Smoother curves with better control points
+        // Improved curves for better Firefox rendering
+        // Use more natural curve control points based on vertical distance
+        const verticalDiff = Math.abs(s.x - d.x);
+        const curveIntensity = Math.min(80, verticalDiff * 0.3); // Dynamic curve based on distance
+
         const path = `M ${s.y} ${s.x}
-                C ${s.y + 60} ${s.x},
-                  ${d.y - 60} ${d.x},
+                C ${s.y + curveIntensity} ${s.x},
+                  ${d.y - curveIntensity} ${d.x},
                   ${d.y} ${d.x}`;
         return path;
     }
