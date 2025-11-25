@@ -88,32 +88,43 @@
         min-height: 100%;
         width: 100%;
         max-width: none;
-        padding: 2rem 0 2rem 2rem;
-        margin: 0;
-        pointer-events: auto;
-      }
-
-      /* Home page centering */
-      .home-content {
-        max-width: 1200px;
+        padding: 2rem;
         margin: 0 auto;
-        padding: 0 2rem;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
-      .home-content > * {
+      /* Center all content in the main area */
+      .content-wrapper > * {
+        width: 100%;
+        max-width: 1200px;
         margin-left: auto;
         margin-right: auto;
       }
 
-      /* Center specific elements */
+      /* Ensure specific elements are centered */
+      .content-wrapper h1,
+      .content-wrapper h2,
+      .content-wrapper h3,
+      .content-wrapper p,
+      .content-wrapper ul,
+      .content-wrapper ol {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Center carousel and other components */
       #projectsCarousel,
       #expertiseTree,
       .github-stats,
       .thesis-section {
         width: 100%;
         max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: auto !important;
+        margin-right: auto !important;
       }
 
       /* Updated Mobile styles */
@@ -154,10 +165,10 @@
           min-height: auto !important;
           width: 100% !important;
           padding: 1.5rem !important;
+          display: block !important;
         }
 
-        .home-content {
-          padding: 0 1rem !important;
+        .content-wrapper > * {
           max-width: 100% !important;
         }
 
@@ -166,8 +177,6 @@
         .github-stats,
         .thesis-section {
           max-width: 100% !important;
-          margin-left: 0 !important;
-          margin-right: 0 !important;
         }
 
         canvas {
@@ -355,7 +364,7 @@
               });
 
           } else {
-              // Desktop layout - ensure proper scrolling
+              // Desktop layout - ensure proper scrolling and centering
               document.body.classList.remove('mobile-layout');
 
               const scrollableContent = document.querySelector('.scrollable-content');
@@ -373,6 +382,16 @@
                   // Ensure no right margin/padding
                   scrollableContent.style.marginRight = '0';
                   scrollableContent.style.paddingRight = '0';
+
+                  // Center the content wrapper
+                  const contentWrapper = document.querySelector('.content-wrapper');
+                  if (contentWrapper) {
+                      contentWrapper.style.marginLeft = 'auto';
+                      contentWrapper.style.marginRight = 'auto';
+                      contentWrapper.style.display = 'flex';
+                      contentWrapper.style.flexDirection = 'column';
+                      contentWrapper.style.alignItems = 'center';
+                  }
 
                   // Add a small timeout to ensure rendering
                   setTimeout(() => {
@@ -440,14 +459,17 @@
       console.log('Layout fixes applied - checking scrollable content:');
       setTimeout(() => {
           const scrollableContent = document.querySelector('.scrollable-content');
-          if (scrollableContent) {
+          const contentWrapper = document.querySelector('.content-wrapper');
+          if (scrollableContent && contentWrapper) {
               console.log('Scrollable content:', {
                   width: scrollableContent.offsetWidth,
-                  height: scrollableContent.offsetHeight,
-                  scrollHeight: scrollableContent.scrollHeight,
-                  clientHeight: scrollableContent.clientHeight,
-                  overflow: scrollableContent.style.overflow,
-                  position: scrollableContent.style.position
+                  scrollWidth: scrollableContent.scrollWidth,
+                  clientWidth: scrollableContent.clientWidth
+              });
+              console.log('Content wrapper:', {
+                  width: contentWrapper.offsetWidth,
+                  marginLeft: contentWrapper.style.marginLeft,
+                  marginRight: contentWrapper.style.marginRight
               });
           }
       }, 1000);
