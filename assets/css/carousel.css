@@ -1,4 +1,4 @@
-/* Carousel Styles */
+/* Carousel Styles - IMPROVED WIDER VERSION */
 .carousel-container {
     position: relative;
     max-width: 100%;
@@ -11,8 +11,8 @@
 
 .carousel-track {
     display: flex;
-    transition: transform 0.3s ease-in-out;
-    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+    gap: 24px; /* Increased gap */
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
@@ -20,7 +20,8 @@
     -ms-user-select: none;
     touch-action: pan-y;
     will-change: transform;
-    padding: 0 10px;
+    padding: 0 20px; /* Increased padding */
+    width: max-content;
 }
 
 .carousel-track.grabbing {
@@ -28,14 +29,14 @@
     transition: none;
 }
 
-/* Fixed width for exactly 3 slides */
+/* WIDER slides with better proportions */
 .carousel-slide {
-    flex: 0 0 calc(33.333% - 14px);
-    min-width: calc(33.333% - 14px);
+    flex: 0 0 calc(33.333% - 16px); /* Wider calculation */
+    min-width: calc(33.333% - 16px);
     background: var(--surface-color);
-    border-radius: 8px;
+    border-radius: 12px; /* Slightly larger radius */
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
@@ -44,14 +45,15 @@
 }
 
 .carousel-slide:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+    transform: translateY(-6px); /* More lift on hover */
+    box-shadow: 0 12px 32px rgba(16, 185, 129, 0.2);
     border-color: var(--primary-color);
 }
 
+/* Taller thumbnails for better proportions */
 .project-thumbnail {
     width: 100%;
-    height: 160px;
+    height: 200px; /* Increased height */
     position: relative;
     overflow: hidden;
     background: var(--surface-light);
@@ -67,55 +69,60 @@
 }
 
 .carousel-slide:hover .github-preview {
-    transform: scale(1.05);
+    transform: scale(1.08); /* Slightly more scale */
 }
 
 .project-language {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 500;
+    padding: 6px 10px; /* Slightly larger */
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
     pointer-events: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
+/* Improved project info spacing */
 .project-info {
-    padding: 1.25rem;
+    padding: 1.5rem; /* More padding */
 }
 
 .project-info h3 {
-    margin: 0 0 0.75rem 0;
-    font-size: 1.1rem;
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem; /* Larger font */
     color: var(--text-primary);
-    font-weight: 600;
+    font-weight: 700; /* Bolder */
+    line-height: 1.3;
 }
 
 .project-info p {
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.25rem 0;
     color: var(--text-secondary);
-    font-size: 0.85rem;
-    line-height: 1.5;
+    font-size: 0.95rem; /* Slightly larger */
+    line-height: 1.6;
 }
 
 .project-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1rem;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .tech-tag {
     background: var(--surface-light);
     color: var(--text-secondary);
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem; /* Larger tags */
+    border-radius: 6px;
+    font-size: 0.8rem;
     border: 1px solid var(--border-color);
     pointer-events: none;
+    font-weight: 500;
 }
 
 .project-links {
@@ -127,39 +134,41 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.25rem; /* Larger buttons */
     background: var(--surface-light);
     color: var(--text-secondary);
     text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     border: 1px solid var(--border-color);
     flex: 1;
     justify-content: center;
     -webkit-tap-highlight-color: rgba(16, 185, 129, 0.2);
     touch-action: manipulation;
+    font-weight: 600;
 }
 
 .project-link:hover,
 .project-link:active {
     background: var(--primary-color);
     color: white;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     text-decoration: none;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .carousel-dots {
     display: flex;
     justify-content: center;
     gap: 0.75rem;
-    margin-top: 1.5rem;
+    margin-top: 2rem; /* More spacing */
     touch-action: manipulation;
 }
 
 .carousel-dot {
-    width: 8px;
-    height: 8px;
+    width: 10px; /* Slightly larger */
+    height: 10px;
     border-radius: 50%;
     background: var(--text-tertiary);
     cursor: pointer;
@@ -170,134 +179,138 @@
 
 .carousel-dot.active {
     background: var(--primary-color);
-    transform: scale(1.2);
+    transform: scale(1.3); /* More prominent */
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .carousel-dot:hover {
     background: var(--primary-light);
+    transform: scale(1.2);
+}
+
+/* Chrome-specific fixes */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .carousel-track {
+        gap: 24px;
+        padding: 0 20px;
+    }
+
+    .carousel-slide {
+        flex: 0 0 calc(33.333% - 16px);
+        min-width: calc(33.333% - 16px);
+    }
+
+    /* Force hardware acceleration for smoother Chrome rendering */
+    .carousel-track {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
 }
 
 /* Enhanced Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .carousel-slide {
+        flex: 0 0 calc(50% - 12px); /* 2 slides on tablet */
+        min-width: calc(50% - 12px);
+    }
+
+    .project-thumbnail {
+        height: 180px;
+    }
+}
+
 @media (max-width: 768px) {
     .carousel-container {
-        margin: 1.5rem 0;
+        margin: 1.5rem -1rem; /* Full width on mobile */
+        width: calc(100% + 2rem);
         overflow: visible;
         touch-action: pan-y;
     }
 
     .carousel-track {
-        gap: 15px;
-        padding: 0 10px;
+        gap: 16px;
+        padding: 0 1rem;
         touch-action: pan-y;
     }
 
     .carousel-slide {
-        flex: 0 0 calc(100% - 20px);
-        min-width: calc(100% - 20px);
-        margin: 0 5px;
+        flex: 0 0 calc(100% - 32px); /* Full width on mobile */
+        min-width: calc(100% - 32px);
+        margin: 0;
         touch-action: pan-y;
     }
 
     .project-info {
-        padding: 1rem;
+        padding: 1.25rem;
     }
 
     .project-thumbnail {
-        height: 140px;
+        height: 160px;
     }
 
     .project-info h3 {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 
     .project-info p {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .project-tech {
-        gap: 0.3rem;
+        gap: 0.4rem;
     }
 
     .tech-tag {
-        font-size: 0.7rem;
-        padding: 0.15rem 0.5rem;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.7rem;
     }
 
     .project-links {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.6rem;
     }
 
     .project-link {
-        padding: 0.6rem 1rem;
-        font-size: 0.8rem;
+        padding: 0.8rem 1rem;
+        font-size: 0.85rem;
     }
 
     .carousel-dots {
-        margin-top: 1rem;
-        gap: 0.5rem;
+        margin-top: 1.5rem;
+        gap: 0.6rem;
     }
 }
 
 @media (max-width: 480px) {
     .carousel-track {
         gap: 12px;
-        padding: 0 8px;
+        padding: 0 0.75rem;
     }
 
     .carousel-slide {
-        flex: 0 0 calc(100% - 16px);
-        min-width: calc(100% - 16px);
+        flex: 0 0 calc(100% - 24px);
+        min-width: calc(100% - 24px);
     }
 
     .project-thumbnail {
-        height: 120px;
+        height: 140px;
     }
 
     .project-info {
-        padding: 0.75rem;
+        padding: 1rem;
     }
 
     .carousel-dots {
-        gap: 0.4rem;
+        gap: 0.5rem;
     }
 
     .carousel-dot {
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
     }
 }
 
-/* iPhone specific optimizations */
-@media (max-width: 414px) {
-    .carousel-slide {
-        flex: 0 0 calc(100% - 16px);
-        min-width: calc(100% - 16px);
-    }
-
-    .project-thumbnail {
-        height: 110px;
-    }
-
-    .carousel-track {
-        gap: 10px;
-        padding: 0 5px;
-    }
-}
-
-/* Disable hover effects on touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .carousel-slide:hover {
-        transform: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .carousel-slide:hover .github-preview {
-        transform: none;
-    }
-}
-
-/* Full-width Publications Banner Carousel - TRANSPARENT */
+/* Full-width Publications Banner Carousel */
 .publications-carousel .carousel-slide {
     flex: 0 0 100%;
     min-width: 100%;
