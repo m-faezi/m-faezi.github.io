@@ -1,12 +1,12 @@
-/* Expertise Tree Styles - No Box */
+/* Professional Expertise Tree Styles */
 .expertise-tree-container {
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
-    margin: 2rem auto;
+    margin: 3rem auto;
     overflow: visible;
-    min-height: 700px; /* Increased for better vertical spacing */
+    min-height: 700px;
     position: relative;
     width: 100%;
     max-width: 1200px;
@@ -16,22 +16,24 @@
     align-items: center;
 }
 
-/* Show loading state */
+/* Elegant loading state */
 .expertise-tree-container:empty::before {
-    content: "Loading expertise tree...";
-    color: #d1d5db;
+    content: "Loading expertise visualization...";
+    color: #9ca3af;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-style: italic;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
 }
 
 /* D3.js Tree Styling */
 #expertiseTree {
     width: 100%;
     height: 100%;
-    min-height: 600px; /* Increased for better vertical spacing */
+    min-height: 600px;
     overflow: visible;
     display: flex;
     justify-content: center;
@@ -41,116 +43,121 @@
 #expertiseTree svg {
     width: 100%;
     height: 100%;
-    min-height: 600px; /* Increased for better vertical spacing */
+    min-height: 600px;
     background: transparent;
     overflow: visible;
     display: block;
     margin: 0 auto;
-    shape-rendering: geometricPrecision; /* Better Firefox rendering */
+    shape-rendering: geometricPrecision;
+    font-smooth: always;
+    -webkit-font-smoothing: antialiased;
 }
 
+/* Professional node styling */
 .node {
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .node circle {
-    fill: #ffffff;
-    stroke: #10b981;
-    stroke-width: 2px;
-    transition: all 0.3s ease;
-    shape-rendering: geometricPrecision; /* Better Firefox rendering */
+    fill: #10b981;
+    stroke: #ffffff;
+    stroke-width: 1.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    shape-rendering: geometricPrecision;
+    filter: none;
 }
 
 .node:hover circle {
-    fill: #10b981;
-    stroke: #059669;
-    transform: scale(1.1);
+    stroke-width: 2px;
+    filter: url(#glow);
 }
 
 .node text {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 10px;
     fill: #ffffff;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    pointer-events: none; /* Better text selection in Firefox */
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    letter-spacing: 0.2px;
+    opacity: 0.9;
 }
 
 .node:hover text {
-    fill: #34d399;
-    font-weight: 700;
+    font-weight: 600;
+    opacity: 1;
 }
 
-/* Links/edges between nodes - IMPROVED FOR FIREFOX */
+/* Elegant link styling */
 .link {
     fill: none;
-    stroke: #6b7280;
-    stroke-width: 1.5px;
-    transition: all 0.3s ease;
-    shape-rendering: geometricPrecision; /* Smoother curves in Firefox */
-    stroke-linecap: round; /* Better line endings */
+    stroke: url(#gradient);
+    stroke-width: 1.2px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    shape-rendering: geometricPrecision;
+    stroke-linecap: round;
+    opacity: 0.4;
 }
 
-.node:hover ~ .link {
-    stroke: #10b981;
-    stroke-width: 2px;
+.link:hover {
+    opacity: 0.8;
+    stroke-width: 1.8px;
 }
 
-/* Animation for when links are updated */
+/* Smooth animations */
 .link-updating {
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
-    animation: draw 1.5s ease-in-out forwards;
+    animation: elegantDraw 2s ease-in-out forwards;
 }
 
-@keyframes draw {
+@keyframes elegantDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-/* Responsive design - IMPROVED */
+/* Professional responsive design */
 @media (max-width: 768px) {
     .expertise-tree-container {
-        margin: 1.5rem auto;
-        min-height: 500px; /* Increased for mobile */
+        margin: 2rem auto;
+        min-height: 500px;
         max-height: none;
         padding: 0 1rem;
     }
 
     #expertiseTree,
     #expertiseTree svg {
-        min-height: 450px; /* Increased for mobile */
-    }
-
-    .node text {
-        font-size: 10px;
-    }
-}
-
-/* Extra small devices */
-@media (max-width: 480px) {
-    .expertise-tree-container {
-        min-height: 450px; /* Increased for very small screens */
-        max-height: none;
-        margin: 1rem auto;
-        padding: 0 0.5rem;
-    }
-
-    #expertiseTree,
-    #expertiseTree svg {
-        min-height: 400px; /* Increased for very small screens */
+        min-height: 450px;
     }
 
     .node text {
         font-size: 9px;
-        font-weight: 500;
+        letter-spacing: 0.1px;
+    }
+}
+
+@media (max-width: 480px) {
+    .expertise-tree-container {
+        min-height: 450px;
+        max-height: none;
+        margin: 1.5rem auto;
+        padding: 0 0.75rem;
+    }
+
+    #expertiseTree,
+    #expertiseTree svg {
+        min-height: 400px;
+    }
+
+    .node text {
+        font-size: 8px;
     }
 
     .node circle {
-        r: 4px;
+        stroke-width: 1px;
     }
 }
 
@@ -159,21 +166,52 @@
 #expertiseTree path,
 #expertiseTree circle,
 #expertiseTree text {
-    transition: all 0.5s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Firefox-specific improvements */
+/* Firefox-specific professional improvements */
 @-moz-document url-prefix() {
     .expertise-tree-container {
-        transform: translateZ(0); /* Force hardware acceleration */
+        transform: translateZ(0);
     }
 
     #expertiseTree svg {
-        filter: none; /* Remove any filters that might cause issues */
+        filter: none;
     }
 
     .link {
-        stroke-linejoin: round; /* Better line joints in Firefox */
+        stroke-linejoin: round;
+    }
+
+    .node text {
+        text-rendering: geometricPrecision;
     }
 }
+
+/* Enhanced focus states for accessibility */
+.node:focus {
+    outline: none;
+}
+
+.node:focus circle {
+    stroke: #ffffff;
+    stroke-width: 3px;
+    filter: url(#glow);
+}
+
+/* Subtle background pattern for depth */
+.expertise-tree-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
 

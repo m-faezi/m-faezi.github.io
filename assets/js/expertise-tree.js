@@ -124,11 +124,20 @@ class ExpertiseTree {
     constructor(containerId, data) {
         this.container = document.getElementById(containerId);
         this.data = data;
-        this.margin = {top: 20, right: 90, bottom: 30, left: 90};
+        this.margin = {top: 40, right: 120, bottom: 40, left: 120};
         this.width = 928 - this.margin.left - this.margin.right;
-        this.height = 850 - this.margin.top - this.margin.bottom;
+        this.height = 800 - this.margin.top - this.margin.bottom;
         this.i = 0;
-        this.duration = 750;
+        this.duration = 1000; // Slower, more elegant transitions
+
+        // Color scheme for different levels
+        this.colors = {
+            level0: '#10b981',  // Emerald green - root
+            level1: '#3b82f6',  // Blue - main categories
+            level2: '#8b5cf6',  // Purple - subcategories
+            level3: '#ec4899',  // Pink - skills
+            link: 'url(#gradient)' // Gradient links
+        };
 
         if (this.container) {
             this.init();
@@ -136,7 +145,7 @@ class ExpertiseTree {
     }
 
     init() {
-        console.log('Initializing expertise tree...');
+        console.log('Initializing professional expertise tree...');
 
         // Remove any existing SVG
         d3.select(this.container).select("svg").remove();
@@ -144,7 +153,7 @@ class ExpertiseTree {
         // Calculate responsive dimensions
         this.calculateDimensions();
 
-        // Create SVG with proper viewBox for responsiveness and centering
+        // Create SVG with proper viewBox
         this.svg = d3.select(this.container)
             .append("svg")
             .attr("width", "100%")
@@ -152,21 +161,66 @@ class ExpertiseTree {
             .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height + this.margin.top + this.margin.bottom}`)
             .style("display", "block")
             .style("margin", "0 auto")
-            .append("g")
+            .style("filter", "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))"); // Subtle shadow
+
+        // Add gradient definitions
+        this.addGradients();
+
+        // Main group
+        this.svgGroup = this.svg.append("g")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-        // Create tree layout with proper size
+        // Create tree layout
         this.tree = d3.tree().size([this.height, this.width]);
 
-        // Initialize with root - KEEP ALL NODES EXPANDED INITIALLY
+        // Initialize with root
         this.root = d3.hierarchy(this.data, d => d.children);
-
-        // Center the root node vertically
         this.root.x0 = this.height / 2;
         this.root.y0 = 0;
 
         this.update(this.root);
-        console.log('Expertise tree initialized successfully');
+        console.log('Professional expertise tree initialized successfully');
+    }
+
+    addGradients() {
+        const defs = this.svg.append("defs");
+
+        // Gradient for links
+        const gradient = defs.append("linearGradient")
+            .attr("id", "gradient")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "0%");
+
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "#10b981")
+            .attr("stop-opacity", 0.6);
+
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "#3b82f6")
+            .attr("stop-opacity", 0.6);
+
+        // Glow filter for hover effects
+        const filter = defs.append("filter")
+            .attr("id", "glow")
+            .attr("x", "-50%")
+            .attr("y", "-50%")
+            .attr("width", "200%")
+            .attr("height", "200%");
+
+        filter.append("feGaussianBlur")
+            .attr("in", "SourceGraphic")
+            .attr("stdDeviation", "3")
+            .attr("result", "blur");
+
+        filter.append("feMerge")
+            .selectAll("feMergeNode")
+            .data(["blur", "SourceGraphic"])
+            .enter().append("feMergeNode")
+            .attr("in", d => d);
     }
 
     calculateDimensions() {
@@ -174,20 +228,16 @@ class ExpertiseTree {
         const isMobile = window.innerWidth <= 768;
 
         if (isMobile) {
-            // Mobile dimensions
-            this.width = Math.min(container.clientWidth - 80, 500) - this.margin.left - this.margin.right;
-            this.height = 500 - this.margin.top - this.margin.bottom; // Increased height for better vertical spacing
-            this.margin.left = 40;
-            this.margin.right = 40;
+            this.width = Math.min(container.clientWidth - 60, 450) - this.margin.left - this.margin.right;
+            this.height = 450 - this.margin.top - this.margin.bottom;
+            this.margin.left = 30;
+            this.margin.right = 30;
         } else {
-            // Desktop dimensions
-            this.width = Math.min(container.clientWidth - 200, 1000) - this.margin.left - this.margin.right;
-            this.height = 700 - this.margin.top - this.margin.bottom; // Increased height for better vertical spacing
-            this.margin.left = 100;
-            this.margin.right = 100;
+            this.width = Math.min(container.clientWidth - 240, 900) - this.margin.left - this.margin.right;
+            this.height = 600 - this.margin.top - this.margin.bottom;
+            this.margin.left = 120;
+            this.margin.right = 120;
         }
-
-        console.log(`Tree dimensions: ${this.width}x${this.height}, mobile: ${isMobile}`);
     }
 
     collapse(d) {
@@ -198,20 +248,25 @@ class ExpertiseTree {
         }
     }
 
-    update(source) {
-        // Compute the new tree layout.
-        const treeData = this.tree(this.root);
+    getNodeColor(d) {
+        const depth = d.depth;
+        switch(depth) {
+            case 0: return this.colors.level0;
+            case 1: return this.colors.level1;
+            case 2: return this.colors.level2;
+            default: return this.colors.level3;
+        }
+    }
 
-        // Nodes
+    update(source) {
+        const treeData = this.tree(this.root);
         const nodes = treeData.descendants();
         const links = treeData.descendants().slice(1);
 
-        // Improved node positioning with proper vertical distribution
+        // Improved node positioning
         const isMobile = window.innerWidth <= 768;
-        const horizontalSpacing = isMobile ? 120 : 180;
+        const horizontalSpacing = isMobile ? 100 : 160;
         const maxDepth = d3.max(nodes, d => d.depth);
-
-        // Calculate centering offset based on max depth
         const centerOffset = (this.width - (maxDepth * horizontalSpacing)) / 2;
 
         // Group nodes by depth for proper vertical distribution
@@ -221,109 +276,97 @@ class ExpertiseTree {
             nodesByDepth[d.depth].push(d);
         });
 
-        // Position nodes with proper vertical spacing
+        // Position nodes with elegant vertical spacing
         Object.keys(nodesByDepth).forEach(depth => {
             const depthNodes = nodesByDepth[depth];
             const verticalSpacing = this.height / (depthNodes.length + 1);
 
             depthNodes.forEach((node, index) => {
                 node.y = centerOffset + (node.depth * horizontalSpacing);
-                // Distribute nodes vertically with proper spacing
-                node.x = verticalSpacing * (index + 1);
+                // Smooth vertical distribution with easing
+                const progress = (index + 1) / (depthNodes.length + 1);
+                const easedProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
+                node.x = this.height * easedProgress;
             });
         });
 
-        // Ensure root node is properly centered
+        // Ensure root node is centered
         if (nodesByDepth[0] && nodesByDepth[0][0]) {
             nodesByDepth[0][0].x = this.height / 2;
         }
 
-        // ************************
-        // NODE ANIMATION SECTION
-        // ************************
-
-        // Update nodes
-        const node = this.svg.selectAll("g.node")
+        // NODES
+        const node = this.svgGroup.selectAll("g.node")
             .data(nodes, d => d.id || (d.id = ++this.i));
 
-        // Enter any new nodes with animation
+        // Enter new nodes
         const nodeEnter = node.enter().append("g")
             .attr("class", "node")
             .attr("transform", d => `translate(${source.y0},${source.x0})`)
             .style("opacity", 0)
-            .on("click", (event, d) => this.click(event, d));
+            .on("click", (event, d) => this.click(event, d))
+            .on("mouseover", (event, d) => this.mouseOver(event, d))
+            .on("mouseout", (event, d) => this.mouseOut(event, d));
 
-        // Add circles for nodes
+        // Add elegant circles with gradients
         nodeEnter.append("circle")
             .attr("r", 0)
-            .style("fill", d => d._children ? "#10b981" : "#fff")
+            .style("fill", d => this.getNodeColor(d))
+            .style("stroke", "#ffffff")
+            .style("stroke-width", "1.5px")
             .transition()
             .duration(this.duration)
-            .attr("r", 6)
+            .ease(d3.easeCubicOut)
+            .attr("r", d => d.depth === 0 ? 8 : 6)
             .style("opacity", 1);
 
-        // Add labels with fade-in animation - improved for Firefox
+        // Add professional text labels
         nodeEnter.append("text")
-            .attr("dy", ".35em")
-            .attr("x", d => {
-                if (d.children || d._children) return -10;
-                return 10;
-            })
-            .attr("text-anchor", d => {
-                if (d.children || d._children) return "end";
-                return "start";
-            })
+            .attr("dy", d => d.depth === 0 ? "1.8em" : "2.2em")
+            .attr("text-anchor", "middle")
             .text(d => d.data.name)
             .style("fill", "#ffffff")
-            .style("font-size", "11px")
-            .style("font-family", "Inter, sans-serif")
-            .style("font-weight", "600")
-            .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.8)")
+            .style("font-size", d => d.depth === 0 ? "12px" : "10px")
+            .style("font-family", "'Inter', 'SF Pro Display', -apple-system, sans-serif")
+            .style("font-weight", d => d.depth === 0 ? "700" : "500")
             .style("opacity", 0)
-            .style("pointer-events", "none") // Better Firefox text rendering
+            .style("pointer-events", "none")
+            .style("text-shadow", "0 1px 2px rgba(0,0,0,0.8)")
             .transition()
             .delay(this.duration / 2)
             .duration(this.duration / 2)
-            .style("opacity", 1);
+            .style("opacity", 0.9);
 
-        // Fade in the node group
+        // Fade in nodes
         nodeEnter.transition()
             .duration(this.duration)
             .style("opacity", 1);
 
-        // Update nodes transition to new position
+        // Update nodes
         const nodeUpdate = node.merge(nodeEnter).transition()
             .duration(this.duration)
+            .ease(d3.easeCubicOut)
             .attr("transform", d => `translate(${d.y},${d.x})`)
             .style("opacity", 1);
 
         nodeUpdate.select("circle")
-            .attr("r", 6)
-            .style("fill", d => d._children ? "#10b981" : "#fff")
-            .style("stroke", "#10b981")
-            .style("stroke-width", "2px");
+            .attr("r", d => d.depth === 0 ? 8 : 6)
+            .style("fill", d => this.getNodeColor(d));
 
-        // Remove exiting nodes with animation
+        // Remove exiting nodes
         const nodeExit = node.exit().transition()
             .duration(this.duration)
             .attr("transform", d => `translate(${source.y},${source.x})`)
             .style("opacity", 0)
             .remove();
 
-        nodeExit.select("circle")
-            .attr("r", 0);
-        nodeExit.select("text")
-            .style("fill-opacity", 0);
+        nodeExit.select("circle").attr("r", 0);
+        nodeExit.select("text").style("opacity", 0);
 
-        // ************************
-        // LINK ANIMATION SECTION - IMPROVED FOR FIREFOX
-        // ************************
-
-        // Update links
-        const link = this.svg.selectAll("path.link")
+        // LINKS - Elegant curved connections
+        const link = this.svgGroup.selectAll("path.link")
             .data(links, d => d.id);
 
-        // Enter new links with draw animation
         const linkEnter = link.enter().insert("path", "g")
             .attr("class", "link")
             .attr("d", d => {
@@ -331,23 +374,22 @@ class ExpertiseTree {
                 return this.diagonal(o, o);
             })
             .style("fill", "none")
-            .style("stroke", "#6b7280")
-            .style("stroke-width", "1.5px")
+            .style("stroke", "url(#gradient)")
+            .style("stroke-width", "1.2px")
             .style("opacity", 0)
-            .style("shape-rendering", "geometricPrecision") // Better Firefox rendering
+            .style("stroke-linecap", "round")
             .transition()
             .duration(this.duration)
-            .style("opacity", 1)
+            .ease(d3.easeCubicOut)
+            .style("opacity", 0.4)
             .attr("d", d => this.diagonal(d, d.parent));
 
-        // Update links transition with smooth animation
         link.merge(linkEnter).transition()
             .duration(this.duration)
+            .ease(d3.easeCubicOut)
             .attr("d", d => this.diagonal(d, d.parent))
-            .style("opacity", 1)
-            .style("shape-rendering", "geometricPrecision");
+            .style("opacity", 0.4);
 
-        // Remove exiting links with fade out
         link.exit().transition()
             .duration(this.duration)
             .attr("d", d => {
@@ -357,7 +399,7 @@ class ExpertiseTree {
             .style("opacity", 0)
             .remove();
 
-        // Store old positions for transition
+        // Store positions
         nodes.forEach(d => {
             d.x0 = d.x;
             d.y0 = d.y;
@@ -365,22 +407,58 @@ class ExpertiseTree {
     }
 
     diagonal(s, d) {
-        // Improved curves for better Firefox rendering
-        // Use more natural curve control points based on vertical distance
-        const verticalDiff = Math.abs(s.x - d.x);
-        const curveIntensity = Math.min(80, verticalDiff * 0.3); // Dynamic curve based on distance
+        // Elegant curved connections
+        const curvature = 0.5;
+        const x0 = s.x;
+        const y0 = s.y;
+        const x1 = d.x;
+        const y1 = d.y;
+        const yc = (y0 + y1) / 2;
 
-        const path = `M ${s.y} ${s.x}
-                C ${s.y + curveIntensity} ${s.x},
-                  ${d.y - curveIntensity} ${d.x},
-                  ${d.y} ${d.x}`;
-        return path;
+        return `M ${y0} ${x0}
+                C ${y0 + (y1 - y0) * curvature} ${x0},
+                  ${y1 - (y1 - y0) * curvature} ${x1},
+                  ${y1} ${x1}`;
+    }
+
+    mouseOver(event, d) {
+        // Elegant hover effects
+        d3.select(event.currentTarget)
+            .select("circle")
+            .transition()
+            .duration(300)
+            .ease(d3.easeCubicOut)
+            .attr("r", d.depth === 0 ? 12 : 8)
+            .style("filter", "url(#glow)");
+
+        d3.select(event.currentTarget)
+            .select("text")
+            .transition()
+            .duration(300)
+            .style("opacity", 1)
+            .style("font-weight", "600");
+    }
+
+    mouseOut(event, d) {
+        d3.select(event.currentTarget)
+            .select("circle")
+            .transition()
+            .duration(300)
+            .ease(d3.easeCubicOut)
+            .attr("r", d.depth === 0 ? 8 : 6)
+            .style("filter", "none");
+
+        d3.select(event.currentTarget)
+            .select("text")
+            .transition()
+            .duration(300)
+            .style("opacity", 0.9)
+            .style("font-weight", d => d.depth === 0 ? "700" : "500");
     }
 
     click(event, d) {
         event.stopPropagation();
 
-        // Toggle children
         if (d.children) {
             d._children = d.children;
             d.children = null;
@@ -389,23 +467,24 @@ class ExpertiseTree {
             d._children = null;
         }
 
-        // Add click animation to the node
+        // Elegant click animation
         d3.select(event.currentTarget)
             .select("circle")
             .transition()
-            .duration(200)
-            .attr("r", 8)
+            .duration(150)
+            .ease(d3.easeCubicOut)
+            .attr("r", d.depth === 0 ? 14 : 10)
             .transition()
-            .duration(200)
-            .attr("r", 6);
+            .duration(150)
+            .attr("r", d.depth === 0 ? 8 : 6);
 
         this.update(d);
     }
 }
 
-// Enhanced initialization with multiple fallbacks
+// Enhanced initialization
 function initializeExpertiseTree() {
-    console.log('Attempting to initialize expertise tree...');
+    console.log('Initializing professional expertise tree...');
 
     const treeContainer = document.getElementById('expertiseTree');
     if (!treeContainer) {
@@ -429,62 +508,48 @@ function initializeExpertiseTree() {
     }
 
     try {
-        // Clear container
         treeContainer.innerHTML = '';
+        treeContainer.innerHTML = '<div style="color: #d1d5db; text-align: center; padding: 2rem; font-style: italic;">Loading expertise visualization...</div>';
 
-        // Show loading state
-        treeContainer.innerHTML = '<div style="color: #d1d5db; text-align: center; padding: 2rem;">Loading expertise tree...</div>';
-
-        // Small delay to show loading state
         setTimeout(() => {
             treeContainer.innerHTML = '';
-            // Initialize tree and store instance
             const treeInstance = new ExpertiseTree('expertiseTree', window.expertiseData);
             treeContainer.__expertiseTreeInstance = treeInstance;
-            console.log('Expertise tree initialized successfully!');
+            console.log('Professional expertise tree initialized successfully!');
         }, 100);
 
     } catch (error) {
         console.error('Error initializing expertise tree:', error);
-        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem;">Error loading expertise tree. Please check console for details.</p>';
+        treeContainer.innerHTML = '<p style="color: #d1d5db; text-align: center; padding: 2rem; font-style: italic;">Error loading expertise visualization</p>';
     }
 }
 
-// Multiple initialization attempts
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded - starting expertise tree initialization');
-
-    // First attempt after short delay
     setTimeout(initializeExpertiseTree, 100);
-
-    // Second attempt after longer delay
     setTimeout(initializeExpertiseTree, 1000);
 });
 
-// Fallback: manual initialization after 3 seconds
 setTimeout(function() {
     const treeContainer = document.getElementById('expertiseTree');
     if (treeContainer && treeContainer.innerHTML.trim() === '' && window.expertiseData && typeof ExpertiseTree !== 'undefined') {
-        console.log('Fallback initialization after 3 seconds');
         initializeExpertiseTree();
     }
 }, 3000);
 
-// Enhanced resize handler for expertise tree
+// Enhanced resize handler
 let expertiseResizeTimeout;
 window.addEventListener('resize', function() {
     clearTimeout(expertiseResizeTimeout);
     expertiseResizeTimeout = setTimeout(function() {
         const treeContainer = document.getElementById('expertiseTree');
         if (treeContainer && treeContainer.__expertiseTreeInstance) {
-            console.log('Window resized, reinitializing expertise tree...');
-            // Clear and reinitialize
             treeContainer.innerHTML = '';
             setTimeout(() => {
                 treeContainer.__expertiseTreeInstance.init();
             }, 100);
         }
-    }, 300);
+    }, 400);
 });
 
 
