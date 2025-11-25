@@ -81,7 +81,7 @@ class ProjectCarousel {
         this.track = this.container.querySelector('.carousel-track');
         this.dotsContainer = this.container.querySelector('.carousel-dots');
         this.slides = [];
-        this.currentIndex = 0;
+        this.currentIndex = 1; // Start at 1 because we have cloned slides
         this.slideCount = 0;
         this.autoSlideInterval = null;
         this.touchStartX = 0;
@@ -104,7 +104,7 @@ class ProjectCarousel {
     initCarousel() {
         // Create slides based on carousel type
         if (this.carouselType === 'projects') {
-            this.createProjectSlides();
+            this.createInfiniteProjectSlides();
         } else if (this.carouselType === 'publications') {
             this.createPublicationSlides();
         }
@@ -122,7 +122,7 @@ class ProjectCarousel {
         }, 50);
     }
 
-    createProjectSlides() {
+    createInfiniteProjectSlides() {
         if (!window.projectsData || window.projectsData.length === 0) {
             console.error('No projects data available');
             return;
@@ -130,34 +130,47 @@ class ProjectCarousel {
 
         this.track.innerHTML = '';
 
+        // Clone the last slide and put it at the beginning
+        const lastProject = window.projectsData[window.projectsData.length - 1];
+        this.createProjectSlide(lastProject);
+
+        // Create all original slides
         window.projectsData.forEach(project => {
-            const slide = document.createElement('div');
-            slide.className = 'carousel-slide project-slide';
-
-            slide.innerHTML = `
-                <div class="project-thumbnail">
-                    <img src="${project.imageUrl}" alt="${project.title}" class="github-preview" loading="lazy" />
-                    <div class="project-language">${project.language}</div>
-                </div>
-                <div class="project-info">
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                    <div class="project-tech">
-                        ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                    </div>
-                    <div class="project-links">
-                        <a href="${project.githubUrl}" class="project-link" target="_blank" rel="noopener">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            View on GitHub
-                        </a>
-                    </div>
-                </div>
-            `;
-
-            this.track.appendChild(slide);
+            this.createProjectSlide(project);
         });
+
+        // Clone the first slide and put it at the end
+        const firstProject = window.projectsData[0];
+        this.createProjectSlide(firstProject);
+    }
+
+    createProjectSlide(project) {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide project-slide';
+
+        slide.innerHTML = `
+            <div class="project-thumbnail">
+                <img src="${project.imageUrl}" alt="${project.title}" class="github-preview" loading="lazy" />
+                <div class="project-language">${project.language}</div>
+            </div>
+            <div class="project-info">
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+                <div class="project-tech">
+                    ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                </div>
+                <div class="project-links">
+                    <a href="${project.githubUrl}" class="project-link" target="_blank" rel="noopener">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+        `;
+
+        this.track.appendChild(slide);
     }
 
     createPublicationSlides() {
@@ -199,12 +212,15 @@ class ProjectCarousel {
 
     init() {
         console.log('Initializing carousel with', this.slideCount, 'slides');
-        this.createDots();
-        this.addEventListeners();
+
+        // Set initial position to show first real slide (index 1)
         this.updateCarousel();
 
+        this.createDots();
+        this.addEventListeners();
+
         // Only start auto-slide if more than one slide
-        if (this.slideCount > 1) {
+        if (this.slideCount > 3) { // For infinite carousel, we need at least 3 slides
             this.startAutoSlide();
         }
     }
@@ -218,13 +234,28 @@ class ProjectCarousel {
 
         this.dotsContainer.innerHTML = '';
 
-        for (let i = 0; i < this.slideCount; i++) {
+        // Create dots only for real slides (excluding clones)
+        const realSlideCount = this.slideCount - 2;
+        for (let i = 0; i < realSlideCount; i++) {
             const dot = document.createElement('div');
             dot.className = 'carousel-dot';
             if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => this.goToSlide(i));
+            dot.addEventListener('click', () => this.goToRealSlide(i));
             this.dotsContainer.appendChild(dot);
         }
+    }
+
+    goToRealSlide(realIndex) {
+        if (this.isTransitioning) return;
+
+        this.isTransitioning = true;
+        // Real slides start from index 1 to slideCount-2
+        this.currentIndex = realIndex + 1;
+        this.updateCarousel();
+
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 300);
     }
 
     addEventListeners() {
@@ -259,7 +290,6 @@ class ProjectCarousel {
 
         // Listen for transition end to reset position for endless effect
         this.track.addEventListener('transitionend', () => {
-            this.isTransitioning = false;
             this.handleEndlessTransition();
         });
     }
@@ -318,21 +348,11 @@ class ProjectCarousel {
         return slide.offsetWidth + 20; // Include gap
     }
 
-    goToSlide(index) {
-        if (this.isTransitioning) return;
-
-        if (index < 0) index = 0;
-        if (index >= this.slideCount) index = this.slideCount - 1;
-
-        this.currentIndex = index;
-        this.updateCarousel();
-    }
-
     nextSlide() {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.currentIndex = (this.currentIndex + 1) % this.slideCount;
+        this.currentIndex++;
         this.updateCarousel();
     }
 
@@ -340,7 +360,7 @@ class ProjectCarousel {
         if (this.isTransitioning) return;
 
         this.isTransitioning = true;
-        this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
+        this.currentIndex--;
         this.updateCarousel();
     }
 
@@ -352,22 +372,61 @@ class ProjectCarousel {
         const translateX = -this.currentIndex * slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
 
+        // Update dots based on real slide index
         if (this.dotsContainer) {
+            const realIndex = this.getRealIndex();
             this.dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === this.currentIndex);
+                dot.classList.toggle('active', index === realIndex);
             });
         }
     }
 
+    getRealIndex() {
+        const realSlideCount = this.slideCount - 2;
+
+        if (this.currentIndex === 0) {
+            return realSlideCount - 1; // Last real slide
+        } else if (this.currentIndex === this.slideCount - 1) {
+            return 0; // First real slide
+        } else {
+            return this.currentIndex - 1; // Normal real slide
+        }
+    }
+
     handleEndlessTransition() {
-        // This method handles the seamless looping
-        // No need for any special handling since we're using modulo arithmetic
-        // The carousel will naturally loop due to the modulo operation in nextSlide/previousSlide
+        this.isTransitioning = false;
+
+        const realSlideCount = this.slideCount - 2;
+
+        // If we're at the cloned first slide (end), jump to real first slide
+        if (this.currentIndex === this.slideCount - 1) {
+            this.track.style.transition = 'none';
+            this.currentIndex = 1;
+            this.updateCarousel();
+
+            // Force reflow
+            this.track.offsetHeight;
+
+            // Restore transition
+            this.track.style.transition = 'transform 0.3s ease-in-out';
+        }
+        // If we're at the cloned last slide (beginning), jump to real last slide
+        else if (this.currentIndex === 0) {
+            this.track.style.transition = 'none';
+            this.currentIndex = realSlideCount;
+            this.updateCarousel();
+
+            // Force reflow
+            this.track.offsetHeight;
+
+            // Restore transition
+            this.track.style.transition = 'transform 0.3s ease-in-out';
+        }
     }
 
     startAutoSlide() {
         this.stopAutoSlide();
-        if (this.slideCount > 1) {
+        if (this.slideCount > 3) { // For infinite carousel
             this.autoSlideInterval = setInterval(() => {
                 this.nextSlide();
             }, this.autoSlideDelay);
