@@ -310,6 +310,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 
   // Content styling
   h1, h2, h3, h4, h5, h6 {
@@ -425,6 +426,7 @@ body {
   margin: 0 auto;
   padding: 0 2rem;
   width: 100%;
+  box-sizing: border-box;
 
   // Center all child elements
   & > * {
@@ -789,29 +791,29 @@ body {
 
 // Main Content - FIXED for scroll issues
 .scrollable-content {
-  position: fixed;
-  left: 300px;
-  top: 0;
-  width: calc(100vw - 300px);
-  height: 100vh;
-  overflow-y: auto;
-  background: transparent;
-  z-index: 1;
-  margin: 0;
-  padding: 0;
-  right: 0;
+    position: fixed;
+    left: 300px;
+    top: 0;
+    width: calc(100vw - 300px);
+    height: 100vh;
+    overflow-y: auto;
+    background: transparent;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    right: auto;
 
-  // Critical: Ensure scroll area captures events
-  pointer-events: auto;
-  -webkit-overflow-scrolling: touch;
-
-  // Force hardware acceleration for smooth scrolling
-  transform: translateZ(0);
-
-  // Make sure content is visible and interactive
-  & > * {
+    // Critical: Ensure scroll area captures events
     pointer-events: auto;
-  }
+    -webkit-overflow-scrolling: touch;
+
+    // Force hardware acceleration for smooth scrolling
+    transform: translateZ(0);
+
+    // Make sure content is visible and interactive
+    & > * {
+        pointer-events: auto;
+    }
 }
 
 // Fix scrollbar positioning and ensure it's always visible
@@ -872,6 +874,7 @@ body {
     overflow: visible;
     position: relative;
     width: 100%;
+    right: auto !important;
   }
 
   .content-wrapper {
@@ -1057,3 +1060,5 @@ body, .layout-wrapper, .scrollable-content {
     }
   }
 }
+
+
