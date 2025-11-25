@@ -130,7 +130,7 @@ class ExpertiseTree {
         this.i = 0;
         this.duration = 1000;
 
-        // SIMPLIFIED Color scheme: Black, White, Green
+        // Color scheme: Black, White, Green
         this.colors = {
             expertise: '#10b981',  // Green for expertise node only
             default: '#ffffff',    // White for all other nodes
@@ -183,7 +183,7 @@ class ExpertiseTree {
     addGradients() {
         const defs = this.svg.append("defs");
 
-        // Gradient for links - updated to match new color scheme
+        // Gradient for links
         const gradient = defs.append("linearGradient")
             .attr("id", "gradient")
             .attr("x1", "0%")
@@ -193,12 +193,12 @@ class ExpertiseTree {
 
         gradient.append("stop")
             .attr("offset", "0%")
-            .attr("stop-color", "#10b981") // Green
+            .attr("stop-color", "#10b981")
             .attr("stop-opacity", 0.6);
 
         gradient.append("stop")
             .attr("offset", "100%")
-            .attr("stop-color", "#10b981") // Green (same color for consistency)
+            .attr("stop-color", "#10b981")
             .attr("stop-opacity", 0.6);
 
         // Glow filter for hover effects
@@ -232,7 +232,7 @@ class ExpertiseTree {
             this.margin.right = 30;
         } else {
             this.width = Math.min(container.clientWidth - 240, 900) - this.margin.left - this.margin.right;
-            this.height = 600 - this.margin.top - this.margin.bottom;
+            this.height = 700 - this.margin.top - this.margin.bottom; // Increased height for better spacing
             this.margin.left = 120;
             this.margin.right = 120;
         }
@@ -246,7 +246,6 @@ class ExpertiseTree {
         }
     }
 
-    // UPDATED: Simple color scheme - expertise node green, all others white
     getNodeColor(d) {
         // Only the root "My Expertise" node gets green
         if (d.depth === 0) {
@@ -256,7 +255,6 @@ class ExpertiseTree {
         return this.colors.default; // White
     }
 
-    // Text positioning remains the same
     getTextPosition(d) {
         // For root node, always center text below
         if (d.depth === 0) {
@@ -295,17 +293,28 @@ class ExpertiseTree {
             nodesByDepth[d.depth].push(d);
         });
 
-        // Position nodes with elegant vertical spacing
+        // UPDATED: Position nodes with better vertical spacing to prevent overlap
         Object.keys(nodesByDepth).forEach(depth => {
             const depthNodes = nodesByDepth[depth];
-            const verticalSpacing = this.height / (depthNodes.length + 1);
+
+            // Use more vertical space for rightmost nodes to prevent text overlap
+            const verticalRange = depth === '3' ? this.height * 0.9 : this.height * 0.8;
+            const verticalStart = (this.height - verticalRange) / 2;
 
             depthNodes.forEach((node, index) => {
                 node.y = centerOffset + (node.depth * horizontalSpacing);
-                // Smooth vertical distribution with easing
-                const progress = (index + 1) / (depthNodes.length + 1);
-                const easedProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
-                node.x = this.height * easedProgress;
+
+                // Enhanced vertical distribution with more space for rightmost nodes
+                if (depth === '3') {
+                    // For rightmost nodes, use linear spacing with extra margin
+                    const spacing = verticalRange / (depthNodes.length + 1);
+                    node.x = verticalStart + (spacing * (index + 1));
+                } else {
+                    // For other nodes, keep the beautiful variant spacing
+                    const progress = (index + 1) / (depthNodes.length + 1);
+                    const easedProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
+                    node.x = verticalStart + (verticalRange * easedProgress);
+                }
             });
         });
 
@@ -327,11 +336,11 @@ class ExpertiseTree {
             .on("mouseover", (event, d) => this.mouseOver(event, d))
             .on("mouseout", (event, d) => this.mouseOut(event, d));
 
-        // Add elegant circles with UPDATED color scheme
+        // Add elegant circles
         nodeEnter.append("circle")
             .attr("r", 0)
             .style("fill", d => this.getNodeColor(d))
-            .style("stroke", this.colors.stroke) // Black stroke for all nodes
+            .style("stroke", this.colors.stroke)
             .style("stroke-width", "1.5px")
             .transition()
             .duration(this.duration)
@@ -339,16 +348,17 @@ class ExpertiseTree {
             .attr("r", d => d.depth === 0 ? 8 : 6)
             .style("opacity", 1);
 
-        // Add professional text labels
+        // Add professional text labels with adjusted font sizes for right nodes
         nodeEnter.append("text")
             .attr("x", d => this.getTextPosition(d).x)
             .attr("dy", d => this.getTextPosition(d).dy)
             .attr("text-anchor", d => this.getTextPosition(d).textAnchor)
             .text(d => d.data.name)
-            .style("fill", "#ffffff") // White text for all nodes
+            .style("fill", "#ffffff")
             .style("font-size", d => {
                 if (d.depth === 0) return "13px";
                 if (d.depth === 1) return "12px";
+                if (d.depth === 3) return "9px"; // Smaller font for rightmost nodes
                 return "10px";
             })
             .style("font-family", "'Inter', 'SF Pro Display', -apple-system, sans-serif")
@@ -377,12 +387,18 @@ class ExpertiseTree {
             .attr("x", d => this.getTextPosition(d).x)
             .attr("dy", d => this.getTextPosition(d).dy)
             .attr("text-anchor", d => this.getTextPosition(d).textAnchor)
+            .style("font-size", d => {
+                if (d.depth === 0) return "13px";
+                if (d.depth === 1) return "12px";
+                if (d.depth === 3) return "9px"; // Smaller font for rightmost nodes
+                return "10px";
+            })
             .style("opacity", 1);
 
         nodeUpdate.select("circle")
             .attr("r", d => d.depth === 0 ? 8 : 6)
             .style("fill", d => this.getNodeColor(d))
-            .style("stroke", this.colors.stroke); // Ensure stroke remains black
+            .style("stroke", this.colors.stroke);
 
         // Remove exiting nodes
         const nodeExit = node.exit().transition()
@@ -394,7 +410,7 @@ class ExpertiseTree {
         nodeExit.select("circle").attr("r", 0);
         nodeExit.select("text").style("opacity", 0);
 
-        // LINKS - Elegant curved connections (updated to green)
+        // LINKS - Elegant curved connections
         const link = this.svgGroup.selectAll("path.link")
             .data(links, d => d.id);
 
@@ -405,7 +421,7 @@ class ExpertiseTree {
                 return this.diagonal(o, o);
             })
             .style("fill", "none")
-            .style("stroke", "#10b981") // Green links to match expertise node
+            .style("stroke", "#10b981")
             .style("stroke-width", "1.2px")
             .style("opacity", 0)
             .style("stroke-linecap", "round")
@@ -582,4 +598,5 @@ window.addEventListener('resize', function() {
         }
     }, 400);
 });
+
 
