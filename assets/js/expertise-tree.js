@@ -128,15 +128,15 @@ class ExpertiseTree {
         this.width = 928 - this.margin.left - this.margin.right;
         this.height = 800 - this.margin.top - this.margin.bottom;
         this.i = 0;
-        this.duration = 1000;
+        this.duration = 1000; // Slower, more elegant transitions
 
         // Color scheme for different levels
         this.colors = {
-            level0: '#10b981',
-            level1: '#3b82f6',
-            level2: '#8b5cf6',
-            level3: '#ec4899',
-            link: 'url(#gradient)'
+            level0: '#10b981',  // Emerald green - root
+            level1: '#3b82f6',  // Blue - main categories
+            level2: '#8b5cf6',  // Purple - subcategories
+            level3: '#ec4899',  // Pink - skills
+            link: 'url(#gradient)' // Gradient links
         };
 
         if (this.container) {
@@ -161,7 +161,7 @@ class ExpertiseTree {
             .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height + this.margin.top + this.margin.bottom}`)
             .style("display", "block")
             .style("margin", "0 auto")
-            .style("filter", "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))");
+            .style("filter", "drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))"); // Subtle shadow
 
         // Add gradient definitions
         this.addGradients();
@@ -258,32 +258,6 @@ class ExpertiseTree {
         }
     }
 
-    // NEW: Determine text position based on node position
-    getTextPosition(d, nodes) {
-        // For root node, always center text below
-        if (d.depth === 0) {
-            return { x: 0, textAnchor: "middle", dy: "1.8em" };
-        }
-
-        // Get all nodes at the same depth
-        const siblings = nodes.filter(node => node.depth === d.depth);
-        const minY = d3.min(siblings, node => node.y);
-        const maxY = d3.max(siblings, node => node.y);
-
-        // If this is the leftmost node (lowest Y value), put text on right side
-        if (d.y === minY) {
-            return { x: 12, textAnchor: "start", dy: "0.35em" };
-        }
-        // If this is the rightmost node (highest Y value), put text on left side
-        else if (d.y === maxY) {
-            return { x: -12, textAnchor: "end", dy: "0.35em" };
-        }
-        // For middle nodes, put text below
-        else {
-            return { x: 0, textAnchor: "middle", dy: "2.2em" };
-        }
-    }
-
     update(source) {
         const treeData = this.tree(this.root);
         const nodes = treeData.descendants();
@@ -346,11 +320,10 @@ class ExpertiseTree {
             .attr("r", d => d.depth === 0 ? 8 : 6)
             .style("opacity", 1);
 
-        // Add professional text labels with dynamic positioning
+        // Add professional text labels
         nodeEnter.append("text")
-            .attr("x", d => this.getTextPosition(d, nodes).x)
-            .attr("dy", d => this.getTextPosition(d, nodes).dy)
-            .attr("text-anchor", d => this.getTextPosition(d, nodes).textAnchor)
+            .attr("dy", d => d.depth === 0 ? "1.8em" : "2.2em")
+            .attr("text-anchor", "middle")
             .text(d => d.data.name)
             .style("fill", "#ffffff")
             .style("font-size", d => d.depth === 0 ? "12px" : "10px")
@@ -375,12 +348,6 @@ class ExpertiseTree {
             .ease(d3.easeCubicOut)
             .attr("transform", d => `translate(${d.y},${d.x})`)
             .style("opacity", 1);
-
-        // Update text positions for existing nodes
-        nodeUpdate.select("text")
-            .attr("x", d => this.getTextPosition(d, nodes).x)
-            .attr("dy", d => this.getTextPosition(d, nodes).dy)
-            .attr("text-anchor", d => this.getTextPosition(d, nodes).textAnchor);
 
         nodeUpdate.select("circle")
             .attr("r", d => d.depth === 0 ? 8 : 6)
