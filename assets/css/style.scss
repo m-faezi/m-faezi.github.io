@@ -792,14 +792,13 @@ body {
   position: fixed;
   left: 300px;
   top: 0;
-  width: calc(100vw - 300px);
+  width: calc(100vw - 300px - 12px); // Account for scrollbar
   height: 100vh;
   overflow-y: auto;
   background: transparent;
   z-index: 1;
   margin: 0;
   padding: 0;
-  right: 0;
 
   // Critical: Ensure scroll area captures events
   pointer-events: auto;
