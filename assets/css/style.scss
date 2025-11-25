@@ -23,11 +23,12 @@
   --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
 }
 
-// Base styles
+// Base styles - FIXED for scroll issues
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -35,12 +36,19 @@ body {
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--background-color);
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .layout-wrapper {
   display: flex;
   height: 100vh;
   overflow: hidden;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 
 /* Mad Max / X Design - Dirty Black & White Sidebar */
@@ -56,6 +64,8 @@ body {
   z-index: 1000;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .fixed-sidebar::-webkit-scrollbar {
@@ -289,24 +299,28 @@ body {
   margin: 0.25rem 0;
 }
 
-// Main Content - Only this should scroll
+// Main Content - FIXED for scroll issues
 .scrollable-content {
-  flex: 1;
-  margin-left: 300px;
+  position: fixed;
+  left: 300px;
+  top: 0;
+  width: calc(100vw - 300px);
   height: 100vh;
   overflow-y: auto;
   background: var(--background-color);
-  width: calc(100vw - 300px);
-  position: fixed;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
   right: 0;
-  top: 0;
 }
 
 .content-wrapper {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 4rem 2rem 2rem;
+  background: transparent;
+  min-height: 100%;
   width: 100%;
+  max-width: none;
+  padding: 2rem 0 2rem 2rem;
+  margin: 0;
 
   // Content styling
   h1, h2, h3, h4, h5, h6 {
@@ -890,7 +904,7 @@ body {
   }
 }
 
-// Responsive design
+// Responsive design - FIXED for mobile
 @media (max-width: 768px) {
   html, body {
     overflow: auto;
@@ -905,6 +919,7 @@ body {
     flex-direction: column;
     height: auto;
     overflow: visible;
+    width: 100%;
   }
 
   .fixed-sidebar {
@@ -923,7 +938,7 @@ body {
   }
 
   .scrollable-content {
-    margin-left: 0;
+    left: 0 !important;
     height: auto;
     min-height: 50vh;
     overflow: visible;
@@ -1116,7 +1131,7 @@ body, .layout-wrapper, .scrollable-content {
     background: transparent;
 }
 
-// Fix scrollable content width and scrollbar positioning
+// Fix scrollable content width and scrollbar positioning - ENHANCED
 .scrollable-content {
   &::-webkit-scrollbar {
     width: 12px;
@@ -1128,7 +1143,7 @@ body, .layout-wrapper, .scrollable-content {
 
   &::-webkit-scrollbar-thumb {
     background: #333333;
-    border-radius: 6px;
+    border-radius: 6px 0 0 6px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -1136,12 +1151,13 @@ body, .layout-wrapper, .scrollable-content {
   }
 }
 
-// Ensure content uses full width on desktop
+// Ensure content uses full width on desktop - ENHANCED
 @media (min-width: 769px) {
   .content-wrapper {
     width: 100%;
     max-width: none;
-    padding-right: 2rem;
+    padding-right: 0;
+    margin-right: 0;
   }
 
   .carousel-container,
@@ -1152,6 +1168,33 @@ body, .layout-wrapper, .scrollable-content {
     margin-left: 0;
     margin-right: 0;
   }
+}
+
+// FIX: Remove any right padding/margin that creates space
+body, html, .layout-wrapper, .scrollable-content, .content-wrapper {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+// FIX: Ensure scrollable content takes full available width
+.scrollable-content {
+  width: calc(100vw - 300px) !important;
+  right: 0 !important;
+}
+
+// FIX: Prevent any element from blocking scroll events
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.scrollable-content, .scrollable-content * {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 
