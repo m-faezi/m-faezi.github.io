@@ -258,7 +258,7 @@ class ExpertiseTree {
         }
     }
 
-    // UPDATED: Depth 1 text on top, others as before
+    // UPDATED: Right nodes text on right side, others unchanged
     getTextPosition(d) {
         // For root node, always center text below
         if (d.depth === 0) {
@@ -267,7 +267,7 @@ class ExpertiseTree {
 
         // For depth 1 nodes (second column), put text ON TOP
         if (d.depth === 1) {
-            return { x: 0, textAnchor: "middle", dy: "-1.2em" }; // Negative dy for top
+            return { x: 0, textAnchor: "middle", dy: "-1.2em" };
         }
 
         // For depth 2 nodes, put text below (centered)
@@ -275,8 +275,8 @@ class ExpertiseTree {
             return { x: 0, textAnchor: "middle", dy: "2.2em" };
         }
 
-        // For depth 3+ nodes (right side), put text on left
-        return { x: -15, textAnchor: "end", dy: "0.35em" };
+        // For depth 3+ nodes (right side), put text on RIGHT side ⭐ CHANGED
+        return { x: 15, textAnchor: "start", dy: "0.35em" };
     }
 
     update(source) {
@@ -350,7 +350,7 @@ class ExpertiseTree {
             .style("fill", "#ffffff")
             .style("font-size", d => {
                 if (d.depth === 0) return "13px";
-                if (d.depth === 1) return "12px"; // Slightly larger for top text
+                if (d.depth === 1) return "12px";
                 return "10px";
             })
             .style("font-family", "'Inter', 'SF Pro Display', -apple-system, sans-serif")
@@ -583,5 +583,4 @@ window.addEventListener('resize', function() {
         }
     }, 400);
 });
-
 
