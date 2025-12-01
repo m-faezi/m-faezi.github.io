@@ -300,69 +300,68 @@ body {
 }
 
 // ======================
-// GITHUB STATS - COLUMN-ALIGNED GRID
+// GITHUB STATS - 2x2 TABLE LAYOUT
 // ======================
 
 .github-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin: 3rem 0;
+  display: table;
   width: 100%;
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0;
+  margin: 3rem auto;
+  border-collapse: separate;
+  border-spacing: 2rem 2rem;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  align-items: start;
 
   @media (max-width: 900px) {
-    gap: 1.5rem;
+    border-spacing: 1.5rem 1.5rem;
     max-width: 800px;
   }
 
   @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin: 2rem 0;
+    display: block;
+    margin: 2rem auto;
+  }
+}
+
+.github-stats-row {
+  display: table-row;
+
+  @media (max-width: 600px) {
+    display: block;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
 .github-stat-item {
+  display: table-cell;
+  width: 50%;
+  vertical-align: middle;
+  text-align: center;
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
-  display: block;
   height: 180px;
-  width: 100%;
   box-shadow: none !important;
   transition: none !important;
-  min-height: 180px;
-  text-align: center;
 
-  &:hover {
-    transform: none !important;
-
-    img {
-      transform: none !important;
-      filter: none !important;
-    }
+  // First column (left column)
+  &:first-child {
+    text-align: right;
+    padding-right: 1rem;
   }
 
-  &::before,
-  &::after {
-    display: none !important;
-  }
-
-  .stat-image-wrapper {
-    display: inline-block;
-    height: 180px;
-    line-height: 180px;
-    text-align: center;
+  // Second column (right column)
+  &:last-child {
+    text-align: left;
+    padding-left: 1rem;
   }
 
   img {
@@ -382,59 +381,38 @@ body {
     box-shadow: none !important;
   }
 
-  // Column 1: Left column (items 1 & 3) - right aligned
-  &:nth-child(1),
-  &:nth-child(3) {
-    text-align: right;
-    padding-right: 1rem;
+  @media (max-width: 900px) {
+    height: 160px;
 
     img {
-      margin-left: auto;
-      margin-right: 0;
-    }
-  }
-
-  // Column 2: Right column (items 2 & 4) - left aligned
-  &:nth-child(2),
-  &:nth-child(4) {
-    text-align: left;
-    padding-left: 1rem;
-
-    img {
-      margin-left: 0;
-      margin-right: auto;
+      height: 160px;
+      max-height: 160px;
+      min-height: 160px;
     }
   }
 
   @media (max-width: 600px) {
+    display: block;
+    width: 100%;
     height: 150px;
-    min-height: 150px;
     text-align: center !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding: 0 !important;
+    margin-bottom: 1rem;
 
-    .stat-image-wrapper {
-      height: 150px;
-      line-height: 150px;
+    &:last-child {
+      margin-bottom: 0;
     }
 
     img {
       height: 150px;
       max-height: 150px;
       min-height: 150px;
-      margin-left: auto !important;
-      margin-right: auto !important;
+      margin: 0 auto !important;
     }
   }
 
   @media (max-width: 400px) {
     height: 140px;
-    min-height: 140px;
-
-    .stat-image-wrapper {
-      height: 140px;
-      line-height: 140px;
-    }
 
     img {
       height: 140px;
