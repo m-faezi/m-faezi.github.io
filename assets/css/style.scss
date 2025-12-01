@@ -523,6 +523,37 @@ body {
 }
 
 // ======================
+// AWARDS GRID LAYOUT (2 per row)
+// ======================
+
+.awards-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+
+  h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+// ======================
 // SINGLE-ITEM GRID LAYOUT (for posters, featured items)
 // ======================
 
@@ -631,15 +662,18 @@ body {
 
   .projects-grid,
   .publications-grid,
+  .awards-grid,
   .single-item-grid {
     margin: 2rem auto;
   }
 
   h1 + .projects-grid,
   h1 + .publications-grid,
+  h1 + .awards-grid,
   h1 + .single-item-grid,
   h2 + .projects-grid,
   h2 + .publications-grid,
+  h2 + .awards-grid,
   h2 + .single-item-grid {
     margin-top: 1.5rem;
   }
@@ -794,7 +828,7 @@ body {
 }
 
 // ======================
-// AWARDS STYLES
+// AWARD CARD STYLES (Grid optimized)
 // ======================
 
 .award-item {
@@ -802,16 +836,16 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  margin: 1.5rem 0;
   transition: all 0.2s ease;
   width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
   }
 }
 
@@ -840,19 +874,26 @@ body {
 }
 
 .award-content {
+  flex: 1;
+
   strong {
     display: block;
     margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
   }
 
   p {
     margin-bottom: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
   }
 }
 
 .award-links {
   display: flex;
   gap: 0.75rem;
+  margin-top: auto;
   flex-wrap: wrap;
 }
 
@@ -876,8 +917,15 @@ body {
   }
 }
 
+// Remove old award item margins for grid compatibility
+.awards-grid .award-item {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
 // ======================
-// PUBLICATION STYLES (Grid optimized)
+// PUBLICATION CARD STYLES (Grid optimized)
 // ======================
 
 .publication-item {
@@ -999,7 +1047,8 @@ body {
 
 // Remove old margins for grid items
 .project-card,
-.publication-item {
+.publication-item,
+.award-item {
   margin: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -1168,6 +1217,7 @@ body {
   .thesis-section,
   .projects-grid,
   .publications-grid,
+  .awards-grid,
   .single-item-grid {
     max-width: 100%;
     margin-left: 0;
@@ -1323,5 +1373,4 @@ body, .layout-wrapper, .scrollable-content {
     }
   }
 }
-
 

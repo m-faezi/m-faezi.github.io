@@ -7,6 +7,8 @@ title: Honors & Awards
 
 ## 📌 Recent Honors
 
+<div class="awards-grid">
+
 <div class="award-item">
     <div class="award-header">
         <span class="award-date">Spring 2025</span>
@@ -66,6 +68,8 @@ title: Honors & Awards
     </div>
 </div>
 
+</div> <!-- End awards-grid -->
+
 ## 🎯 Selection Criteria
 
 These honors reflect:
@@ -77,3 +81,4 @@ These honors reflect:
 ---
 
 *For verification of any award or honor, please feel free to [contact me](mailto:faezi.h.m@gmail.com).*
+
