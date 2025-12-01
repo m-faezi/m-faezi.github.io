@@ -1,36 +1,50 @@
-
-
-title: "Mohammad Faezi"
+# Minimal modern GitHub Pages theme
+#title: "Mohammad Faezi"
+title: "<span class='first-name'>mohammad</span><span class='last-name'>FAEZI</span>"
 description: "AI Researcher & Software Engineer"
 url: "https://m-faezi.github.io"
-baseurl: ""
+baseurl: "" # leave empty for username.github.io
 
+# Use one of GitHub's built-in modern themes:
 theme: jekyll-theme-minimal
 
+# Enable GitHub Pages plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+# Markdown and syntax highlighting
 markdown: GFM
 highlighter: rouge
 
+# Metadata for SEO/social
 author: "Mohammad Faezi"
 x_username: "farshad_faezi"
 github_username: "m-faezi"
 linkedin_username: "mohammad-faezi"
 google_scholar_user: "V4iE8TIAAAAJ"
 
-avatar: "assets/images/avatar.jpg"
+# Navigation
+header_pages:
+  - index.md
+  - cv.md
+  - projects.md
+  - publications.md
+  - awards.md
 
+avatar: "assets/images/avatar.jpg"  # Adjust path to your avatar image
+
+# Resume download link
 resume_download_url: "https://drive.google.com/file/d/1jOSrCVVE8vcs3jlMj5HOViVA8-HftfVI/view?usp=drive_link"
 
+# Optional: customize colors and footer text
 show_downloads: false
 google_analytics: false
 
+# Exclude build clutter
 exclude:
   - node_modules
   - Gemfile
   - Gemfile.lock
   - vendor
-
 

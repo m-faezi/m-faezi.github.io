@@ -1,458 +1,1328 @@
-
 ---
 ---
 
 @import "{{ site.theme }}";
 
-// Modern Color Theme - Dark with Emerald accents
+// Dark Green & Bright Modern Color Theme
 :root {
   --primary-color: #10b981;      // Emerald green
-  --primary-dark: #059669;
-  --primary-light: #34d399;
-  --sidebar-bg: rgba(0, 0, 0, 0.7); // Semi-transparent sidebar
-  --sidebar-hover: rgba(16, 185, 129, 0.1);
-  --content-bg: transparent;
-  --text-primary: #ffffff;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --card-bg: rgba(17, 24, 39, 0.6);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+  --primary-dark: #059669;       // Dark emerald
+  --primary-light: #34d399;      // Light emerald
+  --secondary-color: #ffffff;    // White
+  --accent-color: #f59e0b;       // Amber orange for accents
+
+  // Black theme colors
+  --background-color: #000000;   // Pure black
+  --surface-color: #0f0f0f;      // Near black
+  --surface-light: #1a1a1a;      // Dark gray
+  --text-primary: #ffffff;       // White
+  --text-secondary: #d1d5db;     // Light gray
+  --text-tertiary: #9ca3af;      // Medium gray
+  --border-color: #374151;       // Border gray
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
 }
 
-// Base Reset
+// Base styles - FIXED for scroll issues
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #000000;
-  color: var(--text-primary);
   overflow-x: hidden;
 }
 
-// Modern Layout Wrapper
-.layout-wrapper {
-  display: flex;
-  min-height: 100vh;
-  position: relative;
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--background-color);
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow: hidden;
 }
 
-// ======================
-// MODERN TRANSPARENT SIDEBAR
-// ======================
-.modern-sidebar {
+.layout-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mad Max / X Design - Dirty Black & White Sidebar */
+.fixed-sidebar {
+  width: 300px;
+  background: #000000 !important;
+  border-right: 3px solid #333333;
   position: fixed;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 70px; // Ultra slim
-  background: var(--sidebar-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 20px 0;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
   z-index: 1000;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fixed-sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Add gritty texture overlay */
+.fixed-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.03) 50%, transparent 51%);
+  background-size: 50px 50px, 30px 30px, 100px 100px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Add scan lines for cyberpunk feel */
+.fixed-sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.02) 2px,
+    rgba(255,255,255,0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fixed-sidebar .sidebar-content {
+  padding: 2rem;
+  height: auto;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.fixed-sidebar .sidebar-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  flex-shrink: 0;
+}
+
+/* Updated Site title - mohammad FAEZI styling */
+.fixed-sidebar .site-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ffffff !important;
+  text-transform: none; /* Remove uppercase */
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0px #333333;
+  /* Remove the border-bottom line */
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+/* Style for first name (mohammad) */
+.fixed-sidebar .site-title .first-name {
+  text-transform: lowercase;
+  font-weight: 400;
+  font-size: 1.2rem;
+  display: block;
+  line-height: 1.2;
+}
+
+/* Style for last name (FAEZI) */
+.fixed-sidebar .site-title .last-name {
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 1.5rem;
+  display: block;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.fixed-sidebar .site-title a {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.fixed-sidebar .site-title a:hover {
+  color: #cccccc !important;
+  text-shadow: 3px 3px 0px #666666;
+}
+
+/* Site description - industrial feel */
+.fixed-sidebar .site-description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cccccc !important;
+  line-height: 1.5;
+  font-weight: 600;
+  font-style: italic;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+// Avatar styling - Simple and clean
+.avatar-container {
+  margin: 1rem 0 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #333333 !important;
+  transition: all 0.3s ease;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  filter: grayscale(30%) contrast(110%);
+}
+
+// Social links - Industrial design
+.sidebar-header .social-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0 0;
+  flex-shrink: 0;
+}
+
+.sidebar-header .social-links .social-link {
+  display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #111111 !important;
+  border: 2px solid #333333 !important;
+  border-radius: 4px !important;
+  color: #ffffff !important;
+  text-decoration: none;
   transition: all 0.3s ease;
 }
 
-// Avatar - Small and elegant
-.sidebar-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-color);
-  object-fit: cover;
-  margin-bottom: 10px;
+.sidebar-header .social-links .social-link:hover {
+  background: #333333 !important;
+  border-color: #666666 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255,255,255,0.1);
 }
 
-// Social Links - Vertical
-.sidebar-social {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 15px 0;
+// Sidebar Navigation - Industrial brutalist
+.sidebar-navigation {
+  flex: 1;
+  margin: 2rem 0;
+  overflow-y: auto;
+  min-height: 0;
 }
 
-.social-icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  color: var(--text-secondary);
+.sidebar-navigation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-navigation li {
+  margin-bottom: 8px;
+}
+
+.sidebar-navigation .nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: #111111 !important;
+  border: 2px solid #333333 !important;
+  border-radius: 4px !important;
+  color: #ffffff !important;
   text-decoration: none;
-  transition: all 0.2s ease;
-  
+  transition: all 0.3s ease;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.sidebar-navigation .nav-link:hover {
+  background: #333333 !important;
+  border-color: #666666 !important;
+  transform: translateX(5px);
+}
+
+.sidebar-navigation .nav-link.active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.sidebar-navigation .nav-link.resume-download {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.sidebar-navigation .nav-link.resume-download:hover {
+  background: #cccccc !important;
+}
+
+// Sidebar footer - industrial minimal
+.sidebar-footer {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 2px solid #333333;
+  color: #666666 !important;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.sidebar-footer p {
+  margin: 0.25rem 0;
+}
+
+// ======================
+// GITHUB STATS - MODERN GRID (2+1 LAYOUT)
+// ======================
+
+.github-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 3rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    gap: 1.5rem;
+    max-width: 800px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+}
+
+.github-stat-item {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block;
+  height: 180px;
+  width: 100%;
+  box-shadow: none !important;
+  transition: none !important;
+  min-height: 180px;
+  text-align: center;
+
   &:hover {
-    background: var(--primary-color);
-    color: white;
-    transform: translateY(-2px);
+    transform: none !important;
+
+    img {
+      transform: none !important;
+      filter: none !important;
+    }
+  }
+
+  &::before,
+  &::after {
+    display: none !important;
+  }
+
+  .stat-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    text-align: center;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: 180px;
+    max-height: 180px;
+    min-height: 180px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 0;
+    background: transparent !important;
+    border: none !important;
+    transition: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+  }
+
+  // First two items: side by side
+  &:nth-child(1),
+  &:nth-child(2) {
+    text-align: center;
+
+    img {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  // Third item: spans full width and centered
+  &:nth-child(3) {
+    grid-column: span 2;
+    text-align: center;
+
+    img {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 600px) {
+      grid-column: span 1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    height: 150px;
+    min-height: 150px;
+    text-align: center !important;
+
+    .stat-image-wrapper {
+      height: 150px;
+    }
+
+    img {
+      height: 150px;
+      max-height: 150px;
+      min-height: 150px;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+
+  @media (max-width: 400px) {
+    height: 140px;
+    min-height: 140px;
+
+    .stat-image-wrapper {
+      height: 140px;
+    }
+
+    img {
+      height: 140px;
+      max-height: 140px;
+      min-height: 140px;
+    }
+  }
+}
+
+.github-stat-item,
+.github-stat-item img {
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#projectsCarousel + .github-stats-grid,
+#expertiseTree + .github-stats-grid,
+.thesis-section + .github-stats-grid {
+  margin-top: 3rem;
+
+  @media (max-width: 600px) {
+    margin-top: 2rem;
   }
 }
 
 // ======================
-// MAIN CONTENT CONTAINER
+// PROJECTS GRID LAYOUT (2 per row)
 // ======================
-.main-container {
-  margin-left: 100px; // Space for sidebar
-  flex: 1;
+
+.projects-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
-  position: relative;
+  width: 100%;
+
+  h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 // ======================
-// MODERN TAB NAVIGATION
+// PUBLICATIONS GRID LAYOUT (2 per row)
 // ======================
-.tab-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  left: 100px;
-  background: var(--sidebar-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border-color);
-  border-radius: 15px;
-  padding: 10px;
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  gap: 5px;
+
+.publications-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+
+  h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
-.tab-nav {
-  display: flex;
-  gap: 5px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 4px;
+.publications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
-.tab-button {
-  padding: 8px 16px;
+// ======================
+// AWARDS GRID LAYOUT (2 per row)
+// ======================
+
+.awards-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+
+  h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+// ======================
+// SINGLE-ITEM GRID LAYOUT (for posters, featured items)
+// ======================
+
+.single-item-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 600px; // Half of 1200px, same as one grid column
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    gap: 1.5rem;
+  }
+}
+
+// ======================
+// CENTERED CONTENT WRAPPER
+// ======================
+
+.content-wrapper {
   background: transparent;
-  border: none;
-  border-radius: 10px;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
+  min-height: 100%;
+  width: 100%;
+  max-width: none;
+  padding: 2rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  strong {
     color: var(--text-primary);
   }
-  
-  &.active {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: var(--shadow-sm);
+
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  code {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.9em;
+    color: var(--primary-color);
+  }
+
+  hr {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .projects-grid,
+  .publications-grid,
+  .awards-grid,
+  .single-item-grid {
+    margin: 2rem auto;
+  }
+
+  h1 + .projects-grid,
+  h1 + .publications-grid,
+  h1 + .awards-grid,
+  h1 + .single-item-grid,
+  h2 + .projects-grid,
+  h2 + .publications-grid,
+  h2 + .awards-grid,
+  h2 + .single-item-grid {
+    margin-top: 1.5rem;
   }
 }
 
 // ======================
-// CONTENT SECTIONS
+// HOME CONTENT
 // ======================
-.content-section {
-  display: none;
-  animation: fadeIn 0.3s ease;
-  
-  &.active {
-    display: block;
-  }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+.home-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  & > * {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1200px;
   }
 }
 
 // ======================
-// TYPOGRAPHY SCALE DOWN
+// CENTERED COMPONENTS
 // ======================
-h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: var(--text-primary);
+
+#projectsCarousel,
+#expertiseTree,
+.thesis-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
-h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1.2rem;
-  color: var(--text-primary);
+.carousel-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  width: 100%;
 }
 
-h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.8rem;
-  color: var(--text-primary);
+.expertise-tree-container {
+  max-width: 1200px;
+  margin: 3rem auto;
+  width: 100%;
 }
 
-p, li {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  margin-bottom: 0.8rem;
+.thesis-section {
+  max-width: 1200px;
+  margin: 2rem auto;
+  width: 100%;
 }
 
 // ======================
-// COMPACT CARDS & GRIDS
+// PROJECT CARDS (Grid optimized)
 // ======================
-.compact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  margin: 1.5rem 0;
-}
 
-.compact-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(10px);
+.project-card {
+  background: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.2rem;
+  border-radius: 8px;
+  padding: 1.5rem;
   transition: all 0.2s ease;
-  
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
   &:hover {
     border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
   }
 }
 
-// GitHub Stats - More compact
-.github-stats-compact {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin: 2rem 0;
-  
-  img {
-    width: 100%;
-    height: 140px;
-    border-radius: 8px;
-  }
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-// ======================
-// CAROUSEL - SMALLER
-// ======================
-.compact-carousel {
-  .carousel-slide {
-    flex: 0 0 calc(33.333% - 10px);
-    min-width: calc(33.333% - 10px);
-  }
-  
-  .project-info {
-    padding: 1rem;
-    
-    h3 {
-      font-size: 1rem;
-    }
-    
-    p {
-      font-size: 0.85rem;
+.project-title {
+  margin: 0;
+  font-size: 1.2rem;
+  flex: 1;
+  min-width: 200px;
+
+  a {
+    color: var(--text-primary);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--primary-color);
+      text-decoration: none;
     }
   }
 }
 
+.project-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.project-description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.tech-tag {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+}
+
 // ======================
-// EXPERTISE TREE - COMPACT
+// AWARD CARD STYLES (Grid optimized)
 // ======================
-.compact-expertise {
-  #expertiseTree {
-    min-height: 400px;
-    
-    .node text {
-      font-size: 8px;
+
+.award-item {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.award-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.award-date {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.award-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.award-content {
+  flex: 1;
+
+  strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+}
+
+.award-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.award-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+  }
+}
+
+// Remove old award item margins for grid compatibility
+.awards-grid .award-item {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+// ======================
+// PUBLICATION CARD STYLES (Grid optimized)
+// ======================
+
+.publication-item {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &.upcoming {
+    border-left: 3px solid var(--accent-color);
+
+    .publication-content {
+      padding: 0;
+      position: relative;
+
+      &::before {
+        content: "📝 In Preparation";
+        position: absolute;
+        top: -1rem;
+        right: -1rem;
+        background: var(--accent-color);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 1;
+      }
     }
   }
 }
 
-// ======================
-// THESIS SECTION - COMPACT
-// ======================
-.compact-thesis {
-  .thesis-info {
-    padding: 1rem;
-    
-    h3 {
-      font-size: 1.1rem;
-    }
+.publication-content {
+  flex: 1;
+  position: relative;
+  padding-right: 1rem;
+
+  strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
   }
+
+  em {
+    color: var(--text-tertiary);
+    font-style: italic;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+}
+
+.publication-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.publication-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.publication-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.8rem;
+  background: rgba(107, 114, 128, 0.2);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  width: fit-content;
+  min-width: auto;
+}
+
+// ======================
+// SINGLE ITEM STYLES (for posters, featured items)
+// ======================
+
+// No special styling needed - uses existing .publication-item styles
+// The .single-item-grid container handles the centering
+
+// Remove old margins for grid items
+.project-card,
+.publication-item,
+.award-item {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+// ======================
+// THESIS SECTION
+// ======================
+
+.thesis-cover {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: var(--surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.thesis-info {
+  flex: 1;
+
+  h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.thesis-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.thesis-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+  }
+}
+
+// ======================
+// SCROLLABLE CONTENT
+// ======================
+
+.scrollable-content {
+  position: fixed;
+  left: 300px;
+  top: 0;
+  width: calc(100vw - 300px);
+  height: 100vh;
+  overflow-y: auto;
+  background: transparent;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  right: auto;
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
+  transform: translateZ(0);
+
+  & > * {
+    pointer-events: auto;
+  }
+}
+
+.scrollable-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 6px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #555555;
 }
 
 // ======================
 // RESPONSIVE DESIGN
 // ======================
-@media (max-width: 1024px) {
-  .modern-sidebar {
-    left: 10px;
-    width: 60px;
-  }
-  
-  .main-container {
-    margin-left: 80px;
-    padding: 30px 15px;
-  }
-  
-  .tab-container {
-    left: 80px;
-    right: 10px;
-  }
-  
-  .compact-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-}
 
 @media (max-width: 768px) {
-  .modern-sidebar {
-    position: fixed;
-    bottom: 0;
-    top: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 400px;
-    height: 60px;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0 20px;
-    border-radius: 15px 15px 0 0;
+  html, body {
+    overflow: auto;
+    height: auto;
   }
-  
-  .sidebar-avatar {
-    display: none;
+
+  body {
+    overflow: auto;
   }
-  
-  .sidebar-social {
-    flex-direction: row;
-    margin: 0;
+
+  .layout-wrapper {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+    width: 100%;
   }
-  
-  .main-container {
-    margin-left: 0;
-    padding-bottom: 80px; // Space for mobile sidebar
-  }
-  
-  .tab-container {
+
+  .fixed-sidebar {
     position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin-bottom: 20px;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 3px solid #333333;
   }
-  
-  .tab-nav {
-    overflow-x: auto;
-    padding: 5px;
-    
-    &::-webkit-scrollbar {
-      display: none;
+
+  .fixed-sidebar .sidebar-content {
+    padding: 1.5rem;
+    height: auto;
+    overflow: visible;
+  }
+
+  .scrollable-content {
+    left: 0 !important;
+    height: auto;
+    min-height: 50vh;
+    overflow: visible;
+    position: relative;
+    width: 100%;
+    right: auto !important;
+  }
+
+  .content-wrapper {
+    padding: 1.5rem;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .home-content {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  #projectsCarousel,
+  #expertiseTree,
+  .github-stats-grid,
+  .thesis-section,
+  .projects-grid,
+  .publications-grid,
+  .awards-grid,
+  .single-item-grid {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .single-item-grid {
+    max-width: 100% !important;
+  }
+
+  .sidebar-navigation {
+    overflow: visible;
+    margin: 1rem 0;
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      li {
+        flex: 1;
+        min-width: 120px;
+      }
     }
   }
-  
-  .compact-grid {
-    grid-template-columns: 1fr;
+
+  .project-header,
+  .award-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .github-stats-compact {
-    grid-template-columns: 1fr;
-    
-    img {
-      height: 120px;
+
+  .thesis-cover {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .thesis-links {
+    justify-content: center;
+  }
+
+  .publication-status {
+    padding: 0.15rem 0.4rem;
+    font-size: 0.65rem;
+    margin-top: 0.5rem;
+  }
+
+  .publication-item.upcoming {
+    .publication-content {
+      padding: 0.75rem;
+
+      &::before {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 1rem;
+      }
     }
   }
 }
 
 @media (max-width: 480px) {
-  h1 {
-    font-size: 1.5rem;
-  }
-  
-  h2 {
-    font-size: 1.2rem;
-  }
-  
-  .compact-card {
+  .fixed-sidebar .sidebar-content {
     padding: 1rem;
   }
-  
-  .github-stats-compact img {
-    height: 100px;
+
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  .sidebar-navigation ul {
+    flex-direction: column;
+  }
+
+  .project-links,
+  .award-links,
+  .publication-links,
+  .thesis-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .project-link,
+  .award-link,
+  .publication-link,
+  .thesis-link {
+    justify-content: center;
+  }
+
+  .publication-status {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.6rem;
+    margin-top: 0.4rem;
   }
 }
 
 // ======================
-// ANIMATIONS & EFFECTS
+// BACKGROUND & LAYERING
 // ======================
-.fade-in {
-  animation: fadeIn 0.5s ease;
-}
 
-.slide-up {
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// ======================
-// SCROLLBAR STYLING
-// ======================
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-light);
-}
-
-// ======================
-// BACKGROUND PRESERVATION
-// ======================
-// Ensure background animation stays visible
 body {
   position: relative;
+  overflow-x: hidden;
 }
 
 canvas {
@@ -463,267 +1333,44 @@ canvas {
   height: 100vh !important;
   z-index: -1 !important;
   pointer-events: none !important;
-  opacity: 0.3;
 }
 
-.layout-wrapper,
-.main-container,
-.modern-sidebar,
-.tab-container {
+.layout-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.fixed-sidebar {
+  position: fixed;
+  z-index: 1000;
+}
+
+.scrollable-content {
+  position: relative;
+  z-index: 1;
+}
+
+body, .layout-wrapper, .scrollable-content {
+  background: transparent !important;
+}
+
+.fixed-sidebar {
+  background: #000000 !important;
+}
+
+.content-wrapper {
   background: transparent;
 }
 
-.modern-sidebar,
-.tab-container {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
+@media (min-width: 769px) {
+  .scrollable-content {
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    pointer-events: auto !important;
 
-// ======================
-// PUBLICATION SPECIFIC STYLES
-// ======================
-.publication-links {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.publication-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem 0.7rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-  }
-}
-
-.upcoming {
-  position: relative;
-  border-left: 3px solid var(--primary-color);
-}
-
-.status-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: var(--primary-color);
-  color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 500;
-}
-
-// ======================
-// AWARD SPECIFIC STYLES
-// ======================
-.award-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.award-date {
-  color: var(--primary-color);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.award-badge {
-  background: rgba(16, 185, 129, 0.2);
-  color: var(--primary-color);
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 500;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.award-links {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.award-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem 0.7rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-  }
-}
-
-// ======================
-// CONTACT SECTION
-// ======================
-.contact-section {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border-color);
-}
-
-.contact-links {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-
-.contact-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--primary-color);
-  }
-}
-
-// ======================
-// HOME PAGE SPECIFIC STYLES
-// ======================
-.intro-section {
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: var(--card-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-
-  p {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 1rem;
-
-    &:last-child {
-      margin-bottom: 0;
+    & > * {
+      pointer-events: auto;
     }
-  }
-
-  strong {
-    color: var(--primary-color);
-    font-weight: 600;
-  }
-}
-
-.stats-highlights {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin: 2rem 0;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.stat-number {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  text-align: center;
-}
-
-// Home page spacing
-.home-content {
-  & > * {
-    margin-bottom: 2.5rem;
-  }
-
-  h2 {
-    margin-top: 0;
-    margin-bottom: 1.2rem;
-    font-size: 1.3rem;
-  }
-}
-
-// Thesis section in home
-.compact-thesis .compact-card {
-  border-left: 3px solid var(--primary-color);
-}
-
-// Responsive stats
-@media (max-width: 768px) {
-  .stats-highlights {
-    gap: 1.5rem;
-    padding: 0.75rem;
-  }
-
-  .stat-number {
-    font-size: 1.5rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .stats-highlights {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .stat-item {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-color);
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  .stat-number {
-    font-size: 1.3rem;
   }
 }
 

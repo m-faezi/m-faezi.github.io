@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
@@ -10,303 +9,519 @@
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/carousel.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/expertise-tree.css' | relative_url }}">
-    
-    <!-- Inter Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- D3.js -->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+    {% include head-custom.html %}
+    <!-- D3.js for interactive visualizations -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
+    <!-- Background styles to ensure proper positioning -->
     <style>
-      /* Initial loading state */
+      /* Base styles for all devices */
       body {
-        opacity: 0;
-        transition: opacity 0.3s ease;
+        position: relative;
+        overflow-x: hidden;
+        background: #000000 !important;
+        height: 100%;
+        margin: 0;
+        padding: 0;
       }
-      
-      body.loaded {
-        opacity: 1;
+
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      canvas {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: -1 !important;
+        pointer-events: none !important;
+        background: transparent !important;
+      }
+
+      .layout-wrapper {
+        position: relative;
+        z-index: 1;
+        background: transparent !important;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .fixed-sidebar {
+        position: fixed;
+        z-index: 1000;
+        background: #000000 !important;
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        left: 0;
+        top: 0;
+        width: 300px;
+      }
+
+      .scrollable-content {
+        position: fixed;
+        z-index: 10;
+        background: transparent !important;
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        width: calc(100vw - 300px);
+        left: 300px;
+        top: 0;
+        margin: 0;
+        padding: 0;
+        pointer-events: auto !important;
+        right: auto !important;
+      }
+
+      /* CENTERED CONTENT WRAPPER */
+      .content-wrapper {
+        background: transparent;
+        min-height: 100%;
+        width: 100%;
+        max-width: none;
+        padding: 2rem;
+        margin: 0 auto;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+      /* Center all content in the main area */
+      .content-wrapper > * {
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+      }
+
+      /* Ensure specific elements are centered */
+      .content-wrapper h1,
+      .content-wrapper h2,
+      .content-wrapper h3,
+      .content-wrapper p,
+      .content-wrapper ul,
+      .content-wrapper ol {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Center carousel and other components */
+      #projectsCarousel,
+      #expertiseTree,
+      .github-stats,
+      .thesis-section {
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      /* Updated Mobile styles */
+      @media (max-width: 768px) {
+        html, body {
+          height: auto !important;
+          overflow: auto !important;
+          position: relative !important;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .layout-wrapper {
+          height: auto !important;
+          overflow: visible !important;
+          display: block !important;
+          min-height: auto !important;
+        }
+
+        .fixed-sidebar {
+          position: relative !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow: visible !important;
+          border-right: none !important;
+          border-bottom: 3px solid #333333 !important;
+        }
+
+        .scrollable-content {
+          height: auto !important;
+          overflow: visible !important;
+          left: 0 !important;
+          width: 100% !important;
+          position: relative !important;
+          right: auto !important;
+        }
+
+        .content-wrapper {
+          overflow: visible !important;
+          min-height: auto !important;
+          width: 100% !important;
+          padding: 1.5rem !important;
+          display: block !important;
+        }
+
+        .content-wrapper > * {
+          max-width: 100% !important;
+        }
+
+        #projectsCarousel,
+        #expertiseTree,
+        .github-stats,
+        .thesis-section {
+          max-width: 100% !important;
+        }
+
+        canvas {
+          position: absolute !important;
+          height: 100% !important;
+        }
+      }
+
+      /* Prevent horizontal scroll */
+      * {
+        box-sizing: border-box;
+      }
+
+      /* Force mobile layout on small screens */
+      .mobile-layout {
+        height: auto !important;
+        overflow: auto !important;
+      }
+
+      /* Scrollbar styling - positioned at very right edge */
+      .scrollable-content::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      .scrollable-content::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+
+      .scrollable-content::-webkit-scrollbar-thumb {
+        background: #333333;
+        border-radius: 6px 0 0 6px;
+      }
+
+      .scrollable-content::-webkit-scrollbar-thumb:hover {
+        background: #555555;
+      }
+
+      /* Remove any right padding/margin that creates space */
+      body, html, .layout-wrapper, .scrollable-content {
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      /* Ensure scrollable content captures events */
+      @media (min-width: 769px) {
+        .scrollable-content {
+          overflow-y: scroll !important;
+          -webkit-overflow-scrolling: touch !important;
+          pointer-events: auto !important;
+        }
+
+        .scrollable-content > * {
+          pointer-events: auto;
+        }
       }
     </style>
   </head>
   <body>
-    <!-- Background canvas -->
-    <script src="{{ "/assets/js/background.js" | relative_url }}"></script>
+    <!-- Background canvas will be inserted here by background.js -->
 
     <div class="layout-wrapper">
-      <!-- Modern Slim Sidebar -->
-      <aside class="modern-sidebar">
-        {% if site.avatar %}
-        <img src="{{ site.avatar | relative_url }}" alt="{{ site.title }}" class="sidebar-avatar" />
-        {% endif %}
-        
-        <!-- Social Links -->
-        <div class="sidebar-social">
-          {% if site.github_username %}
-          <a href="https://github.com/{{ site.github_username }}" class="social-icon" aria-label="GitHub">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-          {% endif %}
-          {% if site.linkedin_username %}
-          <a href="https://linkedin.com/in/{{ site.linkedin_username }}" class="social-icon" aria-label="LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
-          </a>
-          {% endif %}
-          {% if site.google_scholar_user %}
-          <a href="https://scholar.google.com/citations?user={{ site.google_scholar_user }}" class="social-icon" aria-label="Google Scholar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.749-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
-            </svg>
-          </a>
-          {% endif %}
+      <!-- Fixed Sidebar -->
+      <aside class="fixed-sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-header">
+
+            <h1 class="site-title">
+              <a href="{{ "/" | absolute_url }}">
+                <span class="first-name">mohammad</span>
+                <span class="last-name">FAEZI</span>
+              </a>
+            </h1>
+
+            <!-- Avatar -->
+            <div class="avatar-container">
+              {% if site.avatar %}
+                <img src="{{ site.avatar | relative_url }}" alt="{{ site.title }}" class="avatar" />
+              {% else %}
+                {% if site.logo %}
+                  <img src="{{ site.logo | relative_url }}" alt="{{ site.title }}" class="avatar" />
+                {% endif %}
+              {% endif %}
+            </div>
+
+            <p class="site-description">{{ site.description | default: site.github.project_tagline }}</p>
+
+            <!-- Social Links -->
+            <div class="social-links">
+              {% if site.github_username %}
+              <a href="https://github.com/{{ site.github_username }}" class="social-link" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+              {% endif %}
+              {% if site.linkedin_username %}
+              <a href="https://linkedin.com/in/{{ site.linkedin_username }}" class="social-link" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+              {% endif %}
+              {% if site.x_username %}
+              <a href="https://x.com/{{ site.x_username }}" class="social-link" aria-label="X">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+              {% endif %}
+              {% if site.google_scholar_user %}
+              <a href="https://scholar.google.com/citations?user={{ site.google_scholar_user }}" class="social-link" aria-label="Google Scholar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.749-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
+                </svg>
+              </a>
+              {% endif %}
+            </div>
+            </div>
+
+            <nav class="sidebar-navigation">
+              <ul>
+                <li><a href="{{ site.baseurl }}/" class="nav-link {% if page.url == '/' %}active{% endif %}">Home</a></li>
+                <li><a href="{{ site.baseurl }}/cv" class="nav-link {% if page.url contains '/cv' %}active{% endif %}">CV</a></li>
+                <li><a href="{{ site.baseurl }}/projects" class="nav-link {% if page.url contains '/projects' %}active{% endif %}">Projects</a></li>
+                <li><a href="{{ site.baseurl }}/publications" class="nav-link {% if page.url contains '/publications' %}active{% endif %}">Publications</a></li>
+                <li><a href="{{ site.baseurl }}/awards" class="nav-link {% if page.url contains '/awards' %}active{% endif %}">Honors & Awards</a></li>
+              </ul>
+            </nav>
+
+          <!-- Footer in sidebar -->
+          <footer class="sidebar-footer">
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}</p>
+            <p>Hosted on GitHub Pages</p>
+          </footer>
         </div>
       </aside>
 
-      <!-- Main Content -->
-      <div class="main-container">
-        <!-- Modern Tab Navigation -->
-        <div class="tab-container">
-          <nav class="tab-nav">
-            <button class="tab-button active" data-tab="home">Home</button>
-            <button class="tab-button" data-tab="cv">CV</button>
-            <button class="tab-button" data-tab="projects">Projects</button>
-            <button class="tab-button" data-tab="publications">Publications</button>
-            <button class="tab-button" data-tab="awards">Awards</button>
-          </nav>
+      <!-- Scrollable Main Content -->
+      <main class="scrollable-content">
+        <div class="content-wrapper">
+          {{ content }}
         </div>
-
-        <!-- Tab Content Sections -->
-        <div id="home" class="content-section active">
-          <!-- Home content will be loaded dynamically -->
-        </div>
-
-        <div id="cv" class="content-section">
-          <!-- CV content will be loaded dynamically -->
-        </div>
-
-        <div id="projects" class="content-section">
-          <!-- Projects content will be loaded dynamically -->
-        </div>
-
-        <div id="publications" class="content-section">
-          <!-- Publications content will be loaded dynamically -->
-        </div>
-
-        <div id="awards" class="content-section">
-          <!-- Awards content will be loaded dynamically -->
-        </div>
-      </div>
+      </main>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Load JavaScript files in correct order -->
+    <script src="{{ "/assets/js/background.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/expertise-tree.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/carousel.js" | relative_url }}"></script>
-    
-    <!-- Modern Navigation Script -->
+
+    <!-- Enhanced Layout and Scroll Fix -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Mark body as loaded
-        document.body.classList.add('loaded');
-        
-        // Tab Navigation
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const contentSections = document.querySelectorAll('.content-section');
-        
-        tabButtons.forEach(button => {
-          button.addEventListener('click', function() {
-            const tabId = this.getAttribute('data-tab');
-            
-            // Update active tab
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Show selected content
-            contentSections.forEach(section => {
-              section.classList.remove('active');
-              if (section.id === tabId) {
-                section.classList.add('active');
-              }
-            });
-            
-            // Load content if not already loaded
-            loadTabContent(tabId);
-          });
-        });
-        
-        // Function to load content from data files
-        async function loadTabContent(tabId) {
-          const section = document.getElementById(tabId);
-          if (section && !section.dataset.loaded) {
-            try {
-              // Try to load from _data folder
-              const response = await fetch(`/_data/${tabId}.yml`);
-              if (response.ok) {
-                const text = await response.text();
-                // Extract content after "content: |"
-                const contentMatch = text.match(/content:\s*\|\s*\n([\s\S]*)/);
-                if (contentMatch) {
-                  section.innerHTML = contentMatch[1];
-                  section.dataset.loaded = true;
-                  initializeComponents(tabId);
-                }
-              } else {
-                // Fallback to markdown files
-                const pageResponse = await fetch(`/${tabId}.md`);
-                if (pageResponse.ok) {
-                  const pageText = await pageResponse.text();
-                  // Extract content between --- markers (remove front matter)
-                  const content = pageText.split('---').slice(2).join('---').trim();
-                  section.innerHTML = content;
-                  section.dataset.loaded = true;
-                  initializeComponents(tabId);
-                } else {
-                  // Show fallback message
-                  section.innerHTML = `<div class="compact-card"><p>Content for ${tabId} is coming soon...</p></div>`;
-                  section.dataset.loaded = true;
-                }
-              }
-            } catch (error) {
-              console.error(`Error loading ${tabId}:`, error);
-              section.innerHTML = `<div class="compact-card"><p>Unable to load ${tabId} content. Please try again later.</p></div>`;
-            }
-          }
-        }
-        
-        // Initialize components based on tab
-        function initializeComponents(tabId) {
-          // Initialize carousel for home and projects tabs
-          if ((tabId === 'home' || tabId === 'projects') && 
-              document.querySelector('#projectsCarousel') && 
-              window.ProjectCarousel) {
-            setTimeout(() => {
-              new window.ProjectCarousel('projectsCarousel', {
-                autoSlideDelay: 4000,
+      // Enhanced scroll and mobile fix
+      function fixLayoutIssues() {
+          const isMobile = window.innerWidth <= 768;
+          console.log('Layout fix - Mobile:', isMobile, 'Width:', window.innerWidth);
+
+          if (isMobile) {
+              // Mobile layout
+              document.body.classList.add('mobile-layout');
+              document.body.style.overflow = 'auto';
+              document.body.style.height = 'auto';
+              document.documentElement.style.overflow = 'auto';
+              document.documentElement.style.height = 'auto';
+
+              // Fix all layout elements
+              const elements = [
+                  '.layout-wrapper',
+                  '.scrollable-content',
+                  '.content-wrapper',
+                  '.fixed-sidebar'
+              ];
+
+              elements.forEach(selector => {
+                  const element = document.querySelector(selector);
+                  if (element) {
+                      element.style.position = 'relative';
+                      element.style.height = 'auto';
+                      element.style.overflow = 'visible';
+                      element.style.width = '100%';
+                      if (selector === '.scrollable-content') {
+                          element.style.left = '0';
+                      }
+                  }
               });
-            }, 300);
-          }
-          
-          // Initialize expertise tree for home tab
-          if (tabId === 'home' && 
-              document.querySelector('#expertiseTree') && 
-              window.ExpertiseTree && 
-              window.expertiseData) {
-            setTimeout(() => {
-              new window.ExpertiseTree('expertiseTree', window.expertiseData);
-            }, 300);
-          }
-          
-          // Add fade-in animation to loaded content
-          const section = document.getElementById(tabId);
-          if (section) {
-            section.classList.add('fade-in');
-          }
-        }
-        
-        // Load initial tab content
-        loadTabContent('home');
-        
-        // Preload other tabs in background
-        ['cv', 'projects', 'publications', 'awards'].forEach(tab => {
-          setTimeout(() => loadTabContent(tab), 1000);
-        });
-        
-        // Smooth scroll for anchor links
-        document.addEventListener('click', function(e) {
-          if (e.target.matches('a[href^="#"]')) {
-            e.preventDefault();
-            const targetId = e.target.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-              });
-            }
-          }
-        });
-        
-        // Parallax effect for sidebar
-        window.addEventListener('scroll', function() {
-          const sidebar = document.querySelector('.modern-sidebar');
-          if (sidebar && window.innerWidth > 768) {
-            const scrollY = window.scrollY;
-            sidebar.style.transform = `translateY(calc(-50% + ${scrollY * 0.1}px))`;
-          }
-        });
-        
-        // Responsive sidebar behavior
-        function handleResize() {
-          const sidebar = document.querySelector('.modern-sidebar');
-          if (window.innerWidth <= 768) {
-            // Mobile: sidebar at bottom
-            if (sidebar) {
-              sidebar.style.transform = 'translateX(-50%)';
-            }
+
           } else {
-            // Desktop: sidebar vertical with parallax
-            if (sidebar) {
-              const scrollY = window.scrollY;
-              sidebar.style.transform = `translateY(calc(-50% + ${scrollY * 0.1}px))`;
-            }
-          }
-        }
-        
-        window.addEventListener('resize', handleResize);
-        handleResize(); // Initial call
-        
-        // Keyboard navigation for tabs
-        document.addEventListener('keydown', function(e) {
-          if (e.altKey) {
-            const currentTab = document.querySelector('.tab-button.active');
-            if (currentTab) {
-              const tabs = Array.from(tabButtons);
-              const currentIndex = tabs.indexOf(currentTab);
-              
-              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                // Next tab
-                const nextIndex = (currentIndex + 1) % tabs.length;
-                tabs[nextIndex].click();
-                e.preventDefault();
-              } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                // Previous tab
-                const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-                tabs[prevIndex].click();
-                e.preventDefault();
+              // Desktop layout - ensure proper scrolling and centering
+              document.body.classList.remove('mobile-layout');
+
+              const scrollableContent = document.querySelector('.scrollable-content');
+              if (scrollableContent) {
+                  scrollableContent.style.width = 'calc(100vw - 300px)';
+                  scrollableContent.style.left = '300px';
+                  scrollableContent.style.position = 'fixed';
+                  scrollableContent.style.height = '100vh';
+                  scrollableContent.style.overflowY = 'auto';
+                  scrollableContent.style.pointerEvents = 'auto';
+                  scrollableContent.style.right = 'auto';
+
+                  // Force scrollable area to be interactive
+                  scrollableContent.style.zIndex = '10';
+
+                  // Ensure no right margin/padding
+                  scrollableContent.style.marginRight = '0';
+                  scrollableContent.style.paddingRight = '0';
+
+                  // Center the content wrapper and all elements
+                  const contentWrapper = document.querySelector('.content-wrapper');
+                  if (contentWrapper) {
+                      contentWrapper.style.marginLeft = 'auto';
+                      contentWrapper.style.marginRight = 'auto';
+                      contentWrapper.style.display = 'flex';
+                      contentWrapper.style.flexDirection = 'column';
+                      contentWrapper.style.alignItems = 'center';
+                      contentWrapper.style.width = '100%';
+                  }
+
+                  // Center specific elements
+                  const centeredElements = [
+                      '#projectsCarousel',
+                      '#expertiseTree',
+                      '.github-stats',
+                      '.thesis-section',
+                      '.home-content',
+                      'h1', 'h2', 'h3', 'p', 'ul', 'ol'
+                  ];
+
+                  centeredElements.forEach(selector => {
+                      const elements = document.querySelectorAll(selector);
+                      elements.forEach(element => {
+                          element.style.marginLeft = 'auto';
+                          element.style.marginRight = 'auto';
+                          element.style.maxWidth = '1200px';
+                          element.style.width = '100%';
+                      });
+                  });
+
+                  // Add a small timeout to ensure rendering
+                  setTimeout(() => {
+                      scrollableContent.scrollTop = 0;
+                  }, 100);
               }
-            }
           }
-        });
-        
-        // Add loading indicator while content loads
-        const observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-              // Add slide-up animation to new content
-              mutation.addedNodes.forEach(function(node) {
-                if (node.nodeType === 1) { // Element node
-                  node.classList.add('slide-up');
-                }
-              });
-            }
-          });
-        });
-        
-        // Observe all content sections
-        contentSections.forEach(section => {
-          observer.observe(section, { childList: true });
-        });
-        
-        // Log initialization
-        console.log('Modern UI initialized successfully');
+      }
+
+      // Enhanced event listeners
+      document.addEventListener('DOMContentLoaded', function() {
+          console.log('DOM loaded - applying layout fixes');
+
+          // Apply fixes multiple times to ensure they stick
+          fixLayoutIssues();
+          setTimeout(fixLayoutIssues, 100);
+          setTimeout(fixLayoutIssues, 500);
+
+          // Force reflow
+          setTimeout(() => {
+              const scrollableContent = document.querySelector('.scrollable-content');
+              if (scrollableContent) {
+                  scrollableContent.style.display = 'none';
+                  scrollableContent.offsetHeight; // Trigger reflow
+                  scrollableContent.style.display = 'block';
+              }
+          }, 300);
       });
+
+      window.addEventListener('load', fixLayoutIssues);
+      window.addEventListener('resize', fixLayoutIssues);
+      window.addEventListener('orientationchange', function() {
+          setTimeout(fixLayoutIssues, 100);
+      });
+
+      // Force fix on page show (for back/forward navigation)
+      window.addEventListener('pageshow', fixLayoutIssues);
+
+      // Additional scroll event handler to ensure scrolling works
+      document.addEventListener('scroll', function(e) {
+          const scrollableContent = document.querySelector('.scrollable-content');
+          if (scrollableContent && scrollableContent.contains(e.target)) {
+              e.stopPropagation();
+          }
+      }, true);
+
+      // Enhanced resize handler for expertise tree
+      let expertiseResizeTimeout;
+      window.addEventListener('resize', function() {
+          clearTimeout(expertiseResizeTimeout);
+          expertiseResizeTimeout = setTimeout(function() {
+              const treeContainer = document.getElementById('expertiseTree');
+              if (treeContainer && treeContainer.__expertiseTreeInstance) {
+                  console.log('Window resized, reinitializing expertise tree...');
+                  // Clear and reinitialize
+                  treeContainer.innerHTML = '';
+                  setTimeout(() => {
+                      treeContainer.__expertiseTreeInstance.init();
+                  }, 100);
+              }
+          }, 300);
+      });
+
+      // Debug info
+      console.log('Layout fixes applied - checking scrollable content:');
+      setTimeout(() => {
+          const scrollableContent = document.querySelector('.scrollable-content');
+          const contentWrapper = document.querySelector('.content-wrapper');
+          if (scrollableContent && contentWrapper) {
+              console.log('Scrollable content:', {
+                  width: scrollableContent.offsetWidth,
+                  scrollWidth: scrollableContent.scrollWidth,
+                  clientWidth: scrollableContent.clientWidth
+              });
+              console.log('Content wrapper:', {
+                  width: contentWrapper.offsetWidth,
+                  marginLeft: contentWrapper.style.marginLeft,
+                  marginRight: contentWrapper.style.marginRight
+              });
+          }
+      }, 1000);
+
+      // Debug script
+      console.log('Scripts loaded - checking dependencies:');
+      console.log('D3.js:', typeof d3 !== 'undefined' ? 'Loaded' : 'Missing');
+      console.log('ExpertiseData:', window.expertiseData ? 'Loaded' : 'Missing');
+      console.log('ExpertiseTree class:', typeof ExpertiseTree !== 'undefined' ? 'Defined' : 'Undefined');
+
+      // Additional background debug
+      setTimeout(() => {
+          const canvas = document.querySelector('canvas');
+          if (canvas) {
+              console.log('🎯 Background Canvas Status:');
+              console.log('✅ Position: fixed');
+              console.log('✅ Size:', canvas.offsetWidth + 'x' + canvas.offsetHeight);
+              console.log('✅ Z-index: -1');
+              console.log('✅ Covering entire page');
+          } else {
+              console.log('❌ No canvas found for background');
+          }
+      }, 1000);
     </script>
   </body>
 </html>
+
 
 
