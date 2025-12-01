@@ -42,181 +42,6 @@ window.projectsData = [
     }
 ];
 
-// Publications Data
-window.publicationsData = [
-    {
-        title: "Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees",
-        authors: "Faezi, M. H., Peletier, R., & Wilkinson, M. H. F.",
-        journal: "IEEE Access, 12, 72288–72302",
-        year: "2024",
-        description: "Novel approach for multi-spectral astronomical image segmentation using semantically-informed max-tree algorithms for precise source detection and analysis.",
-        links: [
-            { url: "https://ieeexplore.ieee.org/document/10535192", text: "📖 Read Paper" },
-            { url: "https://github.com/m-faezi/MMTO", text: "📊 Code" }
-        ],
-        tags: ["Computer Vision", "Mathematical Morphology", "Astronomical Imaging"]
-    },
-    {
-        title: "DEGAN: Decentralized Generative Adversarial Networks",
-        authors: "Faezi, M. H., Bijani, S., & Dolati, A.",
-        journal: "Neurocomputing, 419, 335–343",
-        year: "2021",
-        description: "Innovative decentralized GAN architecture enabling distributed AI training without central coordination across multiple nodes.",
-        links: [
-            { url: "https://www.sciencedirect.com/science/article/abs/pii/S0925231220312522", text: "📖 Read Paper" },
-            { url: "https://github.com/m-faezi/DEGAN", text: "📊 Code" }
-        ],
-        tags: ["Decentralized AI", "GANs", "Distributed Systems"]
-    }
-];
-
-// Force 3-slide wider carousel layout via JavaScript
-function forceWiderCarouselLayout() {
-    console.log('🔧 Applying 3-slide wider carousel layout...');
-
-    const projectsCarousel = document.getElementById('projectsCarousel');
-    if (!projectsCarousel) {
-        console.log('Projects carousel not found for wider layout');
-        return;
-    }
-
-    // Force 3-slide layout with !important
-    const style = document.createElement('style');
-    style.textContent = `
-        /* Force wider website layout */
-        .layout-wrapper {
-            max-width: 1600px !important;
-            margin: 0 auto !important;
-            width: 100% !important;
-        }
-
-        .scrollable-content {
-            margin-left: 300px !important;
-            width: calc(100% - 300px) !important;
-        }
-
-        .content-wrapper {
-            max-width: 1300px !important;
-            margin: 0 auto !important;
-            padding: 2rem 4rem !important;
-        }
-
-        /* Force 3 wider slides */
-        #projectsCarousel .carousel-slide {
-            flex: 0 0 calc(33.333% - 20px) !important;
-            min-width: calc(33.333% - 20px) !important;
-            max-width: calc(33.333% - 20px) !important;
-            width: calc(33.333% - 20px) !important;
-        }
-
-        #projectsCarousel .carousel-track {
-            gap: 30px !important;
-            padding: 0 20px !important;
-        }
-
-        #projectsCarousel .project-thumbnail {
-            height: 200px !important;
-        }
-
-        #projectsCarousel .project-info {
-            padding: 1.75rem !important;
-        }
-
-        #projectsCarousel .project-info h3 {
-            font-size: 1.3rem !important;
-            margin-bottom: 1rem !important;
-        }
-
-        #projectsCarousel .project-info p {
-            font-size: 0.95rem !important;
-            margin-bottom: 1.25rem !important;
-            line-height: 1.6 !important;
-        }
-
-        #projectsCarousel .tech-tag {
-            padding: 0.3rem 0.8rem !important;
-            font-size: 0.8rem !important;
-        }
-
-        #projectsCarousel .project-link {
-            padding: 0.75rem 1.25rem !important;
-            font-size: 0.9rem !important;
-        }
-
-        /* Medium screens - 2 slides */
-        @media (max-width: 1200px) {
-            .layout-wrapper {
-                max-width: 1200px !important;
-            }
-
-            .content-wrapper {
-                max-width: 1000px !important;
-                padding: 2rem !important;
-            }
-
-            #projectsCarousel .carousel-slide {
-                flex: 0 0 calc(50% - 15px) !important;
-                min-width: calc(50% - 15px) !important;
-                max-width: calc(50% - 15px) !important;
-                width: calc(50% - 15px) !important;
-            }
-
-            #projectsCarousel .project-thumbnail {
-                height: 180px !important;
-            }
-
-            #projectsCarousel .project-info {
-                padding: 1.5rem !important;
-            }
-        }
-
-        /* Tablet - 1 slide */
-        @media (max-width: 900px) {
-            .scrollable-content {
-                margin-left: 0 !important;
-                width: 100% !important;
-            }
-
-            .content-wrapper {
-                padding: 1.5rem !important;
-                max-width: 100% !important;
-            }
-
-            #projectsCarousel .carousel-slide {
-                flex: 0 0 calc(100% - 20px) !important;
-                min-width: calc(100% - 20px) !important;
-                max-width: calc(100% - 20px) !important;
-                width: calc(100% - 20px) !important;
-            }
-        }
-
-        /* Mobile - 1 slide */
-        @media (max-width: 768px) {
-            .content-wrapper {
-                padding: 1rem !important;
-            }
-
-            #projectsCarousel .carousel-slide {
-                flex: 0 0 calc(100% - 10px) !important;
-                min-width: calc(100% - 10px) !important;
-                max-width: calc(100% - 10px) !important;
-                width: calc(100% - 10px) !important;
-            }
-
-            #projectsCarousel .project-thumbnail {
-                height: 180px !important;
-            }
-
-            #projectsCarousel .project-info {
-                padding: 1.5rem !important;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-
-    console.log('✅ 3-slide wider carousel layout applied!');
-}
-
 class ProjectCarousel {
     constructor(containerId, config = {}) {
         this.container = document.getElementById(containerId);
@@ -241,22 +66,17 @@ class ProjectCarousel {
         this.slideWidth = 0;
         this.resizeTimeout = null;
         this.originalSlideCount = 0;
-        this.gap = 30;
+        this.gap = 15;
 
         // Configuration
         this.autoSlideDelay = config.autoSlideDelay || 4000;
-        this.carouselType = config.carouselType || 'projects';
 
         // Initialize
         setTimeout(() => this.initCarousel(), 100);
     }
 
     initCarousel() {
-        if (this.carouselType === 'projects') {
-            this.createInfiniteProjectSlides();
-        } else if (this.carouselType === 'publications') {
-            this.createPublicationSlides();
-        }
+        this.createInfiniteProjectSlides();
 
         setTimeout(() => {
             this.slides = this.container.querySelectorAll('.carousel-slide');
@@ -320,43 +140,6 @@ class ProjectCarousel {
         return slide;
     }
 
-    createPublicationSlides() {
-        if (!window.publicationsData || window.publicationsData.length === 0) {
-            console.error('No publications data available');
-            return;
-        }
-
-        this.track.innerHTML = '';
-
-        window.publicationsData.forEach(publication => {
-            const slide = document.createElement('div');
-            slide.className = 'carousel-slide publication-slide';
-
-            slide.innerHTML = `
-                <div class="publication-header">
-                    <div class="publication-badge">Journal Paper</div>
-                    <div class="publication-year">${publication.year}</div>
-                </div>
-                <div class="publication-content">
-                    <h3>${publication.title}</h3>
-                    <p class="publication-authors">${publication.authors}</p>
-                    <p class="publication-journal"><em>${publication.journal}</em></p>
-                    <p class="publication-description">${publication.description}</p>
-                    <div class="publication-tags">
-                        ${publication.tags.map(tag => `<span class="publication-tag">${tag}</span>`).join('')}
-                    </div>
-                    <div class="publication-links">
-                        ${publication.links.map(link =>
-                            `<a href="${link.url}" class="publication-link" target="_blank" rel="noopener">${link.text}</a>`
-                        ).join('')}
-                    </div>
-                </div>
-            `;
-
-            this.track.appendChild(slide);
-        });
-    }
-
     init() {
         console.log('Initializing carousel with', this.slideCount, 'slides');
 
@@ -375,7 +158,7 @@ class ProjectCarousel {
 
     calculateSlideWidth() {
         if (this.slides.length === 0) {
-            this.slideWidth = 400;
+            this.slideWidth = 350;
             return;
         }
 
@@ -651,16 +434,12 @@ function debugCarouselStyles() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 DOM loaded, initializing carousels...');
 
-    // Apply wider layout FIRST
-    // forceWiderCarouselLayout();
-
     setTimeout(() => {
         const projectsCarousel = document.getElementById('projectsCarousel');
         if (projectsCarousel) {
             console.log('🎯 Found projects carousel, initializing...');
             initializeCarouselWithRetry('projectsCarousel', {
                 autoSlideDelay: 4000,
-                carouselType: 'projects'
             }).then(carousel => {
                 console.log('✅ Projects carousel initialized successfully!');
                 setTimeout(() => {
@@ -674,25 +453,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.error('❌ Projects carousel container not found');
         }
-
-        const publicationsCarousel = document.getElementById('publicationsCarousel');
-        if (publicationsCarousel) {
-            console.log('📚 Found publications carousel, initializing...');
-            initializeCarouselWithRetry('publicationsCarousel', {
-                autoSlideDelay: 6000,
-                carouselType: 'publications'
-            }).then(carousel => {
-                console.log('✅ Publications carousel initialized successfully!');
-            }).catch(error => {
-                console.error('❌ Failed to initialize publications carousel:', error);
-            });
-        } else {
-            console.error('❌ Publications carousel container not found');
-        }
     }, 200);
 });
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { ProjectCarousel, initializeCarouselWithRetry };
-}
 
