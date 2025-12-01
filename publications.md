@@ -53,9 +53,8 @@ title: Publications
 
 ## Conference Posters & Presentations
 
-<!-- This will be full-width, NOT in a grid -->
-<div class="publication-poster-wrapper">
-  <div class="publication-item publication-poster">
+<div class="single-item-grid">
+  <div class="publication-item">
       <div class="publication-content">
           Faezi, M. H., Peletier, R., & Wilkinson, M. H. F. (2022). <strong>Multidimensional Astronomical Image Segmentation.</strong> <em>Poster presented at the International Symposium on Discrete Geometry and Mathematical Morphology (DGMM 2022), Strasbourg, France.</em>
           <div class="publication-links">

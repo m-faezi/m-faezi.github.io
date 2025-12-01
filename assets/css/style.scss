@@ -523,6 +523,26 @@ body {
 }
 
 // ======================
+// SINGLE-ITEM GRID LAYOUT (for posters, featured items)
+// ======================
+
+.single-item-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 600px; // Half of 1200px, same as one grid column
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    gap: 1.5rem;
+  }
+}
+
+// ======================
 // CENTERED CONTENT WRAPPER
 // ======================
 
@@ -610,14 +630,17 @@ body {
   }
 
   .projects-grid,
-  .publications-grid {
+  .publications-grid,
+  .single-item-grid {
     margin: 2rem auto;
   }
 
   h1 + .projects-grid,
   h1 + .publications-grid,
+  h1 + .single-item-grid,
   h2 + .projects-grid,
-  h2 + .publications-grid {
+  h2 + .publications-grid,
+  h2 + .single-item-grid {
     margin-top: 1.5rem;
   }
 }
@@ -968,92 +991,11 @@ body {
 }
 
 // ======================
-// SPECIAL PUBLICATION STYLES (Full-width posters)
+// SINGLE ITEM STYLES (for posters, featured items)
 // ======================
 
-// Full-width poster wrapper
-.publication-poster-wrapper {
-  width: 100%;
-  max-width: 1200px;
-  margin: 3rem auto 3rem auto;
-
-  @media (max-width: 768px) {
-    margin: 2rem auto 2rem auto;
-  }
-}
-
-// Full-width poster/unique publication items
-.publication-poster {
-  background: var(--surface-color) !important;
-  border: 1px solid var(--border-color) !important;
-  border-radius: 8px !important;
-  padding: 2rem !important;
-  transition: all 0.2s ease !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  display: block !important;
-  position: relative !important;
-  height: auto !important;
-
-  &:hover {
-    border-color: var(--primary-color) !important;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1) !important;
-    transform: translateY(-2px) !important;
-  }
-
-  .publication-content {
-    padding: 0 !important;
-    position: relative !important;
-
-    strong {
-      font-size: 1.2rem !important;
-      margin-bottom: 0.75rem !important;
-      display: block !important;
-      color: var(--text-primary) !important;
-      font-weight: 600 !important;
-      line-height: 1.4 !important;
-    }
-
-    em {
-      display: block !important;
-      margin-bottom: 1.5rem !important;
-      font-size: 1rem !important;
-      color: var(--text-tertiary) !important;
-      font-style: italic !important;
-      line-height: 1.5 !important;
-    }
-  }
-
-  .publication-links {
-    margin-top: 1.5rem !important;
-    display: flex !important;
-    gap: 1rem !important;
-    flex-wrap: wrap !important;
-
-    .publication-link {
-      padding: 0.6rem 1.2rem !important;
-      font-size: 0.9rem !important;
-    }
-  }
-}
-
-// Force override any grid layout for poster
-.publications-grid ~ .publication-poster-wrapper {
-  .publication-poster {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    grid-column: unset !important;
-  }
-}
-
-// Remove any inherited grid properties
-.publication-poster {
-  grid-column: unset !important;
-  grid-row: unset !important;
-}
+// No special styling needed - uses existing .publication-item styles
+// The .single-item-grid container handles the centering
 
 // Remove old margins for grid items
 .project-card,
@@ -1225,10 +1167,15 @@ body {
   .github-stats-grid,
   .thesis-section,
   .projects-grid,
-  .publications-grid {
+  .publications-grid,
+  .single-item-grid {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .single-item-grid {
+    max-width: 100% !important;
   }
 
   .sidebar-navigation {
@@ -1279,35 +1226,6 @@ body {
         top: 0;
         right: 0;
         margin-bottom: 1rem;
-      }
-    }
-  }
-
-  .publication-poster-wrapper {
-    margin: 2rem auto !important;
-  }
-
-  .publication-poster {
-    padding: 1.5rem !important;
-
-    .publication-content {
-      strong {
-        font-size: 1.1rem !important;
-      }
-
-      em {
-        font-size: 0.95rem !important;
-        margin-bottom: 1rem !important;
-      }
-    }
-
-    .publication-links {
-      flex-direction: column !important;
-      align-items: stretch !important;
-
-      .publication-link {
-        justify-content: center !important;
-        text-align: center !important;
       }
     }
   }
@@ -1405,4 +1323,5 @@ body, .layout-wrapper, .scrollable-content {
     }
   }
 }
+
 
