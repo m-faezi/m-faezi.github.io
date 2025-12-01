@@ -23,19 +23,36 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     <!-- Interactive tree will be rendered here -->
 </div>
 
+
 ## 📈 GitHub Stats
 
 <div class="github-stats">
+  <!-- GitHub Streak -->
   <div class="github-stat-item">
-    <img height="180" src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=dark&hide_border=true&background=000000&ring=f59e0b&fire=f59e0b&currStreakLabel=f59e0b&dates=9ca3af" />
+    <img height="180" 
+         src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=dark&hide_border=true&background=000000&ring=10b981&fire=10b981&currStreakLabel=10b981"
+         alt="GitHub Streak" loading="lazy" />
   </div>
   
+  <!-- GitHub Stats -->
   <div class="github-stat-item">
-    <img height="180" src="https://github-readme-stats.vercel.app/api?username=m-faezi&show_icons=true&theme=dark&hide_border=true&count_private=true&bg_color=000000&title_color=f59e0b&icon_color=f59e0b&text_color=ffffff&ring_color=f59e0b" />
+    <img height="180" 
+         src="https://github-readme-stats-sigma-five.vercel.app/api?username=m-faezi&show_icons=true&theme=dark&hide_border=true&bg_color=000000&title_color=10b981&icon_color=10b981&text_color=ffffff&include_all_commits=true"
+         alt="GitHub Stats" loading="lazy" />
   </div>
   
+  <!-- Languages by Repo -->
   <div class="github-stat-item">
-    <img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=m-faezi&theme=dark&hide_border=true&layout=compact&langs_count=6&bg_color=000000&title_color=f59e0b&text_color=ffffff" />
+    <img height="180" 
+         src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=m-faezi&theme=github_dark&border_color=10b981"
+         alt="Languages by Repository" loading="lazy" />
+  </div>
+  
+  <!-- Profile Summary -->
+  <div class="github-stat-item">
+    <img height="180" 
+         src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=m-faezi&theme=github_dark&border_color=10b981"
+         alt="GitHub Profile Summary" loading="lazy" />
   </div>
 </div>
 

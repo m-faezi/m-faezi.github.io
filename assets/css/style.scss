@@ -374,44 +374,6 @@ body {
     color: var(--primary-color);
   }
 
-  // GitHub Stats - Minimal Green Theme
-  .github-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
-      align-items: start;
-      width: 100%;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-      // Add these:
-      overflow: visible !important;
-      min-width: 100%;
-  }
-
-  .github-stat-item {
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    border: 1px solid var(--border-color);
-    background: var(--surface-color);
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
-      border-color: var(--primary-color);
-    }
-
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0;
-      border-radius: 0;
-    }
-  }
-
   hr {
     margin: 2rem 0;
     border: none;
@@ -420,6 +382,349 @@ body {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+// ======================
+// GITHUB STATS SECTION - UPDATED
+// ======================
+
+.github-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); // 4 columns on desktop
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+  width: 100%;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  // Tablet: 2 columns
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 900px;
+    gap: 1.25rem;
+  }
+
+  // Mobile: 1 column
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  // Small mobile
+  @media (max-width: 400px) {
+    gap: 0.75rem;
+  }
+}
+
+.github-stat-item {
+  background: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 1.25rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  min-height: 200px;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+  // Top accent line
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+      rgba(16, 185, 129, 0) 0%,
+      rgba(16, 185, 129, 0.8) 50%,
+      rgba(16, 185, 129, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+  }
+
+  // Background glow on hover
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      rgba(16, 185, 129, 0.05) 0%,
+      rgba(16, 185, 129, 0) 70%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  // Hover effects
+  &:hover {
+    transform: translateY(-8px);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow:
+      0 15px 35px rgba(16, 185, 129, 0.15),
+      0 5px 15px rgba(0, 0, 0, 0.5);
+
+    &::before {
+      opacity: 1;
+    }
+
+    &::after {
+      opacity: 1;
+    }
+
+    img {
+      transform: scale(1.03);
+      filter: brightness(1.05) contrast(1.05);
+    }
+  }
+
+  // Active/click state
+  &:active {
+    transform: translateY(-4px);
+    transition: transform 0.1s ease;
+  }
+
+  // Image styling
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+    min-height: 160px;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: brightness(0.92) contrast(1.1);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+
+    // Improve image quality
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      image-rendering: auto;
+    }
+  }
+
+  // Make profile summary card taller
+  &:nth-child(4) {
+    img {
+      max-height: 190px;
+      min-height: 170px;
+    }
+  }
+
+  // Mobile adjustments
+  @media (max-width: 1100px) {
+    padding: 1rem;
+    min-height: 180px;
+
+    img {
+      max-height: 160px;
+      min-height: 140px;
+    }
+
+    &:nth-child(4) {
+      img {
+        max-height: 170px;
+        min-height: 150px;
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 0.75rem;
+    min-height: 160px;
+    border-radius: 12px;
+
+    img {
+      max-height: 150px;
+      min-height: 130px;
+      border-radius: 6px;
+    }
+
+    &:nth-child(4) {
+      img {
+        max-height: 160px;
+        min-height: 140px;
+      }
+    }
+  }
+}
+
+// Fallback styling if images fail to load
+.github-stat-item img:not([src]),
+.github-stat-item img[src=""],
+.github-stat-item img.error {
+  display: none;
+}
+
+.github-stat-item.fallback-stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .stat-fallback {
+    text-align: center;
+    padding: 1.5rem;
+    width: 100%;
+
+    h4 {
+      margin: 0 0 1rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+
+    .stat-label {
+      color: #9ca3af;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    .stat-value {
+      color: #10b981;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: right;
+    }
+  }
+}
+
+// Loading state
+.github-stats.loading {
+  .github-stat-item {
+    background: linear-gradient(90deg, #0a0a0a 25%, #111111 50%, #0a0a0a 75%);
+    background-size: 200% 100%;
+    animation: loading-shimmer 1.5s infinite;
+
+    @keyframes loading-shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  }
+}
+
+// Ensure proper vertical spacing with other sections
+#projectsCarousel + .github-stats,
+#expertiseTree + .github-stats,
+.thesis-section + .github-stats {
+  margin-top: 3rem;
+
+  @media (max-width: 600px) {
+    margin-top: 2rem;
+  }
+}
+
+// Print styles
+@media print {
+  .github-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    break-inside: avoid;
+  }
+
+  .github-stat-item {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #cccccc !important;
+
+    &:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    &::before,
+    &::after {
+      display: none !important;
+    }
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .github-stat-item {
+    border: 2px solid #10b981;
+
+    &:hover {
+      border: 2px solid #34d399;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
+    }
+  }
+}
+
+// Reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  .github-stat-item {
+    transition: none !important;
+
+    &:hover {
+      transform: none !important;
+    }
+
+    img {
+      transition: none !important;
+    }
+  }
+}
+
+// Dark mode variations (already dark, but for consistency)
+@media (prefers-color-scheme: dark) {
+  .github-stat-item {
+    background: #0a0a0a;
+    border-color: #1a1a1a;
+  }
+}
+
+// Light mode fallback (if ever needed)
+@media (prefers-color-scheme: light) {
+  .github-stat-item {
+    background: #ffffff;
+    border-color: #e5e7eb;
+
+    &::before {
+      background: linear-gradient(90deg,
+        rgba(16, 185, 129, 0) 0%,
+        rgba(16, 185, 129, 0.6) 50%,
+        rgba(16, 185, 129, 0) 100%);
+    }
+
+    .stat-fallback {
+      h4 {
+        color: #111827;
+      }
+
+      .stat-label {
+        color: #6b7280;
+      }
+    }
   }
 }
 
@@ -443,7 +748,6 @@ body {
 // CENTERED COMPONENTS
 #projectsCarousel,
 #expertiseTree,
-.github-stats,
 .thesis-section {
   width: 100%;
   max-width: 1200px;
@@ -462,13 +766,6 @@ body {
 .expertise-tree-container {
   max-width: 1200px;
   margin: 3rem auto;
-  width: 100%;
-}
-
-// Center GitHub stats
-.github-stats {
-  max-width: 1200px;
-  margin: 2rem auto;
   width: 100%;
 }
 
@@ -916,11 +1213,6 @@ body {
       }
     }
 
-    .github-stats {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
     .project-header,
     .award-header {
       flex-direction: column;
@@ -1063,3 +1355,4 @@ body {
       }
     }
   }
+
