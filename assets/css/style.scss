@@ -967,6 +967,43 @@ body {
   min-width: auto;
 }
 
+// ======================
+// SPECIAL PUBLICATION STYLES (Full-width posters)
+// ======================
+
+// Full-width poster/unique publication items
+.publication-poster {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 2rem auto !important;
+  grid-column: 1 / -1;
+
+  .publication-content {
+    strong {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    em {
+      display: block;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Ensure poster stays outside of grid context
+.publications-grid + h2 + .publication-poster,
+.publications-grid + .publication-poster {
+  margin-top: 3rem !important;
+  margin-bottom: 3rem !important;
+}
+
+// When poster is inside a grid (shouldn't happen, but just in case)
+.publications-grid .publication-poster {
+  grid-column: 1 / -1;
+}
+
 // Remove old margins for grid items
 .project-card,
 .publication-item {
@@ -1191,6 +1228,20 @@ body {
         top: 0;
         right: 0;
         margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .publication-poster {
+    margin: 1.5rem auto !important;
+
+    .publication-content {
+      strong {
+        font-size: 1rem;
+      }
+
+      em {
+        font-size: 0.9rem;
       }
     }
   }
