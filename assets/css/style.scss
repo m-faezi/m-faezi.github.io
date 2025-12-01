@@ -461,6 +461,37 @@ body {
 }
 
 // ======================
+// PROJECTS GRID LAYOUT (2 per row)
+// ======================
+
+.projects-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+
+  h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+// ======================
 // CENTERED CONTENT WRAPPER
 // ======================
 
@@ -546,6 +577,14 @@ body {
     margin-left: auto;
     margin-right: auto;
   }
+
+  .projects-grid {
+    margin: 2rem auto;
+  }
+
+  h1 + .projects-grid {
+    margin-top: 2rem;
+  }
 }
 
 // ======================
@@ -617,6 +656,7 @@ body {
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
   }
 }
 
@@ -1016,7 +1056,8 @@ body {
   #projectsCarousel,
   #expertiseTree,
   .github-stats-grid,
-  .thesis-section {
+  .thesis-section,
+  .projects-grid {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;

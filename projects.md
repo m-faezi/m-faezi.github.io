@@ -7,6 +7,8 @@ title: Projects
 
 ## 🤖 AI Innovation
 
+<div class="projects-grid">
+
 <div class="project-card">
     <div class="project-header">
         <h3><a href="https://github.com/m-faezi/MMTO" class="project-title">MMTO - Multi-spectral Morphological Tool</a></h3>
@@ -74,7 +76,7 @@ title: Projects
 
 <div class="project-card">
     <div class="project-header">
-        <h3><a href="https://github.com/m-faezi/fireball" class="project-title">Web application</a></h3>
+        <h3><a href="https://github.com/m-faezi/fireball" class="project-title">Web Application</a></h3>
         <div class="project-links">
             <a href="https://github.com/m-faezi/fireball" class="project-link">📁 Code</a>
         </div>
@@ -87,6 +89,8 @@ title: Projects
         <span class="tech-tag">Backend</span>
     </div>
 </div>
+
+</div> <!-- End projects-grid -->
 
 ---
 
