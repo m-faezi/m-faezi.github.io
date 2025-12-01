@@ -546,6 +546,27 @@ body {
     margin-left: auto;
     margin-right: auto;
   }
+
+  // Override for markdown content inside divs
+  .skills-section,
+  .research-focus,
+  .selection-criteria {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    h2 {
+      color: var(--primary-color);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p, ul, ol {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+  }
 }
 
 // ======================
@@ -599,24 +620,39 @@ body {
 }
 
 // ======================
-// PROJECT CARDS
+// PROJECT CARDS - 2 COLUMN GRID
 // ======================
+
+.project-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
 
 .project-card {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  margin: 1.5rem 0;
   transition: all 0.2s ease;
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
   }
 }
 
@@ -632,6 +668,8 @@ body {
 .project-title {
   margin: 0;
   font-size: 1.2rem;
+  flex: 1;
+  min-height: 2.8rem;
 
   a {
     color: var(--text-primary);
@@ -667,6 +705,7 @@ body {
     background: var(--primary-color);
     color: white;
     text-decoration: none;
+    transform: translateY(-1px);
   }
 }
 
@@ -674,12 +713,15 @@ body {
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1rem;
+  flex: 1;
+  min-height: 4rem;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .tech-tag {
@@ -693,24 +735,39 @@ body {
 }
 
 // ======================
-// AWARDS STYLES
+// AWARDS GRID - 2 COLUMN LAYOUT
 // ======================
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
 
 .award-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  margin: 1.5rem 0;
   transition: all 0.2s ease;
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
   }
 }
 
@@ -726,6 +783,7 @@ body {
 .award-date {
   color: var(--primary-color);
   font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .award-badge {
@@ -739,13 +797,22 @@ body {
 }
 
 .award-content {
+  flex: 1;
+
   strong {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    min-height: 2.8rem;
   }
 
   p {
     margin-bottom: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    min-height: 4rem;
   }
 }
 
@@ -776,45 +843,73 @@ body {
 }
 
 // ======================
-// PUBLICATION STYLES
+// PUBLICATIONS GRID - 2 COLUMN LAYOUT
 // ======================
+
+.publications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
 
 .publication-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  margin: 1.5rem 0;
   transition: all 0.2s ease;
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
   }
 
   &.upcoming {
     border-left: 3px solid var(--accent-color);
-    .publication-content {
-      padding: 1rem;
-    }
   }
 }
 
 .publication-content {
+  flex: 1;
+
   strong {
     display: block;
     margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    min-height: 2.8rem;
+  }
+
+  em {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    font-style: italic;
+    min-height: 2.8rem;
   }
 }
 
 .publication-links {
   display: flex;
   gap: 0.75rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   flex-wrap: wrap;
 }
 
@@ -853,7 +948,6 @@ body {
   letter-spacing: 0.5px;
   border: 1px solid rgba(107, 114, 128, 0.3);
   width: fit-content;
-  min-width: auto;
 }
 
 // ======================
@@ -1016,7 +1110,10 @@ body {
   #projectsCarousel,
   #expertiseTree,
   .github-stats-grid,
-  .thesis-section {
+  .thesis-section,
+  .project-cards-grid,
+  .awards-grid,
+  .publications-grid {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
@@ -1036,6 +1133,12 @@ body {
         min-width: 120px;
       }
     }
+  }
+
+  .project-card,
+  .award-item,
+  .publication-item {
+    min-height: auto;
   }
 
   .project-header,
@@ -1061,9 +1164,9 @@ body {
     margin-top: 0.5rem;
   }
 
-  .publication-item.upcoming {
-    .publication-content {
-      padding: 0.75rem;
+  .publication-content {
+    strong, em {
+      min-height: auto;
     }
   }
 }
@@ -1100,6 +1203,12 @@ body {
     padding: 0.1rem 0.3rem;
     font-size: 0.6rem;
     margin-top: 0.4rem;
+  }
+
+  .project-description,
+  .award-content p,
+  .publication-content em {
+    min-height: auto;
   }
 }
 
@@ -1160,4 +1269,5 @@ body, .layout-wrapper, .scrollable-content {
     }
   }
 }
+
 
