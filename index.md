@@ -26,29 +26,27 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
 
 ## 📈 GitHub Stats
 
-<div class="github-stats">
-  <!-- GitHub Streak -->
+<div class="github-stats-grid">
+  <!-- Row 1 -->
   <div class="github-stat-item">
     <img height="180" 
          src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=dark&hide_border=true&background=000000&ring=10b981&fire=10b981&currStreakLabel=10b981"
          alt="GitHub Streak" loading="lazy" />
   </div>
   
-  <!-- GitHub Stats -->
   <div class="github-stat-item">
     <img height="180" 
          src="https://github-readme-stats-sigma-five.vercel.app/api?username=m-faezi&show_icons=true&theme=dark&hide_border=true&bg_color=000000&title_color=10b981&icon_color=10b981&text_color=ffffff&include_all_commits=true"
          alt="GitHub Stats" loading="lazy" />
   </div>
   
-  <!-- Languages by Repo -->
+  <!-- Row 2 -->
   <div class="github-stat-item">
     <img height="180" 
          src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=m-faezi&theme=github_dark&border_color=10b981"
          alt="Languages by Repository" loading="lazy" />
   </div>
   
-  <!-- Profile Summary -->
   <div class="github-stat-item">
     <img height="180" 
          src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=m-faezi&theme=github_dark&border_color=10b981"

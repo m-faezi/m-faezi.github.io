@@ -299,7 +299,172 @@ body {
   margin: 0.25rem 0;
 }
 
+// ======================
+// GITHUB STATS - TRANSPARENT 2-ROW LAYOUT
+// ======================
+
+.github-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 3rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  @media (max-width: 900px) {
+    gap: 1.5rem;
+    max-width: 800px;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+}
+
+.github-stat-item {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  position: relative;
+  height: 180px;
+  width: 100%;
+  box-shadow: none !important;
+  transition: none !important;
+  min-height: 180px;
+
+  &:hover {
+    transform: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    &::before,
+    &::after {
+      display: none !important;
+    }
+
+    img {
+      transform: none !important;
+      filter: none !important;
+    }
+  }
+
+  &::before,
+  &::after {
+    display: none !important;
+  }
+
+  img {
+    width: 100%;
+    height: 180px;
+    max-height: 180px;
+    min-height: 180px;
+    object-fit: contain;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    background: transparent !important;
+    border: none !important;
+    transition: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    display: block;
+    object-position: center;
+  }
+
+  &:nth-child(1),
+  &:nth-child(2),
+  &:nth-child(3),
+  &:nth-child(4) {
+    img {
+      height: 180px;
+      max-height: 180px;
+      min-height: 180px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    height: 160px;
+    min-height: 160px;
+
+    img {
+      height: 160px;
+      max-height: 160px;
+      min-height: 160px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    height: 150px;
+    min-height: 150px;
+
+    img {
+      height: 150px;
+      max-height: 150px;
+      min-height: 150px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    height: 140px;
+    min-height: 140px;
+
+    img {
+      height: 140px;
+      max-height: 140px;
+      min-height: 140px;
+    }
+  }
+}
+
+.github-stats-grid > * {
+  background: transparent !important;
+}
+
+.github-stat-item * {
+  transition: none !important;
+}
+
+.github-stat-item,
+.github-stat-item img {
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.github-stat-item.fallback-stat,
+.stat-fallback {
+  display: none !important;
+}
+
+#projectsCarousel + .github-stats-grid,
+#expertiseTree + .github-stats-grid,
+.thesis-section + .github-stats-grid {
+  margin-top: 3rem;
+
+  @media (max-width: 600px) {
+    margin-top: 2rem;
+  }
+}
+
+// ======================
 // CENTERED CONTENT WRAPPER
+// ======================
+
 .content-wrapper {
   background: transparent;
   min-height: 100%;
@@ -312,7 +477,6 @@ body {
   align-items: center;
   box-sizing: border-box;
 
-  // Content styling
   h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
     margin-top: 2rem;
@@ -386,349 +550,9 @@ body {
 }
 
 // ======================
-// GITHUB STATS SECTION - UPDATED
+// HOME CONTENT
 // ======================
 
-.github-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); // 4 columns on desktop
-  gap: 1.5rem;
-  margin: 2.5rem 0;
-  width: 100%;
-  max-width: 1300px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 1rem;
-  box-sizing: border-box;
-
-  // Tablet: 2 columns
-  @media (max-width: 1100px) {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 900px;
-    gap: 1.25rem;
-  }
-
-  // Mobile: 1 column
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0 0.5rem;
-    margin: 1.5rem 0;
-  }
-
-  // Small mobile
-  @media (max-width: 400px) {
-    gap: 0.75rem;
-  }
-}
-
-.github-stat-item {
-  background: #0a0a0a;
-  border: 1px solid #1a1a1a;
-  border-radius: 16px;
-  padding: 1.25rem;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  min-height: 200px;
-  height: 100%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-
-  // Top accent line
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg,
-      rgba(16, 185, 129, 0) 0%,
-      rgba(16, 185, 129, 0.8) 50%,
-      rgba(16, 185, 129, 0) 100%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 2;
-  }
-
-  // Background glow on hover
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      circle at center,
-      rgba(16, 185, 129, 0.05) 0%,
-      rgba(16, 185, 129, 0) 70%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
-
-  // Hover effects
-  &:hover {
-    transform: translateY(-8px);
-    border-color: rgba(16, 185, 129, 0.5);
-    box-shadow:
-      0 15px 35px rgba(16, 185, 129, 0.15),
-      0 5px 15px rgba(0, 0, 0, 0.5);
-
-    &::before {
-      opacity: 1;
-    }
-
-    &::after {
-      opacity: 1;
-    }
-
-    img {
-      transform: scale(1.03);
-      filter: brightness(1.05) contrast(1.05);
-    }
-  }
-
-  // Active/click state
-  &:active {
-    transform: translateY(-4px);
-    transition: transform 0.1s ease;
-  }
-
-  // Image styling
-  img {
-    width: 100%;
-    height: auto;
-    max-height: 180px;
-    min-height: 160px;
-    object-fit: contain;
-    border-radius: 8px;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    filter: brightness(0.92) contrast(1.1);
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-
-    // Improve image quality
-    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-      image-rendering: auto;
-    }
-  }
-
-  // Make profile summary card taller
-  &:nth-child(4) {
-    img {
-      max-height: 190px;
-      min-height: 170px;
-    }
-  }
-
-  // Mobile adjustments
-  @media (max-width: 1100px) {
-    padding: 1rem;
-    min-height: 180px;
-
-    img {
-      max-height: 160px;
-      min-height: 140px;
-    }
-
-    &:nth-child(4) {
-      img {
-        max-height: 170px;
-        min-height: 150px;
-      }
-    }
-  }
-
-  @media (max-width: 600px) {
-    padding: 0.75rem;
-    min-height: 160px;
-    border-radius: 12px;
-
-    img {
-      max-height: 150px;
-      min-height: 130px;
-      border-radius: 6px;
-    }
-
-    &:nth-child(4) {
-      img {
-        max-height: 160px;
-        min-height: 140px;
-      }
-    }
-  }
-}
-
-// Fallback styling if images fail to load
-.github-stat-item img:not([src]),
-.github-stat-item img[src=""],
-.github-stat-item img.error {
-  display: none;
-}
-
-.github-stat-item.fallback-stat {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .stat-fallback {
-    text-align: center;
-    padding: 1.5rem;
-    width: 100%;
-
-    h4 {
-      margin: 0 0 1rem 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-      &:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-    }
-
-    .stat-label {
-      color: #9ca3af;
-      font-size: 0.85rem;
-      text-align: left;
-    }
-
-    .stat-value {
-      color: #10b981;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-align: right;
-    }
-  }
-}
-
-// Loading state
-.github-stats.loading {
-  .github-stat-item {
-    background: linear-gradient(90deg, #0a0a0a 25%, #111111 50%, #0a0a0a 75%);
-    background-size: 200% 100%;
-    animation: loading-shimmer 1.5s infinite;
-
-    @keyframes loading-shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-  }
-}
-
-// Ensure proper vertical spacing with other sections
-#projectsCarousel + .github-stats,
-#expertiseTree + .github-stats,
-.thesis-section + .github-stats {
-  margin-top: 3rem;
-
-  @media (max-width: 600px) {
-    margin-top: 2rem;
-  }
-}
-
-// Print styles
-@media print {
-  .github-stats {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.75rem !important;
-    break-inside: avoid;
-  }
-
-  .github-stat-item {
-    break-inside: avoid;
-    box-shadow: none !important;
-    border: 1px solid #cccccc !important;
-
-    &:hover {
-      transform: none !important;
-      box-shadow: none !important;
-    }
-
-    &::before,
-    &::after {
-      display: none !important;
-    }
-  }
-}
-
-// High contrast mode support
-@media (prefers-contrast: high) {
-  .github-stat-item {
-    border: 2px solid #10b981;
-
-    &:hover {
-      border: 2px solid #34d399;
-      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
-    }
-  }
-}
-
-// Reduced motion preference
-@media (prefers-reduced-motion: reduce) {
-  .github-stat-item {
-    transition: none !important;
-
-    &:hover {
-      transform: none !important;
-    }
-
-    img {
-      transition: none !important;
-    }
-  }
-}
-
-// Dark mode variations (already dark, but for consistency)
-@media (prefers-color-scheme: dark) {
-  .github-stat-item {
-    background: #0a0a0a;
-    border-color: #1a1a1a;
-  }
-}
-
-// Light mode fallback (if ever needed)
-@media (prefers-color-scheme: light) {
-  .github-stat-item {
-    background: #ffffff;
-    border-color: #e5e7eb;
-
-    &::before {
-      background: linear-gradient(90deg,
-        rgba(16, 185, 129, 0) 0%,
-        rgba(16, 185, 129, 0.6) 50%,
-        rgba(16, 185, 129, 0) 100%);
-    }
-
-    .stat-fallback {
-      h4 {
-        color: #111827;
-      }
-
-      .stat-label {
-        color: #6b7280;
-      }
-    }
-  }
-}
-
-// CENTERED HOME CONTENT
 .home-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -736,7 +560,6 @@ body {
   width: 100%;
   box-sizing: border-box;
 
-  // Center all child elements
   & > * {
     margin-left: auto;
     margin-right: auto;
@@ -745,7 +568,10 @@ body {
   }
 }
 
+// ======================
 // CENTERED COMPONENTS
+// ======================
+
 #projectsCarousel,
 #expertiseTree,
 .thesis-section {
@@ -755,28 +581,28 @@ body {
   margin-right: auto !important;
 }
 
-// Center carousel specifically
 .carousel-container {
   max-width: 1200px;
   margin: 2rem auto;
   width: 100%;
 }
 
-// Center expertise tree
 .expertise-tree-container {
   max-width: 1200px;
   margin: 3rem auto;
   width: 100%;
 }
 
-// Center thesis section
 .thesis-section {
   max-width: 1200px;
   margin: 2rem auto;
   width: 100%;
 }
 
-// Project Cards - Clean and professional
+// ======================
+// PROJECT CARDS
+// ======================
+
 .project-card {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
@@ -867,7 +693,10 @@ body {
   border: 1px solid var(--border-color);
 }
 
-// Awards Styles
+// ======================
+// AWARDS STYLES
+// ======================
+
 .award-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
@@ -947,7 +776,10 @@ body {
   }
 }
 
-// Publication Styles - UPDATED
+// ======================
+// PUBLICATION STYLES
+// ======================
+
 .publication-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
@@ -968,7 +800,7 @@ body {
   &.upcoming {
     border-left: 3px solid var(--accent-color);
     .publication-content {
-      padding: 1rem; // Reduced padding for upcoming items
+      padding: 1rem;
     }
   }
 }
@@ -994,365 +826,339 @@ body {
   padding: 0.4rem 0.8rem;
   background: var(--surface-light);
   color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-color);
+    color: white;
     text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
+  }
+}
 
-    &:hover {
-      background: var(--primary-color);
-      color: white;
-      text-decoration: none;
-    }
+.publication-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.8rem;
+  background: rgba(107, 114, 128, 0.2);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  width: fit-content;
+  min-width: auto;
+}
+
+// ======================
+// THESIS SECTION
+// ======================
+
+.thesis-cover {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: var(--surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.thesis-info {
+  flex: 1;
+
+  h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
   }
 
-  // UPDATED: Publication Status - Same width as other buttons
-  .publication-status {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3rem 0.8rem; // Same padding as publication-link
-    background: rgba(107, 114, 128, 0.2);
+  p {
     color: var(--text-secondary);
-    border-radius: 6px; // Same radius as publication-link
-    font-size: 0.8rem; // Same font size as publication-link
-    font-weight: 500;
-    margin-top: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border: 1px solid rgba(107, 114, 128, 0.3);
-    width: fit-content; // Only take needed width
-    min-width: auto; // Remove any minimum width
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
   }
+}
 
-  // Thesis Section Styles
-  .thesis-section {
-    margin: 2rem 0;
-    width: 100%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.thesis-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
 
-  .thesis-cover {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-    padding: 1.5rem;
-    background: var(--surface-color);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-  }
+.thesis-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: var(--surface-light);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
 
-  .thesis-info {
-    flex: 1;
-
-    h3 {
-      color: var(--primary-color);
-      margin-top: 0;
-      margin-bottom: 0.5rem;
-      font-size: 1.3rem;
-    }
-
-    p {
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  .thesis-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .thesis-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.6rem 1rem;
-    background: var(--surface-light);
-    color: var(--text-secondary);
+  &:hover {
+    background: var(--primary-color);
+    color: white;
     text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
+  }
+}
 
-    &:hover {
-      background: var(--primary-color);
-      color: white;
-      text-decoration: none;
-    }
+// ======================
+// SCROLLABLE CONTENT
+// ======================
+
+.scrollable-content {
+  position: fixed;
+  left: 300px;
+  top: 0;
+  width: calc(100vw - 300px);
+  height: 100vh;
+  overflow-y: auto;
+  background: transparent;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  right: auto;
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
+  transform: translateZ(0);
+
+  & > * {
+    pointer-events: auto;
+  }
+}
+
+.scrollable-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 6px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+// ======================
+// RESPONSIVE DESIGN
+// ======================
+
+@media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+    height: auto;
   }
 
-  // Main Content - FIXED for scroll issues
-  .scrollable-content {
-      position: fixed;
-      left: 300px;
-      top: 0;
-      width: calc(100vw - 300px);
-      height: 100vh;
-      overflow-y: auto;
-      background: transparent;
-      z-index: 1;
-      margin: 0;
-      padding: 0;
-      right: auto;
-
-      // Critical: Ensure scroll area captures events
-      pointer-events: auto;
-      -webkit-overflow-scrolling: touch;
-
-      // Force hardware acceleration for smooth scrolling
-      transform: translateZ(0);
-
-      // Make sure content is visible and interactive
-      & > * {
-          pointer-events: auto;
-      }
-  }
-
-  // Fix scrollbar positioning and ensure it's always visible
-  .scrollable-content::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  .scrollable-content::-webkit-scrollbar-track {
-    background: #1a1a1a;
-  }
-
-  .scrollable-content::-webkit-scrollbar-thumb {
-    background: #333333;
-    border-radius: 6px;
-  }
-
-  .scrollable-content::-webkit-scrollbar-thumb:hover {
-    background: #555555;
-  }
-
-  // Responsive design - FIXED for mobile
-  @media (max-width: 768px) {
-    html, body {
-      overflow: auto;
-      height: auto;
-    }
-
-    body {
-      overflow: auto;
-    }
-
-    .layout-wrapper {
-      flex-direction: column;
-      height: auto;
-      overflow: visible;
-      width: 100%;
-    }
-
-    .fixed-sidebar {
-      position: relative;
-      width: 100%;
-      height: auto;
-      overflow: visible;
-      border-right: none;
-      border-bottom: 3px solid #333333;
-    }
-
-    .fixed-sidebar .sidebar-content {
-      padding: 1.5rem;
-      height: auto;
-      overflow: visible;
-    }
-
-    .scrollable-content {
-      left: 0 !important;
-      height: auto;
-      min-height: 50vh;
-      overflow: visible;
-      position: relative;
-      width: 100%;
-      right: auto !important;
-    }
-
-    .content-wrapper {
-      padding: 1.5rem;
-      overflow: visible;
-      width: 100%;
-    }
-
-    .home-content {
-      padding: 0 1rem;
-      max-width: 100%;
-    }
-
-    #projectsCarousel,
-    #expertiseTree,
-    .github-stats,
-    .thesis-section {
-      max-width: 100%;
-      margin-left: 0;
-      margin-right: 0;
-    }
-
-    .sidebar-navigation {
-      overflow: visible;
-      margin: 1rem 0;
-
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-
-        li {
-          flex: 1;
-          min-width: 120px;
-        }
-      }
-    }
-
-    .project-header,
-    .award-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .thesis-cover {
-      flex-direction: column;
-      text-align: center;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .thesis-links {
-      justify-content: center;
-    }
-
-    // UPDATED: Mobile responsiveness for publication status
-    .publication-status {
-      padding: 0.15rem 0.4rem;
-      font-size: 0.65rem;
-      margin-top: 0.5rem;
-    }
-
-    .publication-item.upcoming {
-      .publication-content {
-        padding: 0.75rem;
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    .fixed-sidebar .sidebar-content {
-      padding: 1rem;
-    }
-
-    .content-wrapper {
-      padding: 1rem;
-    }
-
-    .sidebar-navigation ul {
-      flex-direction: column;
-    }
-
-    .project-links,
-    .award-links,
-    .publication-links,
-    .thesis-links {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .project-link,
-    .award-link,
-    .publication-link,
-    .thesis-link {
-      justify-content: center;
-    }
-
-    // UPDATED: Extra small devices publication status
-    .publication-status {
-      padding: 0.1rem 0.3rem;
-      font-size: 0.6rem;
-      margin-top: 0.4rem;
-    }
-  }
-
-  // Prevent horizontal scroll on very small screens
-  @media (max-width: 480px) {
-    html, body {
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    .layout-wrapper {
-      overflow-x: hidden;
-    }
-  }
-
-  // Background positioning
   body {
-      position: relative;
-      overflow-x: hidden;
+    overflow: auto;
   }
 
-  // Ensure canvas covers entire viewport
-  canvas {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      z-index: -1 !important;
-      pointer-events: none !important;
-  }
-
-  // Ensure main content layers properly
   .layout-wrapper {
-      position: relative;
-      z-index: 1;
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+    width: 100%;
   }
 
   .fixed-sidebar {
-      position: fixed;
-      z-index: 1000;
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 3px solid #333333;
+  }
+
+  .fixed-sidebar .sidebar-content {
+    padding: 1.5rem;
+    height: auto;
+    overflow: visible;
   }
 
   .scrollable-content {
-      position: relative;
-      z-index: 1;
-  }
-
-  // Remove any conflicting background colors
-  body, .layout-wrapper, .scrollable-content {
-      background: transparent !important;
-  }
-
-  // Only set background on specific elements that need it
-  .fixed-sidebar {
-      background: #000000 !important;
+    left: 0 !important;
+    height: auto;
+    min-height: 50vh;
+    overflow: visible;
+    position: relative;
+    width: 100%;
+    right: auto !important;
   }
 
   .content-wrapper {
-      background: transparent;
+    padding: 1.5rem;
+    overflow: visible;
+    width: 100%;
   }
 
-  // Ensure the scrollable content area is always interactive
-  @media (min-width: 769px) {
-    .scrollable-content {
-      // Force the element to be a scroll container
-      overflow-y: scroll !important;
-      -webkit-overflow-scrolling: touch !important;
+  .home-content {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
 
-      // Ensure it captures all pointer events
-      pointer-events: auto !important;
+  #projectsCarousel,
+  #expertiseTree,
+  .github-stats-grid,
+  .thesis-section {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 
-      // Make sure children don't block events
-      & > * {
-        pointer-events: auto;
+  .sidebar-navigation {
+    overflow: visible;
+    margin: 1rem 0;
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      li {
+        flex: 1;
+        min-width: 120px;
       }
     }
   }
+
+  .project-header,
+  .award-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .thesis-cover {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .thesis-links {
+    justify-content: center;
+  }
+
+  .publication-status {
+    padding: 0.15rem 0.4rem;
+    font-size: 0.65rem;
+    margin-top: 0.5rem;
+  }
+
+  .publication-item.upcoming {
+    .publication-content {
+      padding: 0.75rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .fixed-sidebar .sidebar-content {
+    padding: 1rem;
+  }
+
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  .sidebar-navigation ul {
+    flex-direction: column;
+  }
+
+  .project-links,
+  .award-links,
+  .publication-links,
+  .thesis-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .project-link,
+  .award-link,
+  .publication-link,
+  .thesis-link {
+    justify-content: center;
+  }
+
+  .publication-status {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.6rem;
+    margin-top: 0.4rem;
+  }
+}
+
+// ======================
+// BACKGROUND & LAYERING
+// ======================
+
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+canvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+}
+
+.layout-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.fixed-sidebar {
+  position: fixed;
+  z-index: 1000;
+}
+
+.scrollable-content {
+  position: relative;
+  z-index: 1;
+}
+
+body, .layout-wrapper, .scrollable-content {
+  background: transparent !important;
+}
+
+.fixed-sidebar {
+  background: #000000 !important;
+}
+
+.content-wrapper {
+  background: transparent;
+}
+
+@media (min-width: 769px) {
+  .scrollable-content {
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    pointer-events: auto !important;
+
+    & > * {
+      pointer-events: auto;
+    }
+  }
+}
 
