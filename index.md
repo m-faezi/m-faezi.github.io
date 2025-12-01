@@ -26,7 +26,7 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
 ## 📈 GitHub Stats
 
 <div class="github-stats-grid">
-  <!-- Column 1 -->
+
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
       <img height="180" 
@@ -35,7 +35,6 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     </div>
   </div>
   
-  <!-- Column 2 -->
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
       <img height="180" 
@@ -44,16 +43,6 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     </div>
   </div>
   
-  <!-- Column 1 -->
-  <div class="github-stat-item">
-    <div class="stat-image-wrapper">
-      <img height="180" 
-           src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=m-faezi&theme=github_dark&border_color=10b981"
-           alt="Languages by Repository" loading="lazy" />
-    </div>
-  </div>
-  
-  <!-- Column 2 -->
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
       <img height="180" 
