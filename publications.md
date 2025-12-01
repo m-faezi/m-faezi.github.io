@@ -53,15 +53,17 @@ title: Publications
 
 ## Conference Posters & Presentations
 
-<!-- Full-width single item for the poster -->
-<div class="publication-item publication-poster">
-    <div class="publication-content">
-        Faezi, M. H., Peletier, R., & Wilkinson, M. H. F. (2022). <strong>Multidimensional Astronomical Image Segmentation.</strong> <em>Poster presented at the International Symposium on Discrete Geometry and Mathematical Morphology (DGMM 2022), Strasbourg, France.</em>
-        <div class="publication-links">
-            <a href="https://drive.google.com/file/d/1qrVH52bTNlF6EuY7GADjyHwZSrJkc9ZQ/view?usp=drive_link" class="publication-link">📄 View Poster (PDF)</a>
-            <a href="https://dgmm2022.sciencesconf.org" class="publication-link">🌐 Conference Website</a>
-        </div>
-    </div>
+<!-- This will be full-width, NOT in a grid -->
+<div class="publication-poster-wrapper">
+  <div class="publication-item publication-poster">
+      <div class="publication-content">
+          Faezi, M. H., Peletier, R., & Wilkinson, M. H. F. (2022). <strong>Multidimensional Astronomical Image Segmentation.</strong> <em>Poster presented at the International Symposium on Discrete Geometry and Mathematical Morphology (DGMM 2022), Strasbourg, France.</em>
+          <div class="publication-links">
+              <a href="https://drive.google.com/file/d/1qrVH52bTNlF6EuY7GADjyHwZSrJkc9ZQ/view?usp=drive_link" class="publication-link">📄 View Poster (PDF)</a>
+              <a href="https://dgmm2022.sciencesconf.org" class="publication-link">🌐 Conference Website</a>
+          </div>
+      </div>
+  </div>
 </div>
 
 ## 🎯 Research Focus
@@ -75,4 +77,3 @@ My research focuses on:
 ---
 
 *For the most up-to-date list of publications, please visit my [Google Scholar](https://scholar.google.com/citations?user=V4iE8TIAAAAJ) profile.*
-

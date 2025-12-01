@@ -971,37 +971,88 @@ body {
 // SPECIAL PUBLICATION STYLES (Full-width posters)
 // ======================
 
+// Full-width poster wrapper
+.publication-poster-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 3rem auto 3rem auto;
+
+  @media (max-width: 768px) {
+    margin: 2rem auto 2rem auto;
+  }
+}
+
 // Full-width poster/unique publication items
 .publication-poster {
+  background: var(--surface-color) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  padding: 2rem !important;
+  transition: all 0.2s ease !important;
   width: 100% !important;
-  max-width: 1200px !important;
-  margin: 2rem auto !important;
-  grid-column: 1 / -1;
+  max-width: 100% !important;
+  margin: 0 !important;
+  display: block !important;
+  position: relative !important;
+  height: auto !important;
+
+  &:hover {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1) !important;
+    transform: translateY(-2px) !important;
+  }
 
   .publication-content {
+    padding: 0 !important;
+    position: relative !important;
+
     strong {
-      font-size: 1.1rem;
-      margin-bottom: 0.75rem;
+      font-size: 1.2rem !important;
+      margin-bottom: 0.75rem !important;
+      display: block !important;
+      color: var(--text-primary) !important;
+      font-weight: 600 !important;
+      line-height: 1.4 !important;
     }
 
     em {
-      display: block;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
+      display: block !important;
+      margin-bottom: 1.5rem !important;
+      font-size: 1rem !important;
+      color: var(--text-tertiary) !important;
+      font-style: italic !important;
+      line-height: 1.5 !important;
+    }
+  }
+
+  .publication-links {
+    margin-top: 1.5rem !important;
+    display: flex !important;
+    gap: 1rem !important;
+    flex-wrap: wrap !important;
+
+    .publication-link {
+      padding: 0.6rem 1.2rem !important;
+      font-size: 0.9rem !important;
     }
   }
 }
 
-// Ensure poster stays outside of grid context
-.publications-grid + h2 + .publication-poster,
-.publications-grid + .publication-poster {
-  margin-top: 3rem !important;
-  margin-bottom: 3rem !important;
+// Force override any grid layout for poster
+.publications-grid ~ .publication-poster-wrapper {
+  .publication-poster {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    grid-column: unset !important;
+  }
 }
 
-// When poster is inside a grid (shouldn't happen, but just in case)
-.publications-grid .publication-poster {
-  grid-column: 1 / -1;
+// Remove any inherited grid properties
+.publication-poster {
+  grid-column: unset !important;
+  grid-row: unset !important;
 }
 
 // Remove old margins for grid items
@@ -1232,16 +1283,31 @@ body {
     }
   }
 
+  .publication-poster-wrapper {
+    margin: 2rem auto !important;
+  }
+
   .publication-poster {
-    margin: 1.5rem auto !important;
+    padding: 1.5rem !important;
 
     .publication-content {
       strong {
-        font-size: 1rem;
+        font-size: 1.1rem !important;
       }
 
       em {
-        font-size: 0.9rem;
+        font-size: 0.95rem !important;
+        margin-bottom: 1rem !important;
+      }
+    }
+
+    .publication-links {
+      flex-direction: column !important;
+      align-items: stretch !important;
+
+      .publication-link {
+        justify-content: center !important;
+        text-align: center !important;
       }
     }
   }
