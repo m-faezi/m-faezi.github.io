@@ -5,7 +5,25 @@ title: Projects
 
 # Featured Projects
 
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>
+
 ## 🤖 AI Innovation
+
+<div class="projects-grid">
 
 <div class="project-card">
     <div class="project-header">
@@ -74,7 +92,7 @@ title: Projects
 
 <div class="project-card">
     <div class="project-header">
-        <h3><a href="https://github.com/m-faezi/fireball" class="project-title">Web application</a></h3>
+        <h3><a href="https://github.com/m-faezi/fireball" class="project-title">Web Application</a></h3>
         <div class="project-links">
             <a href="https://github.com/m-faezi/fireball" class="project-link">📁 Code</a>
         </div>
@@ -88,6 +106,8 @@ title: Projects
     </div>
 </div>
 
+</div> <!-- End projects-grid -->
+
 ---
 
 ## 💡 Skills & Technologies
@@ -98,3 +118,4 @@ title: Projects
 **Specialized:** `Mathematical Morphology` `Max-Tree Algorithms` `Astronomical Imaging` `Distributed Systems`
 
 *Explore all my projects on [GitHub](https://github.com/m-faezi?tab=repositories)*
+
