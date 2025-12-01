@@ -7,7 +7,7 @@ title: Curriculum Vitae
 
 ## 🎓 Education
 
-**Ph.D. in Computer Science** | *Sep 2020 - Aug 2025 (Expected)*
+**Ph.D. in Computer Science** | *Sep 2020 - Aug 2025*
 University of Groningen, The Netherlands
 - Intelligent Systems group, Bernoulli Institute
 - *Thesis: Faint Object Detection in Multidimensional Astronomical Data*
