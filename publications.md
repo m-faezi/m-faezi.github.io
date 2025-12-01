@@ -7,6 +7,8 @@ title: Publications
 
 ## 📄 Journal Articles
 
+<div class="publications-grid">
+
 <div class="publication-item">
     <div class="publication-content">
         Faezi, M. H., Peletier, R., & Wilkinson, M. H. F. (2024). <strong>Multi-Spectral Source-Segmentation Using Semantically-Informed Max-Trees.</strong> <em>IEEE Access</em>, 12, 72288–72302.
@@ -27,7 +29,11 @@ title: Publications
     </div>
 </div>
 
+</div> <!-- End publications-grid -->
+
 ## Preprints & In Preparation
+
+<div class="publications-grid">
 
 <div class="publication-item upcoming">
     <div class="publication-content">
@@ -42,6 +48,8 @@ title: Publications
         <div class="publication-status">Ready to submit</div>
     </div>
 </div>
+
+</div> <!-- End publications-grid -->
 
 ## Conference Posters & Presentations
 

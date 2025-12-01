@@ -492,6 +492,37 @@ body {
 }
 
 // ======================
+// PUBLICATIONS GRID LAYOUT (2 per row)
+// ======================
+
+.publications-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+
+  h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.publications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+// ======================
 // CENTERED CONTENT WRAPPER
 // ======================
 
@@ -578,12 +609,16 @@ body {
     margin-right: auto;
   }
 
-  .projects-grid {
+  .projects-grid,
+  .publications-grid {
     margin: 2rem auto;
   }
 
-  h1 + .projects-grid {
-    margin-top: 2rem;
+  h1 + .projects-grid,
+  h1 + .publications-grid,
+  h2 + .projects-grid,
+  h2 + .publications-grid {
+    margin-top: 1.5rem;
   }
 }
 
@@ -638,7 +673,7 @@ body {
 }
 
 // ======================
-// PROJECT CARDS
+// PROJECT CARDS (Grid optimized)
 // ======================
 
 .project-card {
@@ -646,12 +681,11 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  margin: 1.5rem 0;
   transition: all 0.2s ease;
   width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     border-color: var(--primary-color);
@@ -672,6 +706,8 @@ body {
 .project-title {
   margin: 0;
   font-size: 1.2rem;
+  flex: 1;
+  min-width: 200px;
 
   a {
     color: var(--text-primary);
@@ -714,12 +750,14 @@ body {
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1rem;
+  flex: 1;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: auto;
 }
 
 .tech-tag {
@@ -816,7 +854,7 @@ body {
 }
 
 // ======================
-// PUBLICATION STYLES
+// PUBLICATION STYLES (Grid optimized)
 // ======================
 
 .publication-item {
@@ -824,37 +862,70 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  margin: 1.5rem 0;
   transition: all 0.2s ease;
   width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    transform: translateY(-2px);
   }
 
   &.upcoming {
     border-left: 3px solid var(--accent-color);
+
     .publication-content {
-      padding: 1rem;
+      padding: 0;
+      position: relative;
+
+      &::before {
+        content: "📝 In Preparation";
+        position: absolute;
+        top: -1rem;
+        right: -1rem;
+        background: var(--accent-color);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 1;
+      }
     }
   }
 }
 
 .publication-content {
+  flex: 1;
+  position: relative;
+  padding-right: 1rem;
+
   strong {
     display: block;
     margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  em {
+    color: var(--text-tertiary);
+    font-style: italic;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
   }
 }
 
 .publication-links {
   display: flex;
   gap: 0.75rem;
-  margin-top: 1rem;
+  margin-top: auto;
   flex-wrap: wrap;
 }
 
@@ -894,6 +965,14 @@ body {
   border: 1px solid rgba(107, 114, 128, 0.3);
   width: fit-content;
   min-width: auto;
+}
+
+// Remove old margins for grid items
+.project-card,
+.publication-item {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 // ======================
@@ -1057,7 +1136,8 @@ body {
   #expertiseTree,
   .github-stats-grid,
   .thesis-section,
-  .projects-grid {
+  .projects-grid,
+  .publications-grid {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
@@ -1105,6 +1185,13 @@ body {
   .publication-item.upcoming {
     .publication-content {
       padding: 0.75rem;
+
+      &::before {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 1rem;
+      }
     }
   }
 }
