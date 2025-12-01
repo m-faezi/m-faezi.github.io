@@ -599,39 +599,24 @@ body {
 }
 
 // ======================
-// PROJECT CARDS - 2 COLUMN GRID
+// PROJECT CARDS
 // ======================
-
-.project-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin: 2rem 0;
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
 
 .project-card {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
+  margin: 1.5rem 0;
   transition: all 0.2s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
-    transform: translateY(-2px);
   }
 }
 
@@ -647,7 +632,6 @@ body {
 .project-title {
   margin: 0;
   font-size: 1.2rem;
-  flex: 1;
 
   a {
     color: var(--text-primary);
@@ -683,7 +667,6 @@ body {
     background: var(--primary-color);
     color: white;
     text-decoration: none;
-    transform: translateY(-1px);
   }
 }
 
@@ -691,14 +674,12 @@ body {
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1rem;
-  flex: 1;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .tech-tag {
@@ -712,39 +693,24 @@ body {
 }
 
 // ======================
-// AWARDS GRID - 2 COLUMN LAYOUT
+// AWARDS STYLES
 // ======================
-
-.awards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin: 2rem 0;
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
 
 .award-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
+  margin: 1.5rem 0;
   transition: all 0.2s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
-    transform: translateY(-2px);
   }
 }
 
@@ -760,7 +726,6 @@ body {
 .award-date {
   color: var(--primary-color);
   font-weight: 600;
-  font-size: 0.9rem;
 }
 
 .award-badge {
@@ -774,20 +739,13 @@ body {
 }
 
 .award-content {
-  flex: 1;
-
   strong {
     display: block;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
-    line-height: 1.4;
+    margin-bottom: 0.5rem;
   }
 
   p {
     margin-bottom: 1rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    font-size: 0.95rem;
   }
 }
 
@@ -818,60 +776,36 @@ body {
 }
 
 // ======================
-// PUBLICATIONS GRID - 2 COLUMN LAYOUT
+// PUBLICATION STYLES
 // ======================
-
-.publications-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin: 2rem 0;
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
 
 .publication-item {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
+  margin: 1.5rem 0;
   transition: all 0.2s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
   &:hover {
     border-color: var(--primary-color);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
-    transform: translateY(-2px);
   }
 
   &.upcoming {
     border-left: 3px solid var(--accent-color);
+    .publication-content {
+      padding: 1rem;
+    }
   }
 }
 
 .publication-content {
-  flex: 1;
-
   strong {
-    display: block;
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--text-primary);
-  }
-
-  em {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
     display: block;
     margin-bottom: 0.5rem;
   }
@@ -919,6 +853,7 @@ body {
   letter-spacing: 0.5px;
   border: 1px solid rgba(107, 114, 128, 0.3);
   width: fit-content;
+  min-width: auto;
 }
 
 // ======================
