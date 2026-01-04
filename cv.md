@@ -24,25 +24,46 @@ Technical and Vocational College, Tehran, Iran
 
 ## 🤖 Professional Experience
 
-**AI Researcher - Data Scientist** | *Sep 2020 - Present*
+**Applied Data Scientist** | *Mar 2025 – Present*
 Bernoulli Institute, University of Groningen, The Netherlands
-- Developed a core software for advanced large-scale data processing.
-- Developed novel algorithms that accelerated data processing execution by **31x** while maintaining **98% accuracy**.
-- Designed and implemented advanced ML algorithms for high-precision pipelines.
+- Develop and maintain scalable AI pipelines from data ingestion to deployment.
+- Write modern production-level Python and C/C++ code for large-scale data processing systems.
+- Deliver high-impact software products with minimal guidance for scientific measurements.
+
+**Data Scientist** | *Sep 2024 – Feb 2025*
+Instituto de Astrofísica de Canarias, Tenerife, Spain
+- Developed, deployed, and monitored machine learning models in production environments.
+- Built end-to-end large-scale data processing workflows within cross-functional teams.
+- Delivered robust automated high-impact data processing pipelines.
+
+**AI Researcher** | *Sep 2020 – Aug 2024*
+Bernoulli Institute, University of Groningen, The Netherlands
+- Developed novel algorithms that accelerated data processing execution by 31× while maintaining 98% accuracy.
+- Contributed to high-impact publications and conference presentations.
 - Supervised graduate students in applied computer science research.
 
-**Data Scientist Intern** | *Sep 2024 - Mar 2025*
-Instituto de Astrofísica de Canarias, Tenerife, Spain
-- Designed and deployed machine learning algorithms within multidisciplinary teams.
-- Implemented and validated end-to-end, scalable AI architectures.
-- Delivered robust, automated high-impact data processing pipelines for scientific measurements.
+**M.Sc. Research – Deep Learning** | *Sep 2017 – Aug 2020*
+Shahed University, Tehran, Iran
+- Designed and implemented state-of-the-art deep learning models for advanced image processing.
+- Developed custom decentralized neural network architectures, preserving centralized baseline performance.
 
-**Software Engineer | AI Expert** | *Aug 2017 - Aug 2020*
-SmartAge, Tehran, Iran
-- Designed, built, and maintained scalable backend services and microservices.
-- Administered SQL/NoSQL databases, performing data migrations and query optimizations.
-- Implemented asynchronous processing and event-driven architectures.
-- Managed CI/CD integration and ongoing deployment of applications.
+**Senior Python Developer** | *Aug 2019 – Aug 2020*
+Kavosh Organization, Tehran, Iran
+- Designed, implemented, and maintained services for a distributed cloud-first environment.
+- Performed data migrations and query optimizations for peak performance in SQL/NoSQL databases.
+- Managed CI/CD integration and deployment of applications and internal platforms.
+
+**AI Engineer** | *Aug 2018 – Aug 2019*
+SmartAge Organization, Tehran, Iran
+- Developed and deployed machine learning models for NLP and recommender systems.
+- Engineered text processing pipelines and validation frameworks for model accuracy.
+- Managed the end-to-end ML lifecycle from research to production deployment.
+
+**Backend Team Lead** | *Aug 2017 – Aug 2018*
+SmartAge Organization, Tehran, Iran
+- Architected, developed, and maintained scalable server-side logic and RESTful APIs.
+- Led backend team in agile development processes to deliver high-quality solutions on schedule.
+- Conducted code reviews and mentored junior developers.
 
 ---
 
