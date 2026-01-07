@@ -61,7 +61,7 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
       <p><strong>University of Groningen</strong> | 2026</p>
       <p>Doctoral dissertation exploring advanced algorithms for multi-spectral source detection and segmentation in astronomical images.</p>
       <div class="thesis-links">
-        <a href="#" class="thesis-link" target="_blank">
+        <a href="https://research.rug.nl/en/publications/faint-object-detection-in-multidimensional-astronomical-data/" class="thesis-link" target="_blank">
           📖 Read Full Thesis (PDF)
         </a>
         <a href="#" class="thesis-link" target="_blank">
