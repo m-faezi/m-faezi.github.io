@@ -67,7 +67,7 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
         <a href="#" class="thesis-link" target="_blank">
           🎤 Defense Presentation
         </a>
-        <a href="https://drive.google.com/file/d/1w9I05OYZcFZQnRUbryQRe8Fgg_rOC_kP/view?usp=sharing" class="thesis-link" target="_blank">
+        <a href="https://drive.google.com/file/d/1H-tLxHd1C5tkhhcwOLZgZZldYMrEnm1S/view?usp=sharing" class="thesis-link" target="_blank">
             📘 Thesis cover
         </a>
       </div>
