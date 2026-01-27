@@ -20,7 +20,7 @@ window.projectsData = [
         description: "Decentralized Generative Adversarial Networks for distributed AI training without central coordination.",
         tech: ["TensorFlow", "Decentralized AI", "GANs", "Distributed Systems"],
         githubUrl: "https://github.com/m-faezi/DEGAN",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/DEGAN",
+        imageUrl: "https://socialify.git.ci/m-faezi/DEGAN/image?font=JetBrains%20Mono&forks=0&issues=0&language=1&logo=https%3A%2F%2Fimg.icons8.com%2Fcolor%2F96%2F10b981%2Fneural.png&logo=https%3A%2F%2Fimg.icons8.com%2Fcolor%2F96%2Fffffff%2Ftensorflow.png&name=1&owner=1&pattern=Circuit%20Board&pulls=0&stargazers=0&theme=Dark&background=0f1729&title_color=10b981&icon_color=10b981",
         language: "Python"
     },
     {
