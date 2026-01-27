@@ -25,15 +25,16 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
 ## 📈 GitHub Stats
 
 <div class="github-stats-grid">
-
+  <!-- Item 1: Contribution Snake -->
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
-<img height="180"
-     src="https://raw.githubusercontent.com/platane/platane/output/github-contribution-grid-snake-dark.svg"
-     alt="GitHub Contribution Snake" />
+      <img height="180"
+           src="https://raw.githubusercontent.com/platane/platane/output/github-contribution-grid-snake-dark.svg"
+           alt="GitHub Contribution Snake" />
     </div>
   </div>
   
+  <!-- Item 2: GitHub Stats -->
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
       <img height="180" 
@@ -42,11 +43,21 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     </div>
   </div>
   
+  <!-- Item 3: Profile Summary -->
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
       <img height="180" 
            src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=m-faezi&theme=github_dark&border_color=10b981"
            alt="GitHub Profile Summary" loading="lazy" />
+    </div>
+  </div>
+
+  <!-- Item 4: Top Languages -->
+  <div class="github-stat-item">
+    <div class="stat-image-wrapper">
+      <img height="180"
+           src="https://github-readme-stats.vercel.app/api/top-langs/?username=m-faezi&layout=compact&theme=dark&bg_color=000000&title_color=10b981&text_color=ffffff&hide_border=true&langs_count=6"
+           alt="Top Languages" loading="lazy" />
     </div>
   </div>
 </div>
