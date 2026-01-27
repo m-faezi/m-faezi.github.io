@@ -28,7 +28,7 @@ window.projectsData = [
         description: "Astronomical image simulator for validating source segmentation algorithms with synthetic data.",
         tech: ["Python", "Statistical Modelling", "Data Simulation", "Astronomy"],
         githubUrl: "https://github.com/m-faezi/multi-spectral-sim",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/multi-spectral-sim",
+        imageUrl: "https://socialify.git.ci/m-faezi/multi-spectral-sim/image?font=JetBrains%20Mono&forks=0&issues=0&language=0&logo=https%3A%2F%2Fimg.icons8.com%2Fcolor%2F96%2F10b981%2Fgalaxy.png&name=1&owner=0&pattern=Topography&pulls=0&stargazers=0&theme=Dark&background=000000&title_color=ffffff&icon_color=10b981",
         language: "Python"
     },
     {
