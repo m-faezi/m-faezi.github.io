@@ -28,7 +28,6 @@ google_scholar_user: "V4iE8TIAAAAJ"
 header_pages:
   - index.md
   - cv.md
-  #- projects.md
   - publications.md
   - awards.md
 
