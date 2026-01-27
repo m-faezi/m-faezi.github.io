@@ -12,8 +12,9 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
 
 ## Featured Projects
 
-<div class="projects-grid" id="projectsGrid">
-    <!-- Projects will be dynamically inserted here -->
+<div id="projectsCarousel" class="carousel-container">
+    <div class="carousel-track"></div>
+    <div class="carousel-dots"></div>
 </div>
 
 ## My Expertise
