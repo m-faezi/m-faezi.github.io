@@ -98,7 +98,7 @@
         box-sizing: border-box;
       }
 
-      /* Center and limit text width for readability */
+      /* Center all content in the main area */
       .content-wrapper > * {
         width: 100%;
         max-width: 1200px;
@@ -107,131 +107,27 @@
         box-sizing: border-box;
       }
 
-      /* Optimal text width for readability */
-      .content-wrapper p,
-      .content-wrapper li,
-      .content-wrapper ul,
-      .content-wrapper ol,
-      .content-wrapper blockquote,
-      .content-wrapper .thesis-info p,
-      .content-wrapper .home-content p,
-      .content-wrapper .home-content li {
-        max-width: 70ch !important; /* Optimal reading width (70 characters) */
-        margin-left: auto !important;
-        margin-right: auto !important;
-        line-height: 1.7 !important;
-        text-align: left;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        hyphens: auto;
-        font-size: 1.05rem;
-        color: #d1d5db;
-      }
-
-      /* Lists styling */
-      .content-wrapper ul,
-      .content-wrapper ol {
-        padding-left: 2rem;
-      }
-
-      .content-wrapper li {
-        margin-bottom: 0.5rem;
-      }
-
-      /* Headings */
+      /* Ensure specific elements are centered */
       .content-wrapper h1,
       .content-wrapper h2,
-      .content-wrapper h3 {
-        max-width: 70ch;
+      .content-wrapper h3,
+      .content-wrapper p,
+      .content-wrapper ul,
+      .content-wrapper ol {
+        max-width: 1200px;
         margin-left: auto;
         margin-right: auto;
-        width: 100%;
-        color: #ffffff;
       }
 
-      .content-wrapper h1 {
-        font-size: 2.2rem;
-        font-weight: 700;
-        margin-top: 0;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #10b981;
-      }
-
-      .content-wrapper h2 {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        color: #10b981;
-      }
-
-      .content-wrapper h3 {
-        font-size: 1.4rem;
-        font-weight: 600;
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
-      }
-
-      /* Links */
-      .content-wrapper a {
-        color: #10b981;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        transition: all 0.2s ease;
-      }
-
-      .content-wrapper a:hover {
-        color: #34d399;
-        text-decoration-thickness: 2px;
-      }
-
-      /* Center specific components */
+      /* Center carousel and other components */
       #projectsCarousel,
       #expertiseTree,
       .github-stats,
-      .thesis-section,
-      .projects-grid,
-      .publications-grid,
-      .awards-grid {
+      .thesis-section {
         width: 100%;
         max-width: 1200px;
         margin-left: auto !important;
         margin-right: auto !important;
-      }
-
-      /* GitHub Stats Grid */
-      .github-stats-grid {
-        max-width: 1200px;
-        margin-left: auto !important;
-        margin-right: auto !important;
-      }
-
-      /* Let's Connect section */
-      .home-content > div:last-child {
-        max-width: 70ch;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .home-content > div:last-child ul {
-        padding-left: 0;
-        max-width: 100%;
-      }
-
-      .home-content > div:last-child li {
-        list-style: none;
-        margin-bottom: 1rem;
-        padding-left: 2rem;
-        position: relative;
-      }
-
-      .home-content > div:last-child li::before {
-        content: "→";
-        position: absolute;
-        left: 0;
-        color: #10b981;
-        font-weight: bold;
       }
 
       /* Updated Mobile styles */
@@ -276,53 +172,15 @@
           display: block !important;
         }
 
-        /* Mobile text optimization */
-        .content-wrapper p,
-        .content-wrapper li,
-        .content-wrapper ul,
-        .content-wrapper ol,
-        .content-wrapper blockquote,
-        .content-wrapper .thesis-info p,
-        .content-wrapper .home-content p,
-        .content-wrapper .home-content li {
+        .content-wrapper > * {
           max-width: 100% !important;
-          padding: 0 0.5rem !important;
-          font-size: 1rem !important;
-          line-height: 1.6 !important;
-        }
-
-        .content-wrapper h1,
-        .content-wrapper h2,
-        .content-wrapper h3 {
-          max-width: 100% !important;
-          padding: 0 0.5rem !important;
-        }
-
-        .content-wrapper h1 {
-          font-size: 1.8rem;
-        }
-
-        .content-wrapper h2 {
-          font-size: 1.5rem;
-        }
-
-        .content-wrapper h3 {
-          font-size: 1.2rem;
-        }
-
-        .home-content > div:last-child li {
-          padding-left: 1.5rem;
         }
 
         #projectsCarousel,
         #expertiseTree,
         .github-stats,
-        .thesis-section,
-        .projects-grid,
-        .publications-grid,
-        .awards-grid {
+        .thesis-section {
           max-width: 100% !important;
-          padding: 0 0.5rem !important;
         }
 
         canvas {
@@ -548,7 +406,7 @@
                       '.github-stats',
                       '.thesis-section',
                       '.home-content',
-                      'h1', 'h2', 'h3', 'p', 'ul', 'ol', 'li'
+                      'h1', 'h2', 'h3', 'p', 'ul', 'ol'
                   ];
 
                   centeredElements.forEach(selector => {
@@ -556,7 +414,7 @@
                       elements.forEach(element => {
                           element.style.marginLeft = 'auto';
                           element.style.marginRight = 'auto';
-                          element.style.maxWidth = '70ch';
+                          element.style.maxWidth = '1200px';
                           element.style.width = '100%';
                       });
                   });
@@ -664,4 +522,6 @@
     </script>
   </body>
 </html>
+
+
 
