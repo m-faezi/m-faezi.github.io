@@ -1604,3 +1604,117 @@ body, .layout-wrapper, .scrollable-content {
   }
 }
 
+// ======================
+// READABLE TEXT LAYOUT - ADD TO END OF style.scss
+// ======================
+
+.content-wrapper {
+  // Limit paragraph width for readability
+  p, li, ul, ol, blockquote {
+    max-width: 70ch !important; // Optimal line length for readability
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.7 !important;
+    text-align: left;
+    color: #d1d5db;
+  }
+
+  // Lists styling
+  ul, ol {
+    padding-left: 2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      &::marker {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  // Links
+  a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--primary-light);
+      text-decoration-thickness: 2px;
+    }
+  }
+}
+
+// Home content improvements
+.home-content {
+  p, li, ul, ol {
+    max-width: 70ch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.7 !important;
+    color: #d1d5db;
+  }
+
+  // Let's Connect section
+  > div:last-child {
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+
+    ul {
+      padding-left: 0;
+      max-width: 100%;
+
+      li {
+        list-style: none;
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+        position: relative;
+
+        &::before {
+          content: "→";
+          position: absolute;
+          left: 0;
+          color: var(--primary-color);
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+// Thesis section
+.thesis-section {
+  p, .thesis-info p {
+    max-width: 70ch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.7 !important;
+    color: #d1d5db;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .content-wrapper p,
+  .content-wrapper li,
+  .content-wrapper ul,
+  .content-wrapper ol,
+  .content-wrapper blockquote,
+  .home-content p,
+  .home-content li,
+  .home-content ul,
+  .home-content ol,
+  .thesis-section p,
+  .thesis-info p {
+    max-width: 100% !important;
+    padding: 0 0.5rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .home-content > div:last-child ul li {
+    padding-left: 1.5rem;
+  }
+}
+
