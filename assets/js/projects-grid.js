@@ -36,7 +36,7 @@ window.projectsData = [
         description: "Web application with PostgreSQL integration, providing RESTful API development capabilities and testing.",
         tech: ["Python", "Backend", "Databases", "REST API"],
         githubUrl: "https://github.com/m-faezi/fireball",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/fireball",
+        imageUrl: "https://socialify.git.ci/m-faezi/fireball/image?font=Source%20Code%20Pro&forks=0&issues=0&language=0&logo=https%3A%2F%2Fimg.icons8.com%2Fcolor%2F96%2F10b981%2Fweb.png&name=1&owner=0&pattern=Topography&pulls=0&stargazers=0&theme=Dark&background=000000&title_color=ffffff&icon_color=10b981",
         language: "Python"
     }
 ];
