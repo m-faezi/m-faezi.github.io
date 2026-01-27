@@ -12,7 +12,7 @@ window.projectsData = [
         description: "Max-Tree based source detection and parameter extraction for astronomical image processing.",
         tech: ["Python", "PyTorch", "OpenCV", "Max-Tree"],
         githubUrl: "https://github.com/m-faezi/MTO2",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/MTO2",
+        imageUrl: "https://socialify.git.ci/m-faezi/MTO2/image?font=JetBrains%20Mono&forks=1&issues=1&language=1&logo=https%3A%2F%2Fimg.icons8.com%2Fcolor%2F96%2F000000%2Ftelescope.png&name=1&owner=1&pattern=Topography&pulls=1&stargazers=1&theme=Dark",
         language: "Python"
     },
     {
