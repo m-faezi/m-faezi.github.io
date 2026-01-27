@@ -4,7 +4,7 @@ window.projectsData = [
         description: "Multi-spectral Morphological Tool for astronomical image analysis with advanced source detection.",
         tech: ["Python", "PyTorch", "OpenCV", "Mathematical Morphology"],
         githubUrl: "https://github.com/m-faezi/MMTO",
-        imageUrl: "https://opengraph.githubassets.com/1/m-faezi/MMTO",
+        imageUrl: "https://socialify.git.ci/m-faezi/MMTO/image?font=JetBrains%20Mono&forks=0&issues=0&language=0&logo=https%3A%2F%2Fimg.icons8.com%2Fcolor%2F96%2F10b981%2Flayers.png&name=1&owner=0&pattern=Topography&pulls=0&stargazers=0&theme=Dark&background=0f1729&title_color=ffffff&icon_color=10b981",
         language: ["Python", "C++"]
     },
     {
