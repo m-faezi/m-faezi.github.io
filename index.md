@@ -28,9 +28,9 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
 
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
-      <img height="180" 
-           src="https://github-readme-streak-stats.herokuapp.com/?user=m-faezi&theme=dark&hide_border=true&background=000000&ring=10b981&fire=10b981&currStreakLabel=10b981"
-           alt="GitHub Streak" loading="lazy" />
+<img height="180" 
+     src="https://streak-stats.demolab.com/?user=m-faezi&theme=dark&hide_border=true&background=000000&ring=10b981&fire=10b981&currStreakLabel=10b981"
+     alt="GitHub Streak" loading="lazy" />
     </div>
   </div>
   
