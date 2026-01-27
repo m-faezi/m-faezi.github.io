@@ -300,12 +300,12 @@ body {
 }
 
 // ======================
-// GITHUB STATS - MODERN GRID (2+1 LAYOUT)
+// GITHUB STATS - VERTICAL STACK (1 COLUMN)
 // ======================
 
 .github-stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr; /* Changed from repeat(2, 1fr) to 1fr */
   gap: 2rem;
   margin: 3rem 0;
   width: 100%;
@@ -316,20 +316,11 @@ body {
   @media (max-width: 900px) {
     gap: 1.5rem;
   }
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
 }
 
 .github-stat-item:nth-child(3),
 .github-stat-item:nth-child(4) {
-  grid-column: span 1;
-
-  @media (max-width: 600px) {
-    grid-column: span 1;
-  }
+  grid-column: span 1; /* All items span full width */
 }
 
 .github-stat-item {
@@ -382,32 +373,6 @@ body {
     transition: none !important;
     filter: none !important;
     box-shadow: none !important;
-  }
-
-  // First two items: side by side
-  &:nth-child(1),
-  &:nth-child(2) {
-    text-align: center;
-
-    img {
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-
-  // Third item: spans full width and centered
-  &:nth-child(3) {
-    grid-column: span 2;
-    text-align: center;
-
-    img {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    @media (max-width: 600px) {
-      grid-column: span 1;
-    }
   }
 
   @media (max-width: 600px) {
