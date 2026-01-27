@@ -63,9 +63,6 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
         <a href="https://research.rug.nl/en/publications/faint-object-detection-in-multidimensional-astronomical-data/" class="thesis-link" target="_blank">
           📖 Read Full Thesis (PDF)
         </a>
-        <a href="#" class="thesis-link" target="_blank">
-          🎤 Defense Presentation
-        </a>
         <a href="https://drive.google.com/file/d/1H-tLxHd1C5tkhhcwOLZgZZldYMrEnm1S/view?usp=sharing" class="thesis-link" target="_blank">
             📘 Thesis cover
         </a>
