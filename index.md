@@ -16,12 +16,6 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     <!-- Projects will be dynamically inserted here -->
 </div>
 
-## My Expertise
-
-<div id="expertiseTree" class="expertise-tree-container">
-    <!-- Interactive tree will be rendered here -->
-</div>
-
 ## 📈 GitHub Stats
 
 <div class="github-stats-grid">
@@ -50,6 +44,23 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
     </div>
   </div>
 </div>
+
+
+## 💡 Skills & Technologies
+
+**Core Languages:** `Python` `C++` `C` `Go`  
+**ML Frameworks:** `PyTorch` `TensorFlow` `OpenCV` `Scikit-learn`  
+**Cloud & DevOps:** `Docker` `Kubernetes` `AWS/GCP` `CI/CD` `MLOps`  
+**Specialized:** `Mathematical Morphology` `Max-Tree Algorithms` `Astronomical Imaging` `Distributed Systems`
+
+*Explore all my projects on [GitHub](https://github.com/m-faezi?tab=repositories)*
+
+## My Expertise
+
+<div id="expertiseTree" class="expertise-tree-container">
+    <!-- Interactive tree will be rendered here -->
+</div>
+
 
 ## 📖 PhD Thesis
 
