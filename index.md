@@ -30,9 +30,9 @@ His research primarily focuses on Distributed and Decentralized systems, Machine
   
   <div class="github-stat-item">
     <div class="stat-image-wrapper">
-      <img height="180" 
-           src="https://github-readme-stats-sigma-five.vercel.app/api?username=m-faezi&show_icons=true&theme=dark&hide_border=true&bg_color=000000&title_color=10b981&icon_color=10b981&text_color=ffffff&include_all_commits=true"
-           alt="GitHub Stats" loading="lazy" />
+        <img height="180" 
+     src="https://github-readme-stats.shion.dev/api?username=m-faezi&show_icons=true&theme=dark&hide_border=true&bg_color=000000&title_color=10b981&icon_color=10b981&text_color=ffffff&include_all_commits=true"
+     alt="GitHub Stats" loading="lazy" />
     </div>
   </div>
   
